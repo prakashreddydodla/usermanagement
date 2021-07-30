@@ -1,0 +1,34 @@
+
+server:
+  port: 8002
+
+
+
+
+
+  
+Cognito:
+     aws: 
+#        accesskey: AKIAQABFKI5XRI6ZRL6W
+#        secret_access_key: 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
+#        client_id: 1hhrsj2c7tgo4m4pm84b474hcp
+#        userpool_id:  eu-west-2_YSiMMLTrV
+#        region: eu-west-2
+#        idTokenPoolUrl: https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_YSiMMLTrV
+#        
+        
+        accesskey: AKIAYZOXA3O4HNGVWCQL
+        secret_access_key: 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 
+        client_id: 2640gqqchl9bhtoaipi09de0nr
+        userpool_id: ap-south-1_W7vTQcho9
+        region: ap-south-1
+        idTokenPoolUrl: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_W7vTQcho9
+        
+logging:
+   level:
+      org:
+       springframework:
+                security:
+                       web:
+                         FilterChainProxy : debug
+    
