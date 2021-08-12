@@ -1,4 +1,4 @@
-package com.otsi.rpd.authservice.services;
+package com.otsi.retail.authservice.services;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -38,7 +38,7 @@ import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesRequest;
 import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesResult;
-import com.otsi.rpd.authservice.utils.CognitoAtributes;
+import com.otsi.retail.authservice.utils.CognitoAtributes;
 @Component
 public class CognitoClient {
 

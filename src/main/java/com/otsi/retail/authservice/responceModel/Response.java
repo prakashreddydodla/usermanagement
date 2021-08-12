@@ -1,4 +1,4 @@
-package com.osti.rpd.authservice.responceModel;
+package com.otsi.retail.authservice.responceModel;
 
 import java.util.Map;
 

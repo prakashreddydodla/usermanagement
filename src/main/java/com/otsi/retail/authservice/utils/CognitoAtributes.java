@@ -1,4 +1,4 @@
-package com.otsi.rpd.authservice.utils;
+package com.otsi.retail.authservice.utils;
 
 public class CognitoAtributes {
 

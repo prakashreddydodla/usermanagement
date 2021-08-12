@@ -1,4 +1,4 @@
-package com.otsi.rpd.authservice;
+package com.otsi.retail.authservice;
 
 import static com.nimbusds.jose.JWSAlgorithm.RS256;
 
@@ -8,6 +8,7 @@ import java.net.URL;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.codec.ServerCodecConfigurer;
@@ -23,7 +24,7 @@ import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.otsi.rpd.*")
+@EnableEurekaClient
 public class AuthServiceApplication {
 	@Value("${Cognito.aws.region}")
 	String REGION;

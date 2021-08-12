@@ -1,4 +1,4 @@
-package com.otsi.rpd.authservice.services;
+package com.otsi.retail.authservice.services;
 
 /**
  * @author Manideep Thaninki
@@ -35,8 +35,8 @@ import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesResult;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.osti.rpd.authservice.responceModel.Response;
-import com.otsi.rpd.authservice.configuration.AwsCognitoTokenProcessor;
+import com.otsi.retail.authservice.configuration.AwsCognitoTokenProcessor;
+import com.otsi.retail.authservice.responceModel.Response;
 import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 
@@ -114,6 +114,15 @@ try{
 		throw new Exception(error);
 	}
 	}
+	
+	/**
+	 * @apiNote Confirm the signUp by entering confirmation code which is sent to email
+	 *
+	 * @param String userName, String confirmationCode (username,password should not be
+	 *               null)
+	 * 
+	 * @return Http status 200 for positive case & other than 200 for negitive cases
+	 */
 	
 	public Response confirmSignUp(String userName, String confirmationCode) throws Exception {
 		Response res = null;

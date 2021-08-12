@@ -1,4 +1,4 @@
-package com.otsi.rpd.authservice.requestModel;
+package com.otsi.retail.authservice.requestModel;
 
 
 public class LoginRequest {

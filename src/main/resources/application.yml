@@ -1,22 +1,20 @@
 
 server:
-  port: 8002
+  port: 8003
+  
+spring:  application:    name: user-management-service
 
-
-
+eureka:
+  serviceUrl:
+      defaultZone:http//localhost:8761/eureka/
 
 
   
 Cognito:
-     aws: 
-#        accesskey: AKIAQABFKI5XRI6ZRL6W
-#        secret_access_key: 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
-#        client_id: 1hhrsj2c7tgo4m4pm84b474hcp
-#        userpool_id:  eu-west-2_YSiMMLTrV
-#        region: eu-west-2
-#        idTokenPoolUrl: https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_YSiMMLTrV
-#        
+     
+    
         
+      aws: 
         accesskey: AKIAYZOXA3O4HNGVWCQL
         secret_access_key: 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 
         client_id: 2640gqqchl9bhtoaipi09de0nr
