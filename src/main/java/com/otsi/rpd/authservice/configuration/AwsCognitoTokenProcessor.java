@@ -24,7 +24,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 
 import net.minidev.json.JSONArray;
-import sun.text.normalizer.ICUBinary.Authenticate;
 
 @Component
 public class AwsCognitoTokenProcessor {
