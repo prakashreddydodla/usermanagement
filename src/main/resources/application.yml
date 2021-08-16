@@ -2,18 +2,14 @@
 server:
   port: 8003
   
-spring:  application:    name: user-management-service
+spring:  application:    name: user-management-service  datasource:    initialization-mode: always
 
 eureka:
   serviceUrl:
       defaultZone:http//localhost:8761/eureka/
 
-
   
-Cognito:
-     
-    
-        
+Cognito:    
       aws: 
         accesskey: AKIAYZOXA3O4HNGVWCQL
         secret_access_key: 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 
