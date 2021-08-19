@@ -25,4 +25,5 @@ logging:
                 security:
                        web:
                          FilterChainProxy : debug
-    
+springdoc:
+  packagesToScan: com.otsi.retail.authservice   
