@@ -27,7 +27,6 @@ import com.otsi.retail.authservice.services.CognitoAuthService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
 	@Autowired
