@@ -47,11 +47,10 @@ jobs:
       - name: Clone Repo files
         run: |
           sudo su - root << EOF  
-          cd /home/ && git clone https://github.com/niranjanmaradapu/usermanagement  # && cp -rf /home/runner/work/usermanagement/usermanagement/target usermanagement  # Replace with Repository URL where war files have to save 
+          cd /home/ && git clone https://github.com/niranjanmaradapu/usermanagement &&  cp  -rf /home/runner/work/usermanagement/usermanagement/target usermanagement  # Replace with Repository URL where war files have to save 
           EOF
           
-      - name: Login into runner 
-        uses: mxschmitt/action-tmate@v3    
+       
         
       - name: Commit & Push changes
         uses: Andro999b/push@v1.3
@@ -59,6 +58,8 @@ jobs:
           github_token: ${{ secrets.PERSONAL_TOKEN }}
           author_email: niranjan.maradapu@otsi.co.in 
           repository: niranjanmaradapu/usermanagement
-          directory: /home/usermanagement/  
+          directory: /home/usermanagement/
+          
+      
           
      
