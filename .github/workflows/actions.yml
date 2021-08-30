@@ -44,13 +44,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: github-actions-artifact
-          path: /home/artifacts
+          path: target
           
         
       - name: Clone Repo files
         run: |
           sudo su - root << EOF  
-          cd /home/ && git clone https://github.com/niranjanmaradapu/usermanagement && cp -rf /home/runner/work/usermanagement/usermanagement/target usermanagement  # Replace with Repository URL where war files have to save 
+          cd /home/ && git clone https://github.com/niranjanmaradapu/usermanagement  # && cp -rf /home/runner/work/usermanagement/usermanagement/target usermanagement  # Replace with Repository URL where war files have to save 
           EOF
           
       - name: Commit & Push changes
