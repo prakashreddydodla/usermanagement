@@ -31,13 +31,16 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Login into runner 
-        uses: mxschmitt/action-tmate@v3 
+      
+      
       - name: Build with Maven
         run: |
           mvn -B package --file pom.xml -DskipTests # change location of pom.xml file   
-          sudo mkdir /home/artifacts && sudo cp *.war /home/artifacts   # Change the Source of war file
+          # sudo mkdir /home/artifacts && sudo cp *.war /home/artifacts   # Change the Source of war file
           
+      - name: Login into runner 
+        uses: mxschmitt/action-tmate@v3     
+        
       - name: Persistent workflow data as artificats 
         uses: actions/upload-artifact@v2
         with: 
