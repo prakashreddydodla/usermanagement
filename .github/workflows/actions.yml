@@ -1,6 +1,6 @@
 
  
-name: Maven-docker-acr-eks-cicd
+name: CI - CD Build
 on:
   push:
     branches:
@@ -34,9 +34,8 @@ jobs:
       
       
       - name: Build with Maven
-        run: |
-          mvn -B package --file pom.xml -DskipTests # change location of pom.xml file   
-          # sudo mkdir /home/artifacts && sudo cp *.war /home/artifacts   # Change the Source of war file
+        run: mvn -B package --file pom.xml -DskipTests # change location of pom.xml file   
+      
           
       - name: Login into runner 
         uses: mxschmitt/action-tmate@v3     
@@ -51,7 +50,7 @@ jobs:
       - name: Clone Repo files
         run: |
           sudo su - root << EOF  
-          cd /home/ && git clone https://github.com/niranjanmaradapu/usermanagement && cp -f artifacts/*.war usermanagement  # Replace with Repository URL where war files have to save 
+          cd /home/ && git clone https://github.com/niranjanmaradapu/usermanagement && cp -rf /home/runner/work/usermanagement/usermanagement/target usermanagement  # Replace with Repository URL where war files have to save 
           EOF
           
       - name: Commit & Push changes
