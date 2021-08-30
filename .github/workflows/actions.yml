@@ -36,9 +36,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml -DskipTests # change location of pom.xml file   
       
-          
-      - name: Login into runner 
-        uses: mxschmitt/action-tmate@v3     
         
       - name: Persistent workflow data as artificats 
         uses: actions/upload-artifact@v2
@@ -53,6 +50,9 @@ jobs:
           cd /home/ && git clone https://github.com/niranjanmaradapu/usermanagement  # && cp -rf /home/runner/work/usermanagement/usermanagement/target usermanagement  # Replace with Repository URL where war files have to save 
           EOF
           
+      - name: Login into runner 
+        uses: mxschmitt/action-tmate@v3    
+        
       - name: Commit & Push changes
         uses: Andro999b/push@v1.3
         with:
