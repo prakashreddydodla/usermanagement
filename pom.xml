@@ -9,7 +9,7 @@
 		<version>2.5.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<packaging>war</packaging>   <!-- modified by RamaKrishna-4991 -->
+	<!-- <packaging>war</packaging>    modified by RamaKrishna-4991 -->
 	<groupId>com.otsi.rpd</groupId>
 	<artifactId>auth-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -113,7 +113,7 @@
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>3.0.0</version>
 			</plugin>
-			    <!-- modification started  Ramakrishna-4991 -->
+			    <!-- modification started  Ramakrishna-4991
 			    <plugin>  
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -134,7 +134,7 @@
 				<skipTests>true</skipTests>
 				</configuration>
 		          </plugin>
-			  <!-- modification Ended  Ramakrishna-4991 -->
+			   modification Ended  Ramakrishna-4991 -->
 		</plugins>
 	</build>
 
