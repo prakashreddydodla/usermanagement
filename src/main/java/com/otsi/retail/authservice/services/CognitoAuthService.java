@@ -1,5 +1,7 @@
 package com.otsi.retail.authservice.services;
 
+import java.util.Arrays;
+
 /**
  * @author Manideep Thaninki
  * @timestamp 12-07-2021
@@ -36,6 +38,7 @@ import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesResult;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.otsi.retail.authservice.configuration.AwsCognitoTokenProcessor;
+import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.responceModel.Response;
 import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
@@ -49,9 +52,9 @@ public class CognitoAuthService {
 	private AwsCognitoTokenProcessor awsCognitoTokenProcessor;
 
 	public Response signUp(String userName, String email, String password, String givenName, String name,
-			String phoneNo,String storeId) throws Exception {
+			String phoneNo, String storeId) throws Exception {
 		Response res = new Response();
-		SignUpResult result = cognitoClient.signUp(userName, email, password, givenName, name,phoneNo, storeId);
+		SignUpResult result = cognitoClient.signUp(userName, email, password, givenName, name, phoneNo, storeId);
 		System.out.println(result.toString());
 		if (result != null) {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
@@ -78,52 +81,52 @@ public class CognitoAuthService {
 	 */
 
 	public Map<String, String> login(String email, String password, String selectedStore) throws Exception {
-		
-		
-try{
-	AdminInitiateAuthResult authResult = cognitoClient.login(email, password);
-	AuthenticationResultType resultType = authResult.getAuthenticationResult();
 
-		String idToken = authResult.getAuthenticationResult().getIdToken();
-		JWTClaimsSet claims = awsCognitoTokenProcessor.getCliamsFromToken(idToken);
-		String assignedStores = (String) claims.getClaims().get("custom:userAssignedStores");
-		String[] listOfStores = assignedStores.split(",");
-		boolean isStoreFound = Boolean.FALSE;
-		for (String store : listOfStores) {
-			if (store.equals(selectedStore)) {
-				isStoreFound = Boolean.TRUE;
+		try {
+			AdminInitiateAuthResult authResult = cognitoClient.login(email, password);
+			AuthenticationResultType resultType = authResult.getAuthenticationResult();
+
+			String idToken = authResult.getAuthenticationResult().getIdToken();
+			JWTClaimsSet claims = awsCognitoTokenProcessor.getCliamsFromToken(idToken);
+			String assignedStores = (String) claims.getClaims().get("custom:userAssignedStores");
+			String[] listOfStores = assignedStores.split(",");
+			boolean isStoreFound = Boolean.FALSE;
+			for (String store : listOfStores) {
+				if (store.equals(selectedStore)) {
+					isStoreFound = Boolean.TRUE;
+				}
 			}
-		}
-		if (isStoreFound != Boolean.TRUE) {
-			throw new Exception("User don't have access to this store");
-		}
-		 return new LinkedHashMap<String, String>() {
-			{
-				put("idToken", resultType.getIdToken());
-				put("accessToken", resultType.getAccessToken());
-				put("refreshToken", resultType.getRefreshToken());
-				put("message", "Successfully login");
-				put("expiresIn",resultType.getExpiresIn().toString());
+			if (isStoreFound != Boolean.TRUE) {
+				throw new Exception("User don't have access to this store");
 			}
-		};
-	}catch(Exception e) {
-		System.out.println(e.getMessage());
-		String[] authError=e.getMessage().split("\\(");
-		String error=authError[0];
-		System.out.println("**********"+authError[0]);
-		throw new Exception(error);
+			return new LinkedHashMap<String, String>() {
+				{
+					put("idToken", resultType.getIdToken());
+					put("accessToken", resultType.getAccessToken());
+					put("refreshToken", resultType.getRefreshToken());
+					put("message", "Successfully login");
+					put("expiresIn", resultType.getExpiresIn().toString());
+				}
+			};
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			String[] authError = e.getMessage().split("\\(");
+			String error = authError[0];
+			System.out.println("**********" + authError[0]);
+			throw new Exception(error);
+		}
 	}
-	}
-	
+
 	/**
-	 * @apiNote Confirm the signUp by entering confirmation code which is sent to email
+	 * @apiNote Confirm the signUp by entering confirmation code which is sent to
+	 *          email
 	 *
-	 * @param String userName, String confirmationCode (username,password should not be
-	 *               null)
+	 * @param String userName, String confirmationCode (username,password should not
+	 *               be null)
 	 * 
 	 * @return Http status 200 for positive case & other than 200 for negitive cases
 	 */
-	
+
 	public Response confirmSignUp(String userName, String confirmationCode) throws Exception {
 		Response res = null;
 		ConfirmSignUpResult result = cognitoClient.confirmSignUp(userName, confirmationCode);
@@ -158,30 +161,54 @@ try{
 				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
 				return res;
 			}
-		}else
-		throw new Exception();
+		} else
+			throw new Exception();
 
 	}
 
-	public AdminGetUserResult getUserInfo(String username) {
-		return cognitoClient.getUserFromUserpool(username);
-	}
-
-	public Response assignStoreToUser(List<String> stores,String userName) throws Exception {
-		Response res = new Response();
-		AdminUpdateUserAttributesResult result=cognitoClient.addStoreToUser(stores, userName);
-		if(result !=null) {
-		if(result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-			res.setBody("Sucessfully Assign stores to user role");
-			res.setStatusCode(200);
-			return res;
-		}else {
-			res.setBody("Falied to updated role");
-			res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-			return res;
+	public AdminGetUserResult getUserInfo(String username) throws Exception {
+		try {
+			return cognitoClient.getUserFromUserpool(username);
+		} catch (Exception e) {
+			throw  new Exception(e.getMessage());
 		}
-		}else throw new Exception();
-		
 	}
-	
+
+	public Response assignStoreToUser(List<String> stores, String userName) throws Exception {
+		Response res = new Response();
+		AdminUpdateUserAttributesResult result = cognitoClient.addStoreToUser(stores, userName);
+		if (result != null) {
+			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+				res.setBody("Sucessfully Assign stores to user role");
+				res.setStatusCode(200);
+				return res;
+			} else {
+				res.setBody("Falied to updated role");
+				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+				return res;
+			}
+		} else
+			throw new Exception();
+
+	}
+
+	public Response createUser(AdminCreatUserRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String[] getStoresForUser(String userName) throws Exception {
+
+		AdminGetUserResult userDetails;
+		try {
+			userDetails = cognitoClient.getUserFromUserpool(userName);
+			 return  userDetails.getUserAttributes().stream()
+						.filter(a -> a.getName().equals("custom:assignedStores")).findFirst().get().getValue().split(",");
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+		
+      
+	}
+
 }
