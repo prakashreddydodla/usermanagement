@@ -66,10 +66,9 @@ public class AuthController {
 		try {
 			Map<String, String> result = cognitoAuthService.login(request.getEmail(), request.getPassword(),
 					request.getStoreName());
-
 			res.setAuthResponce(result);
 			res.setStatusCode(200);
-			return new GateWayResponse<Response>("login successfully",res);
+			return new GateWayResponse<Response>("login successfully", res);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			res.setStatusCode(400);
@@ -213,29 +212,30 @@ public class AuthController {
 
 		}
 	}
-	
+
 	@PostMapping(path = "/confirmforgetPassword")
-	public ResponseEntity<?> confirmForgetPassword(@RequestParam String username,@RequestParam String confirmarionCode,String newPassword) {
+	public ResponseEntity<?> confirmForgetPassword(@RequestParam String username, @RequestParam String confirmarionCode,
+			String newPassword) {
 		try {
-			ConfirmForgotPasswordResult	 res = cognitoClient.confirmForgetPassword(username, confirmarionCode, newPassword);
+			ConfirmForgotPasswordResult res = cognitoClient.confirmForgetPassword(username, confirmarionCode,
+					newPassword);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
-	
-	@PostMapping(path="/createRole")
-	public ResponseEntity<?> createRole(@RequestParam String roleName,@RequestParam String discreption){
-		
+
+	@PostMapping(path = "/createRole")
+	public ResponseEntity<?> createRole(@RequestParam String roleName, @RequestParam String discreption) {
+
 		try {
-			CreateGroupResult	 res = cognitoClient.createRole(roleName, discreption);
+			CreateGroupResult res = cognitoClient.createRole(roleName, discreption);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
-	
-	
+
 }

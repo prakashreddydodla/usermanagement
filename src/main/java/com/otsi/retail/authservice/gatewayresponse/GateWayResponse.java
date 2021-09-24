@@ -100,8 +100,7 @@ public class GateWayResponse<T> {
 	 * @param message
 	 * @param result
 	 */
-
-	// our response for controller
+    // our response for controller
 	public GateWayResponse(String message, T result) {
 		super();
 		this.isSuccess = "true";
