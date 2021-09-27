@@ -2,18 +2,16 @@ package com.otsi.retail.authservice.controller;
 
 import java.text.ParseException;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
@@ -26,6 +24,7 @@ import com.amazonaws.services.cognitoidp.model.ForgotPasswordResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.proc.BadJOSEException;
+import com.otsi.retail.authservice.gatewayresponse.GateWayResponse;
 import com.otsi.retail.authservice.requestModel.AddRoleRequest;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.AssignStoresRequest;
@@ -61,21 +60,20 @@ public class AuthController {
 	}
 
 	@PostMapping(path = "/login")
-	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+	public GateWayResponse<?> login(@RequestBody LoginRequest request) {
 		Response res = new Response();
 
 		try {
 			Map<String, String> result = cognitoAuthService.login(request.getEmail(), request.getPassword(),
 					request.getStoreName());
-
 			res.setAuthResponce(result);
 			res.setStatusCode(200);
-			return new ResponseEntity<Response>(res, HttpStatus.OK);
+			return new GateWayResponse<Response>("login successfully", res);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			res.setStatusCode(400);
 			res.setErrorDescription(e.getMessage());
-			return new ResponseEntity<>(res, HttpStatus.OK);
+			return new GateWayResponse<>(res,"please give valid details");
 		}
 
 	}
@@ -214,29 +212,30 @@ public class AuthController {
 
 		}
 	}
-	
+
 	@PostMapping(path = "/confirmforgetPassword")
-	public ResponseEntity<?> confirmForgetPassword(@RequestParam String username,@RequestParam String confirmarionCode,String newPassword) {
+	public ResponseEntity<?> confirmForgetPassword(@RequestParam String username, @RequestParam String confirmarionCode,
+			String newPassword) {
 		try {
-			ConfirmForgotPasswordResult	 res = cognitoClient.confirmForgetPassword(username, confirmarionCode, newPassword);
+			ConfirmForgotPasswordResult res = cognitoClient.confirmForgetPassword(username, confirmarionCode,
+					newPassword);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
-	
-	@PostMapping(path="/createRole")
-	public ResponseEntity<?> createRole(@RequestParam String roleName,@RequestParam String discreption){
-		
+
+	@PostMapping(path = "/createRole")
+	public ResponseEntity<?> createRole(@RequestParam String roleName, @RequestParam String discreption) {
+
 		try {
-			CreateGroupResult	 res = cognitoClient.createRole(roleName, discreption);
+			CreateGroupResult res = cognitoClient.createRole(roleName, discreption);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
-	
-	
+
 }
