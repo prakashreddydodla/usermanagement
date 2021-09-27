@@ -25,9 +25,12 @@ public class GateWayResponse<T> {
 	 * @param status
 	 * @param httpStatus
 	 */
-	public GateWayResponse(final T result) {
+	public GateWayResponse(final T result,String message) {
 		this.result = result;
-		this.status = status;
+		this.status = 400;
+		this.message=message;
+		this.isSuccess="false";
+		
 		// this.httpStatus = status;
 	}
 

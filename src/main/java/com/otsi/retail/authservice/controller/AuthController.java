@@ -73,7 +73,7 @@ public class AuthController {
 			System.out.println(e.getMessage());
 			res.setStatusCode(400);
 			res.setErrorDescription(e.getMessage());
-			return new GateWayResponse<>(res);
+			return new GateWayResponse<>(res,"please give valid details");
 		}
 
 	}
