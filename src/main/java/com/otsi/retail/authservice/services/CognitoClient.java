@@ -24,6 +24,10 @@ import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupRequest;
 import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
 import com.amazonaws.services.cognitoidp.model.AdminCreateUserRequest;
 import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
+import com.amazonaws.services.cognitoidp.model.AdminDisableUserRequest;
+import com.amazonaws.services.cognitoidp.model.AdminDisableUserResult;
+import com.amazonaws.services.cognitoidp.model.AdminEnableUserRequest;
+import com.amazonaws.services.cognitoidp.model.AdminEnableUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserRequest;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthRequest;
@@ -47,12 +51,15 @@ import com.amazonaws.services.cognitoidp.model.ForgotPasswordResult;
 import com.amazonaws.services.cognitoidp.model.GetUserRequest;
 import com.amazonaws.services.cognitoidp.model.GetUserResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
+import com.amazonaws.services.cognitoidp.model.ListUsersRequest;
+import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesRequest;
 import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
+import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 
@@ -307,10 +314,14 @@ public class CognitoClient {
 	}
 
 	
-	public CreateGroupResult createRole(String role,String discreption) throws Exception {
+	public CreateGroupResult createRole(CreateRoleRequest input) throws Exception {
 		CreateGroupRequest request=new CreateGroupRequest();
-		request.setGroupName(role);
-		request.setDescription(discreption);
+		if(input.getRoleName()==null) {
+			throw new Exception("Role name should not be null");
+		}
+		request.setGroupName(input.getRoleName());
+		request.setDescription(input.getDescription());
+		request.setPrecedence(input.getPrecedence());
 		request.setUserPoolId(USERPOOL_ID);
 		try {
 		CreateGroupResult result=client.createGroup(request);
@@ -324,4 +335,58 @@ public class CognitoClient {
 		throw new Exception(e.getMessage());
 	}
 	}
+	
+	public AdminEnableUserResult userEnabled(String userName) throws Exception {
+		AdminEnableUserRequest request=new AdminEnableUserRequest();
+		request.setUsername(userName);
+		request.setUserPoolId(USERPOOL_ID);
+		try {
+		AdminEnableUserResult result=	client.adminEnableUser(request);
+		if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+			return result;
+			}
+			else 
+				throw new Exception("failed to update");
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+       
+		
+	}
+	
+	public AdminDisableUserResult userDisabled(String userName) throws Exception {
+		AdminDisableUserRequest request=new AdminDisableUserRequest();
+		request.setUsername(userName);
+		request.setUserPoolId(USERPOOL_ID);
+		
+		try {
+		AdminDisableUserResult result=	client.adminDisableUser(request);
+		if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+		return result;
+		}
+		else 
+			throw new Exception("failed to update");
+		
+	}catch (Exception e) {
+		throw new Exception(e.getMessage());
+	}
+	}
+	
+	public ListUsersResult getAllUsers() throws Exception {
+		ListUsersRequest request=new ListUsersRequest();
+		request.setUserPoolId(USERPOOL_ID);
+		try {
+		ListUsersResult result=	client.listUsers(request);
+	//	result.getUsers().stream().forEach(a->a.getAttributes().stream().forEach(b->b.););
+		if(result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+			return result;
+		}
+		else {
+			throw new Exception("No users found");
+		}
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+	
 }

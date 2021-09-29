@@ -12,6 +12,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.codec.ServerCodecConfigurer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -33,6 +34,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @SpringBootApplication
 @EnableEurekaClient
+@EnableScheduling
 @OpenAPIDefinition(info =
 @Info(title = "user-management", version = "1.0", description = "Documentation UserManagement API v1.0"))
 

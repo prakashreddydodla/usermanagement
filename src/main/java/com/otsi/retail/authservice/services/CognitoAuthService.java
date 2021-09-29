@@ -1,6 +1,10 @@
 package com.otsi.retail.authservice.services;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 /**
  * @author Manideep Thaninki
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -33,10 +38,15 @@ import com.amazonaws.services.cognitoidp.model.ConfirmSignUpRequest;
 import com.amazonaws.services.cognitoidp.model.ConfirmSignUpResult;
 import com.amazonaws.services.cognitoidp.model.GetUserResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
+import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesResult;
+import com.amazonaws.services.cognitoidp.model.UserType;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.otsi.retail.authservice.Entity.UserDeatils;
+import com.otsi.retail.authservice.Entity.UserAv;
+import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.configuration.AwsCognitoTokenProcessor;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.responceModel.Response;
@@ -50,6 +60,8 @@ public class CognitoAuthService {
 	private CognitoClient cognitoClient;
 	@Autowired
 	private AwsCognitoTokenProcessor awsCognitoTokenProcessor;
+	@Autowired
+	private UserRepo userRepo;
 
 	public Response signUp(String userName, String email, String password, String givenName, String name,
 			String phoneNo, String storeId) throws Exception {
@@ -170,7 +182,7 @@ public class CognitoAuthService {
 		try {
 			return cognitoClient.getUserFromUserpool(username);
 		} catch (Exception e) {
-			throw  new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 	}
 
@@ -202,13 +214,170 @@ public class CognitoAuthService {
 		AdminGetUserResult userDetails;
 		try {
 			userDetails = cognitoClient.getUserFromUserpool(userName);
-			 return  userDetails.getUserAttributes().stream()
-						.filter(a -> a.getName().equals("custom:assignedStores")).findFirst().get().getValue().split(",");
+			return userDetails.getUserAttributes().stream().filter(a -> a.getName().equals("custom:assignedStores"))
+					.findFirst().get().getValue().split(",");
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		
-      
+
 	}
 
+	public String enableOrDisableUser(String userName, String actionType) throws Exception {
+		try {
+			if (actionType.equals("enable")) {
+				cognitoClient.userEnabled(userName);
+			}
+			if (actionType.equals("disable")) {
+				cognitoClient.userDisabled(userName);
+			}
+
+			return "sucessfully updated";
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+
+	}
+
+	@Scheduled(fixedRate = 10000)
+	public void saveUsersDataIntoDataBase() {
+		try {
+
+			System.out.println("Scheduled job starts");
+			Calendar calendar = Calendar.getInstance();
+			System.out.println(calendar.getTime() + "------->current date");
+			calendar.add(Calendar.DATE, -1);
+
+			LocalDateTime currentdate = LocalDateTime.now();
+			LocalDateTime yesterdayDate = currentdate.minusDays(1);
+
+			ListUsersResult resultFromCognito = cognitoClient.getAllUsers();
+			resultFromCognito.getUsers().stream()
+					.forEach(a -> System.out.println(a.getUserLastModifiedDate() + "-------------->"));
+			resultFromCognito.getUsers().stream()
+					.filter(user -> user.getUserStatus().equalsIgnoreCase("confirmed")
+							&& user.getUserLastModifiedDate().after(calendar.getTime()))
+					.forEach(a -> saveUsersIndataBase(a));
+			// userRepo.save(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void saveUsersIndataBase(UserType cognitoUser) {
+		UserDeatils user = new UserDeatils();
+		List<UserAv> userAvList = new ArrayList<>();
+		cognitoUser.getAttributes().stream().forEach(a -> {
+			if (a.getName().equalsIgnoreCase("name")) {
+				user.setUserName(a.getValue());
+			}
+			if (a.getName().equalsIgnoreCase("gender")) {
+				user.setGender(a.getValue());
+			}
+			if (a.getName().equalsIgnoreCase("phone_number")) {
+				user.setPhoneNumber(a.getValue());
+			}
+
+			// for userAv table
+
+			if (a.getName().equalsIgnoreCase("custom:parentId")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+				UserAv userAv = new UserAv();
+				userAv.setType(1);
+				userAv.setName("parentId");
+				userAv.setIntegerValue(Integer.parseInt(a.getValue()));
+				userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("address")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(2);
+				userAv.setName("address");
+				userAv.setStringValue(a.getValue());
+				userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("birthdate")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(3);
+				userAv.setName("birthdate");
+				userAv.setStringValue(a.getValue());
+				userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("custom:assignedStores")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(2);
+				userAv.setName("assignedStores");
+				userAv.setStringValue(a.getValue());
+				userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("custom:domianId")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(1);
+				userAv.setName("domianId");
+				userAv.setIntegerValue(Integer.parseInt(a.getValue()));
+				userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("email")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(2);
+				userAv.setName("email");
+				userAv.setStringValue(a.getValue());
+				userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("userCreateDate")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(3);
+				userAv.setName("userCreateDate");
+				userAv.setDateValue(LocalDateTime.parse(a.getValue()));
+				// userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("userLastModifiedDate")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(3);
+				userAv.setName("userLastModifiedDate");
+				userAv.setDateValue(LocalDateTime.parse(a.getValue()));
+				// userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("enabled")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(1);
+				userAv.setName("enabled");
+				userAv.setBooleanValue(Boolean.getBoolean(a.getValue()));
+				userAvList.add(userAv);
+			}
+			if (a.getName().equalsIgnoreCase("userStatus")) {
+				System.out.println("custom:parentId  ---->"+a.getValue());
+
+				UserAv userAv = new UserAv();
+				userAv.setType(1);
+				userAv.setName("userStatus");
+				userAv.setStringValue(a.getValue());
+				userAvList.add(userAv);
+			}
+			user.setUserAv(userAvList);
+			try {
+				UserDeatils savedUser=	userRepo.save(user);
+			}catch (Exception e) {
+
+			}
+			
+		});
+
+		
+	}
 }
