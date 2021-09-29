@@ -238,7 +238,7 @@ public class CognitoAuthService {
 
 	}
 
-	@Scheduled(fixedRate = 10000)
+	//@Scheduled(cron = "0 0 * * *")
 	public void saveUsersDataIntoDataBase() {
 		try {
 
@@ -281,7 +281,6 @@ public class CognitoAuthService {
 			// for userAv table
 
 			if (a.getName().equalsIgnoreCase("custom:parentId")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
 				UserAv userAv = new UserAv();
 				userAv.setType(1);
 				userAv.setName("parentId");
@@ -289,7 +288,6 @@ public class CognitoAuthService {
 				userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("address")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(2);
@@ -298,7 +296,6 @@ public class CognitoAuthService {
 				userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("birthdate")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(3);
@@ -307,7 +304,6 @@ public class CognitoAuthService {
 				userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("custom:assignedStores")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(2);
@@ -316,7 +312,6 @@ public class CognitoAuthService {
 				userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("custom:domianId")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(1);
@@ -325,7 +320,6 @@ public class CognitoAuthService {
 				userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("email")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(2);
@@ -334,7 +328,7 @@ public class CognitoAuthService {
 				userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("userCreateDate")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
+				System.out.println("custom:parentId  ---->" + a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(3);
@@ -343,7 +337,7 @@ public class CognitoAuthService {
 				// userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("userLastModifiedDate")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
+				System.out.println("custom:parentId  ---->" + a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(3);
@@ -352,7 +346,6 @@ public class CognitoAuthService {
 				// userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("enabled")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(1);
@@ -361,7 +354,6 @@ public class CognitoAuthService {
 				userAvList.add(userAv);
 			}
 			if (a.getName().equalsIgnoreCase("userStatus")) {
-				System.out.println("custom:parentId  ---->"+a.getValue());
 
 				UserAv userAv = new UserAv();
 				userAv.setType(1);
@@ -371,13 +363,13 @@ public class CognitoAuthService {
 			}
 			user.setUserAv(userAvList);
 			try {
-				UserDeatils savedUser=	userRepo.save(user);
-			}catch (Exception e) {
+				UserDeatils savedUser = userRepo.save(user);
 
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
-			
+
 		});
 
-		
 	}
 }

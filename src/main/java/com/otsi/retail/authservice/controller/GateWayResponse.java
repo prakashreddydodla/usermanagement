@@ -16,7 +16,7 @@ import org.springframework.validation.FieldError;
 public class GateWayResponse<T> {
 
 	private boolean isSuccess;
-	private int status;
+	private int statusCode;
 	private String message;
 	private T result;
 	/*
@@ -35,7 +35,7 @@ public class GateWayResponse<T> {
 	 */
 	public GateWayResponse(final T result) {
 		this.result = result;
-		this.status = status;
+		this.statusCode = 200;
 		// this.httpStatus = status;
 	}
 
@@ -48,7 +48,7 @@ public class GateWayResponse<T> {
 
 	public GateWayResponse(int status, final String message, final List<String> errors) {
 		super();
-		this.status = status;
+		this.statusCode = status;
 		this.isSuccess =false;
 		this.message = message;
 
@@ -77,10 +77,10 @@ public class GateWayResponse<T> {
 	 * @param error
 	 */
 
-	public GateWayResponse(final HttpStatus httpStatus, final String message, final String error) {
+	public GateWayResponse(final int statusCode, final String message, final String error) {
 		super();
 		// this.status = status;
-		this.status = status;
+		this.statusCode = statusCode;
 		this.message = message;
 		if (!StringUtils.isEmpty(error)) {
 			// errors = Arrays.asList(error);
@@ -94,18 +94,19 @@ public class GateWayResponse<T> {
 	 * @param message
 	 */
 
-	public GateWayResponse(final int status, final T result, String message) {
+	public GateWayResponse(final int statusCode, final T result, String message) {
 		super();
 		this.result = result;
-		this.status = status;
+		this.statusCode = statusCode;
 		this.message = message;
 		//this.isSuccess = "true";
 	}
 	
-	public GateWayResponse(final int httpStatus, final T result, String message,boolean status) {
+	
+	public GateWayResponse(final int statusCode, final T result, String message,boolean status) {
 		super();
 		this.result = result;
-		this.status = httpStatus;
+		this.statusCode = statusCode;
 		this.message = message;
 		this.isSuccess = status;
 	}
@@ -129,13 +130,13 @@ public class GateWayResponse<T> {
 	public GateWayResponse(String message, T result) {
 		super();
 		this.isSuccess = true;
-		this.status = 200;
+		this.statusCode = 200;
 		this.message = message;
 		this.result = result;
 	}
 
 	public int getStatus() {
-		return status;
+		return statusCode;
 	}
 
 	public boolean getIsSuccess() {
@@ -146,8 +147,8 @@ public class GateWayResponse<T> {
 		this.isSuccess = isSuccess;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setStatus(int statusCode) {
+		this.statusCode = statusCode;
 	}
 
 	public String getMessage() {

@@ -2,11 +2,10 @@ package com.otsi.retail.authservice.controller;
 
 import java.text.ParseException;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
@@ -73,11 +71,14 @@ public class AuthController {
 			res.setAuthResponce(result);
 			res.setStatusCode(200);
 			return new GateWayResponse<>(200, res, "", true);
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			res.setStatusCode(400);
 			res.setErrorDescription(e.getMessage());
+			
 			return new GateWayResponse<>(400, res, "",false);
+
 		}
 
 	}
@@ -188,7 +189,7 @@ public class AuthController {
 
 			// res.setAuthResponce(result);
 			// res.setStatusCode(200);
-			return new GateWayResponse<>(200, res, "", true);
+			return new GateWayResponse<>(200, result, "", true);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			res.setStatusCode(400);
@@ -223,11 +224,13 @@ public class AuthController {
 
 	@PostMapping(path = "/confirmforgetPassword")
 	public GateWayResponse<?> confirmForgetPassword(@RequestParam String username, @RequestParam String confirmarionCode,
+
 			String newPassword) {
 		try {
 			ConfirmForgotPasswordResult res = cognitoClient.confirmForgetPassword(username, confirmarionCode,
 					newPassword);
 			return new GateWayResponse<>(200, res, "", true);
+
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null,e.getMessage(),false);
 
@@ -240,6 +243,7 @@ public class AuthController {
 		try {
 			CreateGroupResult res = cognitoClient.createRole(request);
 			return new GateWayResponse<>(200, res, "", true);
+
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null,e.getMessage(),false);
 
