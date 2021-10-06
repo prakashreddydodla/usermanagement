@@ -2,6 +2,7 @@ package com.otsi.retail.authservice.Entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,9 +33,9 @@ public class UserAv {
 
 	private String stringValue;
 
-	private LocalDateTime dateValue;
+	private Date dateValue;
 
-	private LocalDateTime lastModified;
+	private Date lastModified;
 	
 	private boolean booleanValue;
 
