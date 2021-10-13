@@ -1,10 +1,9 @@
 package com.otsi.retail.authservice.services;
 
-import java.text.SimpleDateFormat;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -17,45 +16,55 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
-import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
-import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthRequest;
+import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
+import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
+import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthResult;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
-import com.amazonaws.services.cognitoidp.model.AttributeType;
-import com.amazonaws.services.cognitoidp.model.AuthFlowType;
 import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
-import com.amazonaws.services.cognitoidp.model.ConfirmSignUpRequest;
 import com.amazonaws.services.cognitoidp.model.ConfirmSignUpResult;
-import com.amazonaws.services.cognitoidp.model.GetUserResult;
+import com.amazonaws.services.cognitoidp.model.CreateGroupResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
-import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
-import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.UserType;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.otsi.retail.authservice.Entity.UserDeatils;
+import com.otsi.retail.authservice.Entity.Domain_Master;
+import com.otsi.retail.authservice.Entity.ClientDomains;
+import com.otsi.retail.authservice.Entity.ClientDetails;
+import com.otsi.retail.authservice.Entity.Privilages;
+import com.otsi.retail.authservice.Entity.Role;
+import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
+import com.otsi.retail.authservice.Entity.UserDeatils;
+import com.otsi.retail.authservice.Repository.ChannelRepo;
+import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
+import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
+import com.otsi.retail.authservice.Repository.PrivilageRepo;
+import com.otsi.retail.authservice.Repository.RoleRepository;
+import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.configuration.AwsCognitoTokenProcessor;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
+import com.otsi.retail.authservice.requestModel.DomainVo;
+import com.otsi.retail.authservice.requestModel.DomianStoresVo;
+import com.otsi.retail.authservice.requestModel.MasterDomianVo;
+import com.otsi.retail.authservice.requestModel.StoreVo;
+import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
+import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.responceModel.Response;
-import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
-import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 
 @Service
 public class CognitoAuthService {
@@ -68,7 +77,18 @@ public class CognitoAuthService {
 	private UserRepo userRepo;
 	@Autowired
 	private UserAvRepo userAvRepo;
-
+	@Autowired
+	private RoleRepository roleRepository;
+	@Autowired
+	private PrivilageRepo privilageRepo;
+	@Autowired
+	private ChannelRepo clientChannelRepo;
+	@Autowired
+	private ClientDetailsRepo clientDetailsRepo;
+	@Autowired
+	private Domian_MasterRepo domian_MasterRepo;
+	@Autowired
+	private StoreRepo storeRepo;
 	private Logger logger = LoggerFactory.getLogger(CognitoAuthService.class);
 
 	public Response signUp(String userName, String email, String password, String givenName, String name,
@@ -167,10 +187,9 @@ public class CognitoAuthService {
 
 	}
 
-	public Response AddRoleToUser(String groupName, String userName, String userPoolId)
-			throws InvalidParameterException, Exception {
+	public Response addRoleToUser(String groupName, String userName) throws InvalidParameterException, Exception {
 		Response res = new Response();
-		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName, userPoolId);
+		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
 		if (result != null) {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 				res.setBody("Sucessfully updated role");
@@ -194,27 +213,127 @@ public class CognitoAuthService {
 		}
 	}
 
-	public Response assignStoreToUser(List<String> stores, String userName) throws Exception {
+	/**
+	 * 
+	 * @param stores
+	 * @param userName
+	 * @return
+	 * @throws Exception
+	 * 
+	 * 
+	 */
+	public Response assignStoreToUser(List<Store> stores, String userName) throws Exception {
 		Response res = new Response();
+		try {
 		AdminUpdateUserAttributesResult result = cognitoClient.addStoreToUser(stores, userName);
+		
 		if (result != null) {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+				logger.info("Succesfully assigned store to user in cognito");
 				res.setBody("Sucessfully Assign stores to user role");
 				res.setStatusCode(200);
+				Optional<UserDeatils> dbUser=userRepo.findByUserName(userName);
+				if(dbUser.isPresent()) {
+				List<Store> assignedStores=dbUser.get().getStores();
+				if(!CollectionUtils.isEmpty(stores)) {
+					stores.stream().forEach(a->{
+					Optional<Store>	storeFromDb=storeRepo.findById(a.getId());
+					assignedStores.add(storeFromDb.get());
+					});
+						UserDeatils user=dbUser.get();
+						user.setStores(assignedStores);	
+						userRepo.save(user);
+				}
+			}else {
+				res.setErrorDescription("user not updated in Local db from cognito");
+				logger.error("user not updated in Local db from cognito");
+			}
 				return res;
 			} else {
+				logger.error("failed to assign store to user in cognito");
 				res.setBody("Falied to updated role");
 				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
 				return res;
 			}
 		} else
+			
 			throw new Exception();
-
+	}catch (Exception e) {
+		throw new Exception(e.getMessage());
+	}
 	}
 
-	public Response createUser(AdminCreatUserRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 * 
+	 *                   Create user (Customer/employee) based on role
+	 */
+	public Response createUser(AdminCreatUserRequest request) throws Exception {
+		Response res = new Response();
+
+		if (null == request.getRole()) {
+			throw new Exception("Role should not be null");
+		}
+		/**
+		 * If the user is custmore we need to save user in our local DB not in Cognito
+		 */
+		if (request.getRole().getRoleName().equalsIgnoreCase("CUSTOMER")) {
+			UserDeatils user = new UserDeatils();
+			user.setUserName(request.getUsername());
+			user.setPhoneNumber(request.getPhoneNumber());
+			user.setGender(request.getGender());
+			Optional<Role> roleFromDb = roleRepository.findByRoleName(request.getRole().getRoleName());
+			if (!roleFromDb.isPresent()) {
+				Role roleEntity = new Role();
+				roleEntity.setRoleName("CUSTOMER");
+				roleEntity.setDiscription("Customer for store");
+				roleEntity.setPrivilages(null);
+				Role savedRole = roleRepository.save(roleEntity);
+				user.setRole(savedRole);
+			} else {
+				user.setRole(roleFromDb.get());
+			}
+			try {
+				UserDeatils savedUser = userRepo.save(user);
+				res.setBody("Saved Sucessfully");
+				res.setStatusCode(200);
+				return res;
+			} catch (Exception e) {
+				res.setBody("Not Saved");
+				res.setStatusCode(400);
+				return res;
+			}
+		} else {
+			try {
+				/**
+				 * If it not customer then only save user in cognito userpool
+				 */
+
+				AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
+				if (result != null) {
+					if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+						res.setStatusCode(200);
+
+						/**
+						 * Adding role to the saved user in cognito userpool
+						 */
+
+						Response roleResponse = addRoleToUser(request.getRole().getRoleName(), request.getUsername());
+						res.setBody("with user " + result);
+					} else {
+						res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+						res.setBody("something went wrong");
+					}
+				}
+				return res;
+			} catch (Exception e) {
+				throw new Exception(e.getMessage());
+			}
+		}
+
 	}
 
 	public String[] getStoresForUser(String userName) throws Exception {
@@ -245,9 +364,11 @@ public class CognitoAuthService {
 		}
 
 	}
-	
+
+//********************************** SCHEDULER JOB  ****************************************************
 	/***
-	 * This Scheduler will executes every day 12:00 am to migrating the user data in Cognito userpool to Our application Database
+	 * This Scheduler will executes every day 12:00 am to migrating the user data in
+	 * Cognito userpool to Our application Database
 	 */
 
 	@Scheduled(cron = "0 0 0 * * ?")
@@ -376,8 +497,8 @@ public class CognitoAuthService {
 
 	private UserDeatils saveUser(UserType cognitoUser) throws Exception {
 		UserDeatils user = new UserDeatils();
-		user.setCreationdate(LocalDate.now());
-		user.setLastmodified(LocalDate.now());
+		user.setCreatedDate(LocalDate.now());
+		user.setLastModifyedDate(LocalDate.now());
 		cognitoUser.getAttributes().stream().forEach(a -> {
 			if (a.getName().equalsIgnoreCase("name")) {
 				user.setUserName(a.getValue());
@@ -400,5 +521,234 @@ public class CognitoAuthService {
 			throw new Exception(e.getMessage());
 		}
 
+	}
+
+	public UserDeatils getUserFromDb(long userName) throws Exception {
+
+		Optional<UserDeatils> user = userRepo.findById(userName);
+		if (user.isPresent()) {
+			return user.get();
+		} else {
+			throw new Exception("No user found with this userName: " + userName);
+		}
+
+	}
+
+	// *********************************** ROLES AND PRIVILAGES RELATED API'S
+	// **************************************************************//
+
+	public String savePrevilage(Privilages privilages) throws Exception {
+
+		Privilages privilage = new Privilages();
+		privilage.setDiscription(privilages.getDiscription());
+		privilage.setRead(privilages.isRead());
+		privilage.setWrite(privilages.isWrite());
+		privilage.setCreatedDate(LocalDate.now());
+		privilage.setLastModifyedDate(LocalDate.now());
+		try {
+			privilageRepo.save(privilage);
+			return "Saved Successfully";
+		} catch (Exception e) {
+			throw new Exception();
+		}
+	}
+
+	public List<Privilages> getAllPrivilages() {
+		return privilageRepo.findAll();
+	}
+
+	public String createRole(CreateRoleRequest role) throws Exception {
+		Role roleEntity = new Role();
+		Role dbResult = null;
+		roleEntity.setDiscription(role.getDescription());
+		roleEntity.setRoleName(role.getRoleName());
+		roleEntity.setCreatedDate(LocalDate.now());
+		List<Privilages> privilages = new ArrayList<>();
+		role.getPrivilages().forEach(a -> {
+			Optional<Privilages> privilage = privilageRepo.findById(a.getId());
+			if(privilage.isPresent()) {
+			privilages.add(privilage.get());
+			}else {
+				throw new RuntimeException("Given privilage not found in master");
+			}
+		});
+		roleEntity.setPrivilages(privilages);
+		try {
+			dbResult = roleRepository.save(roleEntity);
+			if (!dbResult.equals(null)) {
+				if (!role.getRoleName().equalsIgnoreCase("CUSTOMER")) {
+
+					/**
+					 * If the Role is not a Customer then it wil Create in Cognito also
+					 */
+					CreateGroupResult cognitoResult = cognitoClient.createRole(role);
+					if (cognitoResult.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+						return "sucessfully saved";
+					}
+				}
+			}
+			throw new RuntimeException("Role not saved");
+		} catch (Exception e) {
+			roleRepository.delete(dbResult);
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	public Role getPrivilages(long roleId) throws Exception {
+		try {
+			Optional<Role> role = roleRepository.findById(roleId);
+			return role.get();
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+
+	}
+
+	// ********************************* DOMAIN RELATED APPI'S
+	// **************************************************
+
+	public String createMasterDomain(MasterDomianVo domainVo) throws Exception {
+		Domain_Master domain = new Domain_Master();
+		try {
+			domain.setChannelName(domainVo.getChannelName());
+			domain.setDiscription(domainVo.getDiscription());
+			domain.setCreatedDate(LocalDate.now());
+			domain.setLastModifyedDate(LocalDate.now());
+
+			Domain_Master savedChannel = domian_MasterRepo.save(domain);
+			return "Channel created";
+
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	public List<Domain_Master> getMasterDomains() {
+		List<Domain_Master> domains = domian_MasterRepo.findAll();
+		return domains;
+	}
+
+	// ***************************************    CLIENT RELATED API'S   ************************************\\
+
+	@Transactional(rollbackOn = {Exception.class})
+	public String createClient(ClientDetailsVo clientVo) throws Exception {
+
+		ClientDetails clientEntity = new ClientDetails();
+		clientEntity.setName(clientVo.getName());
+		clientEntity.setAddress(clientVo.getAddress());
+		clientEntity.setCreatedDate(LocalDate.now());
+		clientEntity.setLastModifyedDate(LocalDate.now());
+
+		try {
+			ClientDetails savedClient = clientDetailsRepo.save(clientEntity);
+			if (clientVo.getChannelId() != null) {
+				clientVo.getChannelId().stream().forEach(domainVo -> {
+					ClientDomains clientDomians = new ClientDomains();
+					clientDomians.setDomaiName(domainVo.getName());
+					clientDomians.setDiscription(domainVo.getDiscription());
+					clientDomians.setCreatedDate(LocalDate.now());
+					clientDomians.setLastModifyedDate(LocalDate.now());
+					clientDomians.setClient(savedClient);
+					List<Domain_Master> masterDomains = new ArrayList<>();
+					if (domainVo.getChannel() != null) {
+						domainVo.getChannel().stream().forEach(a -> {
+							try {
+							masterDomains.add(domian_MasterRepo.findById(a.getId()).get());
+							}catch (Exception e) {
+								throw new RuntimeException("Domain not found in master");
+							}
+						});
+					}
+					clientDomians.setDomain(masterDomains);
+					clientChannelRepo.save(clientDomians);
+				});
+			}
+			return "Successfully save";
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	
+	
+	
+	public ClientDetails getClient(long clientId) throws Exception {
+
+		Optional<ClientDetails> client = clientDetailsRepo.findById(clientId);
+		if (client.isPresent()) {
+			return client.get();
+		} else
+			throw new Exception("No Client found with this Name");
+	}
+
+	
+	
+	public List<ClientDetails> getAllClient() throws Exception {
+		List<ClientDetails> clients = clientDetailsRepo.findAll();
+		if (!CollectionUtils.isEmpty(clients))
+			return clients;
+		else
+			throw new Exception("No clients found");
+	}
+
+//****************************************  STORE RELATED API'S  ****************************************************
+
+	public String createStore(StoreVo vo) throws Exception {
+
+		Store storeEntity = new Store();
+		try {
+			storeEntity.setName(vo.getName());
+			storeEntity.setLocation(vo.getLocation());
+			storeEntity.setAsigned(Boolean.FALSE);
+			if (vo.getStoreOwner() != null) {
+				Optional<UserDeatils> userfromDb = userRepo.findById(vo.getStoreOwner().getUserId());
+				if (userfromDb.isPresent()) {
+					storeEntity.setStoreOwner(userfromDb.get());
+				}
+			}
+			storeEntity.setCreatedDate(LocalDate.now());
+			storeEntity.setLastModifyedDate(LocalDate.now());
+			storeRepo.save(storeEntity);
+			return null;
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	public List<Store> getAllStores() throws Exception {
+		try {
+			List<Store> stores = storeRepo.findAll();
+			if (!CollectionUtils.isEmpty(stores)) {
+				return stores;
+			} else
+				throw new Exception("No stores found");
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+
+	}
+
+	public String assignStoreToClientDomain(DomianStoresVo vo) throws Exception {
+
+		try {
+			Optional<ClientDomains> clientDetails = clientChannelRepo.findById(vo.getDomain().getClientChannelid());
+
+			if (clientDetails.isPresent()) {
+				List<Store> selectedStores = new ArrayList<>();
+				ClientDomains clientDomain = clientDetails.get();
+				vo.getStores().stream().forEach(a -> {
+					selectedStores.add(storeRepo.findById(a.getId()).get());
+				});
+				clientDomain.setStore(selectedStores);
+
+				clientChannelRepo.save(clientDomain);
+				return "success";
+			} else {
+				throw new RuntimeException("Selected Domain not  found ");
+			}
+
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 }

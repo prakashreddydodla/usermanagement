@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAv {
+public class UserAv  extends BaseEntity{
 
 	@Id
 	@GeneratedValue
@@ -34,11 +34,13 @@ public class UserAv {
 	private String stringValue;
 
 	private Date dateValue;
-
-	private Date lastModified;
 	
 	private boolean booleanValue;
 
+	private LocalDate createdDate;
+	private LocalDate lastModifyedDate;
+	private long createdBy;
+	
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private UserDeatils userData;

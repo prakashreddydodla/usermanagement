@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.http.util.Asserts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -17,7 +16,6 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupRequest;
@@ -38,7 +36,6 @@ import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesRequest;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.AttributeType;
 import com.amazonaws.services.cognitoidp.model.AuthFlowType;
-import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
 import com.amazonaws.services.cognitoidp.model.ChallengeNameType;
 import com.amazonaws.services.cognitoidp.model.ConfirmForgotPasswordRequest;
 import com.amazonaws.services.cognitoidp.model.ConfirmForgotPasswordResult;
@@ -48,19 +45,17 @@ import com.amazonaws.services.cognitoidp.model.CreateGroupRequest;
 import com.amazonaws.services.cognitoidp.model.CreateGroupResult;
 import com.amazonaws.services.cognitoidp.model.ForgotPasswordRequest;
 import com.amazonaws.services.cognitoidp.model.ForgotPasswordResult;
-import com.amazonaws.services.cognitoidp.model.GetUserRequest;
-import com.amazonaws.services.cognitoidp.model.GetUserResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.ListUsersRequest;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
-import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesRequest;
-import com.amazonaws.services.cognitoidp.model.UpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
+import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
+import com.otsi.retail.authservice.requestModel.StoreVo;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 
 @Component
@@ -94,6 +89,8 @@ public class CognitoClient {
 		client = createCognitoClient();
 	}
 
+	
+	
 	private AWSCognitoIdentityProvider createCognitoClient() {
 
 		AWSCredentials cred = new BasicAWSCredentials(ACCESS_KEY, SECRET_ACCESS_KEY);
@@ -103,6 +100,8 @@ public class CognitoClient {
 				.build();
 	}
 
+	
+	
 	public SignUpResult signUp(String userName, String email, String password, String givenName, String name,
 			String phoneNo, String storeId) throws Exception {
 		SignUpRequest request = new SignUpRequest().withClientId(CLIENT_ID).withUsername(userName)
@@ -116,9 +115,10 @@ public class CognitoClient {
 		SignUpResult result = client.signUp(request);
 		System.out.println("----------");
 		return result;
-
 	}
 
+	
+	
 	public ConfirmSignUpResult confirmSignUp(String userName, String confirmationCode) throws Exception {
 
 		ConfirmSignUpRequest confirmSignUpRequest = new ConfirmSignUpRequest().withClientId(CLIENT_ID)
@@ -126,9 +126,10 @@ public class CognitoClient {
 
 		ConfirmSignUpResult result = client.confirmSignUp(confirmSignUpRequest);
 		return result;
-
 	}
 
+	
+	
 	public AdminInitiateAuthResult login(String email, String password) throws Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
@@ -142,10 +143,11 @@ public class CognitoClient {
 		AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
 		// AuthenticationResultType resultType = authResult.getAuthenticationResult();
 		return authResult;
-
 	}
 
-	public AdminAddUserToGroupResult addRolesToUser(String groupName, String userName, String userPoolId)
+	
+	
+	public AdminAddUserToGroupResult addRolesToUser(String groupName, String userName)
 			throws InvalidParameterException, Exception {
 
 		List<String> errors = new ArrayList<>();
@@ -163,17 +165,18 @@ public class CognitoClient {
 			AdminAddUserToGroupRequest adminAddUserToGroupRequest = new AdminAddUserToGroupRequest();
 			adminAddUserToGroupRequest.setGroupName(groupName);
 			adminAddUserToGroupRequest.setUsername(userName);
-			adminAddUserToGroupRequest.setUserPoolId(userPoolId);
+			adminAddUserToGroupRequest.setUserPoolId(USERPOOL_ID);
 			AdminAddUserToGroupResult result = client.adminAddUserToGroup(adminAddUserToGroupRequest);
 			return result;
 		} else {
 			String error = errors.stream().collect(Collectors.joining(", "));
 			throw new InvalidParameterException(error);
 		}
-
 	}
 
-	public AdminUpdateUserAttributesResult addStoreToUser(List<String> stores, String userName) throws Exception {
+	
+	
+	public AdminUpdateUserAttributesResult addStoreToUser(List<Store> stores, String userName) throws Exception {
 		AdminUpdateUserAttributesRequest updateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
 		List<AttributeType> attributes = new ArrayList<>();
 		AttributeType attributeType = null;
@@ -182,10 +185,7 @@ public class CognitoClient {
 			attributeType = userAttributes.getUserAttributes().stream()
 					.filter(a -> a.getName().equals("custom:assignedStores")).findFirst().get();
 			StringBuilder assignedStores = new StringBuilder(attributeType.getValue());
-
-			stores.stream().forEach(a -> assignedStores.append("," + a));
-			System.out.println(assignedStores + "___________________________");
-
+			stores.stream().forEach(a -> assignedStores.append("," + a.getName()));
 			attributes.add(new AttributeType().withName("custom:assignedStores").withValue(assignedStores.toString()));
 			updateUserAttributesRequest.setUsername(userName);
 			updateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
@@ -196,6 +196,9 @@ public class CognitoClient {
 			throw new Exception("No user found with this username in userpool");
 	}
 
+
+	
+	
 	public AdminGetUserResult getUserFromUserpool(String userName) throws Exception {
 		System.out.println(userName);
 		AdminGetUserRequest getUserRequest = new AdminGetUserRequest();
@@ -212,6 +215,8 @@ public class CognitoClient {
 		}
 	}
 
+	
+	
 	public AdminCreateUserResult adminCreateUser(AdminCreatUserRequest request) throws Exception {
 		AdminCreateUserRequest createUserRequest = new AdminCreateUserRequest();
 		createUserRequest.setDesiredDeliveryMediums(Arrays.asList("EMAIL"));
@@ -227,7 +232,7 @@ public class CognitoClient {
 				new AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender()),
 				new AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.getParentId()),
 				new AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()),
-				new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES).withValue(request.getAssginedStores())
+				new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES).withValue(setStores(request.getStores()))
 		// new AttributeType().withName("email_verified").withValue("true")
 
 		// new
@@ -244,6 +249,14 @@ public class CognitoClient {
 
 	}
 
+	private String setStores(List<StoreVo> stores) {
+		StringBuffer storesString=new StringBuffer();
+		stores.stream().forEach(a->storesString.append(a.getName()+","));
+		return storesString.toString();
+	}
+
+	
+	
 	public AdminInitiateAuthResult loginWithTempPassword(String email, String password) throws Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
@@ -260,6 +273,8 @@ public class CognitoClient {
 
 	}
 
+	
+	
 	public AdminRespondToAuthChallengeResult respondAuthChalleng(NewPasswordChallengeRequest request) {
 		AdminRespondToAuthChallengeRequest challengRequest = new AdminRespondToAuthChallengeRequest();
 		Map<String, String> challengeResponses = new HashMap<>();
@@ -275,6 +290,8 @@ public class CognitoClient {
 		return result;
 	}
 
+	
+	
 	public ForgotPasswordResult forgetPassword(String userName) throws Exception {
 		ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest();
 		forgotPasswordRequest.setUsername(userName);
@@ -290,8 +307,9 @@ public class CognitoClient {
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
-
 	}
+	
+	
 	
 	public ConfirmForgotPasswordResult confirmForgetPassword(String userName,String confirmationCode,String newPassword) throws Exception {
 		ConfirmForgotPasswordRequest confirmforgotPasswordRequest = new ConfirmForgotPasswordRequest();
@@ -313,6 +331,7 @@ public class CognitoClient {
 
 	}
 
+
 	
 	public CreateGroupResult createRole(CreateRoleRequest input) throws Exception {
 		CreateGroupRequest request=new CreateGroupRequest();
@@ -330,11 +349,12 @@ public class CognitoClient {
 		} else {
 			throw new Exception("failed");
 		}
-
 	} catch (Exception e) {
 		throw new Exception(e.getMessage());
 	}
 	}
+
+	
 	
 	public AdminEnableUserResult userEnabled(String userName) throws Exception {
 		AdminEnableUserRequest request=new AdminEnableUserRequest();
@@ -349,10 +369,10 @@ public class CognitoClient {
 				throw new Exception("failed to update");
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());
-		}
-       
-		
+		}		
 	}
+
+	
 	
 	public AdminDisableUserResult userDisabled(String userName) throws Exception {
 		AdminDisableUserRequest request=new AdminDisableUserRequest();
@@ -365,12 +385,13 @@ public class CognitoClient {
 		return result;
 		}
 		else 
-			throw new Exception("failed to update");
-		
+			throw new Exception("failed to update");	
 	}catch (Exception e) {
 		throw new Exception(e.getMessage());
 	}
 	}
+	
+	
 	
 	public ListUsersResult getAllUsers() throws Exception {
 		ListUsersRequest request=new ListUsersRequest();
@@ -380,10 +401,10 @@ public class CognitoClient {
 	//	result.getUsers().stream().forEach(a->a.getAttributes().stream().forEach(b->b.););
 		if(result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 			return result;
-		}
+		  }
 		else {
 			throw new Exception("No users found");
-		}
+		  }
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}

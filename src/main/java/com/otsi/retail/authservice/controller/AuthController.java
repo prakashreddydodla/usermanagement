@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.controller;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,26 @@ import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.proc.BadJOSEException;
+import com.otsi.retail.authservice.Entity.Domain_Master;
+import com.otsi.retail.authservice.Entity.ClientDomains;
+import com.otsi.retail.authservice.Entity.ClientDetails;
+import com.otsi.retail.authservice.Entity.Privilages;
+import com.otsi.retail.authservice.Entity.Role;
+import com.otsi.retail.authservice.Entity.Store;
+import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.requestModel.AddRoleRequest;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.AssignStoresRequest;
+import com.otsi.retail.authservice.requestModel.DomainVo;
+import com.otsi.retail.authservice.requestModel.DomianStoresVo;
+import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
 import com.otsi.retail.authservice.requestModel.ConfirmSignupRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.LoginRequest;
+import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
 import com.otsi.retail.authservice.requestModel.SignupRequest;
+import com.otsi.retail.authservice.requestModel.StoreVo;
 import com.otsi.retail.authservice.responceModel.Response;
 import com.otsi.retail.authservice.services.CognitoAuthService;
 import com.otsi.retail.authservice.services.CognitoClient;
@@ -58,7 +71,6 @@ public class AuthController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-
 	}
 
 	@PostMapping(path = "/login")
@@ -71,14 +83,11 @@ public class AuthController {
 			res.setAuthResponce(result);
 			res.setStatusCode(200);
 			return new GateWayResponse<>(200, res, "", true);
-
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			res.setStatusCode(400);
 			res.setErrorDescription(e.getMessage());
-			
-			return new GateWayResponse<>(400, res, "",false);
-
+			return new GateWayResponse<>(400, res, "", false);
 		}
 
 	}
@@ -90,7 +99,7 @@ public class AuthController {
 			res = cognitoAuthService.confirmSignUp(request.getUserName(), request.getConfimationCode());
 			return new GateWayResponse<>(200, res, "", true);
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, res, "",false);
+			return new GateWayResponse<>(400, res, "", false);
 		}
 
 	}
@@ -99,13 +108,13 @@ public class AuthController {
 	public GateWayResponse<?> addRole(@RequestBody AddRoleRequest req) {
 		Response res = null;
 		try {
-			res = cognitoAuthService.AddRoleToUser(req.getGroupName(), req.getUserName(), req.getUserpoolId());
+			res = cognitoAuthService.addRoleToUser(req.getGroupName(), req.getUserName());
 			return new GateWayResponse<>(200, res, "", true);
 		} catch (InvalidParameterException ie) {
-			return new GateWayResponse<>(400, res, "",false);
+			return new GateWayResponse<>(400, res, "", false);
 
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, res, "",false);
+			return new GateWayResponse<>(400, res, "", false);
 		}
 
 	}
@@ -119,18 +128,18 @@ public class AuthController {
 			return new GateWayResponse<>(200, user, "", true);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			return new GateWayResponse<>(400, null, e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 
 		} catch (BadJOSEException e) {
 			// TODO Auto-generated catch block
-			return new GateWayResponse<>(400, null, e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 
 		} catch (JOSEException e) {
 			// TODO Auto-generated catch block
-			return new GateWayResponse<>(400, null, e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, null, e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 
 		}
 	}
@@ -141,9 +150,9 @@ public class AuthController {
 		try {
 			res = cognitoAuthService.assignStoreToUser(req.getStores(), req.getUserName());
 			return new GateWayResponse<>(200, res, "", true);
-		
+
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, null, e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 		}
 	}
 
@@ -151,19 +160,11 @@ public class AuthController {
 	public GateWayResponse<?> createUser(@RequestBody AdminCreatUserRequest request) {
 		Response res = new Response();
 		try {
-			AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
-			if (result != null) {
-				if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-					res.setStatusCode(200);
-					res.setBody("with user " + result);
-				} else {
-					res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-					res.setBody("something went wrong");
-				}
-			}
-	           return new GateWayResponse<>(200, result, "",true);
+			Response result = cognitoAuthService.createUser(request);
+			return new GateWayResponse<>(200, result, "", true);
+
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 		}
 	}
 
@@ -174,7 +175,7 @@ public class AuthController {
 			AdminRespondToAuthChallengeResult res = cognitoClient.respondAuthChalleng(req);
 			return new GateWayResponse<>(200, res, "", true);
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 		}
 
 	}
@@ -194,7 +195,7 @@ public class AuthController {
 			System.out.println(e.getMessage());
 			res.setStatusCode(400);
 			res.setErrorDescription(e.getMessage());
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 		}
 
 	}
@@ -206,7 +207,7 @@ public class AuthController {
 			stores = cognitoAuthService.getStoresForUser(userName);
 			return new GateWayResponse<>(200, stores, "", true);
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 		}
 
 	}
@@ -217,13 +218,14 @@ public class AuthController {
 			ForgotPasswordResult res = cognitoClient.forgetPassword(username);
 			return new GateWayResponse<>(200, res, "", true);
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 
 		}
 	}
 
 	@PostMapping(path = "/confirmforgetPassword")
-	public GateWayResponse<?> confirmForgetPassword(@RequestParam String username, @RequestParam String confirmarionCode,
+	public GateWayResponse<?> confirmForgetPassword(@RequestParam String username,
+			@RequestParam String confirmarionCode,
 
 			String newPassword) {
 		try {
@@ -232,7 +234,7 @@ public class AuthController {
 			return new GateWayResponse<>(200, res, "", true);
 
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 
 		}
 	}
@@ -241,11 +243,16 @@ public class AuthController {
 	public GateWayResponse<?> createRole(@RequestBody CreateRoleRequest request) {
 
 		try {
-			CreateGroupResult res = cognitoClient.createRole(request);
+			String res = cognitoAuthService.createRole(request);
 			return new GateWayResponse<>(200, res, "", true);
 
-		} catch (Exception e) {
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+		} catch (RuntimeException re) {
+
+			return new GateWayResponse<>(400, null, re.getMessage(), false);
+		}
+
+		catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 
 		}
 	}
@@ -256,22 +263,151 @@ public class AuthController {
 			ListUsersResult res = cognitoClient.getAllUsers();
 			return new GateWayResponse<>(200, res, "", true);
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 
 		}
 	}
 
 	@PutMapping("/enabledOrdisabledUser/{user}/{action}")
-	public GateWayResponse<?> enabledOrdisabledUser(@PathVariable String user,@PathVariable String action){
+	public GateWayResponse<?> enabledOrdisabledUser(@PathVariable String user, @PathVariable String action) {
 		try {
-			String res=cognitoAuthService.enableOrDisableUser(user, action);
+			String res = cognitoAuthService.enableOrDisableUser(user, action);
 			return new GateWayResponse<>(200, res, "", true);
 
-		}catch (Exception e) {
-			return new GateWayResponse<>(400, null,e.getMessage(),false);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
 		}
-		
-		
+
 	}
 
+	@PostMapping("/addPrevilage")
+	public GateWayResponse<?> savePrevilageToMaster(@RequestBody Privilages privilages) {
+		try {
+			String res = cognitoAuthService.savePrevilage(privilages);
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+
+		}
+
+	}
+
+	@GetMapping("/getPrivilages/{roleId}")
+	public GateWayResponse<?> getPrivilagesOfRole(@PathVariable String roleId) {
+		try {
+			Role res = cognitoAuthService.getPrivilages(Long.parseLong(roleId));
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+
+	@GetMapping("/getAllPrivilages")
+	public GateWayResponse<?> getAllPrivilages() {
+		try {
+			List<Privilages> res = cognitoAuthService.getAllPrivilages();
+			return new GateWayResponse<>(200, res, "", true);
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+
+	@PostMapping("/createMasterChannel")
+	public GateWayResponse<?> creatChannel(@RequestBody MasterDomianVo domainVo) {
+		String res;
+		try {
+			res = cognitoAuthService.createMasterDomain(domainVo);
+			return new GateWayResponse<>(200, res, "", true);
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+
+		}
+	}
+	
+	@GetMapping("/getMasterDomains")
+	public GateWayResponse<?> getMasterDomians(){
+		try {
+		List<Domain_Master>	res = cognitoAuthService.getMasterDomains();
+			return new GateWayResponse<>(200, res, "", true);
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+
+		}
+	}
+
+	@PostMapping("/createClient")
+	public GateWayResponse<?> creatclient(@RequestBody ClientDetailsVo client) {
+		try {
+			String res = cognitoAuthService.createClient(client);
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+
+	@GetMapping("/getClient/{clientId}")
+	public GateWayResponse<?> getClient(@PathVariable String clientId) {
+		try {
+			ClientDetails res = cognitoAuthService.getClient(Long.parseLong(clientId));
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+	
+	@GetMapping("/getAllClients")
+	public GateWayResponse<?> getAllClients(){
+		try {
+			List<ClientDetails> res = cognitoAuthService.getAllClient();
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+	
+	@GetMapping("/getUser/{userId}")
+	public GateWayResponse<?> getUserFromDB(@PathVariable String userName) {
+		try {
+			UserDeatils res = cognitoAuthService.getUserFromDb(Long.parseLong(userName));
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+	
+	@PostMapping("/createStore")
+	public GateWayResponse<?> createStore(@RequestBody StoreVo vo){
+		try {
+			String res = cognitoAuthService.createStore(vo);
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+	
+	@GetMapping("/getAllStores")
+	public GateWayResponse<?> getClientDetails() {
+		try {
+			List<Store> res = cognitoAuthService.getAllStores();
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+	
+	
+	@PutMapping("/assignStoresToDomain")
+	public GateWayResponse<?> assignStoresToDomain(@RequestBody DomianStoresVo vo){
+		try {
+			String res = cognitoAuthService.assignStoreToClientDomain(vo);
+			return new GateWayResponse<>(200, res, "", true);
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), false);
+		}
+	}
+	
+	
 }

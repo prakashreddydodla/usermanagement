@@ -1,6 +1,9 @@
 package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.otsi.retail.authservice.Entity.Role;
 
 import lombok.Data;
 
@@ -17,5 +20,9 @@ public class AdminCreatUserRequest {
 	private String assginedStores;
 	private String parentId;
 	private String domianId;
+	private String channelId;
 	private String address;
+	private Role role;
+	private List<StoreVo> stores;
+	
 }
