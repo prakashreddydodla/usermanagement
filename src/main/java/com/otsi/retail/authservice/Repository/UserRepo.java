@@ -10,4 +10,7 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	Optional<UserDeatils> findByUserName(String userName);
 
+	Optional<UserDeatils> findByPhoneNumber(String name);
+
+
 }

@@ -39,6 +39,7 @@ import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.AssignStoresRequest;
 import com.otsi.retail.authservice.requestModel.DomainVo;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
+import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
 import com.otsi.retail.authservice.requestModel.ConfirmSignupRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
@@ -368,15 +369,16 @@ public class AuthController {
 		}
 	}
 	
-	@GetMapping("/getUser/{userId}")
-	public GateWayResponse<?> getUserFromDB(@PathVariable String userName) {
+	@GetMapping("/getUser")
+	public GateWayResponse<?> getUserFromDB(@PathVariable GetUserRequestModel userRequest) {
 		try {
-			UserDeatils res = cognitoAuthService.getUserFromDb(Long.parseLong(userName));
+			UserDeatils res = cognitoAuthService.getUserFromDb(userRequest);
 			return new GateWayResponse<>(200, res, "", true);
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), false);
 		}
 	}
+	
 	
 	@PostMapping("/createStore")
 	public GateWayResponse<?> createStore(@RequestBody StoreVo vo){

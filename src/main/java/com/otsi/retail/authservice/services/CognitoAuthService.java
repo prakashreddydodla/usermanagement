@@ -60,6 +60,7 @@ import com.otsi.retail.authservice.configuration.AwsCognitoTokenProcessor;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.DomainVo;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
+import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.StoreVo;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
@@ -523,13 +524,22 @@ public class CognitoAuthService {
 
 	}
 
-	public UserDeatils getUserFromDb(long userName) throws Exception {
+	public UserDeatils getUserFromDb(GetUserRequestModel userRequest) throws Exception {
 
-		Optional<UserDeatils> user = userRepo.findById(userName);
+		Optional<UserDeatils> user=Optional.empty();
+		if(0l!=userRequest.getId()) {
+	 user = userRepo.findById(userRequest.getId());
+		}
+		if(null!=userRequest.getName()) {
+			user=	userRepo.findByUserName(userRequest.getName());
+		}
+		if(null!=userRequest.getPhoneNo()) {
+			 user=	userRepo.findByPhoneNumber(userRequest.getPhoneNo());
+		}
 		if (user.isPresent()) {
 			return user.get();
 		} else {
-			throw new Exception("No user found with this userName: " + userName);
+			throw new Exception("No user found with this userName: " + userRequest);
 		}
 
 	}
