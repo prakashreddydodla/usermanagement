@@ -370,7 +370,7 @@ public class AuthController {
 	}
 	
 	@GetMapping("/getUser")
-	public GateWayResponse<?> getUserFromDB(@PathVariable GetUserRequestModel userRequest) {
+	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest) {
 		try {
 			UserDeatils res = cognitoAuthService.getUserFromDb(userRequest);
 			return new GateWayResponse<>(200, res, "", true);
