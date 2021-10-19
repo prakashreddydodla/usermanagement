@@ -15,7 +15,7 @@ import org.springframework.validation.FieldError;
  */
 public class GateWayResponse<T> {
 
-	private boolean isSuccess;
+	private String isSuccess;
 	private int statusCode;
 	private String message;
 	private T result;
@@ -49,7 +49,7 @@ public class GateWayResponse<T> {
 	public GateWayResponse(int status, final String message, final List<String> errors) {
 		super();
 		this.statusCode = status;
-		this.isSuccess =false;
+		this.isSuccess ="false";
 		this.message = message;
 
 	}
@@ -67,7 +67,7 @@ public class GateWayResponse<T> {
 		
 		this.message = message;
 
-		this.isSuccess = false;
+		this.isSuccess = "false";
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class GateWayResponse<T> {
 	}
 	
 	
-	public GateWayResponse(final int statusCode, final T result, String message,boolean status) {
+	public GateWayResponse(final int statusCode, final T result, String message,String status) {
 		super();
 		this.result = result;
 		this.statusCode = statusCode;
@@ -115,7 +115,7 @@ public class GateWayResponse<T> {
 		//this.result = result;
 		// this.httpStatus = httpStatus;
 		this.message = message;
-		this.isSuccess = true;
+		this.isSuccess = "true";
 	}
 
 
@@ -129,7 +129,7 @@ public class GateWayResponse<T> {
 	// our response for controller
 	public GateWayResponse(String message, T result) {
 		super();
-		this.isSuccess = true;
+		this.isSuccess = "true";
 		this.statusCode = 200;
 		this.message = message;
 		this.result = result;
@@ -139,11 +139,11 @@ public class GateWayResponse<T> {
 		return statusCode;
 	}
 
-	public boolean getIsSuccess() {
+	public String getIsSuccess() {
 		return isSuccess;
 	}
 
-	public void setIsSuccess(boolean isSuccess) {
+	public void setIsSuccess(String isSuccess) {
 		this.isSuccess = isSuccess;
 	}
 

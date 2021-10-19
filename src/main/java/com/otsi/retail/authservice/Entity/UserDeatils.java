@@ -50,6 +50,7 @@ public class UserDeatils extends BaseEntity {
 	@JoinTable(name = "user_store", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
 			@JoinColumn(name = "id") })
 	private List<Store> stores;
+	
 	@JsonIgnore
 	@OneToOne(mappedBy = "storeOwner")
 	private Store ownerOf;

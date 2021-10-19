@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -39,6 +40,7 @@ import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UserType;
+import com.amazonaws.services.rekognition.AmazonRekognition;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.Entity.ClientDomains;
@@ -91,6 +93,8 @@ public class CognitoAuthService {
 	@Autowired
 	private StoreRepo storeRepo;
 	private Logger logger = LoggerFactory.getLogger(CognitoAuthService.class);
+
+	private AmazonRekognition client;
 
 	public Response signUp(String userName, String email, String password, String givenName, String name,
 			String phoneNo, String storeId) throws Exception {
@@ -226,42 +230,42 @@ public class CognitoAuthService {
 	public Response assignStoreToUser(List<Store> stores, String userName) throws Exception {
 		Response res = new Response();
 		try {
-		AdminUpdateUserAttributesResult result = cognitoClient.addStoreToUser(stores, userName);
-		
-		if (result != null) {
-			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				logger.info("Succesfully assigned store to user in cognito");
-				res.setBody("Sucessfully Assign stores to user role");
-				res.setStatusCode(200);
-				Optional<UserDeatils> dbUser=userRepo.findByUserName(userName);
-				if(dbUser.isPresent()) {
-				List<Store> assignedStores=dbUser.get().getStores();
-				if(!CollectionUtils.isEmpty(stores)) {
-					stores.stream().forEach(a->{
-					Optional<Store>	storeFromDb=storeRepo.findById(a.getId());
-					assignedStores.add(storeFromDb.get());
-					});
-						UserDeatils user=dbUser.get();
-						user.setStores(assignedStores);	
-						userRepo.save(user);
+			AdminUpdateUserAttributesResult result = cognitoClient.addStoreToUser(stores, userName);
+
+			if (result != null) {
+				if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+					logger.info("Succesfully assigned store to user in cognito");
+					res.setBody("Sucessfully Assign stores to user role");
+					res.setStatusCode(200);
+					Optional<UserDeatils> dbUser = userRepo.findByUserName(userName);
+					if (dbUser.isPresent()) {
+						List<Store> assignedStores = dbUser.get().getStores();
+						if (!CollectionUtils.isEmpty(stores)) {
+							stores.stream().forEach(a -> {
+								Optional<Store> storeFromDb = storeRepo.findById(a.getId());
+								assignedStores.add(storeFromDb.get());
+							});
+							UserDeatils user = dbUser.get();
+							user.setStores(assignedStores);
+							userRepo.save(user);
+						}
+					} else {
+						res.setErrorDescription("user not updated in Local db from cognito");
+						logger.error("user not updated in Local db from cognito");
+					}
+					return res;
+				} else {
+					logger.error("failed to assign store to user in cognito");
+					res.setBody("Falied to updated role");
+					res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+					return res;
 				}
-			}else {
-				res.setErrorDescription("user not updated in Local db from cognito");
-				logger.error("user not updated in Local db from cognito");
-			}
-				return res;
-			} else {
-				logger.error("failed to assign store to user in cognito");
-				res.setBody("Falied to updated role");
-				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-				return res;
-			}
-		} else
-			
-			throw new Exception();
-	}catch (Exception e) {
-		throw new Exception(e.getMessage());
-	}
+			} else
+
+				throw new Exception();
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 
 	/**
@@ -449,6 +453,22 @@ public class CognitoAuthService {
 			}
 			if (a.getName().equalsIgnoreCase("custom:assignedStores")) {
 
+				/////////////////////////////
+				String[] storenames = a.getValue().split(",");
+				Arrays.asList(storenames).stream().forEach(storeName -> {
+
+					Optional<Store> dbStoreRecord = storeRepo.findByName(storeName);
+					if (dbStoreRecord.isPresent()) {
+						Store storeEntity = dbStoreRecord.get();
+						List<UserDeatils> userList = storeEntity.getStoreUsers();
+						userList.add(savedUser);
+						storeEntity.setStoreUsers(userList);
+						storeRepo.save(storeEntity);
+					}
+
+				});
+
+				////////////////////////////
 				UserAv userAv = new UserAv();
 				userAv.setType(2);
 				userAv.setName("assignedStores");
@@ -526,15 +546,15 @@ public class CognitoAuthService {
 
 	public UserDeatils getUserFromDb(GetUserRequestModel userRequest) throws Exception {
 
-		Optional<UserDeatils> user=Optional.empty();
-		if(0l!=userRequest.getId()) {
-	 user = userRepo.findById(userRequest.getId());
+		Optional<UserDeatils> user = Optional.empty();
+		if (0l != userRequest.getId()) {
+			user = userRepo.findById(userRequest.getId());
 		}
-		if(null!=userRequest.getName()) {
-			user=	userRepo.findByUserName(userRequest.getName());
+		if (null != userRequest.getName()) {
+			user = userRepo.findByUserName(userRequest.getName());
 		}
-		if(null!=userRequest.getPhoneNo()) {
-			 user=	userRepo.findByPhoneNumber(userRequest.getPhoneNo());
+		if (null != userRequest.getPhoneNo()) {
+			user = userRepo.findByPhoneNumber(userRequest.getPhoneNo());
 		}
 		if (user.isPresent()) {
 			return user.get();
@@ -576,9 +596,9 @@ public class CognitoAuthService {
 		List<Privilages> privilages = new ArrayList<>();
 		role.getPrivilages().forEach(a -> {
 			Optional<Privilages> privilage = privilageRepo.findById(a.getId());
-			if(privilage.isPresent()) {
-			privilages.add(privilage.get());
-			}else {
+			if (privilage.isPresent()) {
+				privilages.add(privilage.get());
+			} else {
 				throw new RuntimeException("Given privilage not found in master");
 			}
 		});
@@ -638,9 +658,10 @@ public class CognitoAuthService {
 		return domains;
 	}
 
-	// ***************************************    CLIENT RELATED API'S   ************************************\\
+	// *************************************** CLIENT RELATED API'S
+	// ************************************\\
 
-	@Transactional(rollbackOn = {Exception.class})
+	@Transactional(rollbackOn = { Exception.class })
 	public String createClient(ClientDetailsVo clientVo) throws Exception {
 
 		ClientDetails clientEntity = new ClientDetails();
@@ -663,8 +684,8 @@ public class CognitoAuthService {
 					if (domainVo.getChannel() != null) {
 						domainVo.getChannel().stream().forEach(a -> {
 							try {
-							masterDomains.add(domian_MasterRepo.findById(a.getId()).get());
-							}catch (Exception e) {
+								masterDomains.add(domian_MasterRepo.findById(a.getId()).get());
+							} catch (Exception e) {
 								throw new RuntimeException("Domain not found in master");
 							}
 						});
@@ -679,9 +700,6 @@ public class CognitoAuthService {
 		}
 	}
 
-	
-	
-	
 	public ClientDetails getClient(long clientId) throws Exception {
 
 		Optional<ClientDetails> client = clientDetailsRepo.findById(clientId);
@@ -691,8 +709,6 @@ public class CognitoAuthService {
 			throw new Exception("No Client found with this Name");
 	}
 
-	
-	
 	public List<ClientDetails> getAllClient() throws Exception {
 		List<ClientDetails> clients = clientDetailsRepo.findAll();
 		if (!CollectionUtils.isEmpty(clients))
@@ -761,4 +777,5 @@ public class CognitoAuthService {
 			throw new Exception(e.getMessage());
 		}
 	}
+
 }
