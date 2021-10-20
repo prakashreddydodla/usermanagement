@@ -417,7 +417,7 @@ public class AuthController {
 		}
 	}
 	
-@GetMapping("/imageScanning")
+@PostMapping("/imageScanning")
 public GateWayResponse<?> imageScannin(@RequestParam("image") MultipartFile image){
 	try {
 	List<Label> res=amazonRekoginitionService.detectLables(image);
