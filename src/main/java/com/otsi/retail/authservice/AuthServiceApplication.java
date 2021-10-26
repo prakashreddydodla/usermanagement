@@ -15,6 +15,7 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.amazonaws.services.rekognition.AmazonRekognition;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.jwk.source.RemoteJWKSet;
 import com.nimbusds.jose.proc.JWSKeySelector;
@@ -68,4 +69,7 @@ public class AuthServiceApplication {
 				.build()
 				.apiInfo(new ApiInfoBuilder().version("1.0").title("user-management").description("Documentation UserManagement API v1.0").build());
 	}
+	
+	
+	
 }

@@ -17,12 +17,17 @@ public class StoreVo {
 
 	private long id;
 	private String name;
-	private String location;
+	private long stateId;
+	private long districtId;
+	private long cityId;
+	private String area;
+	private String address;
+	private String phoneNumber;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private long createdBy;
 	private UserDetailsVo storeOwner;
-	private List<ClientDomianVo> domainId;
-	private List<UserDetailsVo> storeUsers;
-
+	private long domainId;
+	//private List<UserDetailsVo> storeUsers;
+	
 }

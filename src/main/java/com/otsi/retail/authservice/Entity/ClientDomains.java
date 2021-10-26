@@ -28,27 +28,31 @@ public class ClientDomains {
 	private long clientDomainaId;
 	private String domaiName;
 	private String discription;
-	
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private long createdBy;
 	
 	
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JoinTable(name ="clientdomain_mastermaster",
+	@JoinTable(name ="clientdomain_domainmaster",
 	joinColumns = {@JoinColumn(name = "clientDomainaId")},
 	inverseJoinColumns = {@JoinColumn(name = "id")})
 	private List<Domain_Master> domain;
 	
-	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JoinTable(name ="clientdomain_stores",
-	joinColumns = {@JoinColumn(name = "clientdomainid")},
-	inverseJoinColumns = {@JoinColumn(name = "id")})
+	/*
+	 * @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	 * 
+	 * @JoinTable(name ="clientdomain_stores", joinColumns = {@JoinColumn(name =
+	 * "clientdomainid")}, inverseJoinColumns = {@JoinColumn(name = "id")})
+	 */
+	@OneToMany(mappedBy = "clientDomianlId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Store> store;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private ClientDetails client;
 	
+	@OneToMany(mappedBy = "clientDomian",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private List<Role> roles;
 	
 }

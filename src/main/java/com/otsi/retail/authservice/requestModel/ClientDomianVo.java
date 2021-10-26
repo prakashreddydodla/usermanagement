@@ -16,6 +16,8 @@ public class ClientDomianVo {
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private long createdBy;
-	private List<Domain_Master> channel;
+	//private List<Domain_Master> channel;
+	private long masterDomianId;
+	private long clientId;
 
 }

@@ -41,8 +41,10 @@ import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.AssignStoresRequest;
 import com.otsi.retail.authservice.requestModel.DomainVo;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
+import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
+import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.ConfirmSignupRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.LoginRequest;
@@ -63,7 +65,7 @@ public class AuthController {
 	private CognitoAuthService cognitoAuthService;
 	@Autowired
 	private CognitoClient cognitoClient;
-	
+
 	@Autowired
 	private AmazonRekoginitionService amazonRekoginitionService;
 
@@ -275,6 +277,17 @@ public class AuthController {
 		}
 	}
 
+	@GetMapping("/getRolesForDomian/{domianId}")
+	public GateWayResponse<?> getRolesForDomian(@PathVariable String domianId) {
+		try {
+			List<Role> res = cognitoAuthService.getRolesFoeClientDomian(Long.parseLong(domianId));
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+
 	@PutMapping("/enabledOrdisabledUser/{user}/{action}")
 	public GateWayResponse<?> enabledOrdisabledUser(@PathVariable String user, @PathVariable String action) {
 		try {
@@ -320,7 +333,7 @@ public class AuthController {
 		}
 	}
 
-	@PostMapping("/createMasterChannel")
+	@PostMapping("/createMasterDomain")
 	public GateWayResponse<?> creatChannel(@RequestBody MasterDomianVo domainVo) {
 		String res;
 		try {
@@ -332,11 +345,11 @@ public class AuthController {
 
 		}
 	}
-	
+
 	@GetMapping("/getMasterDomains")
-	public GateWayResponse<?> getMasterDomians(){
+	public GateWayResponse<?> getMasterDomians() {
 		try {
-		List<Domain_Master>	res = cognitoAuthService.getMasterDomains();
+			List<Domain_Master> res = cognitoAuthService.getMasterDomains();
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
@@ -355,6 +368,26 @@ public class AuthController {
 		}
 	}
 
+	@PostMapping("/assignDomianToClient")
+	public GateWayResponse<?> assignDomianToClient(@RequestBody ClientDomianVo clientDomianVo) {
+		try {
+			String res = cognitoAuthService.assignDomianToClient(clientDomianVo);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+
+	@GetMapping("/getDomiansForClient/{clientId}")
+	public GateWayResponse<?> getDomiansForClient(@PathVariable String clientId) {
+		try {
+			List<ClientDomains> res = cognitoAuthService.getDomainsForClient(Long.parseLong(clientId));
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+
 	@GetMapping("/getClient/{clientId}")
 	public GateWayResponse<?> getClient(@PathVariable String clientId) {
 		try {
@@ -364,9 +397,9 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
+
 	@GetMapping("/getAllClients")
-	public GateWayResponse<?> getAllClients(){
+	public GateWayResponse<?> getAllClients() {
 		try {
 			List<ClientDetails> res = cognitoAuthService.getAllClient();
 			return new GateWayResponse<>(200, res, "", "true");
@@ -374,8 +407,8 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
-	@GetMapping("/getUser")
+
+	@PostMapping("/getUser")
 	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest) {
 		try {
 			UserDeatils res = cognitoAuthService.getUserFromDb(userRequest);
@@ -384,10 +417,9 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
-	
+
 	@PostMapping("/createStore")
-	public GateWayResponse<?> createStore(@RequestBody StoreVo vo){
+	public GateWayResponse<?> createStore(@RequestBody StoreVo vo) {
 		try {
 			String res = cognitoAuthService.createStore(vo);
 			return new GateWayResponse<>(200, res, "", "true");
@@ -395,20 +427,19 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
-	@GetMapping("/getAllStores")
-	public GateWayResponse<?> getClientDetails() {
+
+	@GetMapping("/getClientDomianStores")
+	public GateWayResponse<?> getClientDetails(@RequestParam("clientDomianId") long clientDomianId) {
 		try {
-			List<Store> res = cognitoAuthService.getAllStores();
+			List<Store> res = cognitoAuthService.getStoresForClientDomian(clientDomianId);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
-	
+
 	@PutMapping("/assignStoresToDomain")
-	public GateWayResponse<?> assignStoresToDomain(@RequestBody DomianStoresVo vo){
+	public GateWayResponse<?> assignStoresToDomain(@RequestBody DomianStoresVo vo) {
 		try {
 			String res = cognitoAuthService.assignStoreToClientDomain(vo);
 			return new GateWayResponse<>(200, res, "", "true");
@@ -416,16 +447,25 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
-@PostMapping("/imageScanning")
-public GateWayResponse<?> imageScannin(@RequestParam("image") MultipartFile image){
-	try {
-	List<Label> res=amazonRekoginitionService.detectLables(image);
-	return new GateWayResponse<>(200, res, "", "true");
-	} catch (Exception e) {
-		return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+	@PostMapping("/imageScanning")
+	public GateWayResponse<?> imageScannin(@RequestParam("image") MultipartFile image) {
+		try {
+			List<Label> res = amazonRekoginitionService.detectLables(image);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
 	}
 	
-}
-	
+	@PostMapping("/getStoresWithFilter")
+	public GateWayResponse<?> getStoresWithFilter(@RequestBody GetStoresRequestVo vo ){
+		try {
+		List<Store> res=cognitoAuthService.getStoresOnFilter(vo);
+		return new GateWayResponse<>(200, res, "", "true");
+		}catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+
 }

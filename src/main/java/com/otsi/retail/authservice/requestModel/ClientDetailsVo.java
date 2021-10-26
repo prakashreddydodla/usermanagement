@@ -13,5 +13,5 @@ public class ClientDetailsVo {
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private long createdBy;
-	private List<ClientDomianVo> channelId;
+	//private List<ClientDomianVo> channelId;
 }

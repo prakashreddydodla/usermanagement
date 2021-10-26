@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,20 +27,27 @@ public class Store  {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
-	private String location;
+	private long stateId;
+	private long districtId;
+	private long cityId;
+	private String area;
+	private String address;
+	private String phoneNumber;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private long createdBy;
-	private boolean isAsigned;
 	
 	@OneToOne
 	@JoinColumn(name = "store_owner")
 	private UserDeatils storeOwner;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "store",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	private List<ClientDomains> channelId;
+//	@ManyToMany(mappedBy = "store",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne
+	@JoinColumn(name = "domianId")
+	private ClientDomains clientDomianlId;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "stores",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<UserDeatils> storeUsers;
 

@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.RuntimeCryptoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +63,12 @@ import com.otsi.retail.authservice.configuration.AwsCognitoTokenProcessor;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.DomainVo;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
+import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.StoreVo;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
+import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.responceModel.Response;
 
@@ -640,7 +643,7 @@ public class CognitoAuthService {
 	public String createMasterDomain(MasterDomianVo domainVo) throws Exception {
 		Domain_Master domain = new Domain_Master();
 		try {
-			domain.setChannelName(domainVo.getChannelName());
+			domain.setChannelName(domainVo.getDomainName());
 			domain.setDiscription(domainVo.getDiscription());
 			domain.setCreatedDate(LocalDate.now());
 			domain.setLastModifyedDate(LocalDate.now());
@@ -663,43 +666,73 @@ public class CognitoAuthService {
 
 	@Transactional(rollbackOn = { Exception.class })
 	public String createClient(ClientDetailsVo clientVo) throws Exception {
-
-		ClientDetails clientEntity = new ClientDetails();
-		clientEntity.setName(clientVo.getName());
-		clientEntity.setAddress(clientVo.getAddress());
-		clientEntity.setCreatedDate(LocalDate.now());
-		clientEntity.setLastModifyedDate(LocalDate.now());
-
 		try {
+			ClientDetails clientEntity = new ClientDetails();
+			clientEntity.setName(clientVo.getName());
+			clientEntity.setAddress(clientVo.getAddress());
+			clientEntity.setCreatedDate(LocalDate.now());
+			clientEntity.setLastModifyedDate(LocalDate.now());
+
 			ClientDetails savedClient = clientDetailsRepo.save(clientEntity);
-			if (clientVo.getChannelId() != null) {
-				clientVo.getChannelId().stream().forEach(domainVo -> {
-					ClientDomains clientDomians = new ClientDomains();
-					clientDomians.setDomaiName(domainVo.getName());
-					clientDomians.setDiscription(domainVo.getDiscription());
-					clientDomians.setCreatedDate(LocalDate.now());
-					clientDomians.setLastModifyedDate(LocalDate.now());
-					clientDomians.setClient(savedClient);
-					List<Domain_Master> masterDomains = new ArrayList<>();
-					if (domainVo.getChannel() != null) {
-						domainVo.getChannel().stream().forEach(a -> {
-							try {
-								masterDomains.add(domian_MasterRepo.findById(a.getId()).get());
-							} catch (Exception e) {
-								throw new RuntimeException("Domain not found in master");
-							}
-						});
-					}
-					clientDomians.setDomain(masterDomains);
-					clientChannelRepo.save(clientDomians);
-				});
-			}
-			return "Successfully save";
+			/*
+			 * if (clientVo.getChannelId() != null) {
+			 * clientVo.getChannelId().stream().forEach(domainVo -> { ClientDomains
+			 * clientDomians = new ClientDomains();
+			 * clientDomians.setDomaiName(domainVo.getName());
+			 * clientDomians.setDiscription(domainVo.getDiscription());
+			 * clientDomians.setCreatedDate(LocalDate.now());
+			 * clientDomians.setLastModifyedDate(LocalDate.now());
+			 * clientDomians.setClient(savedClient); List<Domain_Master> masterDomains = new
+			 * ArrayList<>(); if (domainVo.getChannel() != null) {
+			 * domainVo.getChannel().stream().forEach(a -> { try {
+			 * masterDomains.add(domian_MasterRepo.findById(a.getId()).get()); } catch
+			 * (Exception e) { throw new RuntimeException("Domain not found in master"); }
+			 * }); } clientDomians.setDomain(masterDomains);
+			 * clientChannelRepo.save(clientDomians); }); }
+			 */
+			return "Client created successfully with ClientId :" + savedClient.getId();
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}
+///////////
 
+	public String assignDomianToClient(ClientDomianVo domianVo) {
+		try {
+			ClientDomains clientDomians = new ClientDomains();
+			clientDomians.setDomaiName(domianVo.getName());
+			clientDomians.setDiscription(domianVo.getDiscription());
+			clientDomians.setCreatedDate(LocalDate.now());
+			clientDomians.setLastModifyedDate(LocalDate.now());
+			if (0L != domianVo.getClientId()) {
+				Optional<ClientDetails> client_db = clientDetailsRepo.findById(domianVo.getClientId());
+				if (client_db.isPresent()) {
+					clientDomians.setClient(client_db.get());
+				}
+			}
+			if (null != clientDomians.getDomain()) {
+				List<Domain_Master> asssingedDomians = clientDomians.getDomain();
+				asssingedDomians.add(domian_MasterRepo.findById(domianVo.getMasterDomianId()).get());
+				clientDomians.setDomain(asssingedDomians);
+			} else {
+				List<Domain_Master> newAssignedDomians = new ArrayList<>();
+				newAssignedDomians.add(domian_MasterRepo.findById(domianVo.getMasterDomianId()).get());
+				clientDomians.setDomain(newAssignedDomians);
+			}
+
+			ClientDomains dbObject = clientChannelRepo.save(clientDomians);
+			if (dbObject != null) {
+				return "Domian assigned to client with domainId : " + dbObject.getClientDomainaId();
+			} else {
+				throw new RuntimeException("Domain not assinged to client");
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+////////////	
 	public ClientDetails getClient(long clientId) throws Exception {
 
 		Optional<ClientDetails> client = clientDetailsRepo.findById(clientId);
@@ -719,31 +752,49 @@ public class CognitoAuthService {
 
 //****************************************  STORE RELATED API'S  ****************************************************
 
+	@Transactional(rollbackOn = { RuntimeException.class })
 	public String createStore(StoreVo vo) throws Exception {
 
 		Store storeEntity = new Store();
 		try {
 			storeEntity.setName(vo.getName());
-			storeEntity.setLocation(vo.getLocation());
-			storeEntity.setAsigned(Boolean.FALSE);
-			if (vo.getStoreOwner() != null) {
+			storeEntity.setAddress(vo.getAddress());
+			storeEntity.setStateId(vo.getStateId());
+			storeEntity.setDistrictId(vo.getDistrictId());
+			storeEntity.setCityId(vo.getCityId());
+			storeEntity.setArea(vo.getArea());
+			storeEntity.setPhoneNumber(vo.getPhoneNumber());
+
+			if (null != vo.getStoreOwner()) {
 				Optional<UserDeatils> userfromDb = userRepo.findById(vo.getStoreOwner().getUserId());
 				if (userfromDb.isPresent()) {
 					storeEntity.setStoreOwner(userfromDb.get());
 				}
 			}
+			if (0L != vo.getDomainId()) {
+				Optional<ClientDomains> clientDomian = clientChannelRepo.findById(vo.getDomainId());
+				if (clientDomian.isPresent()) {
+					storeEntity.setClientDomianlId(clientDomian.get());
+				} else {
+					throw new RuntimeException("No client Domian found with this DomianId :" + vo.getDomainId());
+				}
+			}
 			storeEntity.setCreatedDate(LocalDate.now());
 			storeEntity.setLastModifyedDate(LocalDate.now());
-			storeRepo.save(storeEntity);
-			return null;
+			Store savedStore = storeRepo.save(storeEntity);
+
+			return "Store created with storeId : " + savedStore.getId();
+		} catch (RuntimeException re) {
+			throw new Exception(re.getMessage());
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}
 
-	public List<Store> getAllStores() throws Exception {
+	public List<Store> getStoresForClientDomian(long clientDomianId) throws Exception {
 		try {
-			List<Store> stores = storeRepo.findAll();
+
+			List<Store> stores = storeRepo.findByClientDomianlId_ClientDomainaId(clientDomianId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				return stores;
 			} else
@@ -776,6 +827,66 @@ public class CognitoAuthService {
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
+	}
+
+	public List<ClientDomains> getDomainsForClient(long clientId) {
+
+		List<ClientDomains> clientDomians = clientChannelRepo.findByClient_Id(clientId);
+		if (!CollectionUtils.isEmpty(clientDomians)) {
+			return clientDomians;
+		} else {
+			throw new RuntimeException("No domian found with this Client :" + clientId);
+		}
+
+	}
+
+	public List<Role> getRolesFoeClientDomian(long clientId) {
+
+		List<Role> roles = roleRepository.findByClientDomian_clientDomainaId(clientId);
+		return null;
+	}
+
+	public List<Store> getStoresOnFilter(GetStoresRequestVo vo) {
+		if (0L != vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateId(vo.getStateId());
+			if (!CollectionUtils.isEmpty(stores)) {
+				return stores;
+			} else {
+				throw new RuntimeException("Stores not found with this StateId : " + vo.getDistrictId());
+
+			}
+		}
+		if (0L != vo.getCityId()) {
+			List<Store> stores = storeRepo.findByCityId(vo.getCityId());
+			if (!CollectionUtils.isEmpty(stores)) {
+				return stores;
+			} else {
+				throw new RuntimeException("Stores not found with this CityId : " + vo.getDistrictId());
+
+			}
+		}
+		if (0L != vo.getDistrictId()) {
+			List<Store> stores = storeRepo.findByDistrictId(vo.getCityId());
+			if (!CollectionUtils.isEmpty(stores)) {
+				return stores;
+			} else {
+				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
+
+			}
+
+		}
+		if (null != vo.getStoreName()) {
+			Optional<Store> storeOptional = storeRepo.findByName(vo.getStoreName());
+			if (storeOptional.isPresent()) {
+				List<Store> stores = new ArrayList<>();
+				stores.add(storeOptional.get());
+				return stores;
+			} else {
+				throw new RuntimeException("Stores not found with this StoreName : " + vo.getStoreName());
+			}
+
+		}
+		throw new RuntimeException("Please provide valid information");
 	}
 
 }

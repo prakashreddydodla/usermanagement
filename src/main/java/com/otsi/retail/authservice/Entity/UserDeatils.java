@@ -38,6 +38,7 @@ public class UserDeatils extends BaseEntity {
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private long createdBy;
+	private boolean isActive;
 	
 	@ManyToOne
 	@JoinColumn(name = "roleId")

@@ -45,4 +45,8 @@ public class Role extends BaseEntity {
 	
 	@OneToMany(mappedBy = "role")
 	private List<UserDeatils> user;
+	
+	@ManyToOne
+	@JoinColumn(name = "clientDomian")
+	private ClientDomains clientDomian;
 }
