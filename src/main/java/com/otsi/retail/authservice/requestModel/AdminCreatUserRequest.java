@@ -24,5 +24,8 @@ public class AdminCreatUserRequest {
 	private String address;
 	private Role role;
 	private List<StoreVo> stores;
+	private String clientId;
+	private String isConfigUser;
+	private int[] clientDomain;
 	
 }

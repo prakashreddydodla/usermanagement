@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Manideep Thaninki
@@ -33,7 +34,9 @@ import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
 import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthResult;
+import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
+import com.amazonaws.services.cognitoidp.model.AttributeType;
 import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
 import com.amazonaws.services.cognitoidp.model.ConfirmSignUpResult;
 import com.amazonaws.services.cognitoidp.model.CreateGroupResult;
@@ -66,6 +69,7 @@ import com.otsi.retail.authservice.requestModel.DomianStoresVo;
 import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
+import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
 import com.otsi.retail.authservice.requestModel.StoreVo;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
@@ -393,7 +397,7 @@ public class CognitoAuthService {
 			resultFromCognito.getUsers().stream().filter(user -> user.getUserStatus().equalsIgnoreCase("confirmed")
 					&& user.getUserLastModifiedDate().after(calendar.getTime())).forEach(a -> {
 						try {
-							saveUsersIndataBase(a);
+							saveUsersIndataBase(a.getUserCreateDate(), a.getUserLastModifiedDate(), a.getAttributes());
 						} catch (Exception e) {
 							logger.error(e.getMessage());
 							System.out.println(e.getMessage());
@@ -406,26 +410,27 @@ public class CognitoAuthService {
 		}
 	}
 
-	private void saveUsersIndataBase(UserType cognitoUser) throws Exception {
+	private void saveUsersIndataBase(Date userCreateDate, Date userLastModifiedDate, List<AttributeType> attributes)
+			throws Exception {
 		UserDeatils user = new UserDeatils();
 
-		UserDeatils savedUser = saveUser(cognitoUser);
+		UserDeatils savedUser = saveUser(attributes);
 		List<UserAv> userAvList = new ArrayList<>();
 		UserAv userAv1 = new UserAv();
 		userAv1.setType(3);
 		userAv1.setName("userCreateDate");
-		userAv1.setDateValue(cognitoUser.getUserCreateDate());
+		userAv1.setDateValue(userCreateDate);
 		userAv1.setUserData(savedUser);
 		userAvRepo.save(userAv1);
 
 		UserAv userAv2 = new UserAv();
 		userAv2.setType(3);
 		userAv2.setName("userLastModifiedDate");
-		userAv2.setDateValue(cognitoUser.getUserLastModifiedDate());
+		userAv2.setDateValue(userLastModifiedDate);
 		userAv2.setUserData(savedUser);
 		userAvRepo.save(userAv2);
 
-		cognitoUser.getAttributes().stream().forEach(a -> {
+		attributes.stream().forEach(a -> {
 
 			if (a.getName().equalsIgnoreCase("custom:parentId")) {
 				UserAv userAv = new UserAv();
@@ -462,22 +467,33 @@ public class CognitoAuthService {
 
 					Optional<Store> dbStoreRecord = storeRepo.findByName(storeName);
 					if (dbStoreRecord.isPresent()) {
-						Store storeEntity = dbStoreRecord.get();
-						List<UserDeatils> userList = storeEntity.getStoreUsers();
-						userList.add(savedUser);
-						storeEntity.setStoreUsers(userList);
-						storeRepo.save(storeEntity);
+						List<Store> storesOfUser = savedUser.getStores();
+						if(!CollectionUtils.isEmpty(storesOfUser)) {
+							storesOfUser.add(dbStoreRecord.get());	
+							savedUser.setStores(storesOfUser);
+
+						}else {
+							List<Store> newStores=new ArrayList<>();
+							newStores.add(dbStoreRecord.get());
+							savedUser.setStores(newStores);
+
+						}
+						userRepo.save(savedUser);
+						/*
+						 * Store storeEntity = dbStoreRecord.get(); List<UserDeatils> userList =
+						 * storeEntity.getStoreUsers(); userList.add(savedUser);
+						 * storeEntity.setStoreUsers(userList); storeRepo.save(storeEntity);
+						 */
 					}
 
 				});
 
 				////////////////////////////
-				UserAv userAv = new UserAv();
-				userAv.setType(2);
-				userAv.setName("assignedStores");
-				userAv.setStringValue(a.getValue());
-				userAv.setUserData(savedUser);
-				userAvRepo.save(userAv);
+				/*
+				 * UserAv userAv = new UserAv(); userAv.setType(2);
+				 * userAv.setName("assignedStores"); userAv.setStringValue(a.getValue());
+				 * userAv.setUserData(savedUser); userAvRepo.save(userAv);
+				 */
 			}
 			if (a.getName().equalsIgnoreCase("custom:domianId")) {
 
@@ -519,11 +535,11 @@ public class CognitoAuthService {
 		});
 	}
 
-	private UserDeatils saveUser(UserType cognitoUser) throws Exception {
+	private UserDeatils saveUser(List<AttributeType> attributes) throws Exception {
 		UserDeatils user = new UserDeatils();
 		user.setCreatedDate(LocalDate.now());
 		user.setLastModifyedDate(LocalDate.now());
-		cognitoUser.getAttributes().stream().forEach(a -> {
+		attributes.stream().forEach(a -> {
 			if (a.getName().equalsIgnoreCase("name")) {
 				user.setUserName(a.getValue());
 			}
@@ -853,7 +869,6 @@ public class CognitoAuthService {
 				return stores;
 			} else {
 				throw new RuntimeException("Stores not found with this StateId : " + vo.getDistrictId());
-
 			}
 		}
 		if (0L != vo.getCityId()) {
@@ -887,6 +902,24 @@ public class CognitoAuthService {
 
 		}
 		throw new RuntimeException("Please provide valid information");
+	}
+
+	public AdminRespondToAuthChallengeResult authResponceForNewUser(NewPasswordChallengeRequest req) throws Exception {
+		AdminRespondToAuthChallengeResult responceFromCognito = cognitoClient.respondAuthChalleng(req);
+		if (responceFromCognito.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+
+			try {
+				AdminGetUserResult userFromCognito = cognitoClient.getUserFromUserpool(req.getUserName());
+
+				saveUsersIndataBase(userFromCognito.getUserCreateDate(), userFromCognito.getUserLastModifiedDate(),
+						userFromCognito.getUserAttributes());
+			} catch (Exception e) {
+				throw new Exception(e.getMessage());
+			}
+
+		}
+
+		return null;
 	}
 
 }

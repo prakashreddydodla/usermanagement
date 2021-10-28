@@ -89,8 +89,6 @@ public class CognitoClient {
 		client = createCognitoClient();
 	}
 
-	
-	
 	private AWSCognitoIdentityProvider createCognitoClient() {
 
 		AWSCredentials cred = new BasicAWSCredentials(ACCESS_KEY, SECRET_ACCESS_KEY);
@@ -100,8 +98,6 @@ public class CognitoClient {
 				.build();
 	}
 
-	
-	
 	public SignUpResult signUp(String userName, String email, String password, String givenName, String name,
 			String phoneNo, String storeId) throws Exception {
 		SignUpRequest request = new SignUpRequest().withClientId(CLIENT_ID).withUsername(userName)
@@ -117,8 +113,6 @@ public class CognitoClient {
 		return result;
 	}
 
-	
-	
 	public ConfirmSignUpResult confirmSignUp(String userName, String confirmationCode) throws Exception {
 
 		ConfirmSignUpRequest confirmSignUpRequest = new ConfirmSignUpRequest().withClientId(CLIENT_ID)
@@ -128,8 +122,6 @@ public class CognitoClient {
 		return result;
 	}
 
-	
-	
 	public AdminInitiateAuthResult login(String email, String password) throws Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
@@ -145,8 +137,6 @@ public class CognitoClient {
 		return authResult;
 	}
 
-	
-	
 	public AdminAddUserToGroupResult addRolesToUser(String groupName, String userName)
 			throws InvalidParameterException, Exception {
 
@@ -174,8 +164,6 @@ public class CognitoClient {
 		}
 	}
 
-	
-	
 	public AdminUpdateUserAttributesResult addStoreToUser(List<Store> stores, String userName) throws Exception {
 		AdminUpdateUserAttributesRequest updateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
 		List<AttributeType> attributes = new ArrayList<>();
@@ -196,9 +184,6 @@ public class CognitoClient {
 			throw new Exception("No user found with this username in userpool");
 	}
 
-
-	
-	
 	public AdminGetUserResult getUserFromUserpool(String userName) throws Exception {
 		System.out.println(userName);
 		AdminGetUserRequest getUserRequest = new AdminGetUserRequest();
@@ -215,8 +200,6 @@ public class CognitoClient {
 		}
 	}
 
-	
-	
 	public AdminCreateUserResult adminCreateUser(AdminCreatUserRequest request) throws Exception {
 		AdminCreateUserRequest createUserRequest = new AdminCreateUserRequest();
 		createUserRequest.setDesiredDeliveryMediums(Arrays.asList("EMAIL"));
@@ -232,8 +215,12 @@ public class CognitoClient {
 				new AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender()),
 				new AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.getParentId()),
 				new AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()),
-				new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES).withValue(setStores(request.getStores()))
-		// new AttributeType().withName("email_verified").withValue("true")
+				new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
+						.withValue(setStores(request.getStores())),
+				new AttributeType().withName(CognitoAtributes.isConfigUser).withValue(request.getIsConfigUser()),
+				new AttributeType().withName(CognitoAtributes.clientId).withValue(request.getClientId()),
+				new AttributeType().withName(CognitoAtributes.clientDomians)
+						.withValue(clientDomiansConvertTostring(request.getClientDomain()))
 
 		// new
 		// AttributeType().withName(CognitoAtributes.PREFFERED_USERNAME).withValue(request.getUsername())
@@ -249,14 +236,25 @@ public class CognitoClient {
 
 	}
 
+	private String clientDomiansConvertTostring(int[] clientDomain) {
+		if(clientDomain.length!=0) {
+		
+		String domians = "";
+		for (int i : clientDomain) {
+			domians = domians + i+",";
+		}
+		return domians;
+		}else {
+			return "";
+		}
+	}
+
 	private String setStores(List<StoreVo> stores) {
-		StringBuffer storesString=new StringBuffer();
-		stores.stream().forEach(a->storesString.append(a.getName()+","));
+		StringBuffer storesString = new StringBuffer();
+		stores.stream().forEach(a -> storesString.append(a.getName() + ","));
 		return storesString.toString();
 	}
 
-	
-	
 	public AdminInitiateAuthResult loginWithTempPassword(String email, String password) throws Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
@@ -273,8 +271,6 @@ public class CognitoClient {
 
 	}
 
-	
-	
 	public AdminRespondToAuthChallengeResult respondAuthChalleng(NewPasswordChallengeRequest request) {
 		AdminRespondToAuthChallengeRequest challengRequest = new AdminRespondToAuthChallengeRequest();
 		Map<String, String> challengeResponses = new HashMap<>();
@@ -290,8 +286,6 @@ public class CognitoClient {
 		return result;
 	}
 
-	
-	
 	public ForgotPasswordResult forgetPassword(String userName) throws Exception {
 		ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest();
 		forgotPasswordRequest.setUsername(userName);
@@ -308,15 +302,15 @@ public class CognitoClient {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
-	
-	
-	public ConfirmForgotPasswordResult confirmForgetPassword(String userName,String confirmationCode,String newPassword) throws Exception {
+
+	public ConfirmForgotPasswordResult confirmForgetPassword(String userName, String confirmationCode,
+			String newPassword) throws Exception {
 		ConfirmForgotPasswordRequest confirmforgotPasswordRequest = new ConfirmForgotPasswordRequest();
 		confirmforgotPasswordRequest.setUsername(userName);
 		confirmforgotPasswordRequest.setClientId(CLIENT_ID);
 		confirmforgotPasswordRequest.setConfirmationCode(confirmationCode);
-		confirmforgotPasswordRequest.setPassword(newPassword);;
+		confirmforgotPasswordRequest.setPassword(newPassword);
+		;
 		try {
 			ConfirmForgotPasswordResult result = client.confirmForgotPassword(confirmforgotPasswordRequest);
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
@@ -331,11 +325,9 @@ public class CognitoClient {
 
 	}
 
-
-	
 	public CreateGroupResult createRole(CreateRoleRequest input) throws Exception {
-		CreateGroupRequest request=new CreateGroupRequest();
-		if(input.getRoleName()==null) {
+		CreateGroupRequest request = new CreateGroupRequest();
+		if (input.getRoleName() == null) {
 			throw new Exception("Role name should not be null");
 		}
 		request.setGroupName(input.getRoleName());
@@ -343,71 +335,62 @@ public class CognitoClient {
 		request.setPrecedence(input.getPrecedence());
 		request.setUserPoolId(USERPOOL_ID);
 		try {
-		CreateGroupResult result=client.createGroup(request);
-		if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-			return result;
-		} else {
-			throw new Exception("failed");
-		}
-	} catch (Exception e) {
-		throw new Exception(e.getMessage());
-	}
-	}
-
-	
-	
-	public AdminEnableUserResult userEnabled(String userName) throws Exception {
-		AdminEnableUserRequest request=new AdminEnableUserRequest();
-		request.setUsername(userName);
-		request.setUserPoolId(USERPOOL_ID);
-		try {
-		AdminEnableUserResult result=	client.adminEnableUser(request);
-		if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-			return result;
+			CreateGroupResult result = client.createGroup(request);
+			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+				return result;
+			} else {
+				throw new Exception("failed");
 			}
-			else 
-				throw new Exception("failed to update");
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new Exception(e.getMessage());
-		}		
+		}
 	}
 
-	
-	
-	public AdminDisableUserResult userDisabled(String userName) throws Exception {
-		AdminDisableUserRequest request=new AdminDisableUserRequest();
+	public AdminEnableUserResult userEnabled(String userName) throws Exception {
+		AdminEnableUserRequest request = new AdminEnableUserRequest();
 		request.setUsername(userName);
 		request.setUserPoolId(USERPOOL_ID);
-		
 		try {
-		AdminDisableUserResult result=	client.adminDisableUser(request);
-		if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-		return result;
-		}
-		else 
-			throw new Exception("failed to update");	
-	}catch (Exception e) {
-		throw new Exception(e.getMessage());
-	}
-	}
-	
-	
-	
-	public ListUsersResult getAllUsers() throws Exception {
-		ListUsersRequest request=new ListUsersRequest();
-		request.setUserPoolId(USERPOOL_ID);
-		try {
-		ListUsersResult result=	client.listUsers(request);
-	//	result.getUsers().stream().forEach(a->a.getAttributes().stream().forEach(b->b.););
-		if(result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-			return result;
-		  }
-		else {
-			throw new Exception("No users found");
-		  }
-		}catch (Exception e) {
+			AdminEnableUserResult result = client.adminEnableUser(request);
+			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+				return result;
+			} else
+				throw new Exception("failed to update");
+		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
+
+	public AdminDisableUserResult userDisabled(String userName) throws Exception {
+		AdminDisableUserRequest request = new AdminDisableUserRequest();
+		request.setUsername(userName);
+		request.setUserPoolId(USERPOOL_ID);
+
+		try {
+			AdminDisableUserResult result = client.adminDisableUser(request);
+			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+				return result;
+			} else
+				throw new Exception("failed to update");
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	public ListUsersResult getAllUsers() throws Exception {
+		ListUsersRequest request = new ListUsersRequest();
+		request.setUserPoolId(USERPOOL_ID);
+		try {
+			ListUsersResult result = client.listUsers(request);
+			// result.getUsers().stream().forEach(a->a.getAttributes().stream().forEach(b->b.););
+			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+				return result;
+			} else {
+				throw new Exception("No users found");
+			}
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
 }

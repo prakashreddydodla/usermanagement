@@ -29,8 +29,11 @@ public class CreateUserRequest {
 	private String gender;
 	private LocalDate dob;
 	private long channelId;
-
+	private long clientId;
+	private String isConfigUser;
+	private int[] clientDomain;
 	private RoleVo role;
+	
 
 	private List<UserAv> userAv;
 

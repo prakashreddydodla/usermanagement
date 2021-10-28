@@ -14,7 +14,11 @@ public class CognitoAtributes {
 	public static final String ASSIGNED_STORES="custom:assignedStores";
 	public static final String PARENTID="custom:parentId";
 	public static final String DOMAINID="custom:domianId";
-	
+	public static final String clientId="custom:clientId";
+	public static final String isConfigUser="custom:isConfigUser";
+	public static final String clientDomians="custom:clientDomians";
+
+
 	
 	
 }
