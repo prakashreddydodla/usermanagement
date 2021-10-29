@@ -410,129 +410,136 @@ public class CognitoAuthService {
 		}
 	}
 
-	private void saveUsersIndataBase(Date userCreateDate, Date userLastModifiedDate, List<AttributeType> attributes)
+	private String saveUsersIndataBase(Date userCreateDate, Date userLastModifiedDate, List<AttributeType> attributes)
 			throws Exception {
-		UserDeatils user = new UserDeatils();
 
-		UserDeatils savedUser = saveUser(attributes);
-		List<UserAv> userAvList = new ArrayList<>();
-		UserAv userAv1 = new UserAv();
-		userAv1.setType(3);
-		userAv1.setName("userCreateDate");
-		userAv1.setDateValue(userCreateDate);
-		userAv1.setUserData(savedUser);
-		userAvRepo.save(userAv1);
+		try {
+			UserDeatils user = new UserDeatils();
 
-		UserAv userAv2 = new UserAv();
-		userAv2.setType(3);
-		userAv2.setName("userLastModifiedDate");
-		userAv2.setDateValue(userLastModifiedDate);
-		userAv2.setUserData(savedUser);
-		userAvRepo.save(userAv2);
+			UserDeatils savedUser = saveUser(attributes);
+			List<UserAv> userAvList = new ArrayList<>();
+			UserAv userAv1 = new UserAv();
+			userAv1.setType(3);
+			userAv1.setName("userCreateDate");
+			userAv1.setDateValue(userCreateDate);
+			userAv1.setUserData(savedUser);
+			userAvRepo.save(userAv1);
 
-		attributes.stream().forEach(a -> {
+			UserAv userAv2 = new UserAv();
+			userAv2.setType(3);
+			userAv2.setName("userLastModifiedDate");
+			userAv2.setDateValue(userLastModifiedDate);
+			userAv2.setUserData(savedUser);
+			userAvRepo.save(userAv2);
 
-			if (a.getName().equalsIgnoreCase("custom:parentId")) {
-				UserAv userAv = new UserAv();
-				userAv.setType(1);
-				userAv.setName("parentId");
-				userAv.setIntegerValue(Integer.parseInt(a.getValue()));
-				userAv.setUserData(savedUser);
-				userAvRepo.save(userAv);
-			}
-			if (a.getName().equalsIgnoreCase("address")) {
+			attributes.stream().forEach(a -> {
 
-				UserAv userAv = new UserAv();
-				userAv.setType(2);
-				userAv.setName("address");
-				userAv.setStringValue(a.getValue());
-				userAv.setUserData(savedUser);
-				userAvRepo.save(userAv);
-			}
-			if (a.getName().equalsIgnoreCase("birthdate")) {
+				if (a.getName().equalsIgnoreCase("custom:parentId")) {
+					UserAv userAv = new UserAv();
+					userAv.setType(1);
+					userAv.setName("parentId");
+					userAv.setIntegerValue(Integer.parseInt(a.getValue()));
+					userAv.setUserData(savedUser);
+					userAvRepo.save(userAv);
+				}
+				if (a.getName().equalsIgnoreCase("address")) {
 
-				UserAv userAv = new UserAv();
-				userAv.setType(3);
-				userAv.setName("birthdate");
-				userAv.setStringValue(a.getValue());
-				userAv.setUserData(savedUser);
-				userAvRepo.save(userAv);
-				userAvList.add(userAv);
-			}
-			if (a.getName().equalsIgnoreCase("custom:assignedStores")) {
+					UserAv userAv = new UserAv();
+					userAv.setType(2);
+					userAv.setName("address");
+					userAv.setStringValue(a.getValue());
+					userAv.setUserData(savedUser);
+					userAvRepo.save(userAv);
+				}
+				if (a.getName().equalsIgnoreCase("birthdate")) {
 
-				/////////////////////////////
-				String[] storenames = a.getValue().split(",");
-				Arrays.asList(storenames).stream().forEach(storeName -> {
+					UserAv userAv = new UserAv();
+					userAv.setType(3);
+					userAv.setName("birthdate");
+					userAv.setStringValue(a.getValue());
+					userAv.setUserData(savedUser);
+					userAvRepo.save(userAv);
+					userAvList.add(userAv);
+				}
+				if (a.getName().equalsIgnoreCase("custom:assignedStores")) {
 
-					Optional<Store> dbStoreRecord = storeRepo.findByName(storeName);
-					if (dbStoreRecord.isPresent()) {
-						List<Store> storesOfUser = savedUser.getStores();
-						if(!CollectionUtils.isEmpty(storesOfUser)) {
-							storesOfUser.add(dbStoreRecord.get());	
-							savedUser.setStores(storesOfUser);
+					/////////////////////////////
+					String[] storenames = a.getValue().split(",");
+					Arrays.asList(storenames).stream().forEach(storeName -> {
 
-						}else {
-							List<Store> newStores=new ArrayList<>();
-							newStores.add(dbStoreRecord.get());
-							savedUser.setStores(newStores);
+						Optional<Store> dbStoreRecord = storeRepo.findByName(storeName);
+						if (dbStoreRecord.isPresent()) {
+							List<Store> storesOfUser = savedUser.getStores();
+							if (!CollectionUtils.isEmpty(storesOfUser)) {
+								storesOfUser.add(dbStoreRecord.get());
+								savedUser.setStores(storesOfUser);
 
+							} else {
+								List<Store> newStores = new ArrayList<>();
+								newStores.add(dbStoreRecord.get());
+								savedUser.setStores(newStores);
+
+							}
+							userRepo.save(savedUser);
+							/*
+							 * Store storeEntity = dbStoreRecord.get(); List<UserDeatils> userList =
+							 * storeEntity.getStoreUsers(); userList.add(savedUser);
+							 * storeEntity.setStoreUsers(userList); storeRepo.save(storeEntity);
+							 */
 						}
-						userRepo.save(savedUser);
-						/*
-						 * Store storeEntity = dbStoreRecord.get(); List<UserDeatils> userList =
-						 * storeEntity.getStoreUsers(); userList.add(savedUser);
-						 * storeEntity.setStoreUsers(userList); storeRepo.save(storeEntity);
-						 */
-					}
 
-				});
+					});
 
-				////////////////////////////
-				/*
-				 * UserAv userAv = new UserAv(); userAv.setType(2);
-				 * userAv.setName("assignedStores"); userAv.setStringValue(a.getValue());
-				 * userAv.setUserData(savedUser); userAvRepo.save(userAv);
-				 */
-			}
-			if (a.getName().equalsIgnoreCase("custom:domianId")) {
+					////////////////////////////
+					/*
+					 * UserAv userAv = new UserAv(); userAv.setType(2);
+					 * userAv.setName("assignedStores"); userAv.setStringValue(a.getValue());
+					 * userAv.setUserData(savedUser); userAvRepo.save(userAv);
+					 */
+				}
+				if (a.getName().equalsIgnoreCase("custom:domianId")) {
 
-				UserAv userAv = new UserAv();
-				userAv.setType(1);
-				userAv.setName("domianId");
-				userAv.setIntegerValue(Integer.parseInt(a.getValue()));
-				userAv.setUserData(savedUser);
-				userAvRepo.save(userAv);
-			}
-			if (a.getName().equalsIgnoreCase("email")) {
+					UserAv userAv = new UserAv();
+					userAv.setType(1);
+					userAv.setName("domianId");
+					userAv.setIntegerValue(Integer.parseInt(a.getValue()));
+					userAv.setUserData(savedUser);
+					userAvRepo.save(userAv);
+				}
+				if (a.getName().equalsIgnoreCase("email")) {
 
-				UserAv userAv = new UserAv();
-				userAv.setType(2);
-				userAv.setName("email");
-				userAv.setStringValue(a.getValue());
-				userAv.setUserData(savedUser);
-				userAvRepo.save(userAv);
-			}
+					UserAv userAv = new UserAv();
+					userAv.setType(2);
+					userAv.setName("email");
+					userAv.setStringValue(a.getValue());
+					userAv.setUserData(savedUser);
+					userAvRepo.save(userAv);
+				}
 
-			if (a.getName().equalsIgnoreCase("enabled")) {
+				if (a.getName().equalsIgnoreCase("enabled")) {
 
-				UserAv userAv = new UserAv();
-				userAv.setType(4);
-				userAv.setName("enabled");
-				userAv.setBooleanValue(Boolean.getBoolean(a.getValue()));
-				userAv.setUserData(savedUser);
-				userAvRepo.save(userAv);
-			}
-			if (a.getName().equalsIgnoreCase("userStatus")) {
+					UserAv userAv = new UserAv();
+					userAv.setType(4);
+					userAv.setName("enabled");
+					userAv.setBooleanValue(Boolean.getBoolean(a.getValue()));
+					userAv.setUserData(savedUser);
+					userAvRepo.save(userAv);
+				}
+				if (a.getName().equalsIgnoreCase("userStatus")) {
 
-				UserAv userAv = new UserAv();
-				userAv.setType(2);
-				userAv.setName("userStatus");
-				userAv.setStringValue(a.getValue());
-				userAv.setUserData(savedUser);
-				userAvRepo.save(userAv);
-			}
-		});
+					UserAv userAv = new UserAv();
+					userAv.setType(2);
+					userAv.setName("userStatus");
+					userAv.setStringValue(a.getValue());
+					userAv.setUserData(savedUser);
+					userAvRepo.save(userAv);
+				}
+			});
+			return "success";
+
+		} catch (Exception e) {
+			return "fail";
+		}
 	}
 
 	private UserDeatils saveUser(List<AttributeType> attributes) throws Exception {
@@ -821,6 +828,19 @@ public class CognitoAuthService {
 
 	}
 
+	public List<Store> getStoresForClient(long clientId) throws Exception {
+		try {
+
+			List<Store> stores = storeRepo.findByClientDomianlId_Client_Id(clientId);
+			if (!CollectionUtils.isEmpty(stores)) {
+				return stores;
+			} else
+				throw new Exception("No stores found");
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
 	public String assignStoreToClientDomain(DomianStoresVo vo) throws Exception {
 
 		try {
@@ -856,12 +876,35 @@ public class CognitoAuthService {
 
 	}
 
-	public List<Role> getRolesFoeClientDomian(long clientId) {
+	public List<Role> getRolesForClientDomian(long clientId) throws Exception {
+		try {
+			List<Role> roles = roleRepository.findByClientDomian_clientDomainaId(clientId);
+			if (CollectionUtils.isEmpty(roles)) {
+				return roles;
+			} else {
+				throw new Exception("No Roles found for this client :" + clientId);
+			}
 
-		List<Role> roles = roleRepository.findByClientDomian_clientDomainaId(clientId);
-		return null;
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 
+	
+	public List<Role> getRolesForClient(long clientId) throws Exception {
+		try {
+			List<Role> roles = roleRepository.findByClientDomian_client_Id(clientId);
+			if (CollectionUtils.isEmpty(roles)) {
+				return roles;
+			} else {
+				throw new Exception("No Roles found for this client :" + clientId);
+			}
+
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+	
 	public List<Store> getStoresOnFilter(GetStoresRequestVo vo) {
 		if (0L != vo.getStateId()) {
 			List<Store> stores = storeRepo.findByStateId(vo.getStateId());
@@ -905,21 +948,27 @@ public class CognitoAuthService {
 	}
 
 	public AdminRespondToAuthChallengeResult authResponceForNewUser(NewPasswordChallengeRequest req) throws Exception {
-		AdminRespondToAuthChallengeResult responceFromCognito = cognitoClient.respondAuthChalleng(req);
-		if (responceFromCognito.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+		try {
+			AdminRespondToAuthChallengeResult responceFromCognito = cognitoClient.respondAuthChalleng(req);
+			if (responceFromCognito.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 
-			try {
 				AdminGetUserResult userFromCognito = cognitoClient.getUserFromUserpool(req.getUserName());
 
-				saveUsersIndataBase(userFromCognito.getUserCreateDate(), userFromCognito.getUserLastModifiedDate(),
-						userFromCognito.getUserAttributes());
-			} catch (Exception e) {
-				throw new Exception(e.getMessage());
+				String res = saveUsersIndataBase(userFromCognito.getUserCreateDate(),
+						userFromCognito.getUserLastModifiedDate(), userFromCognito.getUserAttributes());
+				if (!res.equalsIgnoreCase("success")) {
+					throw new Exception("User confirmed in Cognito userpool but not saved in Database");
+				}
+				return responceFromCognito;
+
 			}
 
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
 		}
-
 		return null;
 	}
+
+	
 
 }

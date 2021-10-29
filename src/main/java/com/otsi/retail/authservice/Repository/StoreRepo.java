@@ -15,6 +15,7 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 
 
 	List<Store> findByClientDomianlId_ClientDomainaId(long clientId);
+	List<Store> findByClientDomianlId_Client_Id(long clientId);
 
 
 	List<Store> findByStateId(long stateId);

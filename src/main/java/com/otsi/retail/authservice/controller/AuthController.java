@@ -280,13 +280,25 @@ public class AuthController {
 	@GetMapping("/getRolesForDomian/{domianId}")
 	public GateWayResponse<?> getRolesForDomian(@PathVariable String domianId) {
 		try {
-			List<Role> res = cognitoAuthService.getRolesFoeClientDomian(Long.parseLong(domianId));
+			List<Role> res = cognitoAuthService.getRolesForClientDomian(Long.parseLong(domianId));
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+	@GetMapping("/getRolesForClient/{clientId}")
+	public GateWayResponse<?> getRolesForClient(@PathVariable String clientId) {
+		try {
+			List<Role> res = cognitoAuthService.getRolesForClient(Long.parseLong(clientId));
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
 
 	@PutMapping("/enabledOrdisabledUser/{user}/{action}")
 	public GateWayResponse<?> enabledOrdisabledUser(@PathVariable String user, @PathVariable String action) {
@@ -429,9 +441,19 @@ public class AuthController {
 	}
 
 	@GetMapping("/getClientDomianStores")
-	public GateWayResponse<?> getClientDetails(@RequestParam("clientDomianId") long clientDomianId) {
+	public GateWayResponse<?> getClientDomianStores(@RequestParam("clientDomianId") long clientDomianId) {
 		try {
 			List<Store> res = cognitoAuthService.getStoresForClientDomian(clientDomianId);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
+	@GetMapping("/getClientStores")
+	public GateWayResponse<?> getClientStores(@RequestParam("clientId") long clientId) {
+		try {
+			List<Store> res = cognitoAuthService.getStoresForClient(clientId);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
