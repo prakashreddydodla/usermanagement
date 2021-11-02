@@ -227,9 +227,12 @@ public class CognitoClient {
 		));
 		try {
 			AdminCreateUserResult result = client.adminCreateUser(createUserRequest);
+			if(result.getSdkHttpMetadata().getHttpStatusCode()==200) {
+				
+			}
 			return result;
 		} catch (UsernameExistsException uee) {
-			throw new Exception(uee.getMessage());
+			throw new Exception("UserName already exits");
 		} catch (InvalidParameterException ie) {
 			throw new Exception(ie.getMessage());
 		}
@@ -332,7 +335,7 @@ public class CognitoClient {
 		}
 		request.setGroupName(input.getRoleName());
 		request.setDescription(input.getDescription());
-		request.setPrecedence(input.getPrecedence());
+	//	request.setPrecedence(input.getPrecedence());
 		request.setUserPoolId(USERPOOL_ID);
 		try {
 			CreateGroupResult result = client.createGroup(request);
@@ -392,5 +395,6 @@ public class CognitoClient {
 			throw new Exception(e.getMessage());
 		}
 	}
+
 
 }

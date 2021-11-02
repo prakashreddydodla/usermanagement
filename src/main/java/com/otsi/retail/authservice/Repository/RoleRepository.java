@@ -24,4 +24,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	List<Role> findByClientDomian_client_Id(long clientId);
 
+	boolean existsByRoleNameIgnoreCase(String roleName);
+
 }

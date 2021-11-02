@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,8 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 	Optional<UserDeatils> findByUserName(String userName);
 
 	Optional<UserDeatils> findByPhoneNumber(String name);
+
+	List<UserDeatils> findByUserAv_IntegerValue(long clientId);
 
 
 }

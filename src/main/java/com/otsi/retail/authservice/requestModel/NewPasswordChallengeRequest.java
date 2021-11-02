@@ -9,4 +9,5 @@ public class NewPasswordChallengeRequest {
 	private String password;
 	private String newPassword;
 	private String session;
+	private long roleId;
 }

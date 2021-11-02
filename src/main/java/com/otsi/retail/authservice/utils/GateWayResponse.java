@@ -1,7 +1,7 @@
 /**
  * gateway response for controller and classes
  */
-package com.otsi.retail.authservice.controller;
+package com.otsi.retail.authservice.utils;
 
 import java.util.Arrays;
 import java.util.List;

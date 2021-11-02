@@ -39,12 +39,6 @@ public class ClientDomains {
 	inverseJoinColumns = {@JoinColumn(name = "id")})
 	private List<Domain_Master> domain;
 	
-	/*
-	 * @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	 * 
-	 * @JoinTable(name ="clientdomain_stores", joinColumns = {@JoinColumn(name =
-	 * "clientdomainid")}, inverseJoinColumns = {@JoinColumn(name = "id")})
-	 */
 	@OneToMany(mappedBy = "clientDomianlId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Store> store;
 	
@@ -52,6 +46,7 @@ public class ClientDomains {
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private ClientDetails client;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "clientDomian",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Role> roles;
 	

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,6 +42,7 @@ public class UserAv  extends BaseEntity{
 	private LocalDate lastModifyedDate;
 	private long createdBy;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private UserDeatils userData;

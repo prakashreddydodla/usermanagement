@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,16 +22,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Privilages extends BaseEntity {
+public class ParentPrivilages extends BaseEntity {
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
 private long id;
+private String name;
 private String discription;
 private boolean read;
 private boolean write;
 @JsonIgnore
-@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "privilages")
+@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "parentPrivilages")
 private List<Role> roleId;
+
+/*
+ * @OneToMany(mappedBy = "parentPrivillage",fetch = FetchType.LAZY,cascade =
+ * CascadeType.ALL) private List<SubPrivillage> subPrivillages;
+ */
 private LocalDate createdDate;
 private LocalDate lastModifyedDate;
 private long createdBy;

@@ -13,4 +13,7 @@ public interface ChannelRepo extends JpaRepository<ClientDomains, Long> {
 
 	List<ClientDomains> findByClient_Id(long clientId);
 
+
+	boolean existsByDomain_Id(long masterDomianId);
+
 }
