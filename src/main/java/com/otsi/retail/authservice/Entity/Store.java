@@ -29,7 +29,7 @@ public class Store  {
 	private String name;
 	private long stateId;
 	private long districtId;
-	private long cityId;
+	private String cityId;
 	private String area;
 	private String address;
 	private String phoneNumber;

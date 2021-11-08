@@ -16,30 +16,34 @@ import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.services.CognitoAuthService;
+import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.CognitoClient;
 import com.otsi.retail.authservice.services.UserService;
+import com.otsi.retail.authservice.services.UserServiceImpl;
+import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(EndpointConstants.USER)
 public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
 	@Autowired
 	private CognitoClient cognitoClient;
 	
-	@PostMapping("/getUser")
+	@PostMapping(EndpointConstants.GET_USER)
 	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest) {
 		try {
-			UserDeatils res = userService.getUserFromDb(userRequest);
+			List<UserDeatils> res = userService.getUserFromDb(userRequest);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
 
-	@GetMapping("/getallUsers")
+	@GetMapping(EndpointConstants.GET_ALL_USERS)
 	public GateWayResponse<?> getAllUsers() {
 		try {
 			ListUsersResult res = cognitoClient.getAllUsers();
@@ -51,10 +55,21 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/getallUsers/{clientId}")
+	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_ID)
 	public GateWayResponse<?> getUsersForClient(@PathVariable String clientId) {
 		try {
-			List<UserDeatils> res = userService.getUsersForClient(Long.parseLong(clientId));
+			List<UserDeatils> res = userService.getUserForClient(Integer.parseInt(clientId));
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
+	
+	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_DOMIAN)
+	public GateWayResponse<?> getUsersForClientDomianId(@PathVariable String clientDomianId) {
+		try {
+			List<UserDeatils> res = userService.getUsersForClientDomain(Long.parseLong(clientDomianId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

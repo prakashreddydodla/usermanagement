@@ -17,18 +17,20 @@ import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.services.ClientAndDomianService;
-import com.otsi.retail.authservice.services.CognitoAuthService;
+import com.otsi.retail.authservice.services.ClientAndDomianServiceImpl;
+import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
+import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping(EndpointConstants.CLIENT)
 public class ClientAndDomianController {
 
 	@Autowired
 	private ClientAndDomianService clientAndDomianService;
 	
 	
-	@PostMapping("/createMasterDomain")
+	@PostMapping(EndpointConstants.CREATE_MASTER_DOMIAN)
 	public GateWayResponse<?> creatChannel(@RequestBody MasterDomianVo domainVo) {
 		String res;
 		try {
@@ -41,7 +43,7 @@ public class ClientAndDomianController {
 		}
 	}
 
-	@GetMapping("/getMasterDomains")
+	@GetMapping(EndpointConstants.GET_MASTER_DOMAINS)
 	public GateWayResponse<?> getMasterDomians() {
 		try {
 			List<Domain_Master> res = clientAndDomianService.getMasterDomains();
@@ -53,7 +55,7 @@ public class ClientAndDomianController {
 		}
 	}
 
-	@PostMapping("/createClient")
+	@PostMapping(EndpointConstants.CREATE_CLIENT)
 	public GateWayResponse<?> creatclient(@RequestBody ClientDetailsVo client) {
 		try {
 			String res = clientAndDomianService.createClient(client);
@@ -63,7 +65,7 @@ public class ClientAndDomianController {
 		}
 	}
 
-	@PostMapping("/assignDomianToClient")
+	@PostMapping(EndpointConstants.ASSIGN_DOMAIN_TO_CLIENT)
 	public GateWayResponse<?> assignDomianToClient(@RequestBody ClientDomianVo clientDomianVo) {
 		try {
 			String res = clientAndDomianService.assignDomianToClient(clientDomianVo);
@@ -73,7 +75,7 @@ public class ClientAndDomianController {
 		}
 	}
 
-	@GetMapping("/getDomiansForClient/{clientId}")
+	@GetMapping(EndpointConstants.GET_DOMAINS_FOR_CLIENT)
 	public GateWayResponse<?> getDomiansForClient(@PathVariable String clientId) {
 		try {
 			List<ClientDomains> res = clientAndDomianService.getDomainsForClient(Long.parseLong(clientId));
@@ -83,7 +85,7 @@ public class ClientAndDomianController {
 		}
 	}
 
-	@GetMapping("/getClient/{clientId}")
+	@GetMapping(EndpointConstants.GET_CLIENT)
 	public GateWayResponse<?> getClient(@PathVariable String clientId) {
 		try {
 			ClientDetails res = clientAndDomianService.getClient(Long.parseLong(clientId));
@@ -93,7 +95,7 @@ public class ClientAndDomianController {
 		}
 	}
 
-	@GetMapping("/getAllClients")
+	@GetMapping(EndpointConstants.GET_ALL_CLIENTS)
 	public GateWayResponse<?> getAllClients() {
 		try {
 			List<ClientDetails> res = clientAndDomianService.getAllClient();

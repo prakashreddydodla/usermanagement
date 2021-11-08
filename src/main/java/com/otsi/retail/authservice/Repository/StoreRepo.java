@@ -21,7 +21,7 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 	List<Store> findByStateId(long stateId);
 
 
-	List<Store> findByCityId(long cityId);
+	List<Store> findByCityId(String string);
 
 
 	List<Store> findByDistrictId(long cityId);

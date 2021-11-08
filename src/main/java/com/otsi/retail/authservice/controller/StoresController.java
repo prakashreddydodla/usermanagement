@@ -19,13 +19,15 @@ import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
 import com.otsi.retail.authservice.requestModel.SaveStatesAndDistrictsRequest;
 import com.otsi.retail.authservice.requestModel.StateVo;
 import com.otsi.retail.authservice.requestModel.StoreVo;
-import com.otsi.retail.authservice.services.CognitoAuthService;
+import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.StatesAndDistrctsService;
 import com.otsi.retail.authservice.services.StoreService;
+import com.otsi.retail.authservice.services.StoreServiceImpl;
+import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
 @RestController
-@RequestMapping("/store")
+@RequestMapping(EndpointConstants.STORE)
 public class StoresController {
 	@Autowired
 	private StoreService storeService;
@@ -33,7 +35,7 @@ public class StoresController {
 	private StatesAndDistrctsService statesAndDistrctsService;
 	
 	
-	@PostMapping("/createStore")
+	@PostMapping(EndpointConstants.CREATE_STORE)
 	public GateWayResponse<?> createStore(@RequestBody StoreVo vo) {
 		try {
 			String res = storeService.createStore(vo);
@@ -43,7 +45,7 @@ public class StoresController {
 		}
 	}
 
-	@GetMapping("/getClientDomianStores")
+	@GetMapping(EndpointConstants.GET_CLIENT_DOMIAN_STORES)
 	public GateWayResponse<?> getClientDomianStores(@RequestParam("clientDomianId") long clientDomianId) {
 		try {
 			List<Store> res = storeService.getStoresForClientDomian(clientDomianId);
@@ -53,7 +55,7 @@ public class StoresController {
 		}
 	}
 	
-	@GetMapping("/getClientStores")
+	@GetMapping(EndpointConstants.GET_CLIENT_STORES)
 	public GateWayResponse<?> getClientStores(@RequestParam("clientId") long clientId) {
 		try {
 			List<Store> res = storeService.getStoresForClient(clientId);
@@ -63,7 +65,7 @@ public class StoresController {
 		}
 	}
 
-	@PutMapping("/assignStoresToDomain")
+	@PutMapping(EndpointConstants.ASSIGN_STORES_TO_DOMIAN)
 	public GateWayResponse<?> assignStoresToDomain(@RequestBody DomianStoresVo vo) {
 		try {
 			String res = storeService.assignStoreToClientDomain(vo);
@@ -73,7 +75,7 @@ public class StoresController {
 		}
 	}
 
-	@PostMapping("/getStoresWithFilter")
+	@PostMapping(EndpointConstants.GET_STORES_WITH_FILTER)
 	public GateWayResponse<?> getStoresWithFilter(@RequestBody GetStoresRequestVo vo ){
 		try {
 		List<Store> res=storeService.getStoresOnFilter(vo);
@@ -83,7 +85,7 @@ public class StoresController {
 		}
 	}
 	
-	@PostMapping("/saveStates")
+	@PostMapping(EndpointConstants.SAVE_STATES)
 	public GateWayResponse<?> saveStates(@RequestBody SaveStatesAndDistrictsRequest vo ){
 		try {
 		String res=statesAndDistrctsService.saveStatesAndDistricts(vo);
@@ -93,7 +95,7 @@ public class StoresController {
 		}
 	}
 	
-	@GetMapping("/allStates")
+	@GetMapping(EndpointConstants.ALL_STATES)
 	public GateWayResponse<?> getAllStates( ){
 		try {
 		List<States> res=statesAndDistrctsService.getAllStates();
@@ -103,7 +105,7 @@ public class StoresController {
 		}
 	}
 	
-	@GetMapping("/getDistrict")
+	@GetMapping(EndpointConstants.GET_DISTRICT)
 	public GateWayResponse<?> getDistrictsOfState(@RequestParam("stateCode") String stateCode){
 		try {
 		List<Districts> res=statesAndDistrctsService.getAllDistrctsOfState(stateCode);

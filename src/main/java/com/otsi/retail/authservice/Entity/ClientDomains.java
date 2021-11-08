@@ -50,4 +50,9 @@ public class ClientDomains {
 	@OneToMany(mappedBy = "clientDomian",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Role> roles;
 	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "clientDomians",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private List<UserDeatils> users;
+
+	
 }

@@ -14,9 +14,13 @@ public class CognitoAtributes {
 	public static final String ASSIGNED_STORES="custom:assignedStores";
 	public static final String PARENTID="custom:parentId";
 	public static final String DOMAINID="custom:domianId";
-	public static final String clientId="custom:clientId";
-	public static final String isConfigUser="custom:isConfigUser";
-	public static final String clientDomians="custom:clientDomians";
+	public static final String CLIENT_ID="custom:clientId";
+	public static final String IS_CONFIGUSER="custom:isConfigUser";
+	public static final String CLIENTDOMIANS="custom:clientDomians";
+	public static final String ENABLED="enabled";
+	public static final String USER_LAST_MODIFIEDDATE="userLastModifiedDate";
+	public static final String USER_CREATE_DATE="userCreateDate";
+	public static final String USER_STATUS="userStatus";
 
 
 	

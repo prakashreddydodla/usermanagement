@@ -6,7 +6,7 @@ import lombok.Data;
 public class GetStoresRequestVo {
 
 	private long stateId;
-	private long cityId;
+	private String cityId;
 	private long districtId;
 	private String storeName;
 	

@@ -16,17 +16,18 @@ import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
-import com.otsi.retail.authservice.services.CognitoAuthService;
-import com.otsi.retail.authservice.services.RolesAndPrivillagesService;
+import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
+import com.otsi.retail.authservice.services.RolesAndPrivillagesServiceImpl;
+import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping(EndpointConstants.ROLES)
 public class RolesAndPrivillagesController {
 	@Autowired
-	private RolesAndPrivillagesService rolesAndPrivillagesService;
+	private RolesAndPrivillagesServiceImpl rolesAndPrivillagesService;
 	
-	@PostMapping(path = "/createRole")
+	@PostMapping(path = EndpointConstants.CREATE_ROLE)
 	public GateWayResponse<?> createRole(@RequestBody CreateRoleRequest request) {
 
 		try {
@@ -45,7 +46,7 @@ public class RolesAndPrivillagesController {
 	}
 	
 	
-	@GetMapping("/getRolesForDomian/{domianId}")
+	@GetMapping(EndpointConstants.GET_ROLES_FOR_DOMIAN)
 	public GateWayResponse<?> getRolesForDomian(@PathVariable String domianId) {
 		try {
 			List<Role> res = rolesAndPrivillagesService.getRolesForClientDomian(Long.parseLong(domianId));
@@ -57,7 +58,7 @@ public class RolesAndPrivillagesController {
 	}
 	
 	
-	@GetMapping("/getRolesForClient/{clientId}")
+	@GetMapping(EndpointConstants.GET_ROLES_FOR_CLIENT)
 	public GateWayResponse<?> getRolesForClient(@PathVariable String clientId) {
 		try {
 			List<Role> res = rolesAndPrivillagesService.getRolesForClient(Long.parseLong(clientId));
@@ -68,7 +69,7 @@ public class RolesAndPrivillagesController {
 		}
 	}
 	
-	@PostMapping("/addPrevilage")
+	@PostMapping(EndpointConstants.ADD_PREVILAGE)
 	public GateWayResponse<?> savePrevilageToMaster(@RequestBody CreatePrivillagesRequest privilages) {
 		try {
 			String res = rolesAndPrivillagesService.savePrevilage(privilages);
@@ -80,7 +81,7 @@ public class RolesAndPrivillagesController {
 
 	}
 	
-	@GetMapping("/getPrivilages/{roleId}")
+	@GetMapping(EndpointConstants.GET_PRIVILAGES)
 	public GateWayResponse<?> getPrivilagesOfRole(@PathVariable String roleId) {
 		try {
 			Role res = rolesAndPrivillagesService.getPrivilages(Long.parseLong(roleId));
@@ -89,7 +90,7 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	@GetMapping("/getPrivilages/{roleName}")
+	@GetMapping(EndpointConstants.PRIVILAGES_BY_NAME)
 	public GateWayResponse<?> getPrivilagesOfRoleByRoleName(@PathVariable String roleName) {
 		try {
 			Role res = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
@@ -99,7 +100,7 @@ public class RolesAndPrivillagesController {
 		}
 	}
 	
-	@GetMapping("/subPrivilages/{parentId}")
+	@GetMapping(EndpointConstants.SUB_PRIVILAGES)
 	public GateWayResponse<?> getsubPrivilagesForParent(@PathVariable String parentId) {
 		try {
 			List<SubPrivillage> res = rolesAndPrivillagesService.getSubPrivillages(Long.parseLong(parentId));
@@ -109,7 +110,7 @@ public class RolesAndPrivillagesController {
 		}
 	}
 	
-	@GetMapping("/getAllPrivilages")
+	@GetMapping(EndpointConstants.GET_ALL_PRIVILAGES)
 	public GateWayResponse<?> getAllPrivilages() {
 		try {
 			List<ParentPrivilageVo> res = rolesAndPrivillagesService.getAllPrivilages();
@@ -119,4 +120,6 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+	
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import org.hibernate.type.TrueFalseType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,7 +34,9 @@ public class UserDeatils extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userId;
+	@Column(unique = true)
 	private String userName;
+	@Column(unique = true)
 	private String phoneNumber;
 	private String gender;
 	private LocalDate createdDate;
@@ -55,5 +59,11 @@ public class UserDeatils extends BaseEntity {
 	@JsonIgnore
 	@OneToOne(mappedBy = "storeOwner")
 	private Store ownerOf;
+	
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_clientDomians", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
+			@JoinColumn(name = "clientDomainaId") })
+	private List<ClientDomains> clientDomians;
 
 }

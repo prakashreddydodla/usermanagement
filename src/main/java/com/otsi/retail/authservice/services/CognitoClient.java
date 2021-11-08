@@ -101,15 +101,14 @@ public class CognitoClient {
 	public SignUpResult signUp(String userName, String email, String password, String givenName, String name,
 			String phoneNo, String storeId) throws Exception {
 		SignUpRequest request = new SignUpRequest().withClientId(CLIENT_ID).withUsername(userName)
-				.withPassword(password).withUserAttributes((new AttributeType().withName("email").withValue(email)),
-						(new AttributeType().withName("given_name").withValue(givenName)),
-						(new AttributeType().withName("name").withValue(name)),
-						(new AttributeType().withName("phone_number").withValue(phoneNo)),
-						(new AttributeType().withName("gender").withValue("male")),
+				.withPassword(password).withUserAttributes((new AttributeType().withName(CognitoAtributes.EMAIL).withValue(email)),
+						(new AttributeType().withName(CognitoAtributes.GIVEN_NAME).withValue(givenName)),
+						(new AttributeType().withName(CognitoAtributes.NAME).withValue(name)),
+						(new AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(phoneNo)),
+						(new AttributeType().withName(CognitoAtributes.GENDER).withValue("male")),
 						(new AttributeType().withName(CognitoAtributes.USER_ASSIGNED_STORES).withValue(storeId)));
 
 		SignUpResult result = client.signUp(request);
-		System.out.println("----------");
 		return result;
 	}
 
@@ -171,10 +170,10 @@ public class CognitoClient {
 		AdminGetUserResult userAttributes = getUserFromUserpool(userName);
 		if (userAttributes != null) {
 			attributeType = userAttributes.getUserAttributes().stream()
-					.filter(a -> a.getName().equals("custom:assignedStores")).findFirst().get();
+					.filter(a -> a.getName().equals(CognitoAtributes.ASSIGNED_STORES)).findFirst().get();
 			StringBuilder assignedStores = new StringBuilder(attributeType.getValue());
 			stores.stream().forEach(a -> assignedStores.append("," + a.getName()));
-			attributes.add(new AttributeType().withName("custom:assignedStores").withValue(assignedStores.toString()));
+			attributes.add(new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES).withValue(assignedStores.toString()));
 			updateUserAttributesRequest.setUsername(userName);
 			updateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
 			updateUserAttributesRequest.setUserAttributes(attributes);
@@ -217,9 +216,9 @@ public class CognitoClient {
 				new AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()),
 				new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
 						.withValue(setStores(request.getStores())),
-				new AttributeType().withName(CognitoAtributes.isConfigUser).withValue(request.getIsConfigUser()),
-				new AttributeType().withName(CognitoAtributes.clientId).withValue(request.getClientId()),
-				new AttributeType().withName(CognitoAtributes.clientDomians)
+				new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()),
+				new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()),
+				new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
 						.withValue(clientDomiansConvertTostring(request.getClientDomain()))
 
 		// new
