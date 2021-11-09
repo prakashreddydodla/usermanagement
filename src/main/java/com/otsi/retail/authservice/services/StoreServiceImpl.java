@@ -141,7 +141,7 @@ public class StoreServiceImpl  implements StoreService{
 				throw new RuntimeException("Stores not found with this StateId : " + vo.getDistrictId());
 			}
 		}
-		if (!vo.getCityId().equals(null)) {
+		if (null != vo.getCityId()) {
 			List<Store> stores = storeRepo.findByCityId(vo.getCityId());
 			if (!CollectionUtils.isEmpty(stores)) {
 				return stores;
