@@ -16,6 +16,8 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ParentPrivilages;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
+import com.otsi.retail.authservice.Exceptions.InvalidInputsException;
+import com.otsi.retail.authservice.Exceptions.RolesNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.PrivilageRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
@@ -23,9 +25,11 @@ import com.otsi.retail.authservice.Repository.SubPrivillageRepo;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
+import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.requestModel.SubPrivillagesvo;
+
 @Service
-public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesService{
+public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesService {
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -68,8 +72,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			throw new Exception();
 		}
 	}
-	
-	
+
 	@Override
 	public String saveSubPrivillages(SubPrivillagesvo vo) throws Exception {
 		try {
@@ -86,7 +89,6 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 	}
 
-	
 	@Override
 	public List<ParentPrivilageVo> getAllPrivilages() {
 		List<ParentPrivilageVo> listOfParentPrivillages = new ArrayList<>();
@@ -109,7 +111,6 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		return listOfParentPrivillages;
 	}
 
-	
 	@Override
 	public List<SubPrivillage> getSubPrivillages(long parentId) throws Exception {
 		if (0L != parentId) {
@@ -124,10 +125,6 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 	}
 
-	
-	
-	
-	
 	@Override
 	public String createRole(CreateRoleRequest role) throws Exception {
 		Role roleEntity = new Role();
@@ -137,40 +134,41 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		roleEntity.setCreatedDate(LocalDate.now());
 		List<ParentPrivilages> parentPrivilageEntites = new ArrayList<>();
 		List<SubPrivillage> subPrivilageEntites = new ArrayList<>();
-		
-		
-		
-	boolean isExits=	roleRepository.existsByRoleNameIgnoreCase(role.getRoleName());
-		if(!isExits) {
+
+		boolean isExits = roleRepository.existsByRoleNameIgnoreCase(role.getRoleName());
+		if (!isExits) {
 			try {
 				/**
-				 * We have to save role which otherthan the customer. If role is customer we no need to save
+				 * We have to save role which otherthan the customer. If role is customer we no
+				 * need to save
 				 */
 				if (!role.getRoleName().equalsIgnoreCase("CUSTOMER")) {
 					/**
-					 * First we need to create group(role) in cognito with the given role name from request object
+					 * First we need to create group(role) in cognito with the given role name from
+					 * request object
 					 * 
 					 */
 					CreateGroupResult cognitoResult = cognitoClient.createRole(role);
-					
+
 					/**
-					 * Http status code 200 means sucess then only we can allow to save role in our Role table in local DB
+					 * Http status code 200 means sucess then only we can allow to save role in our
+					 * Role table in local DB
 					 */
-					
+
 					if (cognitoResult.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-						
+
 						if (0L != role.getClientDomianId()) {
 							Optional<ClientDomains> clientDomians = channelRepo.findById(role.getClientDomianId());
 							if (clientDomians.isPresent()) {
 								roleEntity.setClientDomian(clientDomians.get());
 							} else {
-								throw new Exception("No Client Domian found with this Id : " + role.getClientDomianId());
+								throw new Exception(
+										"No Client Domian found with this Id : " + role.getClientDomianId());
 							}
 						} else {
 							throw new Exception("Client Domian Id required");
 						}
-						
-						
+
 						if (!CollectionUtils.isEmpty(role.getParentPrivilages())) {
 
 							role.getParentPrivilages().forEach(a -> {
@@ -186,8 +184,6 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						} else {
 							throw new Exception("Atleast one parent privillage is required");
 						}
-						
-						
 
 						if (!CollectionUtils.isEmpty(role.getSubPrivillages())) {
 
@@ -204,20 +200,20 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							throw new Exception("Atleast one sub privillage is required");
 						}
 						dbResult = roleRepository.save(roleEntity);
-						return "Role was Created with Id :"+dbResult.getRoleId();
+						return "Role was Created with Id :" + dbResult.getRoleId();
 					}
-				}else {
+				} else {
 					throw new Exception("Customer is not a role");
 				}
-				
-			}catch (Exception e) {
+
+			} catch (Exception e) {
 				throw new Exception(e.getMessage());
 			}
-				
-	}else {
-		throw new Exception("Role name already Exists");
 
-	}
+		} else {
+			throw new Exception("Role name already Exists");
+
+		}
 		return null;
 	}
 
@@ -231,8 +227,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 
 	}
-	
-	
+
 	@Override
 	public List<Role> getRolesForClientDomian(long clientId) throws Exception {
 		try {
@@ -263,7 +258,6 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 	}
 
-	
 	@Override
 	public Role getPrivilagesByRoleName(String roleName) throws Exception {
 		try {
@@ -272,5 +266,36 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
+	}
+
+	public List<Role> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException {
+
+		if (null != req.getRoleName()) {
+			Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());
+			if (role.isPresent()) {
+				List<Role> roles = new ArrayList<>();
+				roles.add(role.get());
+				return roles;
+			} else {
+				throw new RolesNotFoundException("Roles not found with this RoleName : " + req.getRoleName());
+			}
+		}
+		if (0L != req.getCreatedBy()) {
+			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
+			if (!CollectionUtils.isEmpty(roles)) {
+				return roles;
+			} else {
+				throw new RolesNotFoundException("No roles created by with this User : " + req.getCreatedBy());
+			}
+		}
+		if (null != req.getCreatedDate()) {
+			List<Role> roles = roleRepository.findByCreatedDate(req.getCreatedDate());
+			if (!CollectionUtils.isEmpty(roles)) {
+				return roles;
+			} else {
+				throw new RolesNotFoundException("No roles created  in this Date : " + req.getCreatedDate());
+			}
+		}
+		throw new InvalidInputsException("Please give any one input feild for filter");
 	}
 }

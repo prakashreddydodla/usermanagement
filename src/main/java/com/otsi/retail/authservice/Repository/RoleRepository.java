@@ -3,6 +3,7 @@
  */
 package com.otsi.retail.authservice.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,5 +26,9 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 	List<Role> findByClientDomian_client_Id(long clientId);
 
 	boolean existsByRoleNameIgnoreCase(String roleName);
+
+	List<Role> findByCreatedBy(long createdBy);
+
+	List<Role> findByCreatedDate(LocalDate createdDate);
 
 }

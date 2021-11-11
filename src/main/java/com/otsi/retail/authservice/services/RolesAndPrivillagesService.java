@@ -10,6 +10,7 @@ import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
+import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.requestModel.SubPrivillagesvo;
 
 @Component
@@ -32,4 +33,5 @@ public interface RolesAndPrivillagesService {
 	List<Role> getRolesForClient(long clientId) throws Exception;
 
 	Role getPrivilagesByRoleName(String roleName) throws Exception;
+	public List<Role> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException;
 }

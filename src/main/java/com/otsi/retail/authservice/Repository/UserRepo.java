@@ -25,4 +25,7 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 	List<UserDeatils> findByUserAv_NameAndUserAv_IntegerValue(String clientId, int clientId2);
 
 
+	Optional<UserDeatils> findByPhoneNumberAndRoleRoleName(String mobileNo, String roleName);
+
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
+import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.services.CognitoAuthService;
 import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.CognitoClient;
@@ -70,6 +71,16 @@ public class UserController {
 	public GateWayResponse<?> getUsersForClientDomianId(@PathVariable String clientDomianId) {
 		try {
 			List<UserDeatils> res = userService.getUsersForClientDomain(Long.parseLong(clientDomianId));
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
+	@GetMapping(EndpointConstants.GET_CUSTOMER)
+	public GateWayResponse<?> getCustomer(@PathVariable String mobileNo){
+		try {
+			GetCustomerResponce res = userService.getCustomerbasedOnMobileNumber(mobileNo);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

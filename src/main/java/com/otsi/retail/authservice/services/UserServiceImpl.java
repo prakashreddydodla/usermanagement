@@ -15,6 +15,7 @@ import com.otsi.retail.authservice.Exceptions.UserNotFoundException;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
+import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 
 @Service
@@ -53,12 +54,13 @@ public class UserServiceImpl implements UserService {
 				throw new Exception("No user found with this userName: " + userRequest.getPhoneNo());
 			}
 		}
-         return users;
+		return users;
 	}
 
 	public List<UserDeatils> getUserForClient(int clientId) throws Exception {
 
-		List<UserDeatils> users = userRepo.findByUserAv_NameAndUserAv_IntegerValue(CognitoAtributes.CLIENT_ID,clientId);
+		List<UserDeatils> users = userRepo.findByUserAv_NameAndUserAv_IntegerValue(CognitoAtributes.CLIENT_ID,
+				clientId);
 		if (!CollectionUtils.isEmpty(users)) {
 			return users;
 		} else {
@@ -68,13 +70,48 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<UserDeatils> getUsersForClientDomain(long clientDomianId) {
-	List<UserDeatils> users=userRepo.findByClientDomians_ClientDomainaId(clientDomianId);
-	if(!CollectionUtils.isEmpty(users)) {
-		return users;
-	}else {
-		throw new UserNotFoundException("User not found with this Domian Id : "+clientDomianId );
+		List<UserDeatils> users = userRepo.findByClientDomians_ClientDomainaId(clientDomianId);
+		if (!CollectionUtils.isEmpty(users)) {
+			return users;
+		} else {
+			throw new UserNotFoundException("User not found with this Domian Id : " + clientDomianId);
+		}
+
 	}
-		
-		
+
+	@Override
+	public GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo) {
+		Optional<UserDeatils> user = userRepo.findByPhoneNumberAndRoleRoleName(mobileNo,"CUSTOMER");
+		if (user.isPresent()) {
+			GetCustomerResponce customer = new GetCustomerResponce();
+
+			customer.setUserId(user.get().getUserId());
+			if (null != user.get().getPhoneNumber()) {
+
+				customer.setPhoneNumber(user.get().getPhoneNumber());
+			}
+			if (null != user.get().getUserName()) {
+
+				customer.setUserName(user.get().getUserName());
+			}
+			if (null != user.get().getCreatedDate()) {
+
+				customer.setCreatedDate(user.get().getCreatedDate());
+			}
+			if (null != user.get().getGender()) {
+
+				customer.setGender(user.get().getGender());
+			}
+			if (null != user.get().getLastModifyedDate()) {
+
+				customer.setLastModifyedDate(user.get().getLastModifyedDate());
+			}
+			if (true != user.get().isActive()) {
+
+				customer.setActive(user.get().isActive());
+			}
+			return customer;
+		}
+		throw new RuntimeException("Customer not found with this mobile Number : "+mobileNo);
 	}
 }

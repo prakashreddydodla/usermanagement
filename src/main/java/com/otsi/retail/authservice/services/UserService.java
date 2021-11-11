@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
+import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 
 @Component
 public interface UserService {
@@ -20,6 +21,8 @@ public interface UserService {
 	List<UserDeatils> getUserForClient(int clientId) throws Exception;
 
 	List<UserDeatils> getUsersForClientDomain(long clientDomianId);
+
+	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo);
 	
 	
 }

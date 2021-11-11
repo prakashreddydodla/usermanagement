@@ -39,7 +39,8 @@ public class EndpointConstants {
 	public static final String PRIVILAGES_BY_NAME = "/privilagesByName/{roleName}";
 	public static final String SUB_PRIVILAGES = "/subPrivilages/{parentId}";
 	public static final String GET_ALL_PRIVILAGES = "/getAllPrivilages";
-	
+	public static final String ROLES_WITH_FILTER = "/rolesWithFilter";
+
 
 
 
@@ -63,6 +64,8 @@ public class EndpointConstants {
 	public static final String GET_ALL_USERS = "/getallUsers";
 	public static final String GET_ALL_USERS_BY_CLIENT_ID = "/getallUsers/{clientId}";
 	public static final String GET_ALL_USERS_BY_CLIENT_DOMIAN = "/usersByClientDomianId/{clientDomianId}";
+	public static final String GET_CUSTOMER = "/customer/{mobileNo}";
+
 
 	
 //######################################    AWS REKOGNIBITION CONTROLLER END_POINTS      ####################################
