@@ -114,7 +114,7 @@ spec:
               configMapKeyRef:
                 name: postgres-config
                 key: postgres_host
-        image: 881289302514.dkr.ecr.ap-south-1.amazonaws.com/new-sale-api:latest  
+        image: 881289302514.dkr.ecr.ap-south-1.amazonaws.com/usermanagement:latest  
         resources:
           limits:
             memory: 512Mi
