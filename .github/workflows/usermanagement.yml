@@ -1,4 +1,4 @@
-name: CI - CD Build @ usermanagement
+name: CI - CD @ usermanagement
 on:
   push:
     branches:
