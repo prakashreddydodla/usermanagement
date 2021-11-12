@@ -226,10 +226,8 @@ public class CognitoClient {
 		));
 		try {
 			AdminCreateUserResult result = client.adminCreateUser(createUserRequest);
-			if(result.getSdkHttpMetadata().getHttpStatusCode()==200) {
-				
-			}
-			return result;
+				return result;
+			
 		} catch (UsernameExistsException uee) {
 			throw new Exception("UserName already exits");
 		} catch (InvalidParameterException ie) {

@@ -25,7 +25,7 @@ public class StoreVo {
 	private String phoneNumber;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 	private UserDetailsVo storeOwner;
 	private long domainId;
 	//private List<UserDetailsVo> storeUsers;

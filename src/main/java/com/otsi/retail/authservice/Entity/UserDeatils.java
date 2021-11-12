@@ -29,7 +29,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDeatils extends BaseEntity {
+public class UserDeatils  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +41,7 @@ public class UserDeatils extends BaseEntity {
 	private String gender;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 	private boolean isActive;
 	
 	@ManyToOne

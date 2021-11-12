@@ -94,7 +94,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public String assignDomianToClient(ClientDomianVo domianVo) {
 
-		boolean isExists = clientChannelRepo.existsByDomain_Id(domianVo.getMasterDomianId());
+		boolean isExists = clientChannelRepo.existsByDomain_IdAndClientId(domianVo.getMasterDomianId(),domianVo.getClientId());
 		if (!isExists) {
 			try {
 

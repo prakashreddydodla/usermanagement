@@ -11,6 +11,7 @@ public class CreateRoleRequest {
 private String roleName;
 private String description;
 private long  clientDomianId;
+private String createdBy;
 private List<ParentPrivilageVo> parentPrivilages;
 private List<SubPrivillagesvo> subPrivillages;
 }

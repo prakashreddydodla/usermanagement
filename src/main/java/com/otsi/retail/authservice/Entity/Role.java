@@ -29,7 +29,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Role extends BaseEntity {
+public class Role  {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,7 +39,7 @@ public class Role extends BaseEntity {
 	private String discription;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 	
 	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	@JoinTable(name = "role_parentPrivilages",

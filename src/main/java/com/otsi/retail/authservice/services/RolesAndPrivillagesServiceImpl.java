@@ -132,6 +132,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		roleEntity.setDiscription(role.getDescription());
 		roleEntity.setRoleName(role.getRoleName());
 		roleEntity.setCreatedDate(LocalDate.now());
+		roleEntity.setCreatedBy(role.getCreatedBy());
 		List<ParentPrivilages> parentPrivilageEntites = new ArrayList<>();
 		List<SubPrivillage> subPrivilageEntites = new ArrayList<>();
 

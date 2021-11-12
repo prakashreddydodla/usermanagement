@@ -21,6 +21,9 @@ public class CognitoAtributes {
 	public static final String USER_LAST_MODIFIEDDATE="userLastModifiedDate";
 	public static final String USER_CREATE_DATE="userCreateDate";
 	public static final String USER_STATUS="userStatus";
+	public static final String USER_NAME="cognito:username";
+	public static final String IS_ACTIVE="isActive";
+	
 
 
 	

@@ -17,7 +17,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class ClientDetails extends BaseEntity {
+public class ClientDetails  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -27,7 +27,7 @@ public class ClientDetails extends BaseEntity {
 	private String address;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 
 	
 	@OneToMany(mappedBy = "client")

@@ -29,6 +29,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
 import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
+import com.amazonaws.services.cognitoidp.model.AdminDisableUserResult;
+import com.amazonaws.services.cognitoidp.model.AdminEnableUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthResult;
 import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult;
@@ -363,10 +365,25 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	public String enableOrDisableUser(String userName, String actionType) throws Exception {
 		try {
 			if (actionType.equals("enable")) {
-				cognitoClient.userEnabled(userName);
+				AdminEnableUserResult res = cognitoClient.userEnabled(userName);
+				if (res.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+					Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
+					UserDeatils user = userOptional.get();
+					user.setActive(Boolean.TRUE);
+					user.setLastModifyedDate(LocalDate.now());
+					userRepo.save(user);
+				}
 			}
 			if (actionType.equals("disable")) {
-				cognitoClient.userDisabled(userName);
+				AdminDisableUserResult res = cognitoClient.userDisabled(userName);
+				if (res.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+					Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
+					UserDeatils user = userOptional.get();
+					user.setActive(Boolean.FALSE);
+					user.setLastModifyedDate(LocalDate.now());
+					userRepo.save(user);
+				}
+
 			}
 
 			return "sucessfully updated";
@@ -519,7 +536,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 					UserAv userAv = new UserAv();
 					userAv.setType(DataTypesEnum.BOOLEAN.getValue());
-					userAv.setName(CognitoAtributes.ENABLED);
+					userAv.setName(CognitoAtributes.IS_ACTIVE);
 					userAv.setBooleanValue(Boolean.getBoolean(a.getValue()));
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
@@ -552,6 +569,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 							}
 							userRepo.save(savedUser);
 
+						} else {
+							logger.error("No client domians found in DB");
 						}
 					});
 
@@ -593,7 +612,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		user.setCreatedDate(LocalDate.now());
 		user.setLastModifyedDate(LocalDate.now());
 		attributes.stream().forEach(a -> {
-			if (a.getName().equalsIgnoreCase(CognitoAtributes.NAME)) {
+			if (a.getName().equalsIgnoreCase(CognitoAtributes.USER_NAME)) {
 				user.setUserName(a.getValue());
 			}
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.GENDER)) {

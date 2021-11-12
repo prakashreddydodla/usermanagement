@@ -46,6 +46,7 @@ public class StoreServiceImpl  implements StoreService{
 			storeEntity.setCityId(vo.getCityId());
 			storeEntity.setArea(vo.getArea());
 			storeEntity.setPhoneNumber(vo.getPhoneNumber());
+			storeEntity.setCreatedBy(vo.getCreatedBy());
 
 			if (null != vo.getStoreOwner()) {
 				Optional<UserDeatils> userfromDb = userRepo.findById(vo.getStoreOwner().getUserId());

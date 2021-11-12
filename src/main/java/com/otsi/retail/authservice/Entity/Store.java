@@ -35,7 +35,7 @@ public class Store  {
 	private String phoneNumber;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 	
 	@OneToOne
 	@JoinColumn(name = "store_owner")

@@ -30,7 +30,7 @@ public class ClientDomains {
 	private String discription;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 	
 	
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

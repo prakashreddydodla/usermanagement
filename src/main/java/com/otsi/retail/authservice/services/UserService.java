@@ -25,4 +25,6 @@ public interface UserService {
 	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo);
 	
 	
+	
+	
 }
