@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: default
+data:
+  postgres_user: postgres
+  postgres_password: Otsi@123
+  postgres_host: jdbc:postgresql://localhost:5432/UserManagement
+  
+---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: postgres-pv-claim
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 1Gi
+#---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-um
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+#      volumes:
+#        - name: postgres-storage
+#          persistentVolumeClaim:
+#            claimName: postgres-pv-claim
+      containers:
+        - name: postgres
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres_user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres_password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+            - name: POSTGRES_DB
+              value: postgres
+          ports:
+            - containerPort: 5432
+              name: postgres
+#          volumeMounts:
+#            - name: postgres-storage
+#              mountPath: /var/lib/postgresql/data
+          image: postgres  
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-um
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    app: postgres
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usermanagement
+  namespace: default
+spec:
+  selector:
+    matchLabels: 
+      app: usermanagement
+  replicas: 1
+  template:
+    metadata:
+      name: usermanagement
+      labels:
+        app: usermanagement
+    spec:
+      containers:
+      - name: usermanagement
+        env:
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_user
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_password
+          - name: SPRING_DATASOURCE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_host
+        image: 881289302514.dkr.ecr.ap-south-1.amazonaws.com/new-sale-api:latest  
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usermanagement
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8082
+  selector:
+    app: usermanagement        
