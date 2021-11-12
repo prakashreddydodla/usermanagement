@@ -133,4 +133,4 @@ spec:
   ports:
     - port: 8084
   selector:
-    app: usermanagement        
+    app: usermanagement
