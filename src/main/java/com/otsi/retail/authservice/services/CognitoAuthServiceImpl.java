@@ -180,16 +180,41 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 	@Override
 	public Response addRoleToUser(String groupName, String userName) throws InvalidParameterException, Exception {
+		logger.info("assing role to user method starts");
 		Response res = new Response();
+		Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
+		Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
+		if (!userOptional.isPresent()) {
+			logger.error("Role is not found in data base");
+			throw new RuntimeException("UserName is not found in data base");
+		}
+		if (!roleOptional.isPresent()) {
+			logger.error("Role is not found in data base");
+			throw new RuntimeException("Role is not found in data base");
+		}
+		UserDeatils user = userOptional.get();
+		Role role = roleOptional.get();
+
+		user.setRole(role);
+		try {
+			UserDeatils savedUser = userRepo.save(user);
+			logger.info("Assign role to user in Local DB is Sucess");
+		} catch (Exception e) {
+			logger.error("Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
+			throw new RuntimeException("Role not assing to User. Please try again.");
+		}
 		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
 		if (result != null) {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+				logger.info("Assign role to user in Cognito sucess");
 				res.setBody("Sucessfully updated role");
 				res.setStatusCode(200);
+				logger.info("assing role to user method ends");
 				return res;
 			} else {
 				res.setBody("Falied to updated role");
 				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+				logger.error("Assign role to user in Cognito Falied");
 				return res;
 			}
 		} else
@@ -219,32 +244,39 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	public Response assignStoreToUser(List<Store> stores, String userName) throws Exception {
 		Response res = new Response();
 		try {
+			logger.info("assignStore to User method starts");
+			Optional<UserDeatils> dbUser = userRepo.findByUserName(userName);
+			if (dbUser.isPresent()) {
+				List<Store> assignedStores = dbUser.get().getStores();
+				if (!CollectionUtils.isEmpty(stores)) {
+					stores.stream().forEach(a -> {
+						Optional<Store> storeFromDb = storeRepo.findById(a.getId());
+						if(!storeFromDb.isPresent()) {
+							logger.error("Store details not found in Database");
+							throw new RuntimeException("Store details not found in Database");
+						}
+						assignedStores.add(storeFromDb.get());
+					});
+					UserDeatils user = dbUser.get();
+					user.setStores(assignedStores);
+					userRepo.save(user);
+					logger.info("Assign store to user in local DB--> Success");
+				}
+			} else {
+				logger.error("UserDeatils not found in local DB");
+				throw new RuntimeException("UserDeatils not found in local DB");
+				
+			}
 			AdminUpdateUserAttributesResult result = cognitoClient.addStoreToUser(stores, userName);
-
 			if (null != result) {
 				if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 					logger.info("Succesfully assigned store to user in cognito");
 					res.setBody("Sucessfully Assign stores to user role");
 					res.setStatusCode(200);
-					Optional<UserDeatils> dbUser = userRepo.findByUserName(userName);
-					if (dbUser.isPresent()) {
-						List<Store> assignedStores = dbUser.get().getStores();
-						if (!CollectionUtils.isEmpty(stores)) {
-							stores.stream().forEach(a -> {
-								Optional<Store> storeFromDb = storeRepo.findById(a.getId());
-								assignedStores.add(storeFromDb.get());
-							});
-							UserDeatils user = dbUser.get();
-							user.setStores(assignedStores);
-							userRepo.save(user);
-						}
-					} else {
-						res.setErrorDescription("user not updated in Local db from cognito");
-						logger.error("user not updated in Local db from cognito");
-					}
+					logger.info("AssignStore to User method Ends");
 					return res;
 				} else {
-					logger.error("failed to assign store to user in cognito");
+					logger.error("failed to assign store to user in Cognito");
 					res.setBody("Falied to updated role");
 					res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
 					return res;
@@ -276,21 +308,13 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		 * If the user is custmore we need to save user in our local DB not in Cognito
 		 */
 		if (!userRepo.existsByUserName(request.getUsername())) {
-			if (request.getRole().getRoleName().equalsIgnoreCase("CUSTOMER")) {
+			if (request.isCustomer()) {
 				UserDeatils user = new UserDeatils();
 				user.setUserName(request.getUsername());
 				user.setPhoneNumber(request.getPhoneNumber());
 				user.setGender(request.getGender());
-				/*
-				 * Optional<Role> roleFromDb =
-				 * roleRepository.findByRoleName(request.getRole().getRoleName()); if
-				 * (!roleFromDb.isPresent()) { Role roleEntity = new Role();
-				 * roleEntity.setRoleName("CUSTOMER");
-				 * roleEntity.setDiscription("Customer for store");
-				 * roleEntity.setParentPrivilages(null); Role savedRole =
-				 * roleRepository.save(roleEntity); user.setRole(savedRole); } else {
-				 * user.setRole(roleFromDb.get()); }
-				 */
+				user.setCreatedBy(request.getCreateBy());
+				user.setCustomer(request.isCustomer());
 				try {
 					UserDeatils savedUser = userRepo.save(user);
 					res.setBody("Saved Sucessfully");
@@ -383,9 +407,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					user.setLastModifyedDate(LocalDate.now());
 					userRepo.save(user);
 				}
-
 			}
-
 			return "sucessfully updated";
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
@@ -622,7 +644,6 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setPhoneNumber(a.getValue());
 			}
 		});
-
 		try {
 			if (roleId != 0L) {
 				Optional<Role> role = roleRepository.findById(roleId);

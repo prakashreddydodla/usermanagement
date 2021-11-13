@@ -33,5 +33,8 @@ public interface RolesAndPrivillagesService {
 	List<Role> getRolesForClient(long clientId) throws Exception;
 
 	Role getPrivilagesByRoleName(String roleName) throws Exception;
-	public List<Role> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException;
+
+	List<Role> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException;
+
+	String updateRole(CreateRoleRequest request) throws Exception;
 }

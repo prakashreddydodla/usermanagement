@@ -45,7 +45,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			domain.setLastModifyedDate(LocalDate.now());
 
 			Domain_Master savedChannel = domian_MasterRepo.save(domain);
-			return "Channel created";
+			return "Channel created with Id : " + savedChannel.getId();
 
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
@@ -55,6 +55,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public List<Domain_Master> getMasterDomains() {
 		List<Domain_Master> domains = domian_MasterRepo.findAll();
+		if (CollectionUtils.isEmpty(domains)) {
+			throw new RuntimeException("No master domians present in DB ");
+		}
 		return domains;
 	}
 
@@ -67,24 +70,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientEntity.setAddress(clientVo.getAddress());
 			clientEntity.setCreatedDate(LocalDate.now());
 			clientEntity.setLastModifyedDate(LocalDate.now());
-
+			clientEntity.setCreatedBy(clientVo.getCreatedBy());
 			ClientDetails savedClient = clientDetailsRepo.save(clientEntity);
-			/*
-			 * if (clientVo.getChannelId() != null) {
-			 * clientVo.getChannelId().stream().forEach(domainVo -> { ClientDomains
-			 * clientDomians = new ClientDomains();
-			 * clientDomians.setDomaiName(domainVo.getName());
-			 * clientDomians.setDiscription(domainVo.getDiscription());
-			 * clientDomians.setCreatedDate(LocalDate.now());
-			 * clientDomians.setLastModifyedDate(LocalDate.now());
-			 * clientDomians.setClient(savedClient); List<Domain_Master> masterDomains = new
-			 * ArrayList<>(); if (domainVo.getChannel() != null) {
-			 * domainVo.getChannel().stream().forEach(a -> { try {
-			 * masterDomains.add(domian_MasterRepo.findById(a.getId()).get()); } catch
-			 * (Exception e) { throw new RuntimeException("Domain not found in master"); }
-			 * }); } clientDomians.setDomain(masterDomains);
-			 * clientChannelRepo.save(clientDomians); }); }
-			 */
 			return "Client created successfully with ClientId :" + savedClient.getId();
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
@@ -94,7 +81,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public String assignDomianToClient(ClientDomianVo domianVo) {
 
-		boolean isExists = clientChannelRepo.existsByDomain_IdAndClientId(domianVo.getMasterDomianId(),domianVo.getClientId());
+		boolean isExists = clientChannelRepo.existsByDomain_IdAndClientId(domianVo.getMasterDomianId(),
+				domianVo.getClientId());
 		if (!isExists) {
 			try {
 
@@ -107,17 +95,34 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					Optional<ClientDetails> client_db = clientDetailsRepo.findById(domianVo.getClientId());
 					if (client_db.isPresent()) {
 						clientDomians.setClient(client_db.get());
+					} else {
+						throw new RuntimeException(
+								"No client details found with this Client Id : " + domianVo.getClientId());
 					}
 				}
 				if (null != clientDomians.getDomain()) {
 
 					List<Domain_Master> asssingedDomians = clientDomians.getDomain();
-					asssingedDomians.add(domian_MasterRepo.findById(domianVo.getMasterDomianId()).get());
-					clientDomians.setDomain(asssingedDomians);
+					Optional<Domain_Master> masterDomianOptional = domian_MasterRepo
+							.findById(domianVo.getMasterDomianId());
+					if (masterDomianOptional.isPresent()) {
+						asssingedDomians.add(masterDomianOptional.get());
+						clientDomians.setDomain(asssingedDomians);
+					} else {
+						throw new RuntimeException(
+								"Master Domian not found with this Id : " + domianVo.getMasterDomianId());
+					}
 				} else {
 					List<Domain_Master> newAssignedDomians = new ArrayList<>();
-					newAssignedDomians.add(domian_MasterRepo.findById(domianVo.getMasterDomianId()).get());
-					clientDomians.setDomain(newAssignedDomians);
+					Optional<Domain_Master> masterDomianOptional = domian_MasterRepo
+							.findById(domianVo.getMasterDomianId());
+					if (masterDomianOptional.isPresent()) {
+						newAssignedDomians.add(masterDomianOptional.get());
+						clientDomians.setDomain(newAssignedDomians);
+					} else {
+						throw new RuntimeException(
+								"Master Domian not found with this Id : " + domianVo.getMasterDomianId());
+					}
 				}
 
 				ClientDomains dbObject = clientChannelRepo.save(clientDomians);
@@ -143,7 +148,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (client.isPresent()) {
 			return client.get();
 		} else
-			throw new Exception("No Client found with this Name");
+			throw new Exception("No Client found with this Id : "+clientId);
 	}
 
 	@Override

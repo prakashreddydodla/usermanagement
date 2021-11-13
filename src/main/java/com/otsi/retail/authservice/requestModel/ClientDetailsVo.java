@@ -12,6 +12,6 @@ public class ClientDetailsVo {
 	private String address;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 	//private List<ClientDomianVo> channelId;
 }

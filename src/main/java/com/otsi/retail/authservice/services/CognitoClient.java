@@ -50,6 +50,8 @@ import com.amazonaws.services.cognitoidp.model.ListUsersRequest;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
+import com.amazonaws.services.cognitoidp.model.UpdateGroupRequest;
+import com.amazonaws.services.cognitoidp.model.UpdateGroupResult;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
@@ -101,7 +103,8 @@ public class CognitoClient {
 	public SignUpResult signUp(String userName, String email, String password, String givenName, String name,
 			String phoneNo, String storeId) throws Exception {
 		SignUpRequest request = new SignUpRequest().withClientId(CLIENT_ID).withUsername(userName)
-				.withPassword(password).withUserAttributes((new AttributeType().withName(CognitoAtributes.EMAIL).withValue(email)),
+				.withPassword(password)
+				.withUserAttributes((new AttributeType().withName(CognitoAtributes.EMAIL).withValue(email)),
 						(new AttributeType().withName(CognitoAtributes.GIVEN_NAME).withValue(givenName)),
 						(new AttributeType().withName(CognitoAtributes.NAME).withValue(name)),
 						(new AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(phoneNo)),
@@ -173,7 +176,8 @@ public class CognitoClient {
 					.filter(a -> a.getName().equals(CognitoAtributes.ASSIGNED_STORES)).findFirst().get();
 			StringBuilder assignedStores = new StringBuilder(attributeType.getValue());
 			stores.stream().forEach(a -> assignedStores.append("," + a.getName()));
-			attributes.add(new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES).withValue(assignedStores.toString()));
+			attributes.add(new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
+					.withValue(assignedStores.toString()));
 			updateUserAttributesRequest.setUsername(userName);
 			updateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
 			updateUserAttributesRequest.setUserAttributes(attributes);
@@ -226,8 +230,8 @@ public class CognitoClient {
 		));
 		try {
 			AdminCreateUserResult result = client.adminCreateUser(createUserRequest);
-				return result;
-			
+			return result;
+
 		} catch (UsernameExistsException uee) {
 			throw new Exception("UserName already exits");
 		} catch (InvalidParameterException ie) {
@@ -237,14 +241,14 @@ public class CognitoClient {
 	}
 
 	private String clientDomiansConvertTostring(int[] clientDomain) {
-		if(clientDomain.length!=0) {
-		
-		String domians = "";
-		for (int i : clientDomain) {
-			domians = domians + i+",";
-		}
-		return domians;
-		}else {
+		if (clientDomain.length != 0) {
+
+			String domians = "";
+			for (int i : clientDomain) {
+				domians = domians + i + ",";
+			}
+			return domians;
+		} else {
 			return "";
 		}
 	}
@@ -332,7 +336,7 @@ public class CognitoClient {
 		}
 		request.setGroupName(input.getRoleName());
 		request.setDescription(input.getDescription());
-	//	request.setPrecedence(input.getPrecedence());
+		// request.setPrecedence(input.getPrecedence());
 		request.setUserPoolId(USERPOOL_ID);
 		try {
 			CreateGroupResult result = client.createGroup(request);
@@ -341,6 +345,21 @@ public class CognitoClient {
 			} else {
 				throw new Exception("failed");
 			}
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+	public UpdateGroupResult updateRole(CreateRoleRequest input) throws Exception {
+		UpdateGroupRequest request = new UpdateGroupRequest();
+		request.setGroupName(input.getRoleName());
+		request.setDescription(input.getDescription());
+		request.setUserPoolId(USERPOOL_ID);
+		try {
+			UpdateGroupResult response = client.updateGroup(request);
+			return response;
+		} catch (InvalidParameterException ipe) {
+			throw new RuntimeException("Invalid request parameters");
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -392,6 +411,5 @@ public class CognitoClient {
 			throw new Exception(e.getMessage());
 		}
 	}
-
 
 }

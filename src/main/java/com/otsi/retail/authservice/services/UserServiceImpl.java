@@ -54,6 +54,21 @@ public class UserServiceImpl implements UserService {
 				throw new Exception("No user found with this userName: " + userRequest.getPhoneNo());
 			}
 		}
+
+		if (0L != userRequest.getRoleId()) {
+			users = userRepo.findByRoleRoleId(userRequest.getRoleId());
+			if (CollectionUtils.isEmpty(users)) {
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+			}
+		}
+
+		if (0L != userRequest.getStoreId()) {
+			users = userRepo.findByStores_Id(userRequest.getStoreId());
+			if (CollectionUtils.isEmpty(users)) {
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+			}
+		}
+
 		return users;
 	}
 
@@ -81,7 +96,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo) {
-		Optional<UserDeatils> user = userRepo.findByPhoneNumberAndRoleRoleName(mobileNo,"CUSTOMER");
+		Optional<UserDeatils> user = userRepo.findByPhoneNumberAndIsCustomer(mobileNo,Boolean.TRUE);
 		if (user.isPresent()) {
 			GetCustomerResponce customer = new GetCustomerResponce();
 
@@ -112,6 +127,6 @@ public class UserServiceImpl implements UserService {
 			}
 			return customer;
 		}
-		throw new RuntimeException("Customer not found with this mobile Number : "+mobileNo);
+		throw new RuntimeException("Customer not found with this mobile Number : " + mobileNo);
 	}
 }

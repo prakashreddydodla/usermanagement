@@ -30,7 +30,7 @@ public class Domain_Master {
 	private boolean status;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "domain",fetch = FetchType.LAZY,cascade = CascadeType.ALL)

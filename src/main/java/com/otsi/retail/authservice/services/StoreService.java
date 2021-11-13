@@ -13,9 +13,10 @@ import com.otsi.retail.authservice.requestModel.StoreVo;
 @Component
 public interface StoreService {
 
-	public String createStore(StoreVo vo) throws Exception;
-	public List<Store> getStoresForClientDomian(long clientDomianId) throws Exception;
-	public List<Store> getStoresForClient(long clientId) throws Exception;
-	public String assignStoreToClientDomain(DomianStoresVo vo) throws Exception;
-	public List<Store> getStoresOnFilter(GetStoresRequestVo vo);
+	 String createStore(StoreVo vo) throws Exception;
+	 List<Store> getStoresForClientDomian(long clientDomianId) throws Exception;
+	 List<Store> getStoresForClient(long clientId) throws Exception;
+	 String assignStoreToClientDomain(DomianStoresVo vo) throws Exception;
+	 List<Store> getStoresOnFilter(GetStoresRequestVo vo);
+	 String updateStore(StoreVo vo) throws RuntimeException, Exception;
 }

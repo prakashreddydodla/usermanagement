@@ -44,6 +44,17 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+
+	@PostMapping(EndpointConstants.UPDATE_STORE)
+	public GateWayResponse<?> updateStore(@RequestBody StoreVo vo) {
+		try {
+			String res = storeService.updateStore(vo);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
 
 	@GetMapping(EndpointConstants.GET_CLIENT_DOMIAN_STORES)
 	public GateWayResponse<?> getClientDomianStores(@RequestParam("clientDomianId") long clientDomianId) {

@@ -32,6 +32,7 @@ public class EndpointConstants {
 //############################################     ROLES CONTROLLER	END_POINTS   #############################################
 	public static final String ROLES = "/roles";
 	public static final String CREATE_ROLE = "/createRole";
+	public static final String UPDATE_ROLE = "/updateRole";
 	public static final String GET_ROLES_FOR_DOMIAN = "/getRolesForDomian/{domianId}";
 	public static final String GET_ROLES_FOR_CLIENT = "/getRolesForClient/{clientId}";
 	public static final String ADD_PREVILAGE = "/addPrevilage";
@@ -55,6 +56,8 @@ public class EndpointConstants {
 	public static final String SAVE_STATES = "/saveStates";
 	public static final String ALL_STATES = "/allStates";
 	public static final String GET_DISTRICT = "/getDistrict";
+	public static final String UPDATE_STORE = "/store";
+
 	
 	
 // ##########################################     USER CONTROLLER  END_POINTS     #########################################

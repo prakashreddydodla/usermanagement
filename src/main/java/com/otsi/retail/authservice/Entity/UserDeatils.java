@@ -43,6 +43,8 @@ public class UserDeatils  {
 	private LocalDate lastModifyedDate;
 	private String createdBy;
 	private boolean isActive;
+	private boolean isSuperAdmin;
+	private boolean isCustomer;
 	
 	@ManyToOne
 	@JoinColumn(name = "roleId")

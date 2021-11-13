@@ -31,4 +31,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	List<Role> findByCreatedDate(LocalDate createdDate);
 
+	Optional<Role> findByRoleId(long roleId);
+
 }

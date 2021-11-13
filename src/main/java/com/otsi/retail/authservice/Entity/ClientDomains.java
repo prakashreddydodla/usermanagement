@@ -39,6 +39,7 @@ public class ClientDomains {
 	inverseJoinColumns = {@JoinColumn(name = "id")})
 	private List<Domain_Master> domain;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "clientDomianlId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Store> store;
 	

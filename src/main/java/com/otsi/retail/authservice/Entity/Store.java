@@ -41,7 +41,6 @@ public class Store  {
 	@JoinColumn(name = "store_owner")
 	private UserDeatils storeOwner;
 	
-	@JsonIgnore
 //	@ManyToMany(mappedBy = "store",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@ManyToOne
 	@JoinColumn(name = "domianId")
