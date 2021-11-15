@@ -13,4 +13,6 @@ public class SubPrivillagesvo {
 	private long parentId;
 	private LocalDate createdDate;
 	private LocalDate modifyDate;
+	private String childPath;
+	private String childImage;
 }

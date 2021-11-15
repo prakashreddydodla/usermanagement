@@ -62,6 +62,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		privilage.setCreatedDate(LocalDate.now());
 		privilage.setLastModifyedDate(LocalDate.now());
 		
+		privilage.setParentImage(a.getParentPrivillage().getParentImage());
+		privilage.setPath(a.getParentPrivillage().getPath());
 			ParentPrivilages parentPrivillage = privilageRepo.save(privilage);
 			if (!CollectionUtils.isEmpty(a.getSubPrivillages())) {
 				a.getSubPrivillages().stream().forEach(b -> {
@@ -70,6 +72,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					subPrivillage.setDescription(b.getDescription());
 					subPrivillage.setCreatedDate(LocalDate.now());
 					subPrivillage.setModifyDate(LocalDate.now());
+					subPrivillage.setChildPath(b.getChildPath());
+					subPrivillage.setChildImage(b.getChildImage());
 					subPrivillage.setParentPrivillageId(parentPrivillage.getId());
 					subPrivillageRepo.save(subPrivillage);
 				});
