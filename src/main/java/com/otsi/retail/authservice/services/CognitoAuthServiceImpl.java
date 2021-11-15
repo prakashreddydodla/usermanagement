@@ -181,27 +181,22 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	@Override
 	public Response addRoleToUser(String groupName, String userName) throws InvalidParameterException, Exception {
 		logger.info("assing role to user method starts");
+		
 		Response res = new Response();
 		Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
 		Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
-		if (!userOptional.isPresent()) {
-			logger.error("Role is not found in data base");
-			throw new RuntimeException("UserName is not found in data base");
-		}
-		if (!roleOptional.isPresent()) {
-			logger.error("Role is not found in data base");
-			throw new RuntimeException("Role is not found in data base");
-		}
-		UserDeatils user = userOptional.get();
-		Role role = roleOptional.get();
-
-		user.setRole(role);
-		try {
+		if (userOptional.isPresent() && roleOptional.isPresent()) {
+			try {
+			UserDeatils user = userOptional.get();
+			Role role = roleOptional.get();
+			user.setRole(role);		
 			UserDeatils savedUser = userRepo.save(user);
 			logger.info("Assign role to user in Local DB is Sucess");
+		
 		} catch (Exception e) {
 			logger.error("Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
 			throw new RuntimeException("Role not assing to User. Please try again.");
+		}
 		}
 		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
 		if (result != null) {
