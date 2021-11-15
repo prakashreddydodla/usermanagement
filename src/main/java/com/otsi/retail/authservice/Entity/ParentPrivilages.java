@@ -30,6 +30,8 @@ private String name;
 private String discription;
 private boolean read;
 private boolean write;
+private String path;
+private String parentImage;
 @JsonIgnore
 @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "parentPrivilages")
 private List<Role> roleId;

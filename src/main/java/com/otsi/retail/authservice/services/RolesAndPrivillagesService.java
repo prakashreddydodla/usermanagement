@@ -16,7 +16,7 @@ import com.otsi.retail.authservice.requestModel.SubPrivillagesvo;
 @Component
 public interface RolesAndPrivillagesService {
 
-	String savePrevilage(CreatePrivillagesRequest privilages) throws Exception;
+	String savePrevilage(List<CreatePrivillagesRequest> privilages) throws Exception;
 
 	String saveSubPrivillages(SubPrivillagesvo vo) throws Exception;
 

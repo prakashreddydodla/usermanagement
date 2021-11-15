@@ -87,7 +87,7 @@ public class RolesAndPrivillagesController {
 	}
 
 	@PostMapping(EndpointConstants.ADD_PREVILAGE)
-	public GateWayResponse<?> savePrevilageToMaster(@RequestBody CreatePrivillagesRequest privilages) {
+	public GateWayResponse<?> savePrevilageToMaster(@RequestBody List<CreatePrivillagesRequest> privilages) {
 		try {
 			String res = rolesAndPrivillagesService.savePrevilage(privilages);
 			return new GateWayResponse<>(200, res, "", "true");

@@ -51,28 +51,30 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	private Logger logger = LoggerFactory.getLogger(RolesAndPrivillagesServiceImpl.class);
 
 	@Override
-	public String savePrevilage(CreatePrivillagesRequest privilages) throws Exception {
-
+	public String savePrevilage(List<CreatePrivillagesRequest> privilages) throws Exception {
+		try {
+		privilages.stream().forEach(a->{
 		ParentPrivilages privilage = new ParentPrivilages();
-		privilage.setName(privilages.getParentPrivillage().getName());
-		privilage.setDiscription(privilages.getParentPrivillage().getDescription());
+		privilage.setName(a.getParentPrivillage().getName());
+		privilage.setDiscription(a.getParentPrivillage().getDescription());
 		privilage.setRead(Boolean.TRUE);
 		privilage.setWrite(Boolean.TRUE);
 		privilage.setCreatedDate(LocalDate.now());
 		privilage.setLastModifyedDate(LocalDate.now());
-		try {
+		
 			ParentPrivilages parentPrivillage = privilageRepo.save(privilage);
-			if (!CollectionUtils.isEmpty(privilages.getSubPrivillages())) {
-				privilages.getSubPrivillages().stream().forEach(a -> {
+			if (!CollectionUtils.isEmpty(a.getSubPrivillages())) {
+				a.getSubPrivillages().stream().forEach(b -> {
 					SubPrivillage subPrivillage = new SubPrivillage();
-					subPrivillage.setName(a.getName());
-					subPrivillage.setDescription(a.getDescription());
+					subPrivillage.setName(b.getName());
+					subPrivillage.setDescription(b.getDescription());
 					subPrivillage.setCreatedDate(LocalDate.now());
 					subPrivillage.setModifyDate(LocalDate.now());
 					subPrivillage.setParentPrivillageId(parentPrivillage.getId());
 					subPrivillageRepo.save(subPrivillage);
 				});
 			}
+		});
 			return "Saved Successfully";
 		} catch (Exception e) {
 			throw new Exception();
