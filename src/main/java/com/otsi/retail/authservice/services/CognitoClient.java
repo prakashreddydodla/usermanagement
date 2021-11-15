@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -242,8 +243,11 @@ public class CognitoClient {
 	}
 
 	private String generateTempPassword() {
-		// TODO Auto-generated method stub
-		return null;
+		int length = 8;
+	    boolean useLetters = true;
+	    boolean useNumbers = true;
+	    String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
+	    return generatedString;
 	}
 
 	private String clientDomiansConvertTostring(int[] clientDomain) {
