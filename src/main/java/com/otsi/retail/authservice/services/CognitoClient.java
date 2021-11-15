@@ -225,7 +225,10 @@ public class CognitoClient {
 				new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()),
 				new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()),
 				new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
-						.withValue(clientDomiansConvertTostring(request.getClientDomain()))
+						.withValue(clientDomiansConvertTostring(request.getClientDomain())),
+						new AttributeType().withName(CognitoAtributes.IS_SUPER_ADMIN)
+						.withValue(request.getIsSuperAdmin())
+						
 
 		// new
 		// AttributeType().withName(CognitoAtributes.PREFFERED_USERNAME).withValue(request.getUsername())

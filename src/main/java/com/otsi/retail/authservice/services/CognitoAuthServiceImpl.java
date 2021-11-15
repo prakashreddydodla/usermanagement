@@ -296,21 +296,22 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	public Response createUser(AdminCreatUserRequest request) throws Exception {
 		Response res = new Response();
 
-		if (null == request.getRole()) {
-			throw new Exception("Role should not be null");
-		}
+		/*
+		 * if (null == request.getRole()) { throw new
+		 * Exception("Role should not be null"); }
+		 */
 		/**
 		 * If the user is custmore we need to save user in our local DB not in Cognito
 		 */
 		if (!userRepo.existsByUserName(request.getUsername())) {
 			if(!userRepo.existsByPhoneNumber(request.getPhoneNumber())) {
-			if (request.isCustomer()) {
+			if (request.getIsCustomer()) {
 				UserDeatils user = new UserDeatils();
 				user.setUserName(request.getUsername());
 				user.setPhoneNumber(request.getPhoneNumber());
 				user.setGender(request.getGender());
 				user.setCreatedBy(request.getCreateBy());
-				user.setCustomer(request.isCustomer());
+			//	user.setCustomer(request.isCustomer());
 				try {
 					UserDeatils savedUser = userRepo.save(user);
 					res.setBody("Saved Sucessfully");
@@ -645,13 +646,14 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			}
 		});
 		try {
+			UserDeatils userSaved = userRepo.save(user);
 			if (roleId != 0L) {
 				Optional<Role> role = roleRepository.findById(roleId);
 				if (role.isPresent()) {
-					user.setRole(role.get());
-				}
+					userSaved.setRole(role.get());
+				}	
 			}
-			UserDeatils dbResponce = userRepo.save(user);
+			UserDeatils dbResponce = userRepo.save(userSaved);
 			return dbResponce;
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -682,8 +684,14 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				/**
 				 * Save the confirmed user into Userdetails table in Usermangement DB
 				 */
+				
+		Optional<Role> role=roleRepository.findByRoleName(req.getRoleName());
+		long roleId=0L;
+		if(role.isPresent()) {
+			roleId=role.get().getRoleId();
+		}
 				String res = saveUsersIndataBase(userFromCognito.getUserCreateDate(),
-						userFromCognito.getUserLastModifiedDate(), userFromCognito.getUserAttributes(), req.getRoleId(),
+						userFromCognito.getUserLastModifiedDate(), userFromCognito.getUserAttributes(), roleId,
 						req.getUserName());
 				if (!res.equalsIgnoreCase("success")) {
 					throw new Exception("User confirmed in Cognito userpool but not saved in Database");
