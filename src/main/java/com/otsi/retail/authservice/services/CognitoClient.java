@@ -247,7 +247,7 @@ public class CognitoClient {
 	    boolean useLetters = true;
 	    boolean useNumbers = true;
 	    String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-	    return generatedString;
+	    return generatedString+"$";
 	}
 
 	private String clientDomiansConvertTostring(int[] clientDomain) {
