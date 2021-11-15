@@ -58,6 +58,7 @@ import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
 import com.otsi.retail.authservice.requestModel.StoreVo;
+import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 
 @Component
@@ -208,7 +209,7 @@ public class CognitoClient {
 		createUserRequest.setDesiredDeliveryMediums(Arrays.asList("EMAIL"));
 		createUserRequest.setUserPoolId(USERPOOL_ID);
 		createUserRequest.setUsername(request.getUsername());
-		createUserRequest.setTemporaryPassword(request.getTempPassword());
+		createUserRequest.setTemporaryPassword(generateTempPassword());
 		createUserRequest.setUserAttributes(Arrays.asList(
 				new AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()),
 				new AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(request.getPhoneNumber()),
@@ -238,6 +239,11 @@ public class CognitoClient {
 			throw new Exception(ie.getMessage());
 		}
 
+	}
+
+	private String generateTempPassword() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private String clientDomiansConvertTostring(int[] clientDomain) {
@@ -412,4 +418,37 @@ public class CognitoClient {
 		}
 	}
 
+	
+	public AdminUpdateUserAttributesResult updateUserInCognito(UpdateUserRequest request) {
+		try {
+		AdminUpdateUserAttributesRequest adminUpdateUserAttributesRequest=new AdminUpdateUserAttributesRequest();
+		adminUpdateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
+		adminUpdateUserAttributesRequest.setUsername(request.getUsername());
+		adminUpdateUserAttributesRequest.setUserAttributes(Arrays.asList(
+				new AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()),
+				new AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(request.getPhoneNumber()),
+				new AttributeType().withName(CognitoAtributes.NAME).withValue(request.getName()),
+				new AttributeType().withName(CognitoAtributes.BIRTHDATE).withValue(request.getBirthDate()),
+				new AttributeType().withName(CognitoAtributes.ADDRESS).withValue(request.getAddress()),
+				new AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender()),
+				new AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.getParentId()),
+				new AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()),
+				new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
+						.withValue(setStores(request.getStores())),
+				new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()),
+				new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()),
+				new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
+						.withValue(clientDomiansConvertTostring(request.getClientDomain()))));
+		AdminUpdateUserAttributesResult result=	client.adminUpdateUserAttributes(adminUpdateUserAttributesRequest);
+		return result;
+		}catch (InvalidParameterException ipe) {
+			throw new RuntimeException("Invalid parameters");
+		}catch (RuntimeException re) {
+			throw new RuntimeException(re.getMessage());
+		}catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
+
+	}
 }
