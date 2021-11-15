@@ -33,5 +33,7 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	Optional<UserDeatils> findByPhoneNumberAndIsCustomer(String mobileNo, Boolean true1);
 
+	boolean existsByPhoneNumber(String phoneNumber);
+
 
 }

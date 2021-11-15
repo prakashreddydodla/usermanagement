@@ -303,6 +303,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		 * If the user is custmore we need to save user in our local DB not in Cognito
 		 */
 		if (!userRepo.existsByUserName(request.getUsername())) {
+			if(!userRepo.existsByPhoneNumber(request.getPhoneNumber())) {
 			if (request.isCustomer()) {
 				UserDeatils user = new UserDeatils();
 				user.setUserName(request.getUsername());
@@ -347,8 +348,12 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					throw new Exception(e.getMessage());
 				}
 			}
+		}else {
+			throw new UserAlreadyExistsException("Phone number is alreadr exists");
 		}
-		throw new UserAlreadyExistsException("Username is alreadr exists");
+		}else {
+			throw new UserAlreadyExistsException("Username is alreadr exists");
+		}
 	}
 
 	/**
