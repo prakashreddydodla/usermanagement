@@ -33,7 +33,7 @@ public class UserDeatils  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
+	private Long userId;//
 	@Column(unique = true)
 	private String userName;
 	@Column(unique = true)
