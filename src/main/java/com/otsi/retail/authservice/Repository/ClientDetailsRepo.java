@@ -13,7 +13,7 @@ import com.otsi.retail.authservice.Entity.Domain_Master;
 public interface ClientDetailsRepo extends JpaRepository<ClientDetails, Long> {
 
 	ClientDetails findByName(String clientName);
-
+//
 	boolean existsByName(String name);
 
 
