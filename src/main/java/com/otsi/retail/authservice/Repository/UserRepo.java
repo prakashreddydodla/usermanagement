@@ -37,5 +37,9 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	Optional<UserDeatils> findByUserId(long l);
 
+	boolean existsByUserNameAndIsCustomer(String username, Boolean false1);
+
+	boolean existsByPhoneNumberAndIsCustomer(String phoneNumber, Boolean false1);
+
 
 }

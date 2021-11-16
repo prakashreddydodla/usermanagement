@@ -305,19 +305,36 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		 * If the user is custmore we need to save user in our local DB not in Cognito
 		 */
 		try {
-		boolean userExists=	userRepo.existsByUserName(request.getUsername());
-		boolean phoneNoExists=	userRepo.existsByPhoneNumber(request.getPhoneNumber());
-		if (!userExists) {
-			
-			if (!phoneNoExists) {
-				
+		boolean usernameExists=	userRepo.existsByUserNameAndIsCustomer(request.getUsername(),Boolean.FALSE);
+		if(usernameExists) {
+			throw new RuntimeException("UserName already exists");
+		}
+		boolean userphoneNoExists=	userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),Boolean.FALSE);
+		if(userphoneNoExists) {
+			throw new RuntimeException("Mobile Number already exists");
+		}
+		/*
+		 * boolean customerNameExists=
+		 * userRepo.existsByUserNameAndIsCustomer(request.getUsername(),Boolean.TRUE);
+		 * if(customerNameExists) { throw new
+		 * RuntimeException("Customer Name already exists");
+		 * 
+		 * }
+		 */
+		boolean csutomerPhoneNoExists=	userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),Boolean.TRUE);
+		if(csutomerPhoneNoExists) {
+			throw new RuntimeException("Customer Phone number already exists");
+	
+		}
+		
 				if (null != request.getIsCustomer() && request.getIsCustomer().equalsIgnoreCase("true")) {
 					UserDeatils user = new UserDeatils();
 					user.setUserName(request.getUsername());
 					user.setPhoneNumber(request.getPhoneNumber());
 					user.setGender(request.getGender());
 					user.setCreatedBy(request.getCreateBy());
-					// user.setCustomer(request.isCustomer());
+					
+					 user.setCustomer(Boolean.TRUE);
 					
 						UserDeatils savedUser = userRepo.save(user);
 						res.setBody("Saved Sucessfully");
@@ -350,12 +367,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						return res;
 					
 				}
-			} else {
-				throw new UserAlreadyExistsException("Phone number is alreadr exists");
-			}
-		} else {
-			throw new UserAlreadyExistsException("Username is alreadr exists");
-		}
+			
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
