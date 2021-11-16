@@ -181,22 +181,23 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	@Override
 	public Response addRoleToUser(String groupName, String userName) throws InvalidParameterException, Exception {
 		logger.info("assing role to user method starts");
-		
+
 		Response res = new Response();
 		Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
 		Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
 		if (userOptional.isPresent() && roleOptional.isPresent()) {
 			try {
-			UserDeatils user = userOptional.get();
-			Role role = roleOptional.get();
-			user.setRole(role);		
-			UserDeatils savedUser = userRepo.save(user);
-			logger.info("Assign role to user in Local DB is Sucess");
-		
-		} catch (Exception e) {
-			logger.error("Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
-			throw new RuntimeException("Role not assing to User. Please try again.");
-		}
+				UserDeatils user = userOptional.get();
+				Role role = roleOptional.get();
+				user.setRole(role);
+				UserDeatils savedUser = userRepo.save(user);
+				logger.info("Assign role to user in Local DB is Sucess");
+
+			} catch (Exception e) {
+				logger.error(
+						"Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
+				throw new RuntimeException("Role not assing to User. Please try again.");
+			}
 		}
 		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
 		if (result != null) {
@@ -246,7 +247,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				if (!CollectionUtils.isEmpty(stores)) {
 					stores.stream().forEach(a -> {
 						Optional<Store> storeFromDb = storeRepo.findById(a.getId());
-						if(!storeFromDb.isPresent()) {
+						if (!storeFromDb.isPresent()) {
 							logger.error("Store details not found in Database");
 							throw new RuntimeException("Store details not found in Database");
 						}
@@ -260,7 +261,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			} else {
 				logger.error("UserDeatils not found in local DB");
 				throw new RuntimeException("UserDeatils not found in local DB");
-				
+
 			}
 			AdminUpdateUserAttributesResult result = cognitoClient.addStoreToUser(stores, userName);
 			if (null != result) {
@@ -303,57 +304,60 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		/**
 		 * If the user is custmore we need to save user in our local DB not in Cognito
 		 */
-		if (!userRepo.existsByUserName(request.getUsername())) {
-			if(!userRepo.existsByPhoneNumber(request.getPhoneNumber())) {
-			if (request.getIsCustomer()) {
-				UserDeatils user = new UserDeatils();
-				user.setUserName(request.getUsername());
-				user.setPhoneNumber(request.getPhoneNumber());
-				user.setGender(request.getGender());
-				user.setCreatedBy(request.getCreateBy());
-			//	user.setCustomer(request.isCustomer());
-				try {
-					UserDeatils savedUser = userRepo.save(user);
-					res.setBody("Saved Sucessfully");
-					res.setStatusCode(200);
-					return res;
-				} catch (Exception e) {
-					res.setBody("Not Saved");
-					res.setStatusCode(400);
-					return res;
+		try {
+		boolean userExists=	userRepo.existsByUserName(request.getUsername());
+		boolean phoneNoExists=	userRepo.existsByPhoneNumber(request.getPhoneNumber());
+		if (!userExists) {
+			
+			if (!phoneNoExists) {
+				
+				if (null != request.getIsCustomer() && request.getIsCustomer().equalsIgnoreCase("true")) {
+					UserDeatils user = new UserDeatils();
+					user.setUserName(request.getUsername());
+					user.setPhoneNumber(request.getPhoneNumber());
+					user.setGender(request.getGender());
+					user.setCreatedBy(request.getCreateBy());
+					// user.setCustomer(request.isCustomer());
+					
+						UserDeatils savedUser = userRepo.save(user);
+						res.setBody("Saved Sucessfully");
+						res.setStatusCode(200);
+						return res;
+					
+				} else {
+				
+						/**
+						 * If it not customer then only save user in cognito userpool
+						 */
+						AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
+						if (result != null) {
+							if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+								res.setStatusCode(200);
+
+								/**
+								 * Adding role to the saved user in cognito userpool
+								 */
+								if (null != request.getRole().getRoleName() && null != request.getUsername()) {
+									Response roleResponse = addRoleToUser(request.getRole().getRoleName(),
+											request.getUsername());
+									res.setBody("with user " + result);
+								}
+							} else {
+								res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+								res.setBody("something went wrong");
+							}
+						}
+						return res;
+					
 				}
 			} else {
-				try {
-					/**
-					 * If it not customer then only save user in cognito userpool
-					 */
-					AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
-					if (result != null) {
-						if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-							res.setStatusCode(200);
-
-							/**
-							 * Adding role to the saved user in cognito userpool
-							 */
-
-							Response roleResponse = addRoleToUser(request.getRole().getRoleName(),
-									request.getUsername());
-							res.setBody("with user " + result);
-						} else {
-							res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-							res.setBody("something went wrong");
-						}
-					}
-					return res;
-				} catch (Exception e) {
-					throw new Exception(e.getMessage());
-				}
+				throw new UserAlreadyExistsException("Phone number is alreadr exists");
 			}
-		}else {
-			throw new UserAlreadyExistsException("Phone number is alreadr exists");
-		}
-		}else {
+		} else {
 			throw new UserAlreadyExistsException("Username is alreadr exists");
+		}
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
 		}
 	}
 
@@ -651,7 +655,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				Optional<Role> role = roleRepository.findById(roleId);
 				if (role.isPresent()) {
 					userSaved.setRole(role.get());
-				}	
+				}
 			}
 			UserDeatils dbResponce = userRepo.save(userSaved);
 			return dbResponce;
@@ -684,12 +688,12 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				/**
 				 * Save the confirmed user into Userdetails table in Usermangement DB
 				 */
-				
-		Optional<Role> role=roleRepository.findByRoleName(req.getRoleName());
-		long roleId=0L;
-		if(role.isPresent()) {
-			roleId=role.get().getRoleId();
-		}
+
+				Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());
+				long roleId = 0L;
+				if (role.isPresent()) {
+					roleId = role.get().getRoleId();
+				}
 				String res = saveUsersIndataBase(userFromCognito.getUserCreateDate(),
 						userFromCognito.getUserLastModifiedDate(), userFromCognito.getUserAttributes(), roleId,
 						req.getUserName());

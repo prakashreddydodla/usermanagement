@@ -27,7 +27,7 @@ public class AdminCreatUserRequest {
 	private String clientId;
 	private String isConfigUser;
 	private int[] clientDomain;
-	private Boolean isCustomer;
+	private String isCustomer;
 	private String isSuperAdmin;
 	private String createBy;
 }
