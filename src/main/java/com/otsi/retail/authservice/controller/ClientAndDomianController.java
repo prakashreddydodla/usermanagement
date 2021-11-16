@@ -107,7 +107,7 @@ public class ClientAndDomianController {
 	@GetMapping(EndpointConstants.GET_DOMIAN_BY_ID)
 	public GateWayResponse<?> getDomianById(@PathVariable String clientDomianId){
 		try {
-		ClientDomains res = clientAndDomianService.getDomianById(clientDomianId);
+		ClientDomains res = clientAndDomianService.getDomianById(Long.parseLong(clientDomianId));
 		return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

@@ -29,5 +29,5 @@ public interface ClientAndDomianService {
 
 	List<ClientDomains> getDomainsForClient(long clientId);
 
-	ClientDomains getDomianById(String clientDomianId);
+	ClientDomains getDomianById(long l);
 }

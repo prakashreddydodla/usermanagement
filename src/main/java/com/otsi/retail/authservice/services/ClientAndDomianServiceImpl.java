@@ -173,7 +173,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	}
 
 	@Override
-	public ClientDomains getDomianById(String clientDomianId) {
+	public ClientDomains getDomianById(long clientDomianId) {
 
 		Optional<ClientDomains> domianOptional = clientChannelRepo.findByClientDomainaId(clientDomianId);
 		if (domianOptional.isPresent()) {
