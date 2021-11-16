@@ -27,6 +27,8 @@ public class EndpointConstants {
 	public static final String GET_DOMAINS_FOR_CLIENT = "/getDomiansForClient/{clientId}";
 	public static final String GET_CLIENT = "/getClient/{clientId}";
 	public static final String GET_ALL_CLIENTS = "/getAllClients";
+	public static final String GET_DOMIAN_BY_ID ="domian/{clientDomianId}";
+
 
 	
 //############################################     ROLES CONTROLLER	END_POINTS   #############################################

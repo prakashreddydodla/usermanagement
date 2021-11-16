@@ -28,4 +28,6 @@ public interface ClientAndDomianService {
 	List<ClientDetails> getAllClient() throws Exception;
 
 	List<ClientDomains> getDomainsForClient(long clientId);
+
+	ClientDomains getDomianById(String clientDomianId);
 }

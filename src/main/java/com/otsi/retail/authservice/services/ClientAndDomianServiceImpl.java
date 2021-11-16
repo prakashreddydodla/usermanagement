@@ -148,7 +148,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (client.isPresent()) {
 			return client.get();
 		} else
-			throw new Exception("No Client found with this Id : "+clientId);
+			throw new Exception("No Client found with this Id : " + clientId);
 	}
 
 	@Override
@@ -170,6 +170,18 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			throw new RuntimeException("No domian found with this Client :" + clientId);
 		}
 
+	}
+
+	@Override
+	public ClientDomains getDomianById(String clientDomianId) {
+
+		Optional<ClientDomains> domianOptional = clientChannelRepo.findByClientDomainaId(clientDomianId);
+		if (domianOptional.isPresent()) {
+			return domianOptional.get();
+
+		} else {
+			throw new RuntimeException("Client domian not found with this Id : " + clientDomianId);
+		}
 	}
 
 }
