@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
 		List<UserDeatils> users = new ArrayList<>();
 		if (0l != userRequest.getId()) {
-			Optional<UserDeatils> user = userRepo.findById(userRequest.getId());
+			Optional<UserDeatils> user = userRepo.findByUserId(userRequest.getId());
 			if (user.isPresent()) {
 				users.add(user.get());
 
@@ -114,9 +114,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo) {
-		Optional<UserDeatils> user = userRepo.findByPhoneNumberAndIsCustomer(mobileNo, Boolean.TRUE);
-		if (user.isPresent()) {
+	public GetCustomerResponce getCustomerbasedOnMobileNumber(String type, String value) {
+		Optional<UserDeatils> user = Optional.empty();
+		if (null != type && type.equalsIgnoreCase("mobileNo")) {
+			user = userRepo.findByPhoneNumber(value);
+			if(!user.isPresent()) {
+				throw new RuntimeException("No customer found with this MobileNo : "+value);
+			}
+		}
+		if (null != type && type.equalsIgnoreCase("id")) {
+			user = userRepo.findByUserId(Long.parseLong(value));
+			if(!user.isPresent()) {
+				throw new RuntimeException("No customer found with this Id : "+value);
+			}
+		}
+	
 			GetCustomerResponce customer = new GetCustomerResponce();
 
 			customer.setUserId(user.get().getUserId());
@@ -145,8 +157,7 @@ public class UserServiceImpl implements UserService {
 				customer.setActive(user.get().isActive());
 			}
 			return customer;
-		}
-		throw new RuntimeException("Customer not found with this mobile Number : " + mobileNo);
+		
 	}
 
 	public String updateUser(UpdateUserRequest req) {

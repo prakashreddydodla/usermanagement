@@ -22,7 +22,7 @@ public interface UserService {
 
 	List<UserDeatils> getUsersForClientDomain(long clientDomianId);
 
-	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo);
+	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo, String mobileNo2);
 	
 	
 	
