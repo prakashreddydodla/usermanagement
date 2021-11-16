@@ -65,6 +65,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Transactional(rollbackOn = { Exception.class })
 	public String createClient(ClientDetailsVo clientVo) throws Exception {
 		try {
+			boolean clientExists=	clientDetailsRepo.existsByName(clientVo.getName());
+			if(!clientExists) {
 			ClientDetails clientEntity = new ClientDetails();
 			clientEntity.setName(clientVo.getName());
 			clientEntity.setAddress(clientVo.getAddress());
@@ -73,7 +75,13 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientEntity.setCreatedBy(clientVo.getCreatedBy());
 			ClientDetails savedClient = clientDetailsRepo.save(clientEntity);
 			return "Client created successfully with ClientId :" + savedClient.getId();
-		} catch (Exception e) {
+			}else {
+				throw new RuntimeException("Client Name already exists in DB");
+			}
+		}catch (RuntimeException e) {
+			throw new Exception(e.getMessage());
+		}
+		 catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}

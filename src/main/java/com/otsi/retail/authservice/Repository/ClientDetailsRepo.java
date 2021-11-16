@@ -14,5 +14,7 @@ public interface ClientDetailsRepo extends JpaRepository<ClientDetails, Long> {
 
 	ClientDetails findByName(String clientName);
 
+	boolean existsByName(String name);
+
 
 }
