@@ -675,14 +675,18 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						if(b.getName().equalsIgnoreCase(CognitoAtributes.IS_SUPER_ADMIN)) {
 							if(b.getValue().equalsIgnoreCase("true")) {
 								Optional<Role> roleSuperAdmin=	roleRepository.findByRoleName("Super_Admin");
+								if(roleSuperAdmin.isPresent()) {
 								userSaved.setRole(roleSuperAdmin.get());
+								}
 
 							}
 						}
 						if(b.getName().equalsIgnoreCase(CognitoAtributes.IS_CONFIGUSER)) {
 							if(b.getValue().equalsIgnoreCase("true")) {
 								Optional<Role> roleCognifuser=	roleRepository.findByRoleName("Cogif_User");
+								if(roleCognifuser.isPresent()) {
 								userSaved.setRole(roleCognifuser.get());
+								}
 
 							}
 						}
