@@ -27,6 +27,7 @@ import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
+import com.otsi.retail.authservice.responceModel.UserListResponse;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 
 @Service
@@ -106,6 +107,23 @@ public class UserServiceImpl implements UserService {
 	public List<UserDeatils> getUsersForClientDomain(long clientDomianId) {
 		List<UserDeatils> users = userRepo.findByClientDomians_ClientDomainaId(clientDomianId);
 		if (!CollectionUtils.isEmpty(users)) {
+			users.stream().forEach(a -> {
+				UserListResponse userVo = new UserListResponse();
+				userVo.setUserId(a.getUserId());
+				userVo.setUserName(a.getUserName());
+				userVo.setCreatedBy(a.getCreatedBy());
+				userVo.setCreatedDate(a.getCreatedDate());
+				Optional<ClientDomains> domianOptinal = clientcDomianRepo.findByClientDomainaId(clientDomianId);
+				if (domianOptinal.isPresent()) {
+					userVo.setDomian(domianOptinal.get().getDomaiName());
+				}
+				a.getUserAv().stream().forEach(b -> {
+					if (b.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+						userVo.setEmail(b.getStringValue());
+					}
+				});
+			});
+
 			return users;
 		} else {
 			throw new UserNotFoundException("User not found with this Domian Id : " + clientDomianId);
@@ -118,46 +136,46 @@ public class UserServiceImpl implements UserService {
 		Optional<UserDeatils> user = Optional.empty();
 		if (null != type && type.equalsIgnoreCase("mobileNo")) {
 			user = userRepo.findByPhoneNumber(value);
-			if(!user.isPresent()) {
-				throw new RuntimeException("No customer found with this MobileNo : "+value);
+			if (!user.isPresent()) {
+				throw new RuntimeException("No customer found with this MobileNo : " + value);
 			}
 		}
 		if (null != type && type.equalsIgnoreCase("id")) {
 			user = userRepo.findByUserId(Long.parseLong(value));
-			if(!user.isPresent()) {
-				throw new RuntimeException("No customer found with this Id : "+value);
+			if (!user.isPresent()) {
+				throw new RuntimeException("No customer found with this Id : " + value);
 			}
 		}
-	
-			GetCustomerResponce customer = new GetCustomerResponce();
 
-			customer.setUserId(user.get().getUserId());
-			if (null != user.get().getPhoneNumber()) {
+		GetCustomerResponce customer = new GetCustomerResponce();
 
-				customer.setPhoneNumber(user.get().getPhoneNumber());
-			}
-			if (null != user.get().getUserName()) {
+		customer.setUserId(user.get().getUserId());
+		if (null != user.get().getPhoneNumber()) {
 
-				customer.setUserName(user.get().getUserName());
-			}
-			if (null != user.get().getCreatedDate()) {
+			customer.setPhoneNumber(user.get().getPhoneNumber());
+		}
+		if (null != user.get().getUserName()) {
 
-				customer.setCreatedDate(user.get().getCreatedDate());
-			}
-			if (null != user.get().getGender()) {
+			customer.setUserName(user.get().getUserName());
+		}
+		if (null != user.get().getCreatedDate()) {
 
-				customer.setGender(user.get().getGender());
-			}
-			if (null != user.get().getLastModifyedDate()) {
+			customer.setCreatedDate(user.get().getCreatedDate());
+		}
+		if (null != user.get().getGender()) {
 
-				customer.setLastModifyedDate(user.get().getLastModifyedDate());
-			}
-			if (true != user.get().isActive()) {
+			customer.setGender(user.get().getGender());
+		}
+		if (null != user.get().getLastModifyedDate()) {
 
-				customer.setActive(user.get().isActive());
-			}
-			return customer;
-		
+			customer.setLastModifyedDate(user.get().getLastModifyedDate());
+		}
+		if (true != user.get().isActive()) {
+
+			customer.setActive(user.get().isActive());
+		}
+		return customer;
+
 	}
 
 	public String updateUser(UpdateUserRequest req) {
