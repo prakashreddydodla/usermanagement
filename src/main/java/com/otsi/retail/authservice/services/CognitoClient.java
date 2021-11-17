@@ -227,7 +227,10 @@ public class CognitoClient {
 				new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
 						.withValue(clientDomiansConvertTostring(request.getClientDomain())),
 						new AttributeType().withName(CognitoAtributes.IS_SUPER_ADMIN)
-						.withValue(request.getIsSuperAdmin())
+						.withValue(request.getIsSuperAdmin()),
+						new AttributeType().withName(CognitoAtributes.CREATED_BY)
+						.withValue(request.getCreatedBy())
+						
 						
 
 		// new

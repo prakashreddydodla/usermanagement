@@ -332,7 +332,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					user.setUserName(request.getUsername());
 					user.setPhoneNumber(request.getPhoneNumber());
 					user.setGender(request.getGender());
-					user.setCreatedBy(request.getCreateBy());
+					user.setCreatedBy(request.getCreatedBy());
 					
 					 user.setCustomer(Boolean.TRUE);
 					
@@ -659,6 +659,9 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			}
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.PHONE_NUMBER)) {
 				user.setPhoneNumber(a.getValue());
+			}
+			if (a.getName().equalsIgnoreCase(CognitoAtributes.CREATED_BY)) {
+				user.setCreatedBy(a.getValue());
 			}
 		});
 		try {

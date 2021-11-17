@@ -24,6 +24,7 @@ public class CognitoAtributes {
 	public static final String USER_NAME="cognito:username";
 	public static final String IS_ACTIVE="isActive";
 	public static final String IS_SUPER_ADMIN="custom:isSuperAdmin";
+	public static final String CREATED_BY = "custom:createdBy";
 
 	
 
