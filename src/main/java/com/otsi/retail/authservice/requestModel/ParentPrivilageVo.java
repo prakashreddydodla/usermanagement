@@ -19,4 +19,5 @@ public class ParentPrivilageVo {
 	private List<SubPrivillage> subPrivillages;
 	private String parentImage;
 	private String path;
+	private int domian;
 }

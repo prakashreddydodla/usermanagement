@@ -60,6 +60,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		privilage.setRead(Boolean.TRUE);
 		privilage.setWrite(Boolean.TRUE);
 		privilage.setCreatedDate(LocalDate.now());
+		privilage.setDomian(a.getParentPrivillage().getDomian());
 		privilage.setLastModifyedDate(LocalDate.now());
 		
 		privilage.setParentImage(a.getParentPrivillage().getParentImage());
@@ -75,6 +76,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					subPrivillage.setChildPath(b.getChildPath());
 					subPrivillage.setChildImage(b.getChildImage());
 					subPrivillage.setParentPrivillageId(parentPrivillage.getId());
+					subPrivillage.setDomian(b.getDomian());
 					subPrivillageRepo.save(subPrivillage);
 				});
 			}
@@ -408,5 +410,27 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			throw new Exception(e.getMessage());
 		}
 
+	}
+
+	public List<ParentPrivilageVo> getAllPrivilagesForDomian(int domian) {
+		List<ParentPrivilageVo> listOfParentPrivillages = new ArrayList<>();
+		List<ParentPrivilages> entity = privilageRepo.findByDomian(domian);
+		entity.stream().forEach(p -> {
+			ParentPrivilageVo parentPrivillagesVo = new ParentPrivilageVo();
+			parentPrivillagesVo.setId(p.getId());
+			parentPrivillagesVo.setName(p.getName());
+			parentPrivillagesVo.setDescription(p.getDiscription());
+			parentPrivillagesVo.setLastModifyedDate(p.getLastModifyedDate());
+			parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
+			parentPrivillagesVo.setDomian(p.getDomian());
+			List<SubPrivillage> subPrivillages = subPrivillageRepo.findByParentPrivillageId(p.getId());
+			if (!CollectionUtils.isEmpty(subPrivillages)) {
+				parentPrivillagesVo.setSubPrivillages(subPrivillages);
+			}
+			listOfParentPrivillages.add(parentPrivillagesVo);
+
+		});
+
+		return listOfParentPrivillages;
 	}
 }

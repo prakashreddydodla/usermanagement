@@ -151,5 +151,17 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@GetMapping(EndpointConstants.GET_PRIVILLAGES_BY_DOMIAN)
+	public GateWayResponse<?> getPrivillagesForDomian(@PathVariable String domian){
+	
+		try {
+			List<ParentPrivilageVo> res = rolesAndPrivillagesService.getAllPrivilagesForDomian(Integer.parseInt(domian));
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
 
 }

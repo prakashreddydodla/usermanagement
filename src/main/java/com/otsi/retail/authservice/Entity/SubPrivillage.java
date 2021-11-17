@@ -32,6 +32,7 @@ public class SubPrivillage {
 	private String description;
 	private String childPath;
 	private String childImage;
+	private int domian;
 	private long parentPrivillageId;
 	private LocalDate createdDate;
 	private LocalDate modifyDate;
