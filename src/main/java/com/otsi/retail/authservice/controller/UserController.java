@@ -62,7 +62,7 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_ID)
 	public GateWayResponse<?> getUsersForClient(@PathVariable String clientId) {
 		try {
-			List<UserDeatils> res = userService.getUserForClient(Integer.parseInt(clientId));
+			List<UserListResponse> res = userService.getUserForClient(Integer.parseInt(clientId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

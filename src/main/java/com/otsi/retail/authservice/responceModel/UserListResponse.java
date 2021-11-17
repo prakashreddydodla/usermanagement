@@ -11,7 +11,7 @@ public class UserListResponse {
 	private String userName;
 	private String roleName;
 	private String createdBy;
-	private String domian;
+	private long domian;
 	private String email;
 	private LocalDate createdDate;
 }

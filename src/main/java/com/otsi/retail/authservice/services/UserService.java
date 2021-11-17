@@ -19,7 +19,7 @@ public interface UserService {
  */
 	List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest) throws Exception;
 
-	List<UserDeatils> getUserForClient(int clientId) throws Exception;
+	List<UserListResponse> getUserForClient(int clientId) throws Exception;
 
 	List<UserListResponse> getUsersForClientDomain(long clientDomianId);
 

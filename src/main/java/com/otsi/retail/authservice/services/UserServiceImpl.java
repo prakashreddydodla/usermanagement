@@ -92,12 +92,34 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
-	public List<UserDeatils> getUserForClient(int clientId) throws Exception {
+	public List<UserListResponse> getUserForClient(int clientId) throws Exception {
 
 		List<UserDeatils> users = userRepo.findByUserAv_NameAndUserAv_IntegerValue(CognitoAtributes.CLIENT_ID,
 				clientId);
 		if (!CollectionUtils.isEmpty(users)) {
-			return users;
+			List<UserListResponse> userList=new ArrayList<>();
+			users.stream().forEach(a -> {
+				UserListResponse userVo = new UserListResponse();
+				userVo.setUserId(a.getUserId());
+				userVo.setUserName(a.getUserName());
+				userVo.setCreatedBy(a.getCreatedBy());
+				userVo.setCreatedDate(a.getCreatedDate());
+			//	userVo.setDomian(clientDomianId);
+				if(null!=a.getRole()) {
+				userVo.setRoleName(a.getRole().getRoleName());
+				}
+				a.getUserAv().stream().forEach(b -> {
+					if (b.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+						userVo.setEmail(b.getStringValue());
+					}
+					if (b.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
+						userVo.setDomian(b.getIntegerValue());
+					}
+				});
+				userList.add(userVo);
+			});
+
+			return userList;
 		} else {
 			throw new Exception("No users found with this client");
 		}
@@ -115,9 +137,9 @@ public class UserServiceImpl implements UserService {
 				userVo.setUserName(a.getUserName());
 				userVo.setCreatedBy(a.getCreatedBy());
 				userVo.setCreatedDate(a.getCreatedDate());
-				Optional<ClientDomains> domianOptinal = clientcDomianRepo.findByClientDomainaId(clientDomianId);
-				if (domianOptinal.isPresent()) {
-					userVo.setDomian(domianOptinal.get().getDomaiName());
+				userVo.setDomian(clientDomianId);
+				if(null!=a.getRole()) {
+				userVo.setRoleName(a.getRole().getRoleName());
 				}
 				a.getUserAv().stream().forEach(b -> {
 					if (b.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
