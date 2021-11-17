@@ -488,7 +488,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			/**
 			 * Save the User first along with role
 			 */
-			UserDeatils savedUser = saveUser(attributes, roleId);
+			UserDeatils savedUser = saveUser(attributes, roleId,userName);
 			List<UserAv> userAvList = new ArrayList<>();
 			UserAv userAv1 = new UserAv();
 			userAv1.setType(DataTypesEnum.DATE.getValue());
@@ -646,14 +646,13 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		}
 	}
 
-	private UserDeatils saveUser(List<AttributeType> attributes, long roleId) throws Exception {
+	private UserDeatils saveUser(List<AttributeType> attributes, long roleId, String userName) throws Exception {
 		UserDeatils user = new UserDeatils();
 		user.setCreatedDate(LocalDate.now());
 		user.setLastModifyedDate(LocalDate.now());
+		user.setUserName(userName);
+
 		attributes.stream().forEach(a -> {
-			if (a.getName().equalsIgnoreCase(CognitoAtributes.USER_NAME)) {
-				user.setUserName(a.getValue());
-			}
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.GENDER)) {
 				user.setGender(a.getValue());
 			}
@@ -670,6 +669,25 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				Optional<Role> role = roleRepository.findById(roleId);
 				if (role.isPresent()) {
 					userSaved.setRole(role.get());
+				}else {
+					Role specialRole=new Role();
+					attributes.stream().forEach(b->{
+						if(b.getName().equalsIgnoreCase(CognitoAtributes.IS_SUPER_ADMIN)) {
+							if(b.getValue().equalsIgnoreCase("true")) {
+								Optional<Role> roleSuperAdmin=		roleRepository.findByRoleName("super_admin");
+								userSaved.setRole(roleSuperAdmin.get());
+
+							}
+						}
+						if(b.getName().equalsIgnoreCase(CognitoAtributes.IS_CONFIGUSER)) {
+							if(b.getValue().equalsIgnoreCase("true")) {
+								Optional<Role> roleCognifuser=	roleRepository.findByRoleName("config_user");
+								userSaved.setRole(roleCognifuser.get());
+
+							}
+						}
+					});
+					userSaved.setRole(specialRole);
 				}
 			}
 			UserDeatils dbResponce = userRepo.save(userSaved);

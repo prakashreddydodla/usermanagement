@@ -171,10 +171,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							logger.error("No Client Domian found with this Id : " + role.getClientDomianId());
 							throw new Exception("No Client Domian found with this Id : " + role.getClientDomianId());
 						}
-					} else {
-						logger.error("Client Domian Id required");
-						throw new Exception("Client Domian Id required");
-					}
+					}// else {
+					//	logger.error("Client Domian Id required");
+					//	throw new Exception("Client Domian Id required");
+					//}
 					if (!CollectionUtils.isEmpty(role.getParentPrivilages())) {
 						role.getParentPrivilages().forEach(a -> {
 							Optional<ParentPrivilages> parentPrivilage = privilageRepo.findById(a.getId());
