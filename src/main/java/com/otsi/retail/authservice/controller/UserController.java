@@ -19,6 +19,7 @@ import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
+import com.otsi.retail.authservice.responceModel.UserListResponse;
 import com.otsi.retail.authservice.services.CognitoAuthService;
 import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.CognitoClient;
@@ -72,7 +73,7 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_DOMIAN)
 	public GateWayResponse<?> getUsersForClientDomianId(@PathVariable String clientDomianId) {
 		try {
-			List<UserDeatils> res = userService.getUsersForClientDomain(Long.parseLong(clientDomianId));
+			List<UserListResponse> res = userService.getUsersForClientDomain(Long.parseLong(clientDomianId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

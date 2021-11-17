@@ -104,9 +104,11 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	public List<UserDeatils> getUsersForClientDomain(long clientDomianId) {
+	public List<UserListResponse> getUsersForClientDomain(long clientDomianId) {
 		List<UserDeatils> users = userRepo.findByClientDomians_ClientDomainaId(clientDomianId);
+		
 		if (!CollectionUtils.isEmpty(users)) {
+			List<UserListResponse> userList=new ArrayList<>();
 			users.stream().forEach(a -> {
 				UserListResponse userVo = new UserListResponse();
 				userVo.setUserId(a.getUserId());
@@ -122,9 +124,10 @@ public class UserServiceImpl implements UserService {
 						userVo.setEmail(b.getStringValue());
 					}
 				});
+				userList.add(userVo);
 			});
 
-			return users;
+			return userList;
 		} else {
 			throw new UserNotFoundException("User not found with this Domian Id : " + clientDomianId);
 		}
