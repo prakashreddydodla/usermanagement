@@ -409,8 +409,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 				}
 				if (null == request.getIsCustomer()) {
-					missingFileds.add("IsCustomer");
-
+					//missingFileds.add("IsCustomer");
+					request.setIsCustomer("false");
 					// throw new RuntimeException(" sholud not be null");
 
 				}

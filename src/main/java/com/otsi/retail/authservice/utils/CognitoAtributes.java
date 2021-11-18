@@ -12,9 +12,9 @@ public class CognitoAtributes {
 	public static final String BIRTHDATE="birthdate";
 	public static final String NAME="name";
 	public static final String ASSIGNED_STORES="custom:assignedStores";
-	public static final String PARENTID="custom:parentId";
-	public static final String DOMAINID="custom:domianId";
-	public static final String CLIENT_ID="custom:clientId";
+	public static final String PARENTID="custom:parentId1";
+	public static final String DOMAINID="custom:domianId1";
+	public static final String CLIENT_ID="custom:clientId1";
 	public static final String IS_CONFIGUSER="custom:isConfigUser";
 	public static final String CLIENTDOMIANS="custom:clientDomians";
 	public static final String ENABLED="enabled";
@@ -25,10 +25,4 @@ public class CognitoAtributes {
 	public static final String IS_ACTIVE="isActive";
 	public static final String IS_SUPER_ADMIN="custom:isSuperAdmin";
 	public static final String CREATED_BY = "custom:createdBy";
-
-	
-
-
-	
-	
 }
