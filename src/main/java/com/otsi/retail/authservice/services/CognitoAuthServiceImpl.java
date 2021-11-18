@@ -466,6 +466,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						logger.error("Please give values for these feilds also : " + missingFileds);
 					throw new RuntimeException("Please give values for these feilds also : " + missingFileds);
 				}
+				}
 				AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
 				if (result != null) {
 					if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
@@ -496,7 +497,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				}
 				return res;
 
-			}
+				
 			}
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
