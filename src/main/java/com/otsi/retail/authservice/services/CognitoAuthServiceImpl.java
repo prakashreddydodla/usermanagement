@@ -305,69 +305,180 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		 * If the user is custmore we need to save user in our local DB not in Cognito
 		 */
 		try {
-		boolean usernameExists=	userRepo.existsByUserNameAndIsCustomer(request.getUsername(),Boolean.FALSE);
-		if(usernameExists) {
-			throw new RuntimeException("UserName already exists");
-		}
-		boolean userphoneNoExists=	userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),Boolean.FALSE);
-		if(userphoneNoExists) {
-			throw new RuntimeException("Mobile Number already exists");
-		}
-		/*
-		 * boolean customerNameExists=
-		 * userRepo.existsByUserNameAndIsCustomer(request.getUsername(),Boolean.TRUE);
-		 * if(customerNameExists) { throw new
-		 * RuntimeException("Customer Name already exists");
-		 * 
-		 * }
-		 */
-		boolean csutomerPhoneNoExists=	userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),Boolean.TRUE);
-		if(csutomerPhoneNoExists) {
-			throw new RuntimeException("Customer Phone number already exists");
-	
-		}
-		
-				if (null != request.getIsCustomer() && request.getIsCustomer().equalsIgnoreCase("true")) {
-					UserDeatils user = new UserDeatils();
-					user.setUserName(request.getUsername());
-					user.setPhoneNumber(request.getPhoneNumber());
-					user.setGender(request.getGender());
-					user.setCreatedBy(request.getCreatedBy());
-					
-					 user.setCustomer(Boolean.TRUE);
-					
-						UserDeatils savedUser = userRepo.save(user);
-						res.setBody("Saved Sucessfully");
-						res.setStatusCode(200);
-						return res;
-					
-				} else {
-				
-						/**
-						 * If it not customer then only save user in cognito userpool
-						 */
-						AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
-						if (result != null) {
-							if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-								res.setStatusCode(200);
+			boolean usernameExists = userRepo.existsByUserNameAndIsCustomer(request.getUsername(), Boolean.FALSE);
+			if (usernameExists) {
+				throw new RuntimeException("UserName already exists");
+			}
+			boolean userphoneNoExists = userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),
+					Boolean.FALSE);
+			if (userphoneNoExists) {
+				throw new RuntimeException("Mobile Number already exists");
+			}
+			/*
+			 * boolean customerNameExists=
+			 * userRepo.existsByUserNameAndIsCustomer(request.getUsername(),Boolean.TRUE);
+			 * if(customerNameExists) { throw new
+			 * RuntimeException("Customer Name already exists");
+			 * 
+			 * }
+			 */
+			boolean csutomerPhoneNoExists = userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),
+					Boolean.TRUE);
+			if (csutomerPhoneNoExists) {
+				throw new RuntimeException("Customer Phone number already exists");
 
-								/**
-								 * Adding role to the saved user in cognito userpool
-								 */
-								if (null != request.getRole().getRoleName() && null != request.getUsername()) {
-									Response roleResponse = addRoleToUser(request.getRole().getRoleName(),
-											request.getUsername());
-									res.setBody("with user " + result);
-								}
-							} else {
-								res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-								res.setBody("something went wrong");
-							}
-						}
-						return res;
-					
+			}
+
+			if (null != request.getIsCustomer() && request.getIsCustomer().equalsIgnoreCase("true")) {
+				UserDeatils user = new UserDeatils();
+				user.setUserName(request.getUsername());
+				user.setPhoneNumber(request.getPhoneNumber());
+				user.setGender(request.getGender());
+				user.setCreatedBy(request.getCreatedBy());
+
+				user.setCustomer(Boolean.TRUE);
+
+				UserDeatils savedUser = userRepo.save(user);
+				res.setBody("Saved Sucessfully");
+				res.setStatusCode(200);
+				return res;
+
+			} else {
+
+				/**
+				 * If it not customer then only save user in cognito userpool
+				 */
+				List<String> missingFileds = new ArrayList<>();
+
+				if (null == request.getAddress()) {
+					missingFileds.add("Address");
+					// throw new RuntimeException(" sholud not be null");
 				}
-			
+				if (null == request.getBirthDate()) {
+					missingFileds.add("BirthDate");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getChannelId()) {
+					missingFileds.add("ChannelId");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getClientDomain()) {
+					missingFileds.add("ClientDomain");
+
+//					throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getDomianId()) {
+					missingFileds.add("DomianId");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getClientId()) {
+					missingFileds.add("ClientId");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getCreatedBy()) {
+					missingFileds.add("CreatedBy");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getEmail()) {
+					missingFileds.add("Email");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getGender()) {
+					missingFileds.add("Gender");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getIsConfigUser()) {
+					missingFileds.add("IsConfigUser");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getIsCustomer()) {
+					missingFileds.add("IsCustomer");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getIsSuperAdmin()) {
+					missingFileds.add("IsSuperAdmin");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getName()) {
+					missingFileds.add("Name");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getParentId()) {
+					missingFileds.add("ParentId");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getPhoneNumber()) {
+					missingFileds.add("Phone Number");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				/*
+				 * if (null == request.getRole()) { missingFileds.add("Role"); // throw new
+				 * RuntimeException(" sholud not be null"); }
+				 */
+				if (null == request.getStores()) {
+					missingFileds.add("Stores");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (null == request.getUsername()) {
+					missingFileds.add("User Name");
+
+					// throw new RuntimeException(" sholud not be null");
+
+				}
+				if (missingFileds.size() > 0) {
+					throw new RuntimeException("Please give values for these feilds also : " + missingFileds);
+				}
+				AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
+				if (result != null) {
+					if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+						res.setStatusCode(200);
+
+						/**
+						 * Adding role to the saved user in cognito userpool
+						 */
+						if (null != request.getRole().getRoleName() && null != request.getUsername()) {
+							Response roleResponse = addRoleToUser(request.getRole().getRoleName(),
+									request.getUsername());
+							res.setBody("with user " + result);
+						}
+					} else {
+						res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+						res.setBody("something went wrong");
+					}
+				}
+				return res;
+
+			}
+
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -488,7 +599,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			/**
 			 * Save the User first along with role
 			 */
-			UserDeatils savedUser = saveUser(attributes, roleId,userName);
+			UserDeatils savedUser = saveUser(attributes, roleId, userName);
 			List<UserAv> userAvList = new ArrayList<>();
 			UserAv userAv1 = new UserAv();
 			userAv1.setType(DataTypesEnum.DATE.getValue());
@@ -669,23 +780,23 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				Optional<Role> role = roleRepository.findById(roleId);
 				if (role.isPresent()) {
 					userSaved.setRole(role.get());
-				}else {
-					Role specialRole=new Role();
-					attributes.stream().forEach(b->{
-						if(b.getName().equalsIgnoreCase(CognitoAtributes.IS_SUPER_ADMIN)) {
-							if(b.getValue().equalsIgnoreCase("true")) {
-								Optional<Role> roleSuperAdmin=	roleRepository.findByRoleName("Super_Admin");
-								if(roleSuperAdmin.isPresent()) {
-								userSaved.setRole(roleSuperAdmin.get());
+				} else {
+					Role specialRole = new Role();
+					attributes.stream().forEach(b -> {
+						if (b.getName().equalsIgnoreCase(CognitoAtributes.IS_SUPER_ADMIN)) {
+							if (b.getValue().equalsIgnoreCase("true")) {
+								Optional<Role> roleSuperAdmin = roleRepository.findByRoleName("Super_Admin");
+								if (roleSuperAdmin.isPresent()) {
+									userSaved.setRole(roleSuperAdmin.get());
 								}
 
 							}
 						}
-						if(b.getName().equalsIgnoreCase(CognitoAtributes.IS_CONFIGUSER)) {
-							if(b.getValue().equalsIgnoreCase("true")) {
-								Optional<Role> roleCognifuser=	roleRepository.findByRoleName("Cogif_User");
-								if(roleCognifuser.isPresent()) {
-								userSaved.setRole(roleCognifuser.get());
+						if (b.getName().equalsIgnoreCase(CognitoAtributes.IS_CONFIGUSER)) {
+							if (b.getValue().equalsIgnoreCase("true")) {
+								Optional<Role> roleCognifuser = roleRepository.findByRoleName("Cogif_User");
+								if (roleCognifuser.isPresent()) {
+									userSaved.setRole(roleCognifuser.get());
 								}
 
 							}
