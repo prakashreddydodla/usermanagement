@@ -497,7 +497,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				return res;
 
 			}
-
+			}
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
