@@ -457,6 +457,13 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 				}
 				if (missingFileds.size() > 0) {
+					if (request.getIsConfigUser().equalsIgnoreCase("true")) {
+						if (null != request.getClientId() && request.getClientId() != "") {
+							deleteClientWhileConfigUserNotCreated(request.getClientId());
+							
+							logger.info("Client details entity delete Id : " + request.getClientId());
+						}
+						logger.error("Please give values for these feilds also : " + missingFileds);
 					throw new RuntimeException("Please give values for these feilds also : " + missingFileds);
 				}
 				AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
@@ -478,7 +485,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						// the client also based on clinte Id presents in create user request
 						if (request.getIsConfigUser().equalsIgnoreCase("true")) {
 							if (null != request.getClientId() && request.getClientId() != "") {
-								clientDetailsRepo.deleteById(Long.parseLong(request.getClientId()));
+								deleteClientWhileConfigUserNotCreated(request.getClientId());
+								
 								logger.info("Client details entity delete Id : " + request.getClientId());
 							}
 						}
@@ -493,6 +501,10 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
+	}
+
+	private void deleteClientWhileConfigUserNotCreated(String clientId) {
+		clientDetailsRepo.deleteById(Long.parseLong(clientId));
 	}
 
 	/**
