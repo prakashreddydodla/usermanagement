@@ -500,6 +500,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -809,7 +810,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					attributes.stream().forEach(b -> {
 						if (b.getName().equalsIgnoreCase(CognitoAtributes.IS_SUPER_ADMIN)) {
 							if (b.getValue().equalsIgnoreCase("true")) {
-								Optional<Role> roleSuperAdmin = roleRepository.findByRoleName("Super_Admin");
+								Optional<Role> roleSuperAdmin = roleRepository.findByRoleName("super_admin");
 								if (roleSuperAdmin.isPresent()) {
 									userSaved.setRole(roleSuperAdmin.get());
 								}
@@ -818,7 +819,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						}
 						if (b.getName().equalsIgnoreCase(CognitoAtributes.IS_CONFIGUSER)) {
 							if (b.getValue().equalsIgnoreCase("true")) {
-								Optional<Role> roleCognifuser = roleRepository.findByRoleName("Cogif_User");
+								Optional<Role> roleCognifuser = roleRepository.findByRoleName("config_user");
 								if (roleCognifuser.isPresent()) {
 									userSaved.setRole(roleCognifuser.get());
 								}
