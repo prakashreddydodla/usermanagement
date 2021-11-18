@@ -26,6 +26,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
 import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
@@ -48,6 +49,7 @@ import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.Exceptions.UserAlreadyExistsException;
+import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.ClientcDomianRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
@@ -77,6 +79,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private ClientcDomianRepo clientcDomianRepo;
+	@Autowired
+	private ClientDetailsRepo clientDetailsRepo;
 
 	@Autowired
 	private StoreRepo storeRepo;
@@ -407,7 +411,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 				}
 				if (null == request.getIsCustomer()) {
-					//missingFileds.add("IsCustomer");
+					// missingFileds.add("IsCustomer");
 					request.setIsCustomer("false");
 					// throw new RuntimeException(" sholud not be null");
 
@@ -469,6 +473,15 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 							res.setBody("with user " + result);
 						}
 					} else {
+						// When we create config user for client if the config user not created
+						// Then we need to delete
+						// the client also based on clinte Id presents in create user request
+						if (request.getIsConfigUser().equalsIgnoreCase("true")) {
+							if (null != request.getClientId() && request.getClientId() != "") {
+								clientDetailsRepo.deleteById(Long.parseLong(request.getClientId()));
+								logger.info("Client details entity delete Id : " + request.getClientId());
+							}
+						}
 						res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
 						res.setBody("something went wrong");
 					}
