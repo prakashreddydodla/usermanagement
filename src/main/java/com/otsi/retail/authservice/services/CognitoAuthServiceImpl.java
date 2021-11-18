@@ -456,7 +456,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					// throw new RuntimeException(" sholud not be null");
 
 				}
-				if (missingFileds.size() > 0) {
+				if (missingFileds.size() > 0) {//
 					if (request.getIsConfigUser().equalsIgnoreCase("true")) {
 						if (null != request.getClientId() && request.getClientId() != "") {
 							deleteClientWhileConfigUserNotCreated(request.getClientId());
