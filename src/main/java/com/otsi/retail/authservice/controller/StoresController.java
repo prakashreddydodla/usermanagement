@@ -46,7 +46,7 @@ public class StoresController {
 	}
 	
 
-	@PostMapping(EndpointConstants.UPDATE_STORE)
+	@PutMapping(EndpointConstants.UPDATE_STORE)
 	public GateWayResponse<?> updateStore(@RequestBody StoreVo vo) {
 		try {
 			String res = storeService.updateStore(vo);
