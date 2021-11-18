@@ -360,12 +360,10 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					// throw new RuntimeException(" sholud not be null");
 
 				}
-				if (null == request.getChannelId()) {
-					missingFileds.add("ChannelId");
-
-					// throw new RuntimeException(" sholud not be null");
-
-				}
+				/*
+				 * if (null == request.getChannelId()) { missingFileds.add("ChannelId"); //
+				 * throw new RuntimeException(" sholud not be null"); }
+				 */
 				if (null == request.getClientDomain()) {
 					missingFileds.add("ClientDomain");
 
