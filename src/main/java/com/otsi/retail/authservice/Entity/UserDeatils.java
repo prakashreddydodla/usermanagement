@@ -44,7 +44,7 @@ public class UserDeatils  {
 	private boolean isActive;
 	private boolean isSuperAdmin;
 	private boolean isCustomer;
-	
+	private String modifiedBy;
 	@ManyToOne
 	@JoinColumn(name = "roleId")
 	private Role role;

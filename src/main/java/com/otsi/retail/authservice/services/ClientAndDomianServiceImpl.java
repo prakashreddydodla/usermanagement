@@ -99,6 +99,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDomians.setDiscription(domianVo.getDiscription());
 				clientDomians.setCreatedDate(LocalDate.now());
 				clientDomians.setLastModifyedDate(LocalDate.now());
+				clientDomians.setCreatedBy(domianVo.getCreatedBy());
 				if (0L != domianVo.getClientId()) {
 					Optional<ClientDetails> client_db = clientDetailsRepo.findById(domianVo.getClientId());
 					if (client_db.isPresent()) {

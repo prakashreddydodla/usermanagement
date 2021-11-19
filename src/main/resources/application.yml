@@ -7,7 +7,7 @@ spring:  application:    name: user-management-service
     platform: postgres
     url: jdbc:postgresql://localhost:5432/UserManagement
     username: postgres
-    password: Otsi@123
+    password: 12345
     
   jpa:
    hibernate:

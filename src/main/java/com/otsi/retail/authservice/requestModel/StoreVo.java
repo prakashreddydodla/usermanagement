@@ -18,6 +18,7 @@ public class StoreVo {
 	private long id;
 	private String name;
 	private long stateId;
+	private String stateCode;
 	private long districtId;
 	private String cityId;
 	private String area;

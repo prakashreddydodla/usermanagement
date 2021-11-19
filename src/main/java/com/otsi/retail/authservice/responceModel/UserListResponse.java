@@ -14,4 +14,5 @@ public class UserListResponse {
 	private long domian;
 	private String email;
 	private LocalDate createdDate;
+	private boolean isActive;
 }

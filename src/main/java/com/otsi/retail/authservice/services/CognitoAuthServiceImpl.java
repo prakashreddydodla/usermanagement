@@ -589,7 +589,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						try {
 
 							saveUsersIndataBase(a.getUserCreateDate(), a.getUserLastModifiedDate(), a.getAttributes(),
-									0L, a.getUsername());
+									0L, a.getUsername(),a.getEnabled());
 						} catch (Exception e) {
 							logger.error(e.getMessage());
 							System.out.println(e.getMessage());
@@ -611,11 +611,12 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	 * @param attributes
 	 * @param roleId
 	 * @param userName
+	 * @param enable 
 	 * @return
 	 * @throws Exception
 	 */
 	private String saveUsersIndataBase(Date userCreateDate, Date userLastModifiedDate, List<AttributeType> attributes,
-			long roleId, String userName) throws Exception {
+			long roleId, String userName, Boolean enable) throws Exception {
 		/*
 		 * 1=long,2=string,3=date,4=boolean
 		 */
@@ -624,7 +625,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			/**
 			 * Save the User first along with role
 			 */
-			UserDeatils savedUser = saveUser(attributes, roleId, userName);
+			UserDeatils savedUser = saveUser(attributes, roleId, userName,enable);
 			List<UserAv> userAvList = new ArrayList<>();
 			UserAv userAv1 = new UserAv();
 			userAv1.setType(DataTypesEnum.DATE.getValue());
@@ -782,12 +783,12 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		}
 	}
 
-	private UserDeatils saveUser(List<AttributeType> attributes, long roleId, String userName) throws Exception {
+	private UserDeatils saveUser(List<AttributeType> attributes, long roleId, String userName, Boolean enable) throws Exception {
 		UserDeatils user = new UserDeatils();
 		user.setCreatedDate(LocalDate.now());
 		user.setLastModifyedDate(LocalDate.now());
 		user.setUserName(userName);
-
+		user.setActive(enable);
 		attributes.stream().forEach(a -> {
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.GENDER)) {
 				user.setGender(a.getValue());
@@ -869,7 +870,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				}
 				String res = saveUsersIndataBase(userFromCognito.getUserCreateDate(),
 						userFromCognito.getUserLastModifiedDate(), userFromCognito.getUserAttributes(), roleId,
-						req.getUserName());
+						req.getUserName(),userFromCognito.getEnabled());
 				if (!res.equalsIgnoreCase("success")) {
 					throw new Exception("User confirmed in Cognito userpool but not saved in Database");
 				}

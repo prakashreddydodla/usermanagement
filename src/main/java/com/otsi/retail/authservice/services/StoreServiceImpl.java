@@ -51,6 +51,7 @@ public class StoreServiceImpl implements StoreService {
 			storeEntity.setArea(vo.getArea());
 			storeEntity.setPhoneNumber(vo.getPhoneNumber());
 			storeEntity.setCreatedBy(vo.getCreatedBy());
+			storeEntity.setStateCode(vo.getStateCode());
 			if (null != vo.getStoreOwner()) {
 				Optional<UserDeatils> userfromDb = userRepo.findById(vo.getStoreOwner().getUserId());
 				if (userfromDb.isPresent()) {
@@ -100,7 +101,8 @@ public class StoreServiceImpl implements StoreService {
 			storeEntity.setCityId(vo.getCityId());
 			storeEntity.setArea(vo.getArea());
 			storeEntity.setPhoneNumber(vo.getPhoneNumber());
-			storeEntity.setCreatedBy(vo.getCreatedBy());
+			storeEntity.setModifiedBy(vo.getCreatedBy());
+			storeEntity.setLastModifyedDate(LocalDate.now());
 			if (null != vo.getStoreOwner()) {
 				Optional<UserDeatils> userfromDb = userRepo.findById(vo.getStoreOwner().getUserId());
 				if (userfromDb.isPresent()) {
@@ -211,8 +213,8 @@ public class StoreServiceImpl implements StoreService {
 
 			}
 		}
-		if (0L != vo.getDistrictId()) {
-			List<Store> stores = storeRepo.findByDistrictId(vo.getDistrictId());
+		if (0L != vo.getDistrictId()&&0L != vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateIdAndDistrictId(vo.getStateId(),vo.getDistrictId());
 			if (!CollectionUtils.isEmpty(stores)) {
 				return stores;
 			} else {

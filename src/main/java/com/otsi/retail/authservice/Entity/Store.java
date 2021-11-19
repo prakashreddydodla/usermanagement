@@ -28,6 +28,7 @@ public class Store  {
 	private long id;
 	private String name;
 	private long stateId;
+	private String stateCode;
 	private long districtId;
 	private String cityId;
 	private String area;
@@ -36,6 +37,9 @@ public class Store  {
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
+	private String modifiedBy;
+	private boolean isActive;
+
 	
 	@OneToOne
 	@JoinColumn(name = "store_owner")

@@ -31,6 +31,9 @@ public class ClientDomains {
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
+	private String modifiedBy;
+	private boolean isActive;
+
 	
 	
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

@@ -53,34 +53,34 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	@Override
 	public String savePrevilage(List<CreatePrivillagesRequest> privilages) throws Exception {
 		try {
-		privilages.stream().forEach(a->{
-		ParentPrivilages privilage = new ParentPrivilages();
-		privilage.setName(a.getParentPrivillage().getName());
-		privilage.setDiscription(a.getParentPrivillage().getDescription());
-		privilage.setRead(Boolean.TRUE);
-		privilage.setWrite(Boolean.TRUE);
-		privilage.setCreatedDate(LocalDate.now());
-		privilage.setDomian(a.getParentPrivillage().getDomian());
-		privilage.setLastModifyedDate(LocalDate.now());
-		
-		privilage.setParentImage(a.getParentPrivillage().getParentImage());
-		privilage.setPath(a.getParentPrivillage().getPath());
-			ParentPrivilages parentPrivillage = privilageRepo.save(privilage);
-			if (!CollectionUtils.isEmpty(a.getSubPrivillages())) {
-				a.getSubPrivillages().stream().forEach(b -> {
-					SubPrivillage subPrivillage = new SubPrivillage();
-					subPrivillage.setName(b.getName());
-					subPrivillage.setDescription(b.getDescription());
-					subPrivillage.setCreatedDate(LocalDate.now());
-					subPrivillage.setModifyDate(LocalDate.now());
-					subPrivillage.setChildPath(b.getChildPath());
-					subPrivillage.setChildImage(b.getChildImage());
-					subPrivillage.setParentPrivillageId(parentPrivillage.getId());
-					subPrivillage.setDomian(b.getDomian());
-					subPrivillageRepo.save(subPrivillage);
-				});
-			}
-		});
+			privilages.stream().forEach(a -> {
+				ParentPrivilages privilage = new ParentPrivilages();
+				privilage.setName(a.getParentPrivillage().getName());
+				privilage.setDiscription(a.getParentPrivillage().getDescription());
+				privilage.setRead(Boolean.TRUE);
+				privilage.setWrite(Boolean.TRUE);
+				privilage.setCreatedDate(LocalDate.now());
+				privilage.setDomian(a.getParentPrivillage().getDomian());
+				privilage.setLastModifyedDate(LocalDate.now());
+
+				privilage.setParentImage(a.getParentPrivillage().getParentImage());
+				privilage.setPath(a.getParentPrivillage().getPath());
+				ParentPrivilages parentPrivillage = privilageRepo.save(privilage);
+				if (!CollectionUtils.isEmpty(a.getSubPrivillages())) {
+					a.getSubPrivillages().stream().forEach(b -> {
+						SubPrivillage subPrivillage = new SubPrivillage();
+						subPrivillage.setName(b.getName());
+						subPrivillage.setDescription(b.getDescription());
+						subPrivillage.setCreatedDate(LocalDate.now());
+						subPrivillage.setModifyDate(LocalDate.now());
+						subPrivillage.setChildPath(b.getChildPath());
+						subPrivillage.setChildImage(b.getChildImage());
+						subPrivillage.setParentPrivillageId(parentPrivillage.getId());
+						subPrivillage.setDomian(b.getDomian());
+						subPrivillageRepo.save(subPrivillage);
+					});
+				}
+			});
 			return "Saved Successfully";
 		} catch (Exception e) {
 			throw new Exception();
@@ -148,7 +148,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		roleEntity.setDiscription(role.getDescription());
 		roleEntity.setRoleName(role.getRoleName());
 		roleEntity.setCreatedDate(LocalDate.now());
-		//roleEntity.setCreatedBy(role.getCreatedBy());
+		roleEntity.setCreatedBy(role.getCreatedBy());
 		List<ParentPrivilages> parentPrivilageEntites = new ArrayList<>();
 		List<SubPrivillage> subPrivilageEntites = new ArrayList<>();
 		boolean isExits = roleRepository.existsByRoleNameIgnoreCase(role.getRoleName());
@@ -171,10 +171,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							logger.error("No Client Domian found with this Id : " + role.getClientDomianId());
 							throw new Exception("No Client Domian found with this Id : " + role.getClientDomianId());
 						}
-					}// else {
-					//	logger.error("Client Domian Id required");
-					//	throw new Exception("Client Domian Id required");
-					//}
+					} // else {
+						// logger.error("Client Domian Id required");
+						// throw new Exception("Client Domian Id required");
+						// }
 					if (!CollectionUtils.isEmpty(role.getParentPrivilages())) {
 						role.getParentPrivilages().forEach(a -> {
 							Optional<ParentPrivilages> parentPrivilage = privilageRepo.findById(a.getId());
@@ -300,6 +300,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 	}
 
+	@Override
 	public List<Role> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException {
 
 		if (null != req.getRoleName()) {
@@ -312,6 +313,16 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				throw new RolesNotFoundException("Roles not found with this RoleName : " + req.getRoleName());
 			}
 		}
+		
+		if (0L != req.getCreatedBy() && 0L != req.getCreatedBy()) {
+			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
+			if (!CollectionUtils.isEmpty(roles)) {
+				return roles;
+			} else {
+				throw new RolesNotFoundException("No roles created by with this User : " + req.getCreatedBy());
+			}
+		}
+		
 		if (0L != req.getCreatedBy()) {
 			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
 			if (!CollectionUtils.isEmpty(roles)) {
@@ -320,6 +331,16 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				throw new RolesNotFoundException("No roles created by with this User : " + req.getCreatedBy());
 			}
 		}
+
+		if (null != req.getCreatedDate() && 0L != req.getCreatedBy()) {
+			List<Role> roles = roleRepository.findByCreatedDate(req.getCreatedDate());
+			if (!CollectionUtils.isEmpty(roles)) {
+				return roles;
+			} else {
+				throw new RolesNotFoundException("No roles created  in this Date : " + req.getCreatedDate());
+			}
+		}
+		
 		if (null != req.getCreatedDate()) {
 			List<Role> roles = roleRepository.findByCreatedDate(req.getCreatedDate());
 			if (!CollectionUtils.isEmpty(roles)) {
@@ -328,22 +349,23 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				throw new RolesNotFoundException("No roles created  in this Date : " + req.getCreatedDate());
 			}
 		}
+		
 		throw new InvalidInputsException("Please give any one input feild for filter");
 	}
 
 	@Override
 	public String updateRole(CreateRoleRequest request) throws Exception {
 		logger.info("###############Create Role method Starts###################");
-		//Role roleEntity = new Role();
+		// Role roleEntity = new Role();
 		Role dbResult = null;
 		try {
-			Optional<Role> roleOptional=	roleRepository.findByRoleId(request.getRoleId());
-			Role roleEntity =roleOptional.get();
+			Optional<Role> roleOptional = roleRepository.findByRoleId(request.getRoleId());
+			Role roleEntity = roleOptional.get();
 			roleEntity.setRoleId(request.getRoleId());
 			roleEntity.setDiscription(request.getDescription());
 			roleEntity.setRoleName(request.getRoleName());
-			roleEntity.setCreatedDate(LocalDate.now());
-			roleEntity.setCreatedBy(request.getCreatedBy());
+			roleEntity.setLastModifyedDate(LocalDate.now());
+			roleEntity.setModifiedBy(request.getCreatedBy());
 			List<ParentPrivilages> parentPrivilageEntites = new ArrayList<>();
 			List<SubPrivillage> subPrivilageEntites = new ArrayList<>();
 
@@ -359,8 +381,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				logger.error("Client Domian Id required");
 				throw new Exception("Client Domian Id required");
 			}
-			
-			
+
 			if (!CollectionUtils.isEmpty(request.getParentPrivilages())) {
 				request.getParentPrivilages().forEach(a -> {
 					Optional<ParentPrivilages> parentPrivilage = privilageRepo.findById(a.getId());
@@ -376,9 +397,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				logger.error("Atleast one parent privillage is required");
 				throw new Exception("Atleast one parent privillage is required");
 			}
-			
-			
-			
+
 			if (!CollectionUtils.isEmpty(request.getSubPrivillages())) {
 
 				request.getSubPrivillages().stream().forEach(sub -> {

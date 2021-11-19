@@ -28,6 +28,8 @@ public class ClientDetails  {
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
+	private String modifiedBy;
+	private boolean isActive;
 
 	
 	@OneToMany(mappedBy = "client")

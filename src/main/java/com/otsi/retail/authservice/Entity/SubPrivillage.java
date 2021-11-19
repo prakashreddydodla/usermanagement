@@ -36,6 +36,8 @@ public class SubPrivillage {
 	private long parentPrivillageId;
 	private LocalDate createdDate;
 	private LocalDate modifyDate;
+	private String modifiedBy;
+
 	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "subPrivilages")

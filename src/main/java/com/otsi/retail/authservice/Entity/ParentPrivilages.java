@@ -39,4 +39,6 @@ private int domian;
 private LocalDate createdDate;
 private LocalDate lastModifyedDate;
 private long createdBy;
+private String modifiedBy;
+
 }
