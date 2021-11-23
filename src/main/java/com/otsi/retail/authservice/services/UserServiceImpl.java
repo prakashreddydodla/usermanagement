@@ -26,6 +26,7 @@ import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
+import com.otsi.retail.authservice.requestModel.StoreVo;
 //import com.otsi.retail.authservice.requestModel.PersonVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
@@ -103,21 +104,21 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 
-		if (0L != userRequest.getStoreId()&& userRequest.isActive()) {
-			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(),Boolean.TRUE);
+		if (0L != userRequest.getStoreId() && userRequest.isActive()) {
+			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(), Boolean.TRUE);
 			if (CollectionUtils.isEmpty(users)) {
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
 			return users;
 		}
-		if (0L != userRequest.getStoreId()&& userRequest.isInActive()) {
-			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(),Boolean.FALSE);
+		if (0L != userRequest.getStoreId() && userRequest.isInActive()) {
+			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(), Boolean.FALSE);
 			if (CollectionUtils.isEmpty(users)) {
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
 			return users;
 		}
-		if (0L != userRequest.getStoreId()&& !userRequest.isActive()&&!userRequest.isInActive()) {
+		if (0L != userRequest.getStoreId() && !userRequest.isActive() && !userRequest.isInActive()) {
 			users = userRepo.findByStores_Id(userRequest.getStoreId());
 			if (CollectionUtils.isEmpty(users)) {
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
@@ -141,6 +142,17 @@ public class UserServiceImpl implements UserService {
 				userVo.setCreatedBy(a.getCreatedBy());
 				userVo.setCreatedDate(a.getCreatedDate());
 				userVo.setActive(a.isActive());
+				List<StoreVo> stores = new ArrayList<>();
+				if (null != a.getStores()) {
+					a.getStores().stream().forEach(str -> {
+						StoreVo storeVo = new StoreVo();
+						storeVo.setId(str.getStateId());
+						storeVo.setName(str.getName());
+						stores.add(storeVo);
+
+					});
+					userVo.setStores(stores);
+				}
 				if (null != a.getRole()) {
 					userVo.setRoleName(a.getRole().getRoleName());
 				}
@@ -175,6 +187,17 @@ public class UserServiceImpl implements UserService {
 				userVo.setCreatedDate(a.getCreatedDate());
 				userVo.setDomian(clientDomianId);
 				userVo.setActive(a.isActive());
+				List<StoreVo> stores = new ArrayList<>();
+				if (null != a.getStores()) {
+					a.getStores().stream().forEach(str -> {
+						StoreVo storeVo = new StoreVo();
+						storeVo.setId(str.getStateId());
+						storeVo.setName(str.getName());
+						stores.add(storeVo);
+
+					});
+					userVo.setStores(stores);
+				}
 				if (null != a.getRole()) {
 					userVo.setRoleName(a.getRole().getRoleName());
 				}
@@ -340,12 +363,12 @@ public class UserServiceImpl implements UserService {
 			throw new RuntimeException(re.getMessage());
 		}
 	}
-	
+
 	/*
 	 * @RabbitListener(queues ="inventoryQueue") public void
 	 * rabbitmqConsumer(PersonVo name) {
 	 * 
 	 * System.out.println("************************message recived from : "+name); }
 	 */
-	
+
 }

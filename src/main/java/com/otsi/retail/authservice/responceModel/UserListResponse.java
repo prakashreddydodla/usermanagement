@@ -1,6 +1,9 @@
 package com.otsi.retail.authservice.responceModel;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.otsi.retail.authservice.requestModel.StoreVo;
 
 import lombok.Data;
 
@@ -15,4 +18,5 @@ public class UserListResponse {
 	private String email;
 	private LocalDate createdDate;
 	private boolean isActive;
+	private List<StoreVo> stores;
 }
