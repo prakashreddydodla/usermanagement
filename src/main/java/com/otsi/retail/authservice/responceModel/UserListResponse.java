@@ -19,4 +19,7 @@ public class UserListResponse {
 	private LocalDate createdDate;
 	private boolean isActive;
 	private List<StoreVo> stores;
+	private String address;
+	private boolean isSuperAdmin;
+	private  String dob;
 }

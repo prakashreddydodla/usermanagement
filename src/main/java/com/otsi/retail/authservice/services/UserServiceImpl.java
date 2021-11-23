@@ -141,6 +141,7 @@ public class UserServiceImpl implements UserService {
 				userVo.setUserName(a.getUserName());
 				userVo.setCreatedBy(a.getCreatedBy());
 				userVo.setCreatedDate(a.getCreatedDate());
+				userVo.setSuperAdmin(a.isSuperAdmin());
 				userVo.setActive(a.isActive());
 				List<StoreVo> stores = new ArrayList<>();
 				if (null != a.getStores()) {
@@ -163,6 +164,13 @@ public class UserServiceImpl implements UserService {
 					if (b.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
 						userVo.setDomian(b.getIntegerValue());
 					}
+					if(b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)){
+						userVo.setDob(b.getStringValue());
+					}
+                    if(b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)){
+						userVo.setAddress(b.getStringValue());
+
+					}    
 				});
 				userList.add(userVo);
 			});
