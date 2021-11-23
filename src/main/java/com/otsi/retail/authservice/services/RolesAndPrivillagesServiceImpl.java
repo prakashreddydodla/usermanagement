@@ -314,30 +314,12 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			}
 		}
 		
-		if (0L != req.getCreatedBy() && 0L != req.getCreatedBy()) {
+		if (null != req.getCreatedBy() && "" != req.getCreatedBy()) {
 			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
 			if (!CollectionUtils.isEmpty(roles)) {
 				return roles;
 			} else {
 				throw new RolesNotFoundException("No roles created by with this User : " + req.getCreatedBy());
-			}
-		}
-		
-		if (0L != req.getCreatedBy()) {
-			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
-			if (!CollectionUtils.isEmpty(roles)) {
-				return roles;
-			} else {
-				throw new RolesNotFoundException("No roles created by with this User : " + req.getCreatedBy());
-			}
-		}
-
-		if (null != req.getCreatedDate() && 0L != req.getCreatedBy()) {
-			List<Role> roles = roleRepository.findByCreatedDate(req.getCreatedDate());
-			if (!CollectionUtils.isEmpty(roles)) {
-				return roles;
-			} else {
-				throw new RolesNotFoundException("No roles created  in this Date : " + req.getCreatedDate());
 			}
 		}
 		

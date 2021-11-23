@@ -46,13 +46,17 @@ import com.amazonaws.services.cognitoidp.model.CreateGroupRequest;
 import com.amazonaws.services.cognitoidp.model.CreateGroupResult;
 import com.amazonaws.services.cognitoidp.model.ForgotPasswordRequest;
 import com.amazonaws.services.cognitoidp.model.ForgotPasswordResult;
+import com.amazonaws.services.cognitoidp.model.GroupExistsException;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
+import com.amazonaws.services.cognitoidp.model.LimitExceededException;
 import com.amazonaws.services.cognitoidp.model.ListUsersRequest;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
+import com.amazonaws.services.cognitoidp.model.PasswordResetRequiredException;
 import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UpdateGroupRequest;
 import com.amazonaws.services.cognitoidp.model.UpdateGroupResult;
+import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
@@ -208,7 +212,14 @@ public class CognitoClient {
 				return result;
 			else
 				throw new Exception("No user found" + result);
-		} catch (Exception e) {
+		}catch (UserNotFoundException une) {
+			throw new Exception(une.getErrorMessage());
+		}
+		
+		catch (InvalidParameterException ie) {
+			throw new Exception(ie.getErrorMessage());
+		} 
+		catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -316,14 +327,14 @@ public class CognitoClient {
 		 * request.getUsername()) ));
 		 */
 		try {
+			createUserRequest.setUserAttributes(userAtributes);
 			AdminCreateUserResult result = client.adminCreateUser(createUserRequest);
 			return result;
 
 		} catch (UsernameExistsException uee) {
 			throw new Exception("UserName already exits");
 		} catch (InvalidParameterException ie) {
-			
-			throw new Exception(ie.getMessage());
+			throw new Exception(ie.getErrorMessage());
 		}
 
 	}
@@ -333,7 +344,7 @@ public class CognitoClient {
 		boolean useLetters = true;
 		boolean useNumbers = true;
 		String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-		return generatedString + "$";
+		return generatedString + "0$";
 	}
 
 	private String clientDomiansConvertTostring(int[] clientDomain) {
@@ -363,12 +374,19 @@ public class CognitoClient {
 				put("PASSWORD", password);
 			}
 		};
-		AdminInitiateAuthRequest authRequest = new AdminInitiateAuthRequest()
-				.withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH).withUserPoolId(USERPOOL_ID).withClientId(CLIENT_ID)
-				.withAuthParameters(authParams);
-		AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
-		// AuthenticationResultType resultType = authResult.getAuthenticationResult();
-		return authResult;
+		try {
+			AdminInitiateAuthRequest authRequest = new AdminInitiateAuthRequest()
+					.withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH).withUserPoolId(USERPOOL_ID).withClientId(CLIENT_ID)
+					.withAuthParameters(authParams);
+			AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
+			// AuthenticationResultType resultType = authResult.getAuthenticationResult();
+			return authResult;
+		} catch (InvalidParameterException e) {
+			throw new Exception(e.getErrorMessage());
+
+		} catch (PasswordResetRequiredException pre) {
+			throw new Exception(pre.getErrorMessage());
+		}
 
 	}
 
@@ -445,6 +463,12 @@ public class CognitoClient {
 			} else {
 				throw new Exception("failed");
 			}
+		} catch (GroupExistsException e) {
+			throw new Exception(e.getErrorMessage());
+		} catch (InvalidParameterException ie) {
+			throw new Exception(ie.getErrorMessage());
+		} catch (LimitExceededException lee) {
+			throw new Exception(lee.getErrorMessage());
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -460,7 +484,7 @@ public class CognitoClient {
 			UpdateGroupResult response = client.updateGroup(request);
 			return response;
 		} catch (InvalidParameterException ipe) {
-			throw new RuntimeException("Invalid request parameters");
+			throw new RuntimeException(ipe.getErrorMessage());
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -477,6 +501,8 @@ public class CognitoClient {
 				return result;
 			} else
 				throw new Exception("failed to update");
+		} catch (InvalidParameterException ie) {
+			throw new Exception(ie.getErrorMessage());
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -494,6 +520,8 @@ public class CognitoClient {
 				return result;
 			} else
 				throw new Exception("failed to update");
+		} catch (InvalidParameterException ie) {
+			throw new Exception(ie.getErrorMessage());
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -620,7 +648,7 @@ public class CognitoClient {
 			AdminUpdateUserAttributesResult result = client.adminUpdateUserAttributes(adminUpdateUserAttributesRequest);
 			return result;
 		} catch (InvalidParameterException ipe) {
-			throw new RuntimeException("Invalid parameters");
+			throw new RuntimeException(ipe.getErrorMessage());
 		} catch (RuntimeException re) {
 			throw new RuntimeException(re.getMessage());
 		} catch (Exception e) {

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.RuntimeCryptoException;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+//import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
-import com.otsi.retail.authservice.requestModel.PersonVo;
+//import com.otsi.retail.authservice.requestModel.PersonVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
@@ -341,10 +341,11 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	@RabbitListener(queues ="inventoryQueue")
-	public void rabbitmqConsumer(PersonVo name) {
-	
-	System.out.println("************************message recived from : "+name);
-	}
+	/*
+	 * @RabbitListener(queues ="inventoryQueue") public void
+	 * rabbitmqConsumer(PersonVo name) {
+	 * 
+	 * System.out.println("************************message recived from : "+name); }
+	 */
 	
 }

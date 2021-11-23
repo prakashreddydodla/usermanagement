@@ -500,6 +500,13 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				
 			}
 		} catch (Exception e) {
+			if (request.getIsConfigUser().equalsIgnoreCase("true")) {
+				if (null != request.getClientId() && request.getClientId() != "") {
+					deleteClientWhileConfigUserNotCreated(request.getClientId());
+					
+					logger.info("Client details entity delete Id : " + request.getClientId());
+				}
+			}
 			logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
