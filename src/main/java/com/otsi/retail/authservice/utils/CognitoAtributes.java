@@ -2,7 +2,7 @@ package com.otsi.retail.authservice.utils;
 
 public class CognitoAtributes {
 
-	public static final String USER_ASSIGNED_STORES="custom:userAssignedStores";
+	public static final String USER_ASSIGNED_STORES="custom:userAssignedStores1";
 	public static final String EMAIL="email";
 	public static final String GIVEN_NAME="given_name";
 	public static final String GENDER="gender";
@@ -25,4 +25,7 @@ public class CognitoAtributes {
 	public static final String IS_ACTIVE="isActive";
 	public static final String IS_SUPER_ADMIN="custom:isSuperAdmin";
 	public static final String CREATED_BY = "custom:createdBy";
+	public static final String ROLE_NAME = "custom:roleName";
+
+	
 }

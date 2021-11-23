@@ -141,7 +141,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 	@Override
 	@Transactional(rollbackOn = { RuntimeException.class, GroupExistsException.class, Exception.class })
-	public String createRole(CreateRoleRequest role) throws Exception {
+	public String createRole(CreateRoleRequest role) throws RuntimeException,Exception {
 		logger.info("###############Create Role method Starts###################");
 		Role roleEntity = new Role();
 		Role dbResult = null;
@@ -221,11 +221,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					}
 				} else {
 					logger.error("Customer is not a role");
-					throw new Exception("Customer is not a role");
+					throw new RuntimeException("Customer is not a role");
 				}
 			} catch (GroupExistsException ge) {
 				logger.error("Role name already Exists in cognito userpool");
-				throw new Exception("Role name already Exists in cognito userpool");
+				throw new RuntimeException("Role name already Exists in cognito userpool");
 			} catch (Exception e) {
 				logger.error("Error occurs while creating role ===>" + e.getMessage());
 				throw new Exception(e.getMessage());

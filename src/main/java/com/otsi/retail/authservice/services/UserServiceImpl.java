@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.RuntimeCryptoException;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
+import com.otsi.retail.authservice.requestModel.PersonVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
@@ -52,15 +54,17 @@ public class UserServiceImpl implements UserService {
 			Optional<UserDeatils> user = userRepo.findByUserId(userRequest.getId());
 			if (user.isPresent()) {
 				users.add(user.get());
-
+				return users;
 			} else {
 				throw new RuntimeException("User not found with this Id : " + userRequest.getId());
 			}
+
 		}
 		if (null != userRequest.getName()) {
 			Optional<UserDeatils> user = userRepo.findByUserName(userRequest.getName());
 			if (user.isPresent()) {
 				users.add(user.get());
+				return users;
 
 			} else {
 				throw new RuntimeException("User not found with this UserName : " + userRequest.getName());
@@ -70,26 +74,58 @@ public class UserServiceImpl implements UserService {
 			Optional<UserDeatils> user = userRepo.findByPhoneNumber(userRequest.getPhoneNo());
 			if (user.isPresent()) {
 				users.add(user.get());
+				return users;
+
 			} else {
 				throw new Exception("No user found with this userName: " + userRequest.getPhoneNo());
 			}
 		}
 
-		if (0L != userRequest.getRoleId()) {
+		if (0L != userRequest.getRoleId() && userRequest.isActive()) {
+			users = userRepo.findByRoleRoleIdAndIsActive(userRequest.getRoleId(), Boolean.TRUE);
+			if (CollectionUtils.isEmpty(users)) {
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+			}
+			return users;
+		}
+		if (0L != userRequest.getRoleId() && userRequest.isInActive()) {
+			users = userRepo.findByRoleRoleIdAndIsActive(userRequest.getRoleId(), Boolean.FALSE);
+			if (CollectionUtils.isEmpty(users)) {
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+			}
+			return users;
+		}
+		if (0L != userRequest.getRoleId() && !userRequest.isActive() && !userRequest.isInActive()) {
 			users = userRepo.findByRoleRoleId(userRequest.getRoleId());
 			if (CollectionUtils.isEmpty(users)) {
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
+			return users;
 		}
 
-		if (0L != userRequest.getStoreId()) {
+		if (0L != userRequest.getStoreId()&& userRequest.isActive()) {
+			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(),Boolean.TRUE);
+			if (CollectionUtils.isEmpty(users)) {
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+			}
+			return users;
+		}
+		if (0L != userRequest.getStoreId()&& userRequest.isInActive()) {
+			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(),Boolean.FALSE);
+			if (CollectionUtils.isEmpty(users)) {
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+			}
+			return users;
+		}
+		if (0L != userRequest.getStoreId()&& !userRequest.isActive()&&!userRequest.isInActive()) {
 			users = userRepo.findByStores_Id(userRequest.getStoreId());
 			if (CollectionUtils.isEmpty(users)) {
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
+			return users;
 		}
+		throw new RuntimeException("Please select atleast one input");
 
-		return users;
 	}
 
 	public List<UserListResponse> getUserForClient(int clientId) throws Exception {
@@ -97,16 +133,16 @@ public class UserServiceImpl implements UserService {
 		List<UserDeatils> users = userRepo.findByUserAv_NameAndUserAv_IntegerValue(CognitoAtributes.CLIENT_ID,
 				clientId);
 		if (!CollectionUtils.isEmpty(users)) {
-			List<UserListResponse> userList=new ArrayList<>();
+			List<UserListResponse> userList = new ArrayList<>();
 			users.stream().forEach(a -> {
 				UserListResponse userVo = new UserListResponse();
 				userVo.setUserId(a.getUserId());
 				userVo.setUserName(a.getUserName());
 				userVo.setCreatedBy(a.getCreatedBy());
 				userVo.setCreatedDate(a.getCreatedDate());
-			//	userVo.setDomian(clientDomianId);
-				if(null!=a.getRole()) {
-				userVo.setRoleName(a.getRole().getRoleName());
+				userVo.setActive(a.isActive());
+				if (null != a.getRole()) {
+					userVo.setRoleName(a.getRole().getRoleName());
 				}
 				a.getUserAv().stream().forEach(b -> {
 					if (b.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
@@ -128,9 +164,9 @@ public class UserServiceImpl implements UserService {
 
 	public List<UserListResponse> getUsersForClientDomain(long clientDomianId) {
 		List<UserDeatils> users = userRepo.findByClientDomians_ClientDomainaId(clientDomianId);
-		
+
 		if (!CollectionUtils.isEmpty(users)) {
-			List<UserListResponse> userList=new ArrayList<>();
+			List<UserListResponse> userList = new ArrayList<>();
 			users.stream().forEach(a -> {
 				UserListResponse userVo = new UserListResponse();
 				userVo.setUserId(a.getUserId());
@@ -138,8 +174,9 @@ public class UserServiceImpl implements UserService {
 				userVo.setCreatedBy(a.getCreatedBy());
 				userVo.setCreatedDate(a.getCreatedDate());
 				userVo.setDomian(clientDomianId);
-				if(null!=a.getRole()) {
-				userVo.setRoleName(a.getRole().getRoleName());
+				userVo.setActive(a.isActive());
+				if (null != a.getRole()) {
+					userVo.setRoleName(a.getRole().getRoleName());
 				}
 				a.getUserAv().stream().forEach(b -> {
 					if (b.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
@@ -303,4 +340,11 @@ public class UserServiceImpl implements UserService {
 			throw new RuntimeException(re.getMessage());
 		}
 	}
+	
+	@RabbitListener(queues ="inventoryQueue")
+	public void rabbitmqConsumer(PersonVo name) {
+	
+	System.out.println("************************message recived from : "+name);
+	}
+	
 }

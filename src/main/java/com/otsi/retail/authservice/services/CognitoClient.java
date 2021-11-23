@@ -93,6 +93,8 @@ public class CognitoClient {
 		client = createCognitoClient();
 	}
 
+	// To configure the cognito client. By using this cognito client we can
+	// communicate AWS Cognito userpool
 	private AWSCognitoIdentityProvider createCognitoClient() {
 
 		AWSCredentials cred = new BasicAWSCredentials(ACCESS_KEY, SECRET_ACCESS_KEY);
@@ -102,6 +104,7 @@ public class CognitoClient {
 				.build();
 	}
 
+	// for User self signup
 	public SignUpResult signUp(String userName, String email, String password, String givenName, String name,
 			String phoneNo, String storeId) throws Exception {
 		SignUpRequest request = new SignUpRequest().withClientId(CLIENT_ID).withUsername(userName)
@@ -117,6 +120,7 @@ public class CognitoClient {
 		return result;
 	}
 
+	// After SIGNUP user need to confirmSignUp by calling this API
 	public ConfirmSignUpResult confirmSignUp(String userName, String confirmationCode) throws Exception {
 
 		ConfirmSignUpRequest confirmSignUpRequest = new ConfirmSignUpRequest().withClientId(CLIENT_ID)
@@ -126,6 +130,7 @@ public class CognitoClient {
 		return result;
 	}
 
+	// If the user self signup.Then for login we need to use this API
 	public AdminInitiateAuthResult login(String email, String password) throws Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
@@ -141,6 +146,7 @@ public class CognitoClient {
 		return authResult;
 	}
 
+	// This API is used assign role(group) to user
 	public AdminAddUserToGroupResult addRolesToUser(String groupName, String userName)
 			throws InvalidParameterException, Exception {
 
@@ -168,6 +174,7 @@ public class CognitoClient {
 		}
 	}
 
+	// this API is used to assgin store to user in userpool
 	public AdminUpdateUserAttributesResult addStoreToUser(List<Store> stores, String userName) throws Exception {
 		AdminUpdateUserAttributesRequest updateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
 		List<AttributeType> attributes = new ArrayList<>();
@@ -189,6 +196,7 @@ public class CognitoClient {
 			throw new Exception("No user found with this username in userpool");
 	}
 
+	// This API is used to get user details from userpool for given userName
 	public AdminGetUserResult getUserFromUserpool(String userName) throws Exception {
 		System.out.println(userName);
 		AdminGetUserRequest getUserRequest = new AdminGetUserRequest();
@@ -205,37 +213,108 @@ public class CognitoClient {
 		}
 	}
 
+//If we configure user creation by ADMIN. Then we need to use this API for create the user
 	public AdminCreateUserResult adminCreateUser(AdminCreatUserRequest request) throws Exception {
 		AdminCreateUserRequest createUserRequest = new AdminCreateUserRequest();
 		createUserRequest.setDesiredDeliveryMediums(Arrays.asList("EMAIL"));
 		createUserRequest.setUserPoolId(USERPOOL_ID);
 		createUserRequest.setUsername(request.getUsername());
 		createUserRequest.setTemporaryPassword(generateTempPassword());
-		createUserRequest.setUserAttributes(Arrays.asList(
-				new AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()),
-				new AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(request.getPhoneNumber()),
-				new AttributeType().withName(CognitoAtributes.NAME).withValue(request.getName()),
-				new AttributeType().withName(CognitoAtributes.BIRTHDATE).withValue(request.getBirthDate()),
-				new AttributeType().withName(CognitoAtributes.ADDRESS).withValue(request.getAddress()),
-				new AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender()),
-				new AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.getParentId()),
-				new AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()),
-				new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
-						.withValue(setStores(request.getStores())),
-				new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()),
-				new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()),
-				new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
-						.withValue(clientDomiansConvertTostring(request.getClientDomain())),
-						new AttributeType().withName(CognitoAtributes.IS_SUPER_ADMIN)
-						.withValue(request.getIsSuperAdmin()),
-						new AttributeType().withName(CognitoAtributes.CREATED_BY)
-						.withValue(request.getCreatedBy())
-						
-						
 
-		// new
-		// AttributeType().withName(CognitoAtributes.PREFFERED_USERNAME).withValue(request.getUsername())
-		));
+		List<AttributeType> userAtributes = new ArrayList<>();
+		if (null != request.getEmail()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()));
+		}
+		if (null != request.getPhoneNumber()) {
+			userAtributes.add(
+					new AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(request.getPhoneNumber()));
+		}
+
+		if (null != request.getName()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.NAME).withValue(request.getName()));
+
+		}
+
+		if (null != request.getBirthDate()) {
+			userAtributes
+					.add(new AttributeType().withName(CognitoAtributes.BIRTHDATE).withValue(request.getBirthDate()));
+		}
+
+		if (null != request.getAddress()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.ADDRESS).withValue(request.getAddress()));
+		}
+
+		if (null != request.getGender()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender()));
+
+		}
+
+		if (null != request.getParentId()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.getParentId()));
+		}
+
+		if (null != request.getDomianId()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()));
+		}
+
+		if (null != request.getStores()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
+					.withValue(setStores(request.getStores())));
+		}
+
+		if (null != request.getIsConfigUser()) {
+
+			userAtributes.add(
+					new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()));
+		}
+
+		if (null != request.getClientId()) {
+			userAtributes
+					.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()));
+		}
+
+		if (null != request.getRoleName()) {
+			userAtributes
+					.add(new AttributeType().withName(CognitoAtributes.ROLE_NAME).withValue(request.getRoleName()));
+		}
+
+		if (null != request.getClientDomain()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
+					.withValue(clientDomiansConvertTostring(request.getClientDomain())));
+		}
+		/*
+		 * createUserRequest.setUserAttributes(Arrays.asList( new
+		 * AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()
+		 * ), new
+		 * AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(request.
+		 * getPhoneNumber()), new
+		 * AttributeType().withName(CognitoAtributes.NAME).withValue(request.getName()),
+		 * new AttributeType().withName(CognitoAtributes.BIRTHDATE).withValue(request.
+		 * getBirthDate()), new
+		 * AttributeType().withName(CognitoAtributes.ADDRESS).withValue(request.
+		 * getAddress()), new
+		 * AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender
+		 * ()), new
+		 * AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.
+		 * getParentId()), new
+		 * AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.
+		 * getDomianId()), new
+		 * AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
+		 * .withValue(setStores(request.getStores())), new
+		 * AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.
+		 * getIsConfigUser()), new
+		 * AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.
+		 * getClientId()), new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
+		 * .withValue(clientDomiansConvertTostring(request.getClientDomain())), new
+		 * AttributeType().withName(CognitoAtributes.IS_SUPER_ADMIN).withValue(request.
+		 * getIsSuperAdmin()), new
+		 * AttributeType().withName(CognitoAtributes.CREATED_BY).withValue(request.
+		 * getCreatedBy())
+		 * 
+		 * // new //
+		 * AttributeType().withName(CognitoAtributes.PREFFERED_USERNAME).withValue(
+		 * request.getUsername()) ));
+		 */
 		try {
 			AdminCreateUserResult result = client.adminCreateUser(createUserRequest);
 			return result;
@@ -243,17 +322,18 @@ public class CognitoClient {
 		} catch (UsernameExistsException uee) {
 			throw new Exception("UserName already exits");
 		} catch (InvalidParameterException ie) {
+			
 			throw new Exception(ie.getMessage());
 		}
 
 	}
 
 	private String generateTempPassword() {
-		int length = 8;
-	    boolean useLetters = true;
-	    boolean useNumbers = true;
-	    String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-	    return generatedString+"$";
+		int length = 10;
+		boolean useLetters = true;
+		boolean useNumbers = true;
+		String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
+		return generatedString + "$";
 	}
 
 	private String clientDomiansConvertTostring(int[] clientDomain) {
@@ -275,6 +355,7 @@ public class CognitoClient {
 		return storesString.toString();
 	}
 
+	// This API is used for the login only when the user was created by ADMIN
 	public AdminInitiateAuthResult loginWithTempPassword(String email, String password) throws Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
@@ -291,6 +372,8 @@ public class CognitoClient {
 
 	}
 
+	// When admin create the user. Then user will create with temporary password.
+	// So that user sholud set the new password by using thi api
 	public AdminRespondToAuthChallengeResult respondAuthChalleng(NewPasswordChallengeRequest request) {
 		AdminRespondToAuthChallengeRequest challengRequest = new AdminRespondToAuthChallengeRequest();
 		Map<String, String> challengeResponses = new HashMap<>();
@@ -345,6 +428,7 @@ public class CognitoClient {
 
 	}
 
+	// To create Group(role) in the cognito userpool
 	public CreateGroupResult createRole(CreateRoleRequest input) throws Exception {
 		CreateGroupRequest request = new CreateGroupRequest();
 		if (input.getRoleName() == null) {
@@ -366,6 +450,7 @@ public class CognitoClient {
 		}
 	}
 
+	// To update Group(role) in the cognito userpool
 	public UpdateGroupResult updateRole(CreateRoleRequest input) throws Exception {
 		UpdateGroupRequest request = new UpdateGroupRequest();
 		request.setGroupName(input.getRoleName());
@@ -381,6 +466,7 @@ public class CognitoClient {
 		}
 	}
 
+	// To Enable the user in userpool for given username
 	public AdminEnableUserResult userEnabled(String userName) throws Exception {
 		AdminEnableUserRequest request = new AdminEnableUserRequest();
 		request.setUsername(userName);
@@ -396,6 +482,7 @@ public class CognitoClient {
 		}
 	}
 
+	// To Enable the user in userpool for given username
 	public AdminDisableUserResult userDisabled(String userName) throws Exception {
 		AdminDisableUserRequest request = new AdminDisableUserRequest();
 		request.setUsername(userName);
@@ -412,6 +499,7 @@ public class CognitoClient {
 		}
 	}
 
+	// To get all users present in the userpool
 	public ListUsersResult getAllUsers() throws Exception {
 		ListUsersRequest request = new ListUsersRequest();
 		request.setUserPoolId(USERPOOL_ID);
@@ -428,37 +516,116 @@ public class CognitoClient {
 		}
 	}
 
-	
+	// Update the user in userpool. We need to set the update values to user
 	public AdminUpdateUserAttributesResult updateUserInCognito(UpdateUserRequest request) {
 		try {
-		AdminUpdateUserAttributesRequest adminUpdateUserAttributesRequest=new AdminUpdateUserAttributesRequest();
-		adminUpdateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
-		adminUpdateUserAttributesRequest.setUsername(request.getUsername());
-		adminUpdateUserAttributesRequest.setUserAttributes(Arrays.asList(
-				new AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()),
-				new AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(request.getPhoneNumber()),
-				new AttributeType().withName(CognitoAtributes.NAME).withValue(request.getName()),
-				new AttributeType().withName(CognitoAtributes.BIRTHDATE).withValue(request.getBirthDate()),
-				new AttributeType().withName(CognitoAtributes.ADDRESS).withValue(request.getAddress()),
-				new AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender()),
-				new AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.getParentId()),
-				new AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()),
-				new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
-						.withValue(setStores(request.getStores())),
-				new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()),
-				new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()),
-				new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
-						.withValue(clientDomiansConvertTostring(request.getClientDomain()))));
-		AdminUpdateUserAttributesResult result=	client.adminUpdateUserAttributes(adminUpdateUserAttributesRequest);
-		return result;
-		}catch (InvalidParameterException ipe) {
+			AdminUpdateUserAttributesRequest adminUpdateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
+			adminUpdateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
+			adminUpdateUserAttributesRequest.setUsername(request.getUsername());
+			List<AttributeType> userAtributes = new ArrayList<>();
+			if (null != request.getEmail()) {
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()));
+			}
+			if (null != request.getPhoneNumber()) {
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.PHONE_NUMBER)
+						.withValue(request.getPhoneNumber()));
+			}
+
+			if (null != request.getName()) {
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.NAME).withValue(request.getName()));
+
+			}
+
+			if (null != request.getBirthDate()) {
+				userAtributes.add(
+						new AttributeType().withName(CognitoAtributes.BIRTHDATE).withValue(request.getBirthDate()));
+			}
+
+			if (null != request.getAddress()) {
+				userAtributes
+						.add(new AttributeType().withName(CognitoAtributes.ADDRESS).withValue(request.getAddress()));
+			}
+
+			if (null != request.getGender()) {
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender()));
+
+			}
+
+			if (null != request.getParentId()) {
+				userAtributes
+						.add(new AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.getParentId()));
+			}
+
+			if (null != request.getDomianId()) {
+				userAtributes
+						.add(new AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()));
+			}
+
+			if (null != request.getStores()) {
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
+						.withValue(setStores(request.getStores())));
+			}
+
+			if (null != request.getIsConfigUser()) {
+
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER)
+						.withValue(request.getIsConfigUser()));
+			}
+
+			if (null != request.getClientId()) {
+				userAtributes
+						.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()));
+			}
+
+			if (null != request.getRoleName()) {
+				userAtributes
+						.add(new AttributeType().withName(CognitoAtributes.ROLE_NAME).withValue(request.getRoleName()));
+			}
+
+			if (null != request.getClientDomain()) {
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
+						.withValue(clientDomiansConvertTostring(request.getClientDomain())));
+			}
+
+			adminUpdateUserAttributesRequest.setUserAttributes(userAtributes);
+			/**
+			 * adminUpdateUserAttributesRequest.setUserAttributes(Arrays.asList( new
+			 * AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()),
+			 * new
+			 * AttributeType().withName(CognitoAtributes.PHONE_NUMBER).withValue(request.getPhoneNumber()),
+			 * new
+			 * AttributeType().withName(CognitoAtributes.NAME).withValue(request.getName()),
+			 * new
+			 * AttributeType().withName(CognitoAtributes.BIRTHDATE).withValue(request.getBirthDate()),
+			 * new
+			 * AttributeType().withName(CognitoAtributes.ADDRESS).withValue(request.getAddress()),
+			 * new
+			 * AttributeType().withName(CognitoAtributes.GENDER).withValue(request.getGender()),
+			 * new
+			 * AttributeType().withName(CognitoAtributes.PARENTID).withValue(request.getParentId()),
+			 * new
+			 * AttributeType().withName(CognitoAtributes.DOMAINID).withValue(request.getDomianId()),
+			 * new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
+			 * .withValue(setStores(request.getStores())), new
+			 * AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()),
+			 * new
+			 * AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()),
+			 * 
+			 * new
+			 * AttributeType().withName(CognitoAtributes.ROLE_NAME).withValue(request.getRoleName()),
+			 * 
+			 * new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
+			 * .withValue(clientDomiansConvertTostring(request.getClientDomain()))));
+			 */
+			AdminUpdateUserAttributesResult result = client.adminUpdateUserAttributes(adminUpdateUserAttributesRequest);
+			return result;
+		} catch (InvalidParameterException ipe) {
 			throw new RuntimeException("Invalid parameters");
-		}catch (RuntimeException re) {
+		} catch (RuntimeException re) {
 			throw new RuntimeException(re.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
-		
 
 	}
 }

@@ -31,4 +31,5 @@ public class UpdateUserRequest {
 	private boolean isCustomer;
 	private boolean isSuperAdmin;
 	private String createBy;
+	private String roleName;
 }

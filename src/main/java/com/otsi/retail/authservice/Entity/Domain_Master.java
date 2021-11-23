@@ -25,6 +25,7 @@ public class Domain_Master {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	//channel is nothing but a domian
 	private String channelName;
 	private String discription;
 	private boolean status;
