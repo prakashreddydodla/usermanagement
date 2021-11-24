@@ -2,10 +2,13 @@
 server:
   port: 8084
   
-spring:  application:    name: user-management-service  
+spring:
+  application:
+    name: user-management-service
+  
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/UserManagement
+    url: jdbc:postgresql://usermanagement-pos:5432/UserManagement
     username: postgres
     password: Otsi@123
     
