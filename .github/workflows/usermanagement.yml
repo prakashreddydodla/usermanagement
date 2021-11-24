@@ -41,8 +41,8 @@ jobs:
         id: ecr
         uses: jwalton/gh-ecr-login@v1
         with:
-          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_R }}
-          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_R }}
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ap-south-1
       - name: Build and Push to ECR
         run: |
@@ -70,7 +70,7 @@ jobs:
         uses: netf/helm-eks-action@v1
         with:
           cluster-name: Microservice-K8S-Cluster
-          command: helm upgrade --set image.tag="$GITHUB_SHA" --install usermanagement ./usermanagement
+          command: helm upgrade --set image.tag="$GITHUB_SHA" --install ${{ env.MODULE_NAME }} ./${{ env.MODULE_NAME }}
             
       
        
