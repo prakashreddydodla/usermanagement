@@ -23,8 +23,6 @@ image:
     tag: latest
 
 
-imagePullSecrets:
-  - name: ""
 nameOverride: ""
 fullnameOverride: ""
 
