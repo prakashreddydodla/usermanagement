@@ -36,25 +36,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: POSTGRES_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "usermanagement.fullname" . }}-config
-                  key: postgres_user
+              value: {{ .Values.env.postgres_user }}
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "usermanagement.fullname" . }}-config
-                  key: postgres_password
+              value: {{ .Values.env.postgres_password }}
             - name: PGDATA
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "usermanagement.fullname" . }}-config
-                  key: postgres_data
+              value: {{ .Values.env.postgres_data }}
             - name: POSTGRES_DB
-              configMapKeyRef:
-              valueFrom:
-                  name: {{ include "usermanagement.fullname" . }}-config
-                  key: postgres_db
+              value: {{ .Values.env.postgres_db }}
           ports:
             - name: http
               containerPort: 5432

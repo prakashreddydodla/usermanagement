@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 name: usermanagement
 
-configmap:
+env:
   postgres_user: postgres
   postgres_password: Otsi@123
   postgres_host: jdbc:postgresql://localhost:5432/UserManagement 
