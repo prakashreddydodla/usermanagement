@@ -36,7 +36,7 @@ spec:
           - name: SPRING_DATASOURCE_PASSWORD
             value: {{ .Values.env.postgres_password }}
           - name: SPRING_DATASOURCE_URL
-            value: {{ .Values.env.postgres_host }}
+            value: jdbc:postgresql://{{ include "usermanagement.fullname" . }}-pos:5432/{{ .Values.env.postgres_db }}
           ports:
             - name: http
               containerPort: 8084
