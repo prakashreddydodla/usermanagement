@@ -6,7 +6,6 @@ name: usermanagement
 env:
   postgres_user: postgres
   postgres_password: Otsi@123
-  postgres_host: jdbc:postgresql://localhost:5432/UserManagement 
   postgres_data: /var/lib/postgresql/data/pgdata
   postgres_db: UserManagement
 
@@ -49,7 +48,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8084
   postgres: 
     type: ClusterIP
