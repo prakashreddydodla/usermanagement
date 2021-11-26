@@ -125,4 +125,14 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+	@PostMapping(EndpointConstants.GET_STORELIST)
+	public GateWayResponse<?> getStoresForGivenIds(@RequestBody List<Long> storeIds){
+		try {
+		List<Store> res=storeService.getStoresForGivenIds(storeIds);
+		return new GateWayResponse<>(200, res, "", "true");
+		}catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
 }

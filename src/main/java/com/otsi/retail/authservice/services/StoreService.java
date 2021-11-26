@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.otsi.retail.authservice.Entity.Districts;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
 import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
@@ -19,4 +20,5 @@ public interface StoreService {
 	 String assignStoreToClientDomain(DomianStoresVo vo) throws Exception;
 	 List<Store> getStoresOnFilter(GetStoresRequestVo vo);
 	 String updateStore(StoreVo vo) throws RuntimeException, Exception;
+	List<Store> getStoresForGivenIds(List<Long> stateCode);
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.otsi.retail.authservice.Entity.ClientDomains;
+import com.otsi.retail.authservice.Entity.Districts;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
@@ -235,5 +236,23 @@ public class StoreServiceImpl implements StoreService {
 
 		}
 		throw new RuntimeException("Please provide valid information");
+	}
+
+	@Override
+	public List<Store> getStoresForGivenIds(List<Long> storeIds) {
+
+		
+		  if(!CollectionUtils.isEmpty(storeIds)) {
+		List<Store>  stores=storeRepo.findByIdIn(storeIds);
+		  if(!CollectionUtils.isEmpty(storeIds)) {
+			  return stores;
+		  }else {
+			  throw new RuntimeException("No stores found with these storeId's");
+		  }
+		  }else {
+			  throw new RuntimeException("Store Id's should not be null");
+		  }
+		 
+		
 	}
 }

@@ -60,6 +60,7 @@ public class EndpointConstants {
 	public static final String ALL_STATES = "/allStates";
 	public static final String GET_DISTRICT = "/getDistrict";
 	public static final String UPDATE_STORE = "/store";
+	public static final String GET_STORELIST = "/storeList";
 
 	
 	
