@@ -27,5 +27,25 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	Optional<UserDeatils> findByPhoneNumberAndRoleRoleName(String mobileNo, String roleName);
 
+	List<UserDeatils> findByRoleRoleId(long roleId);
+
+	List<UserDeatils> findByStores_Id(long storeId);
+
+	Optional<UserDeatils> findByPhoneNumberAndIsCustomer(String mobileNo, Boolean true1);
+
+	boolean existsByPhoneNumber(String phoneNumber);
+
+	Optional<UserDeatils> findByUserId(long l);
+
+	boolean existsByUserNameAndIsCustomer(String username, Boolean false1);
+
+	boolean existsByPhoneNumberAndIsCustomer(String phoneNumber, Boolean false1);
+
+	List<UserDeatils> findByRoleRoleIdAndIsActive(long roleId, boolean active);
+
+	List<UserDeatils> findByStores_IdAndIsActive(long storeId, Boolean false1);
+
+
+
 
 }

@@ -33,8 +33,7 @@ public class UserDeatils  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
-	@Column(unique = true)
+	private Long userId;//
 	private String userName;
 	@Column(unique = true)
 	private String phoneNumber;
@@ -43,7 +42,9 @@ public class UserDeatils  {
 	private LocalDate lastModifyedDate;
 	private String createdBy;
 	private boolean isActive;
-	
+	private boolean isSuperAdmin;
+	private boolean isCustomer;
+	private String modifiedBy;
 	@ManyToOne
 	@JoinColumn(name = "roleId")
 	private Role role;

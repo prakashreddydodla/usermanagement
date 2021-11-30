@@ -27,8 +27,10 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	boolean existsByRoleNameIgnoreCase(String roleName);
 
-	List<Role> findByCreatedBy(long createdBy);
+	List<Role> findByCreatedBy(String string);
 
 	List<Role> findByCreatedDate(LocalDate createdDate);
+
+	Optional<Role> findByRoleId(long roleId);
 
 }

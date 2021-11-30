@@ -30,9 +30,14 @@ public class SubPrivillage {
 	private long id;
 	private String name;
 	private String description;
+	private String childPath;
+	private String childImage;
+	private int domian;
 	private long parentPrivillageId;
 	private LocalDate createdDate;
 	private LocalDate modifyDate;
+	private String modifiedBy;
+
 	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "subPrivilages")

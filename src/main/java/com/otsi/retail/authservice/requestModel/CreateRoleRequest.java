@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class CreateRoleRequest {
+private long roleId; //this feild is required for when updating role
 private String roleName;
 private String description;
 private long  clientDomianId;

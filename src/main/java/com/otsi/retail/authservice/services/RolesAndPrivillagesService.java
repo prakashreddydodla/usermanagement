@@ -16,7 +16,7 @@ import com.otsi.retail.authservice.requestModel.SubPrivillagesvo;
 @Component
 public interface RolesAndPrivillagesService {
 
-	String savePrevilage(CreatePrivillagesRequest privilages) throws Exception;
+	String savePrevilage(List<CreatePrivillagesRequest> privilages) throws Exception;
 
 	String saveSubPrivillages(SubPrivillagesvo vo) throws Exception;
 
@@ -33,5 +33,8 @@ public interface RolesAndPrivillagesService {
 	List<Role> getRolesForClient(long clientId) throws Exception;
 
 	Role getPrivilagesByRoleName(String roleName) throws Exception;
-	public List<Role> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException;
+
+	List<Role> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException;
+
+	String updateRole(CreateRoleRequest request) throws Exception;
 }

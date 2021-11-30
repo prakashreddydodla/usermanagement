@@ -9,5 +9,6 @@ public class RolesFilterRequest {
 
 	private String roleName;
 	private LocalDate createdDate;
-	private long createdBy;
+	private String createdBy;
 }
+

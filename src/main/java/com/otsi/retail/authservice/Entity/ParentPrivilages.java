@@ -30,15 +30,15 @@ private String name;
 private String discription;
 private boolean read;
 private boolean write;
+private String path;
+private String parentImage;
 @JsonIgnore
 @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "parentPrivilages")
 private List<Role> roleId;
-
-/*
- * @OneToMany(mappedBy = "parentPrivillage",fetch = FetchType.LAZY,cascade =
- * CascadeType.ALL) private List<SubPrivillage> subPrivillages;
- */
+private int domian;
 private LocalDate createdDate;
 private LocalDate lastModifyedDate;
 private long createdBy;
+private String modifiedBy;
+
 }

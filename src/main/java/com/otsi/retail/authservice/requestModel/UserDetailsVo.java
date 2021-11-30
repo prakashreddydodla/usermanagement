@@ -18,7 +18,7 @@ public class UserDetailsVo {
 	private String gender;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 	private Role role;
 	private List<UserAv> userAv;
 	private List<StoreVo> stores;

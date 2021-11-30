@@ -17,4 +17,7 @@ public class ParentPrivilageVo {
 	private LocalDate lastModifyedDate;
 	private long createdBy;
 	private List<SubPrivillage> subPrivillages;
+	private String parentImage;
+	private String path;
+	private int domian;
 }

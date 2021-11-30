@@ -7,9 +7,10 @@ import com.otsi.retail.authservice.Entity.Role;
 
 import lombok.Data;
 
-@Data	
-public class AdminCreatUserRequest {
+@Data
+public class UpdateUserRequest {
 
+	private long userId;
 	private String email;
 	private String phoneNumber;
 	private String birthDate;
@@ -27,8 +28,8 @@ public class AdminCreatUserRequest {
 	private String clientId;
 	private String isConfigUser;
 	private int[] clientDomain;
-	private String isCustomer;
-	private String isSuperAdmin;
-	private String createdBy;
+	private boolean isCustomer;
+	private boolean isSuperAdmin;
+	private String createBy;
 	private String roleName;
 }

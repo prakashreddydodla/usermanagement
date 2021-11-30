@@ -25,12 +25,16 @@ public class Domain_Master {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	//channel is nothing but a domian
 	private String channelName;
 	private String discription;
 	private boolean status;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
+	private String modifiedBy;
+	private boolean isActive;
+
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "domain",fetch = FetchType.LAZY,cascade = CascadeType.ALL)

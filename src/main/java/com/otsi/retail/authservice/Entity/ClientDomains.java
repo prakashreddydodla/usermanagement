@@ -31,6 +31,9 @@ public class ClientDomains {
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
+	private String modifiedBy;
+	private boolean isActive;
+
 	
 	
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -39,6 +42,7 @@ public class ClientDomains {
 	inverseJoinColumns = {@JoinColumn(name = "id")})
 	private List<Domain_Master> domain;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "clientDomianlId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<Store> store;
 	

@@ -27,11 +27,14 @@ public class EndpointConstants {
 	public static final String GET_DOMAINS_FOR_CLIENT = "/getDomiansForClient/{clientId}";
 	public static final String GET_CLIENT = "/getClient/{clientId}";
 	public static final String GET_ALL_CLIENTS = "/getAllClients";
+	public static final String GET_DOMIAN_BY_ID ="domian/{clientDomianId}";
+
 
 	
 //############################################     ROLES CONTROLLER	END_POINTS   #############################################
 	public static final String ROLES = "/roles";
 	public static final String CREATE_ROLE = "/createRole";
+	public static final String UPDATE_ROLE = "/updateRole";
 	public static final String GET_ROLES_FOR_DOMIAN = "/getRolesForDomian/{domianId}";
 	public static final String GET_ROLES_FOR_CLIENT = "/getRolesForClient/{clientId}";
 	public static final String ADD_PREVILAGE = "/addPrevilage";
@@ -40,6 +43,7 @@ public class EndpointConstants {
 	public static final String SUB_PRIVILAGES = "/subPrivilages/{parentId}";
 	public static final String GET_ALL_PRIVILAGES = "/getAllPrivilages";
 	public static final String ROLES_WITH_FILTER = "/rolesWithFilter";
+	public static final String GET_PRIVILLAGES_BY_DOMIAN = "/privillagesForDomian/{domian}";
 
 
 
@@ -55,6 +59,9 @@ public class EndpointConstants {
 	public static final String SAVE_STATES = "/saveStates";
 	public static final String ALL_STATES = "/allStates";
 	public static final String GET_DISTRICT = "/getDistrict";
+	public static final String UPDATE_STORE = "/store";
+	public static final String GET_STORELIST = "/storeList";
+
 	
 	
 // ##########################################     USER CONTROLLER  END_POINTS     #########################################
@@ -64,7 +71,7 @@ public class EndpointConstants {
 	public static final String GET_ALL_USERS = "/getallUsers";
 	public static final String GET_ALL_USERS_BY_CLIENT_ID = "/getallUsers/{clientId}";
 	public static final String GET_ALL_USERS_BY_CLIENT_DOMIAN = "/usersByClientDomianId/{clientDomianId}";
-	public static final String GET_CUSTOMER = "/customer/{mobileNo}";
+	public static final String GET_CUSTOMER = "/customer/{feild}/{mobileNo}";
 
 
 	

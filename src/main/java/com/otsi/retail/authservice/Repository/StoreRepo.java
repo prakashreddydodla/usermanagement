@@ -26,4 +26,10 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 
 	List<Store> findByDistrictId(long cityId);
 
+
+	List<Store> findByStateIdAndDistrictId(long stateId, long districtId);
+
+
+	List<Store> findByIdIn(List<Long> storeIds);
+
 }

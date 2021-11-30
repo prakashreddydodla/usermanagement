@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +47,23 @@ public class RolesAndPrivillagesController {
 		}
 	}
 
+	@PutMapping(path = EndpointConstants.UPDATE_ROLE)
+	public GateWayResponse<?> updateRole(@RequestBody CreateRoleRequest request) {
+
+		try {
+			String res = rolesAndPrivillagesService.updateRole(request);
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (RuntimeException re) {
+
+			return new GateWayResponse<>(400, null, re.getMessage(), "false");
+		}
+
+		catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
 	@GetMapping(EndpointConstants.GET_ROLES_FOR_DOMIAN)
 	public GateWayResponse<?> getRolesForDomian(@PathVariable String domianId) {
 		try {
@@ -69,7 +87,7 @@ public class RolesAndPrivillagesController {
 	}
 
 	@PostMapping(EndpointConstants.ADD_PREVILAGE)
-	public GateWayResponse<?> savePrevilageToMaster(@RequestBody CreatePrivillagesRequest privilages) {
+	public GateWayResponse<?> savePrevilageToMaster(@RequestBody List<CreatePrivillagesRequest> privilages) {
 		try {
 			String res = rolesAndPrivillagesService.savePrevilage(privilages);
 			return new GateWayResponse<>(200, res, "", "true");
@@ -133,5 +151,17 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@GetMapping(EndpointConstants.GET_PRIVILLAGES_BY_DOMIAN)
+	public GateWayResponse<?> getPrivillagesForDomian(@PathVariable String domian){
+	
+		try {
+			List<ParentPrivilageVo> res = rolesAndPrivillagesService.getAllPrivilagesForDomian(Integer.parseInt(domian));
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
 
 }

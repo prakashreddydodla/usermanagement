@@ -44,6 +44,17 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+
+	@PutMapping(EndpointConstants.UPDATE_STORE)
+	public GateWayResponse<?> updateStore(@RequestBody StoreVo vo) {
+		try {
+			String res = storeService.updateStore(vo);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
 
 	@GetMapping(EndpointConstants.GET_CLIENT_DOMIAN_STORES)
 	public GateWayResponse<?> getClientDomianStores(@RequestParam("clientDomianId") long clientDomianId) {
@@ -109,6 +120,16 @@ public class StoresController {
 	public GateWayResponse<?> getDistrictsOfState(@RequestParam("stateCode") String stateCode){
 		try {
 		List<Districts> res=statesAndDistrctsService.getAllDistrctsOfState(stateCode);
+		return new GateWayResponse<>(200, res, "", "true");
+		}catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
+	@PostMapping(EndpointConstants.GET_STORELIST)
+	public GateWayResponse<?> getStoresForGivenIds(@RequestBody List<Long> storeIds){
+		try {
+		List<Store> res=storeService.getStoresForGivenIds(storeIds);
 		return new GateWayResponse<>(200, res, "", "true");
 		}catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

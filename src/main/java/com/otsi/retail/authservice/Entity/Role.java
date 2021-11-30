@@ -40,7 +40,9 @@ public class Role  {
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
-	
+	private String modifiedBy;
+	private boolean isActive;
+
 	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	@JoinTable(name = "role_parentPrivilages",
 	joinColumns= { @JoinColumn(name = "roleId")},
