@@ -37,6 +37,7 @@ import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeReques
 import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesRequest;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
+import com.amazonaws.services.cognitoidp.model.AliasExistsException;
 import com.amazonaws.services.cognitoidp.model.AttributeType;
 import com.amazonaws.services.cognitoidp.model.AuthFlowType;
 import com.amazonaws.services.cognitoidp.model.ChallengeNameType;
@@ -281,7 +282,11 @@ public class CognitoClient {
 			userAtributes.add(
 					new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()));
 		}
+		if (null != request.getIsSuperAdmin()) {
 
+			userAtributes.add(
+					new AttributeType().withName(CognitoAtributes.IS_SUPER_ADMIN).withValue(request.getIsSuperAdmin()));
+		}
 		if (null != request.getClientId()) {
 			userAtributes
 					.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()));
@@ -336,7 +341,12 @@ public class CognitoClient {
 
 		} catch (UsernameExistsException uee) {
 			throw new Exception("UserName already exits");
-		} catch (InvalidParameterException ie) {
+			
+		}catch (AliasExistsException ae) {
+			throw new Exception("Email already exits");
+		} 
+		
+		catch (InvalidParameterException ie) {
 			throw new Exception(ie.getErrorMessage());
 		}
 
@@ -603,7 +613,11 @@ public class CognitoClient {
 				userAtributes.add(new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER)
 						.withValue(request.getIsConfigUser()));
 			}
+			if (null != request.getIsSuperAdmin()) {
 
+				userAtributes.add(
+						new AttributeType().withName(CognitoAtributes.IS_SUPER_ADMIN).withValue(request.getIsSuperAdmin()));
+			}
 			if (null != request.getClientId()) {
 				userAtributes
 						.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()));

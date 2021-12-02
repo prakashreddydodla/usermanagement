@@ -29,7 +29,7 @@ public class UpdateUserRequest {
 	private String isConfigUser;
 	private int[] clientDomain;
 	private boolean isCustomer;
-	private boolean isSuperAdmin;
+	private String isSuperAdmin;
 	private String createBy;
 	private String roleName;
 }
