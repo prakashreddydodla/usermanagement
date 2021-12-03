@@ -31,10 +31,13 @@ import com.amazonaws.services.cognitoidp.model.AdminGetUserRequest;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthRequest;
 import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthResult;
+import com.amazonaws.services.cognitoidp.model.AdminResetUserPasswordRequest;
+import com.amazonaws.services.cognitoidp.model.AdminResetUserPasswordResult;
 import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeRequest;
 import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesRequest;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
+import com.amazonaws.services.cognitoidp.model.AliasExistsException;
 import com.amazonaws.services.cognitoidp.model.AttributeType;
 import com.amazonaws.services.cognitoidp.model.AuthFlowType;
 import com.amazonaws.services.cognitoidp.model.ChallengeNameType;
@@ -231,8 +234,9 @@ public class CognitoClient {
 		createUserRequest.setUserPoolId(USERPOOL_ID);
 		createUserRequest.setUsername(request.getUsername());
 		createUserRequest.setTemporaryPassword(generateTempPassword());
-
+		createUserRequest.setForceAliasCreation(Boolean.FALSE);
 		List<AttributeType> userAtributes = new ArrayList<>();
+		userAtributes.add(new AttributeType().withName("email_verified").withValue("true"));
 		if (null != request.getEmail()) {
 			userAtributes.add(new AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()));
 		}
@@ -278,7 +282,11 @@ public class CognitoClient {
 			userAtributes.add(
 					new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER).withValue(request.getIsConfigUser()));
 		}
+		if (null != request.getIsSuperAdmin()) {
 
+			userAtributes.add(
+					new AttributeType().withName(CognitoAtributes.IS_SUPER_ADMIN).withValue(request.getIsSuperAdmin()));
+		}
 		if (null != request.getClientId()) {
 			userAtributes
 					.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()));
@@ -333,7 +341,12 @@ public class CognitoClient {
 
 		} catch (UsernameExistsException uee) {
 			throw new Exception("UserName already exits");
-		} catch (InvalidParameterException ie) {
+			
+		}catch (AliasExistsException ae) {
+			throw new Exception("Email already exits");
+		} 
+		
+		catch (InvalidParameterException ie) {
 			throw new Exception(ie.getErrorMessage());
 		}
 
@@ -550,6 +563,7 @@ public class CognitoClient {
 			AdminUpdateUserAttributesRequest adminUpdateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
 			adminUpdateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
 			adminUpdateUserAttributesRequest.setUsername(request.getUsername());
+			
 			List<AttributeType> userAtributes = new ArrayList<>();
 			if (null != request.getEmail()) {
 				userAtributes.add(new AttributeType().withName(CognitoAtributes.EMAIL).withValue(request.getEmail()));
@@ -599,7 +613,11 @@ public class CognitoClient {
 				userAtributes.add(new AttributeType().withName(CognitoAtributes.IS_CONFIGUSER)
 						.withValue(request.getIsConfigUser()));
 			}
+			if (null != request.getIsSuperAdmin()) {
 
+				userAtributes.add(
+						new AttributeType().withName(CognitoAtributes.IS_SUPER_ADMIN).withValue(request.getIsSuperAdmin()));
+			}
 			if (null != request.getClientId()) {
 				userAtributes
 						.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()));
@@ -655,5 +673,14 @@ public class CognitoClient {
 			throw new RuntimeException(e.getMessage());
 		}
 
+	}
+	
+	
+	public AdminResetUserPasswordResult adminresetPassword(String userName) {
+		AdminResetUserPasswordRequest request=new AdminResetUserPasswordRequest();
+		request.setUsername(userName);
+		request.setUserPoolId(USERPOOL_ID);
+		AdminResetUserPasswordResult result=client.adminResetUserPassword(request);
+		return result;
 	}
 }

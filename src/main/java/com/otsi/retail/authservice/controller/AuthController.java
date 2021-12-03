@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthResult;
+import com.amazonaws.services.cognitoidp.model.AdminResetUserPasswordResult;
 import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult;
 import com.amazonaws.services.cognitoidp.model.ConfirmForgotPasswordResult;
 import com.amazonaws.services.cognitoidp.model.ForgotPasswordResult;
@@ -214,4 +215,15 @@ public class AuthController {
 
 	}
 
+	@GetMapping(path = EndpointConstants.RESET_USER_PASSWORD)
+	public GateWayResponse<?> adminRestPasssword(@PathVariable String userName) {
+		try {
+			AdminResetUserPasswordResult		res = cognitoClient.adminresetPassword(userName);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+
+	}
+	
 }
