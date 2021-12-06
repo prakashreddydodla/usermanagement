@@ -31,7 +31,7 @@ public class ClientAndDomianController {
 	
 	
 	@PostMapping(EndpointConstants.CREATE_MASTER_DOMIAN)
-	public GateWayResponse<?> creatChannel(@RequestBody MasterDomianVo domainVo) {
+	public GateWayResponse<?> creatDomian(@RequestBody MasterDomianVo domainVo) {
 		String res;
 		try {
 			res = clientAndDomianService.createMasterDomain(domainVo);

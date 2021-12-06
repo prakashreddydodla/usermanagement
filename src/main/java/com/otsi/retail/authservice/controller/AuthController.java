@@ -41,41 +41,6 @@ public class AuthController {
 	@Autowired
 	private CognitoClient cognitoClient;
 
-	/*
-	 * @PostMapping(path =EndpointConstants.SIGNUP) public ResponseEntity<?>
-	 * signUp(@RequestBody SignupRequest signupRequest) {
-	 * 
-	 * try { Response res =
-	 * cognitoAuthServiceImpl.signUp(signupRequest.getUserName(),
-	 * signupRequest.getEmail(), signupRequest.getPassword(),
-	 * signupRequest.getGivenName(), signupRequest.getName(),
-	 * signupRequest.getPhoneNo(), signupRequest.getStoreId()); return new
-	 * ResponseEntity<Response>(res, HttpStatus.OK); } catch (Exception e) { return
-	 * new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); } }
-	 * 
-	 * @PostMapping(path = EndpointConstants.LOGIN) public GateWayResponse<?>
-	 * login(@RequestBody LoginRequest request) { Response res = new Response();
-	 * 
-	 * try { Map<String, String> result =
-	 * cognitoAuthServiceImpl.login(request.getEmail(), request.getPassword(),
-	 * request.getStoreName()); res.setAuthResponce(result); res.setStatusCode(200);
-	 * return new GateWayResponse<>(200, res, "", "true"); } catch (Exception e) {
-	 * System.out.println(e.getMessage()); res.setStatusCode(400);
-	 * res.setErrorDescription(e.getMessage()); return new GateWayResponse<>(400,
-	 * res, "", "false"); }
-	 * 
-	 * }
-	 * 
-	 * @PostMapping(path = EndpointConstants.CONFIR_EMAIL) public GateWayResponse<?>
-	 * confirmEmail(@RequestBody ConfirmSignupRequest request) { Response res =
-	 * null; try { res = cognitoAuthServiceImpl.confirmSignUp(request.getUserName(),
-	 * request.getConfimationCode()); return new GateWayResponse<>(200, res, "",
-	 * "true"); } catch (Exception e) { return new GateWayResponse<>(400, res, "",
-	 * "false"); }
-	 * 
-	 * }
-	 */
-
 	@PostMapping(path = EndpointConstants.ADD_ROLE)
 	public GateWayResponse<?> addRole(@RequestBody AddRoleRequest req) {
 		Response res = null;
