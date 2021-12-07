@@ -491,7 +491,6 @@ public class UserServiceImpl implements UserService {
 			}
 			if (b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
 				userVo.setAddress(b.getStringValue());
-
 			}
 		});
 		logger.info("################  getUserbasedOnMobileNumber method ends  ############");

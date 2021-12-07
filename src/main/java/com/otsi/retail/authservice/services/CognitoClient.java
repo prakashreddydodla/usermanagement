@@ -328,6 +328,7 @@ public class CognitoClient {
 			createUserRequest.setUserAttributes(userAtributes);
 			AdminCreateUserResult result = client.adminCreateUser(createUserRequest);
 			logger.info("##############  adminCreateUser method ends  ##############");
+			
 
 			return result;
 

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.websocket.server.PathParam;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,11 +39,14 @@ public class UserController {
 
 	@Autowired
 	private CognitoClient cognitoClient;
+	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@PostMapping(EndpointConstants.GET_USER)
 	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest) {
 		try {
+			logger.info("In GET_USER request : "+userRequest.toString());
 			List<UserDeatils> res = userService.getUserFromDb(userRequest);
+			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -51,7 +56,9 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_ALL_USERS)
 	public GateWayResponse<?> getAllUsers() {
 		try {
+			logger.info("In GET_ALL_USERS request : ");
 			ListUsersResult res = cognitoClient.getAllUsers();
+			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -62,7 +69,9 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_ID)
 	public GateWayResponse<?> getUsersForClient(@PathVariable String clientId) {
 		try {
+			logger.info("In GET_ALL_USERS_BY_CLIENT_ID request clientId : "+clientId);
 			List<UserListResponse> res = userService.getUserForClient(Integer.parseInt(clientId));
+			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -73,7 +82,9 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_DOMIAN)
 	public GateWayResponse<?> getUsersForClientDomianId(@PathVariable String clientDomianId) {
 		try {
+			logger.info("In GET_ALL_USERS_BY_CLIENT_DOMIAN request clientDomianId : "+clientDomianId);
 			List<UserListResponse> res = userService.getUsersForClientDomain(Long.parseLong(clientDomianId));
+			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -84,7 +95,9 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_USER_PROFILE)
 	public GateWayResponse<?> getCustomer(@PathVariable String mobileNo) {
 		try {
+			logger.info("In GET_USER_PROFILE request mobileNo : "+mobileNo);
 			UserListResponse res = userService.getUserbasedOnMobileNumber(mobileNo);
+			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -95,7 +108,9 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_CUSTOMER)
 	public GateWayResponse<?> getCustomer(@PathVariable String feild,@PathVariable String mobileNo) {
 		try {
+			logger.info("In GET_CUSTOMER request mobileNo : "+mobileNo);
 			GetCustomerResponce res = userService.getCustomerbasedOnMobileNumber(feild,mobileNo);
+			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -106,7 +121,9 @@ public class UserController {
 	@PutMapping("/updateUser")
 	public GateWayResponse<?> updateUser(@RequestBody UpdateUserRequest req) {
 		try {
+			logger.info("In updateUser request mobileNo : "+req);
 			String res = userService.updateUser(req);
+			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
