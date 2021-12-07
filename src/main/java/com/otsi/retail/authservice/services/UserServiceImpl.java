@@ -346,36 +346,49 @@ public class UserServiceImpl implements UserService {
 				userFromDb.getUserAv().stream().forEach(av -> {
 					UserAv userAv = av;
 					if (userAv.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+						if(null!=req.getEmail()) {
 						userAv.setStringValue(req.getEmail());
 						userAv.setLastModifyedDate(LocalDate.now());
 						userAv.setUserData(savedUser);
 						userAvRepo.save(userAv);
+						}
 					}
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.PARENTID)) {
+						if(null!=req.getParentId()) {
 						userAv.setIntegerValue(Integer.parseInt(req.getParentId()));
 						userAv.setLastModifyedDate(LocalDate.now());
 						userAv.setUserData(savedUser);
 						userAvRepo.save(userAv);
+						}
 					}
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
-						userAv.setStringValue(req.getAddress());
-						userAv.setLastModifyedDate(LocalDate.now());
-						userAv.setUserData(savedUser);
-						userAvRepo.save(userAv);
+						if(null!=req.getAddress()) {
+							userAv.setStringValue(req.getAddress());
+							userAv.setLastModifyedDate(LocalDate.now());
+							userAv.setUserData(savedUser);
+							userAvRepo.save(userAv);
+						}
+						
 					}
 
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
-						userAv.setIntegerValue(Integer.parseInt(req.getDomianId()));
-						userAv.setLastModifyedDate(LocalDate.now());
-						userAv.setUserData(savedUser);
-						userAvRepo.save(userAv);
+						if(null!=req.getDomianId()) {
+							userAv.setIntegerValue(Integer.parseInt(req.getDomianId()));
+							userAv.setLastModifyedDate(LocalDate.now());
+							userAv.setUserData(savedUser);
+							userAvRepo.save(userAv);
 
+						}
+						
 					}
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
-						userAv.setIntegerValue(Integer.parseInt(req.getClientId()));
-						userAv.setLastModifyedDate(LocalDate.now());
-						userAv.setUserData(savedUser);
-						userAvRepo.save(userAv);
+						if(null!=req.getClientId()) {
+							userAv.setIntegerValue(Integer.parseInt(req.getClientId()));
+							userAv.setLastModifyedDate(LocalDate.now());
+							userAv.setUserData(savedUser);
+							userAvRepo.save(userAv);
+						}
+						
 
 					}
 				});
