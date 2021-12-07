@@ -80,7 +80,7 @@ public class CognitoClient {
 
 	private String ACCESS_KEY;
 	private String SECRET_ACCESS_KEY;
-	private String CLIENT_ID;;
+	private String CLIENT_ID;
 	private String USERPOOL_ID;
 	private String REGION;
 

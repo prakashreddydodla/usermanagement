@@ -2,9 +2,16 @@ package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDate;
 import java.util.List;
-import lombok.Data;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@ToString
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientDetailsVo {
 	private long id;
 	private String name;

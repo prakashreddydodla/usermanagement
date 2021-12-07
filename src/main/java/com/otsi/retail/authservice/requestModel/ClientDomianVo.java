@@ -5,9 +5,15 @@ import java.util.List;
 
 import com.otsi.retail.authservice.Entity.Domain_Master;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientDomianVo {
 
 	private long clientChannelid;

@@ -80,6 +80,17 @@ public class UserController {
 
 		}
 	}
+	
+	@GetMapping(EndpointConstants.GET_USER_PROFILE)
+	public GateWayResponse<?> getCustomer(@PathVariable String mobileNo) {
+		try {
+			UserListResponse res = userService.getUserbasedOnMobileNumber(mobileNo);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
 
 	@GetMapping(EndpointConstants.GET_CUSTOMER)
 	public GateWayResponse<?> getCustomer(@PathVariable String feild,@PathVariable String mobileNo) {

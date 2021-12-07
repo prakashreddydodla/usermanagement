@@ -7,10 +7,16 @@ import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
+@ToString
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDetailsVo {
 	private Long userId;
 	private String userName;

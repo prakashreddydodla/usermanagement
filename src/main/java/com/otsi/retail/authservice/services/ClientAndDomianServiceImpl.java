@@ -95,9 +95,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 			return "Client created successfully with ClientId :" + savedClient.getId();
 			}else {
-				logger.debug("Client Name already exists in DB");
-				logger.error("Client Name already exists in DB");
-				throw new RuntimeException("Client Name already exists in DB");
+				logger.debug("Client Name already exists in DB : "+clientVo.getName());
+				logger.error("Client Name already exists in DB : "+clientVo.getName());
+				throw new RuntimeException("Client Name already exists in DB : "+clientVo.getName());
 			}
 		}catch (RuntimeException e) {
 			 logger.debug(e.getMessage());

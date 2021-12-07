@@ -5,9 +5,15 @@ import java.util.List;
 
 import com.otsi.retail.authservice.Entity.Role;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UpdateUserRequest {
 
 	private long userId;

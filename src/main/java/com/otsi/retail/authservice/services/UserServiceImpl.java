@@ -430,6 +430,57 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception {
+
+		logger.info("################  getUserbasedOnMobileNumber method starts  ############");
+		Optional<UserDeatils> userOptional=userRepo.findByPhoneNumberAndIsCustomer(mobileNo, Boolean.FALSE);
+		if(!userOptional.isPresent()) {
+			logger.debug("User details not found with this mobile number : "+mobileNo);
+			logger.error("User details not found with this mobile number : "+mobileNo);
+			throw new Exception("User details not found with this mobile number : "+mobileNo);
+		}
+		UserDeatils user=userOptional.get();
+		UserListResponse userVo = new UserListResponse();
+		userVo.setUserId(user.getUserId());
+		userVo.setUserName(user.getUserName());
+		userVo.setCreatedBy(user.getCreatedBy());
+		userVo.setCreatedDate(user.getCreatedDate());
+		userVo.setSuperAdmin(user.isSuperAdmin());
+		userVo.setActive(user.isActive());
+		List<StoreVo> stores = new ArrayList<>();
+		if (null != user.getStores()) {
+			user.getStores().stream().forEach(str -> {
+				StoreVo storeVo = new StoreVo();
+				storeVo.setId(str.getStateId());
+				storeVo.setName(str.getName());
+				stores.add(storeVo);
+
+			});
+			userVo.setStores(stores);
+		}
+		if (null != user.getRole()) {
+			userVo.setRoleName(user.getRole().getRoleName());
+		}
+		user.getUserAv().stream().forEach(b -> {
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+				userVo.setEmail(b.getStringValue());
+			}
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
+				userVo.setDomian(b.getIntegerValue());
+			}
+			if(b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)){
+				userVo.setDob(b.getStringValue());
+			}
+            if(b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)){
+				userVo.setAddress(b.getStringValue());
+
+			}    
+		});
+		logger.info("################  getUserbasedOnMobileNumber method ends  ############");
+		return userVo;
+	}
+
 	/*
 	 * @RabbitListener(queues ="inventoryQueue") public void
 	 * rabbitmqConsumer(PersonVo name) {

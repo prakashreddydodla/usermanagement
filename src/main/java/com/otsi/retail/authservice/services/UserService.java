@@ -24,6 +24,8 @@ public interface UserService {
 	List<UserListResponse> getUsersForClientDomain(long clientDomianId);
 
 	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo, String mobileNo2);
+
+	UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception;
 	
 	
 	
