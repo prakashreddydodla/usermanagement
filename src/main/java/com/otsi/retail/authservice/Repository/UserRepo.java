@@ -45,6 +45,8 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByStores_IdAndIsActive(long storeId, Boolean false1);
 
+	Optional<UserDeatils> findByUserNameAndIsCustomer(String mobileNo, Boolean false1);
+
 
 
 

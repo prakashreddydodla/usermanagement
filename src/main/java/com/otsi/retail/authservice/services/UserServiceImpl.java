@@ -451,7 +451,7 @@ public class UserServiceImpl implements UserService {
 	public UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception {
 
 		logger.info("################  getUserbasedOnMobileNumber method starts  ############");
-		Optional<UserDeatils> userOptional = userRepo.findByPhoneNumberAndIsCustomer(mobileNo, Boolean.FALSE);
+		Optional<UserDeatils> userOptional = userRepo.findByUserNameAndIsCustomer(mobileNo, Boolean.FALSE);
 		if (!userOptional.isPresent()) {
 			logger.debug("User details not found with this mobile number : " + mobileNo);
 			logger.error("User details not found with this mobile number : " + mobileNo);
