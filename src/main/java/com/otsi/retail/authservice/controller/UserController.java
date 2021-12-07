@@ -106,7 +106,7 @@ public class UserController {
 	@PutMapping("/updateUser")
 	public GateWayResponse<?> updateUser(@RequestBody UpdateUserRequest req) {
 		try {
-			AdminUpdateUserAttributesResult res = cognitoClient.updateUserInCognito(req);
+			String res = userService.updateUser(req);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

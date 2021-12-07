@@ -52,13 +52,13 @@ public class UserServiceImpl implements UserService {
 	private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	public List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest) throws Exception {
-     logger.info(" ###############  getUserFromDb method starts  ##############3");
+		logger.info(" ###############  getUserFromDb method starts  ##############3");
 		List<UserDeatils> users = new ArrayList<>();
 		if (0l != userRequest.getId()) {
 			Optional<UserDeatils> user = userRepo.findByUserId(userRequest.getId());
 			if (user.isPresent()) {
 				users.add(user.get());
-			     logger.info(" ###############  getUserFromDb method ends  ##############3");
+				logger.info(" ###############  getUserFromDb method ends  ##############3");
 				return users;
 			} else {
 				logger.debug("User not found with this Id : " + userRequest.getId());
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 			Optional<UserDeatils> user = userRepo.findByUserName(userRequest.getName());
 			if (user.isPresent()) {
 				users.add(user.get());
-			     logger.info(" ###############  getUserFromDb method ends  ##############3");
+				logger.info(" ###############  getUserFromDb method ends  ##############3");
 				return users;
 
 			} else {
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 			Optional<UserDeatils> user = userRepo.findByPhoneNumber(userRequest.getPhoneNo());
 			if (user.isPresent()) {
 				users.add(user.get());
-			     logger.info(" ###############  getUserFromDb method ends  ##############3");
+				logger.info(" ###############  getUserFromDb method ends  ##############3");
 				return users;
 
 			} else {
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
-		     logger.info(" ###############  getUserFromDb method ends  ##############3");
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (0L != userRequest.getRoleId() && userRequest.isInActive()) {
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
-		     logger.info(" ###############  getUserFromDb method ends  ##############3");
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (0L != userRequest.getRoleId() && !userRequest.isActive() && !userRequest.isInActive()) {
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
-		     logger.info(" ###############  getUserFromDb method ends  ##############3");
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 
@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
 				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
-		     logger.info(" ###############  getUserFromDb method ends  ##############3");
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (0L != userRequest.getStoreId() && userRequest.isInActive()) {
@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
 				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
-		     logger.info(" ###############  getUserFromDb method ends  ##############3");
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (0L != userRequest.getStoreId() && !userRequest.isActive() && !userRequest.isInActive()) {
@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
 				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
-		     logger.info(" ###############  getUserFromDb method ends  ##############3");
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		logger.debug("Please select atleast one input");
@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<UserListResponse> getUserForClient(int clientId) throws Exception {
-	     logger.info(" ###############  getUserForClient method starts  ##############3");
+		logger.info(" ###############  getUserForClient method starts  ##############3");
 
 		List<UserDeatils> users = userRepo.findByUserAv_NameAndUserAv_IntegerValue(CognitoAtributes.CLIENT_ID,
 				clientId);
@@ -197,17 +197,17 @@ public class UserServiceImpl implements UserService {
 					if (b.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
 						userVo.setDomian(b.getIntegerValue());
 					}
-					if(b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)){
+					if (b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)) {
 						userVo.setDob(b.getStringValue());
 					}
-                    if(b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)){
+					if (b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
 						userVo.setAddress(b.getStringValue());
 
-					}    
+					}
 				});
 				userList.add(userVo);
 			});
-		     logger.info(" ###############  getUserForClient method ends  ##############3");
+			logger.info(" ###############  getUserForClient method ends  ##############3");
 			return userList;
 		} else {
 			logger.debug("No users found with this client");
@@ -218,7 +218,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<UserListResponse> getUsersForClientDomain(long clientDomianId) {
-	     logger.info(" ###############  getUsersForClientDomain method starts  ##############3");
+		logger.info(" ###############  getUsersForClientDomain method starts  ##############3");
 
 		List<UserDeatils> users = userRepo.findByClientDomians_ClientDomainaId(clientDomianId);
 
@@ -253,7 +253,7 @@ public class UserServiceImpl implements UserService {
 				});
 				userList.add(userVo);
 			});
-		     logger.info(" ###############  getUsersForClientDomain method ends  ##############3");
+			logger.info(" ###############  getUsersForClientDomain method ends  ##############3");
 
 			return userList;
 		} else {
@@ -264,7 +264,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public GetCustomerResponce getCustomerbasedOnMobileNumber(String type, String value) {
-	     logger.info(" ###############  getCustomerbasedOnMobileNumber method starts  ##############3");
+		logger.info(" ###############  getCustomerbasedOnMobileNumber method starts  ##############3");
 
 		Optional<UserDeatils> user = Optional.empty();
 		if (null != type && type.equalsIgnoreCase("mobileNo")) {
@@ -311,14 +311,15 @@ public class UserServiceImpl implements UserService {
 
 			customer.setActive(user.get().isActive());
 		}
-	     logger.info(" ###############  getCustomerbasedOnMobileNumber method ends  ##############3");
+		logger.info(" ###############  getCustomerbasedOnMobileNumber method ends  ##############3");
 
 		return customer;
 
 	}
 
-	public String updateUser(UpdateUserRequest req) {
-	     logger.info(" ###############  updateUser method starts  ##############3");
+	@Override
+	public String updateUser(UpdateUserRequest req) throws RuntimeException {
+		logger.info(" ###############  updateUser method starts  ##############3");
 
 		try {
 			Optional<UserDeatils> userOptional = userRepo.findById(req.getUserId());
@@ -335,9 +336,9 @@ public class UserServiceImpl implements UserService {
 					if (role.isPresent()) {
 						userFromDb.setRole(role.get());
 					} else {
-						logger.debug("Role not d=found in DB with this Id : " + req.getRole().getRoleId());
-						logger.error("Role not d=found in DB with this Id : " + req.getRole().getRoleId());
-						throw new RuntimeException("Role not d=found in DB with this Id : " + req.getRole().getRoleId());
+						logger.debug("Role not found in DB with this Id : " + req.getRole().getRoleId());
+						logger.error("Role not found in DB with this Id : " + req.getRole().getRoleId());
+						throw new RuntimeException("Role not found in DB with this Id : " + req.getRole().getRoleId());
 					}
 				}
 				UserDeatils savedUser = userRepo.save(userFromDb);
@@ -407,10 +408,13 @@ public class UserServiceImpl implements UserService {
 					});
 					savedUser.setStores(stores);
 					userRepo.save(savedUser);
+					logger.info(" ###############  updated user in DB ##############3");
 				}
+				logger.info(" ###############  updating user in cognito userpool ##############3");
 				AdminUpdateUserAttributesResult result = cognitoClient.updateUserInCognito(req);
 				if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				     logger.info(" ###############  updateUser method ends  ##############3");
+					logger.info(" ###############  updated user in cognito userpool ##############3");
+					logger.info(" ###############  updateUser method ends  ##############3");
 					return "SucessFully updated";
 				} else {
 					logger.debug("Failed to update");
@@ -434,13 +438,13 @@ public class UserServiceImpl implements UserService {
 	public UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception {
 
 		logger.info("################  getUserbasedOnMobileNumber method starts  ############");
-		Optional<UserDeatils> userOptional=userRepo.findByPhoneNumberAndIsCustomer(mobileNo, Boolean.FALSE);
-		if(!userOptional.isPresent()) {
-			logger.debug("User details not found with this mobile number : "+mobileNo);
-			logger.error("User details not found with this mobile number : "+mobileNo);
-			throw new Exception("User details not found with this mobile number : "+mobileNo);
+		Optional<UserDeatils> userOptional = userRepo.findByPhoneNumberAndIsCustomer(mobileNo, Boolean.FALSE);
+		if (!userOptional.isPresent()) {
+			logger.debug("User details not found with this mobile number : " + mobileNo);
+			logger.error("User details not found with this mobile number : " + mobileNo);
+			throw new Exception("User details not found with this mobile number : " + mobileNo);
 		}
-		UserDeatils user=userOptional.get();
+		UserDeatils user = userOptional.get();
 		UserListResponse userVo = new UserListResponse();
 		userVo.setUserId(user.getUserId());
 		userVo.setUserName(user.getUserName());
@@ -469,13 +473,13 @@ public class UserServiceImpl implements UserService {
 			if (b.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
 				userVo.setDomian(b.getIntegerValue());
 			}
-			if(b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)){
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)) {
 				userVo.setDob(b.getStringValue());
 			}
-            if(b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)){
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
 				userVo.setAddress(b.getStringValue());
 
-			}    
+			}
 		});
 		logger.info("################  getUserbasedOnMobileNumber method ends  ############");
 		return userVo;
