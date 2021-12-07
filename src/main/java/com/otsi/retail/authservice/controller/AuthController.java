@@ -41,7 +41,7 @@ public class AuthController {
 	private CognitoAuthService cognitoAuthService;
 	@Autowired
 	private CognitoClient cognitoClient;
-	
+	//
 	private Logger logger = LoggerFactory.getLogger(AuthController.class);
 	@PostMapping(path = EndpointConstants.ADD_ROLE)
 	public GateWayResponse<?> addRole(@RequestBody AddRoleRequest req) {

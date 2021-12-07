@@ -52,7 +52,7 @@ public class StoresController {
 		}
 	}
 	
-
+//
 	@PutMapping(EndpointConstants.UPDATE_STORE)
 	public GateWayResponse<?> updateStore(@RequestBody StoreVo vo) {
 		try {

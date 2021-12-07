@@ -32,7 +32,7 @@ public class ClientAndDomianController {
 	private ClientAndDomianService clientAndDomianService;
 	private Logger logger = LoggerFactory.getLogger(ClientAndDomianController.class);
 
-	
+//	
 	@PostMapping(EndpointConstants.CREATE_MASTER_DOMIAN)
 	public GateWayResponse<?> creatDomian(@RequestBody MasterDomianVo domainVo) {
 		String res;

@@ -32,7 +32,7 @@ public class RolesAndPrivillagesController {
 	private RolesAndPrivillagesServiceImpl rolesAndPrivillagesService;
 
 	private Logger logger = LoggerFactory.getLogger(RolesAndPrivillagesController.class);
-
+//
 	@PostMapping(path = EndpointConstants.CREATE_ROLE)
 	public GateWayResponse<?> createRole(@RequestBody CreateRoleRequest request) {
 

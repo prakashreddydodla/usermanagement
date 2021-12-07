@@ -117,7 +117,7 @@ public class UserController {
 
 		}
 	}
-
+//
 	@PutMapping("/updateUser")
 	public GateWayResponse<?> updateUser(@RequestBody UpdateUserRequest req) {
 		try {
