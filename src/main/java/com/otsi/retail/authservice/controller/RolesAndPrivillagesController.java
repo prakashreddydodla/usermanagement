@@ -39,7 +39,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In CREATE_ROLE request : " + request);
 			String res = rolesAndPrivillagesService.createRole(request);
-			logger.info("In CREATE_ROLE responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (RuntimeException re) {
@@ -59,7 +58,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In UPDATE_ROLE request : " + request);
 			String res = rolesAndPrivillagesService.updateRole(request);
-			logger.info("In UPDATE_ROLE responce   : " + res);
 
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -79,7 +77,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In GET_ROLES_FOR_DOMIAN request domianId : " + domianId);
 			List<Role> res = rolesAndPrivillagesService.getRolesForClientDomian(Long.parseLong(domianId));
-			logger.info("In GET_ROLES_FOR_DOMIAN responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
@@ -92,7 +89,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In GET_ROLES_FOR_CLIENT request clientId : " + clientId);
 			List<Role> res = rolesAndPrivillagesService.getRolesForClient(Long.parseLong(clientId));
-			logger.info("In GET_ROLES_FOR_CLIENT responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
@@ -105,7 +101,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In ADD_PREVILAGE request  : " + privilages);
 			String res = rolesAndPrivillagesService.savePrevilage(privilages);
-			logger.info("In ADD_PREVILAGE responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -119,7 +114,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In GET_PRIVILAGES request roleId : " + roleId);
 			Role res = rolesAndPrivillagesService.getPrivilages(Long.parseLong(roleId));
-			logger.info("In GET_PRIVILAGES responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -131,7 +125,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In PRIVILAGES_BY_NAME request roleName : " + roleName);
 			Role res = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
-			logger.info("In PRIVILAGES_BY_NAME responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -143,7 +136,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In SUB_PRIVILAGES request parentId : " + parentId);
 			List<SubPrivillage> res = rolesAndPrivillagesService.getSubPrivillages(Long.parseLong(parentId));
-			logger.info("In SUB_PRIVILAGES responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -155,7 +147,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In GET_ALL_PRIVILAGES request  ");
 			List<ParentPrivilageVo> res = rolesAndPrivillagesService.getAllPrivilages();
-			logger.info("In GET_ALL_PRIVILAGES responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
@@ -168,7 +159,6 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In ROLES_WITH_FILTER request  : " + req);
 			List<Role> res = rolesAndPrivillagesService.getRolesWithFilter(req);
-			logger.info("In ROLES_WITH_FILTER responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (RuntimeException re) {
@@ -185,7 +175,6 @@ public class RolesAndPrivillagesController {
 			logger.info("In GET_PRIVILLAGES_BY_DOMIAN request  domian : " + domian);
 			List<ParentPrivilageVo> res = rolesAndPrivillagesService
 					.getAllPrivilagesForDomian(Integer.parseInt(domian));
-			logger.info("In GET_PRIVILLAGES_BY_DOMIAN responce   : " + res);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {

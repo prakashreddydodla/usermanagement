@@ -49,7 +49,6 @@ public class AuthController {
 		try {
 			logger.info("add_role request : "+req);
 			res = cognitoAuthService.addRoleToUser(req.getGroupName(), req.getUserName());
-			logger.info("add_role responce : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (InvalidParameterException ie) {
 			return new GateWayResponse<>(400, res, "", "false");
@@ -90,7 +89,6 @@ public class AuthController {
 		Response res = null;
 		try {
 			res = cognitoAuthService.assignStoreToUser(req.getStores(), req.getUserName());
-			logger.info("In ASSIGN_STORES responce  : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
@@ -105,7 +103,6 @@ public class AuthController {
 
 		try {
 			res = cognitoAuthService.createUser(request);
-			logger.info(" CREATE_USER responce  : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -133,7 +130,6 @@ public class AuthController {
 		try {
 			AdminInitiateAuthResult result = cognitoClient.loginWithTempPassword(request.getEmail(),
 					request.getPassword());
-			logger.info("In LOGIN_WITH_TEMP_PASS responce  : "+result);
 			return new GateWayResponse<>(200, result, "", "true");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -151,10 +147,8 @@ public class AuthController {
 
 		try {
 			stores = cognitoAuthService.getStoresForUser(userName);
-			logger.info("In LOGIN_WITH_TEMP_PASS responce : "+stores);
 			return new GateWayResponse<>(200, stores, "", "true");
 		} catch (Exception e) {
-			logger.info("In LOGIN_WITH_TEMP_PASS error : "+e.getMessage());
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 
@@ -165,7 +159,6 @@ public class AuthController {
 		logger.info("In FORGET_PASSWORD request userName : "+username);
 		try {
 			ForgotPasswordResult res = cognitoClient.forgetPassword(username);
-			logger.info("In FORGET_PASSWORD responce : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -179,7 +172,6 @@ public class AuthController {
 
 		try {
 			ConfirmForgotPasswordResult res = cognitoClient.confirmForgetPassword(username, confirmarionCode,newPassword);
-			logger.info("In CONFIRM_FORGET_PASSWORD responce : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -191,7 +183,6 @@ public class AuthController {
 		try {
 			logger.info("In ENABLE_OR_DISABLE_USER request userName : "+user+" ,action : "+action);
 			String res = cognitoAuthService.enableOrDisableUser(user, action);
-			logger.info("In ENABLE_OR_DISABLE_USER responce  : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -204,7 +195,6 @@ public class AuthController {
 		try {
 			logger.info("In RESET_USER_PASSWORD request userName : "+userName);
 			AdminResetUserPasswordResult		res = cognitoClient.adminresetPassword(userName);
-			logger.info("In RESET_USER_PASSWORD responce : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

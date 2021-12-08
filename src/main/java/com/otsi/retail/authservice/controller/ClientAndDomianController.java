@@ -39,7 +39,6 @@ public class ClientAndDomianController {
 		try {
 			logger.info("In CREATE_MASTER_DOMIAN request : "+domainVo);
 			res = clientAndDomianService.createMasterDomain(domainVo);
-			logger.info("In CREATE_MASTER_DOMIAN reponce  : "+res);
 
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -55,7 +54,6 @@ public class ClientAndDomianController {
 			logger.info("In GET_MASTER_DOMAINS request : ");
 
 			List<Domain_Master> res = clientAndDomianService.getMasterDomains();
-			logger.info("In GET_MASTER_DOMAINS reponce  : "+res);
 
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -71,7 +69,6 @@ public class ClientAndDomianController {
 			logger.info("In CREATE_CLIENT request : "+client);
 
 			String res = clientAndDomianService.createClient(client);
-			logger.info("In CREATE_CLIENT reponce  : "+res);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -85,7 +82,6 @@ public class ClientAndDomianController {
 			logger.info("In ASSIGN_DOMAIN_TO_CLIENT request : "+clientDomianVo);
 
 			String res = clientAndDomianService.assignDomianToClient(clientDomianVo);
-			logger.info("In ASSIGN_DOMAIN_TO_CLIENT reponce  : "+res);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -99,7 +95,6 @@ public class ClientAndDomianController {
 			logger.info("In GET_DOMAINS_FOR_CLIENT request : "+clientId);
 
 			List<ClientDomains> res = clientAndDomianService.getDomainsForClient(Long.parseLong(clientId));
-			logger.info("In GET_DOMAINS_FOR_CLIENT reponce  : "+res);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -113,7 +108,6 @@ public class ClientAndDomianController {
 			logger.info("In GET_CLIENT request : "+clientId);
 
 			ClientDetails res = clientAndDomianService.getClient(Long.parseLong(clientId));
-			logger.info("In GET_CLIENT reponce  : "+res);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -127,7 +121,6 @@ public class ClientAndDomianController {
 			logger.info("In GET_ALL_CLIENTS request : ");
 
 			List<ClientDetails> res = clientAndDomianService.getAllClient();
-			logger.info("In GET_ALL_CLIENTS reponce  : "+res);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -140,7 +133,6 @@ public class ClientAndDomianController {
 			logger.info("In GET_DOMIAN_BY_ID request clientDomianId : "+clientDomianId);
 
 		ClientDomains res = clientAndDomianService.getDomianById(Long.parseLong(clientDomianId));
-		logger.info("In GET_DOMIAN_BY_ID reponce  : "+res);
 
 		return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {

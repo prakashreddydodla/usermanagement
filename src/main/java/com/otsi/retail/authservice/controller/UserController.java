@@ -46,7 +46,6 @@ public class UserController {
 		try {
 			logger.info("In GET_USER request : "+userRequest.toString());
 			List<UserDeatils> res = userService.getUserFromDb(userRequest);
-			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -58,7 +57,6 @@ public class UserController {
 		try {
 			logger.info("In GET_ALL_USERS request : ");
 			ListUsersResult res = cognitoClient.getAllUsers();
-			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -71,7 +69,6 @@ public class UserController {
 		try {
 			logger.info("In GET_ALL_USERS_BY_CLIENT_ID request clientId : "+clientId);
 			List<UserListResponse> res = userService.getUserForClient(Integer.parseInt(clientId));
-			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -84,7 +81,6 @@ public class UserController {
 		try {
 			logger.info("In GET_ALL_USERS_BY_CLIENT_DOMIAN request clientDomianId : "+clientDomianId);
 			List<UserListResponse> res = userService.getUsersForClientDomain(Long.parseLong(clientDomianId));
-			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -97,7 +93,6 @@ public class UserController {
 		try {
 			logger.info("In GET_USER_PROFILE request mobileNo : "+mobileNo);
 			UserListResponse res = userService.getUserbasedOnMobileNumber(mobileNo);
-			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -110,7 +105,6 @@ public class UserController {
 		try {
 			logger.info("In GET_CUSTOMER request mobileNo : "+mobileNo);
 			GetCustomerResponce res = userService.getCustomerbasedOnMobileNumber(feild,mobileNo);
-			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -123,7 +117,6 @@ public class UserController {
 		try {
 			logger.info("In updateUser request mobileNo : "+req);
 			String res = userService.updateUser(req);
-			logger.info("In updateUser responce mobileNo : "+res);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

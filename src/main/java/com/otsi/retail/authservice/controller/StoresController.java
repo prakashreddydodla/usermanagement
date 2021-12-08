@@ -44,7 +44,6 @@ public class StoresController {
 			logger.info("In CREATE_STORE request : " + vo);
 
 			String res = storeService.createStore(vo);
-			logger.info("In CREATE_STORE responce  : "+res );
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -59,7 +58,6 @@ public class StoresController {
 			logger.info("In UPDATE_STORE request : " + vo);
 
 			String res = storeService.updateStore(vo);
-			logger.info("In UPDATE_STORE responce  : "+res );
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -73,7 +71,6 @@ public class StoresController {
 			logger.info("In GET_CLIENT_DOMIAN_STORES request clientDomianId : " + clientDomianId);
 
 			List<Store> res = storeService.getStoresForClientDomian(clientDomianId);
-			logger.info("In GET_CLIENT_DOMIAN_STORES responce  : "+res );
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -87,7 +84,6 @@ public class StoresController {
 			logger.info("In GET_CLIENT_STORES request clientId : " + clientId);
 
 			List<Store> res = storeService.getStoresForClient(clientId);
-			logger.info("In GET_CLIENT_STORES responce  : "+res );
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -101,7 +97,6 @@ public class StoresController {
 			logger.info("In ASSIGN_STORES_TO_DOMIAN request  : " + vo);
 
 			String res = storeService.assignStoreToClientDomain(vo);
-			logger.info("In ASSIGN_STORES_TO_DOMIAN responce  : "+res );
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -115,7 +110,6 @@ public class StoresController {
 			logger.info("In GET_STORES_WITH_FILTER request  : " + vo);
 
 		List<Store> res=storeService.getStoresOnFilter(vo);
-		logger.info("In GET_STORES_WITH_FILTER responce  : "+res );
 
 		return new GateWayResponse<>(200, res, "", "true");
 		}catch (Exception e) {
@@ -129,7 +123,6 @@ public class StoresController {
 			logger.info("In SAVE_STATES request  : " + vo);
 
 		String res=statesAndDistrctsService.saveStatesAndDistricts(vo);
-		logger.info("In SAVE_STATES responce  : "+res );
 
 		return new GateWayResponse<>(200, res, "", "true");
 		}catch (Exception e) {
@@ -143,7 +136,6 @@ public class StoresController {
 			logger.info("In ALL_STATES request  : " );
 
 		List<States> res=statesAndDistrctsService.getAllStates();
-		logger.info("In ALL_STATES responce  : "+res );
 
 		return new GateWayResponse<>(200, res, "", "true");
 		}catch (Exception e) {
@@ -157,7 +149,6 @@ public class StoresController {
 			logger.info("In GET_DISTRICT request stateCode : "+stateCode );
 
 		List<Districts> res=statesAndDistrctsService.getAllDistrctsOfState(stateCode);
-		logger.info("In GET_DISTRICT responce  : "+res );
 
 		return new GateWayResponse<>(200, res, "", "true");
 		}catch (Exception e) {
@@ -171,7 +162,6 @@ public class StoresController {
 			logger.info("In GET_STORELIST request storeIds : "+storeIds );
 
 		List<Store> res=storeService.getStoresForGivenIds(storeIds);
-		logger.info("In GET_STORELIST responce  : "+res );
 
 		return new GateWayResponse<>(200, res, "", "true");
 		}catch (Exception e) {
