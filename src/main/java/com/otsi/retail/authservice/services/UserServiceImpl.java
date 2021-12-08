@@ -464,6 +464,7 @@ public class UserServiceImpl implements UserService {
 		userVo.setCreatedBy(user.getCreatedBy());
 		userVo.setCreatedDate(user.getCreatedDate());
 		userVo.setSuperAdmin(user.isSuperAdmin());
+		userVo.setGender(user.getGender());
 		userVo.setActive(user.isActive());
 		List<StoreVo> stores = new ArrayList<>();
 		if (null != user.getStores()) {

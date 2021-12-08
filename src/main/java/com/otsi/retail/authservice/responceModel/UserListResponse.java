@@ -22,4 +22,6 @@ public class UserListResponse {
 	private String address;
 	private boolean isSuperAdmin;
 	private  String dob;
+	private String gender;
+	
 }
