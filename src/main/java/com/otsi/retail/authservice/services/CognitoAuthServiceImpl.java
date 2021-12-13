@@ -60,6 +60,7 @@ import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
+import com.otsi.retail.authservice.requestModel.UpdateUserAttribute;
 import com.otsi.retail.authservice.responceModel.Response;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 import com.otsi.retail.authservice.utils.DataTypesEnum;
@@ -642,7 +643,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 				}
 			});
-			return "success";
+			return "success:"+savedUser.getUserId();
 
 		} catch (Exception e) {
 			return "fail";
@@ -762,6 +763,17 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					logger.debug("User confirmed in Cognito userpool but not saved in Database");
 					throw new Exception("User confirmed in Cognito userpool but not saved in Database");
 				}
+				
+				String[] tokens=res.split(":");
+				
+
+				String savedUserId=tokens[1];	
+				
+				UpdateUserAttribute request=new UpdateUserAttribute();
+				request.setUserName(req.getUserName());
+				request.setAttributeName(CognitoAtributes.USER_ID);
+				request.setAttributeValue(savedUserId);
+				cognitoClient.updateSingleUserAttributeInUserpool(request);
 				logger.info("###############    authResponceForNewUser method ends    ###########");
 				return responceFromCognito;
 			}

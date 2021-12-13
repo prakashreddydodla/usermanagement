@@ -69,6 +69,7 @@ import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
 import com.otsi.retail.authservice.requestModel.StoreVo;
+import com.otsi.retail.authservice.requestModel.UpdateUserAttribute;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 
@@ -328,7 +329,6 @@ public class CognitoClient {
 			createUserRequest.setUserAttributes(userAtributes);
 			AdminCreateUserResult result = client.adminCreateUser(createUserRequest);
 			logger.info("##############  adminCreateUser method ends  ##############");
-			
 
 			return result;
 
@@ -745,4 +745,33 @@ public class CognitoClient {
 		}
 
 	}
+
+	public AdminUpdateUserAttributesResult updateSingleUserAttributeInUserpool(UpdateUserAttribute req) {
+
+		try {
+			logger.info(
+					"##############  updateSingleUserAttributeInUserpool method starts with request :   ##############"
+							+ req);
+			AdminUpdateUserAttributesRequest request = new AdminUpdateUserAttributesRequest();
+			request.setUsername(req.getUserName());
+			request.setUserPoolId(USERPOOL_ID);
+			List<AttributeType> userAtributes = new ArrayList<>();
+			userAtributes.add(new AttributeType().withName(req.getAttributeName()).withValue(req.getAttributeValue()));
+			request.setUserAttributes(userAtributes);
+			AdminUpdateUserAttributesResult res = client.adminUpdateUserAttributes(request);
+			logger.info("##############  updateSingleUserAttributeInUserpool method ends  ##############");
+
+			return res;
+		} catch (UserNotFoundException unfe) {
+			logger.error(unfe.getErrorMessage());
+			throw new RuntimeException(unfe.getErrorMessage());
+
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+
+		}
+
+	}
+
 }
