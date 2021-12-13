@@ -758,7 +758,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				String res = saveUsersIndataBase(userFromCognito.getUserCreateDate(),
 						userFromCognito.getUserLastModifiedDate(), userFromCognito.getUserAttributes(), roleId,
 						req.getUserName(), userFromCognito.getEnabled());
-				if (!res.equalsIgnoreCase("success")) {
+				if (res.equalsIgnoreCase("fail")) {
 					logger.error("User confirmed in Cognito userpool but not saved in Database");
 					logger.debug("User confirmed in Cognito userpool but not saved in Database");
 					throw new Exception("User confirmed in Cognito userpool but not saved in Database");
