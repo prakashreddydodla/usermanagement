@@ -196,7 +196,7 @@ public class CognitoClient {
 			attributeType = userAttributes.getUserAttributes().stream()
 					.filter(a -> a.getName().equals(CognitoAtributes.ASSIGNED_STORES)).findFirst().get();
 			StringBuilder assignedStores = new StringBuilder(attributeType.getValue());
-			stores.stream().forEach(a -> assignedStores.append("," + a.getName()));
+			stores.stream().forEach(a -> assignedStores.append("," + a.getName()+":"+a.getId()));
 			attributes.add(new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
 					.withValue(assignedStores.toString()));
 			updateUserAttributesRequest.setUsername(userName);
@@ -374,7 +374,7 @@ public class CognitoClient {
 
 	private String setStores(List<StoreVo> stores) {
 		StringBuffer storesString = new StringBuffer();
-		stores.stream().forEach(a -> storesString.append(a.getName() + ","));
+		stores.stream().forEach(a -> storesString.append(a.getName() + ":"+a.getId()+","));
 		return storesString.toString();
 	}
 
