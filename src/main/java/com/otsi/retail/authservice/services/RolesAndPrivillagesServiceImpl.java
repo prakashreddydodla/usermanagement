@@ -163,7 +163,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 	@Override
 	@Transactional(rollbackOn = { RuntimeException.class, GroupExistsException.class, Exception.class })
-	public String createRole(CreateRoleRequest role) throws RuntimeException,Exception {
+	public String createRole(CreateRoleRequest role) throws RuntimeException, Exception {
 		logger.info("###############Create Role method Starts###################");
 		Role roleEntity = new Role();
 		Role dbResult = null;
@@ -292,15 +292,22 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	}
 
 	@Override
-	public List<Role> getRolesForClientDomian(long clientId) throws Exception {
+	public List<RoleVo> getRolesForClientDomian(long clientId) throws Exception {
 		logger.info("############### getRolesForClientDomian method starts ###################");
-
+      List<RoleVo> rolevo= new ArrayList<>();
 		try {
 			logger.info("getRolesForClientDomian method Starts");
 			List<Role> roles = roleRepository.findByClientDomian_clientDomainaId(clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
 				logger.info("############### getRolesForClientDomian method ends ###################");
-				return roles;
+				roles.stream().forEach(r -> {
+
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+
+					rolevo.add(vo);
+
+				});
+				return rolevo;
 			} else {
 				logger.debug("No Roles found for this clientDomian :" + clientId);
 				logger.error("No Roles found for this clientDomian :" + clientId);
@@ -314,14 +321,23 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	}
 
 	@Override
-	public List<Role> getRolesForClient(long clientId) throws Exception {
+	public List<RoleVo> getRolesForClient(long clientId) throws Exception {
 		logger.info("############### getRolesForClient method starts ###################");
-
+		  List<RoleVo> rolevo= new ArrayList<>();
+			
 		try {
 			List<Role> roles = roleRepository.findByClientDomian_client_Id(clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
+				roles.stream().forEach(r -> {
+
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+
+					rolevo.add(vo);
+
+				});
+				
 				logger.info("############### getRolesForClient method ends ###################");
-				return roles;
+				return rolevo;
 			} else {
 				logger.debug("No Roles found for this client :" + clientId);
 				logger.error("No Roles found for this client :" + clientId);
@@ -353,23 +369,21 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	@Override
 	public List<RoleVo> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException {
 		logger.info("############### getRolesWithFilter method starts ###################");
-		List<RoleVo>rolevo = new ArrayList<RoleVo>();
+		List<RoleVo> rolevo = new ArrayList<RoleVo>();
 
 		if (null != req.getRoleName()) {
 			Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
-				roles.stream().forEach(r->{ 
-					
-					
+				roles.stream().forEach(r -> {
+
 					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
-						
+
 					rolevo.add(vo);
-					
-					});
+
+				});
 				logger.info("############### getRolesWithFilter method ends ###################");
-				
 
 				return rolevo;
 			} else {
@@ -378,42 +392,39 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				throw new RolesNotFoundException("Roles not found with this RoleName : " + req.getRoleName());
 			}
 		}
-		
+
 		if (null != req.getCreatedBy() && "" != req.getCreatedBy()) {
 			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
 			if (!CollectionUtils.isEmpty(roles)) {
-				
-				
-				roles.stream().forEach(r->{ 
-					
-					
-				RoleVo vo = rolemapper.convertEntityToRoleVo(r);
-					
-				rolevo.add(vo);
-				
+
+				roles.stream().forEach(r -> {
+
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+
+					rolevo.add(vo);
+
 				});
 				logger.info("############### getRolesWithFilter method ends ###################");
-				
+
 				return rolevo;
-				
+
 			} else {
 				logger.debug("No roles created by with this User : " + req.getCreatedBy());
 				logger.error("No roles created by with this User : " + req.getCreatedBy());
 				throw new RolesNotFoundException("No roles created by with this User : " + req.getCreatedBy());
 			}
 		}
-		
+
 		if (null != req.getCreatedDate()) {
 			List<Role> roles = roleRepository.findByCreatedDate(req.getCreatedDate());
 			if (!CollectionUtils.isEmpty(roles)) {
-				roles.stream().forEach(r->{ 
-					
-					
+				roles.stream().forEach(r -> {
+
 					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
-						
+
 					rolevo.add(vo);
-					
-					});
+
+				});
 				logger.info("############### getRolesWithFilter method ends ###################");
 
 				return rolevo;

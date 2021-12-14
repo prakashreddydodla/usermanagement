@@ -29,9 +29,9 @@ public interface RolesAndPrivillagesService {
 
 	Role getPrivilages(long roleId) throws Exception;
 
-	List<Role> getRolesForClientDomian(long clientId) throws Exception;
+	List<RoleVo> getRolesForClientDomian(long clientId) throws Exception;
 
-	List<Role> getRolesForClient(long clientId) throws Exception;
+	List<RoleVo> getRolesForClient(long clientId) throws Exception;
 
 	Role getPrivilagesByRoleName(String roleName) throws Exception;
 

@@ -77,7 +77,7 @@ public class RolesAndPrivillagesController {
 	public GateWayResponse<?> getRolesForDomian(@PathVariable String domianId) {
 		try {
 			logger.info("In GET_ROLES_FOR_DOMIAN request domianId : " + domianId);
-			List<Role> res = rolesAndPrivillagesService.getRolesForClientDomian(Long.parseLong(domianId));
+			List<RoleVo> res = rolesAndPrivillagesService.getRolesForClientDomian(Long.parseLong(domianId));
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
@@ -89,7 +89,7 @@ public class RolesAndPrivillagesController {
 	public GateWayResponse<?> getRolesForClient(@PathVariable String clientId) {
 		try {
 			logger.info("In GET_ROLES_FOR_CLIENT request clientId : " + clientId);
-			List<Role> res = rolesAndPrivillagesService.getRolesForClient(Long.parseLong(clientId));
+			List<RoleVo> res = rolesAndPrivillagesService.getRolesForClient(Long.parseLong(clientId));
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
