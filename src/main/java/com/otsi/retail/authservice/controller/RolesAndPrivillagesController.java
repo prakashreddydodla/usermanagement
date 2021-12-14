@@ -19,6 +19,7 @@ import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
+import com.otsi.retail.authservice.requestModel.RoleVo;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.RolesAndPrivillagesServiceImpl;
@@ -158,7 +159,7 @@ public class RolesAndPrivillagesController {
 	public GateWayResponse<?> getRolesWithFilter(@RequestBody RolesFilterRequest req) {
 		try {
 			logger.info("In ROLES_WITH_FILTER request  : " + req);
-			List<Role> res = rolesAndPrivillagesService.getRolesWithFilter(req);
+			List<RoleVo> res = rolesAndPrivillagesService.getRolesWithFilter(req);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (RuntimeException re) {

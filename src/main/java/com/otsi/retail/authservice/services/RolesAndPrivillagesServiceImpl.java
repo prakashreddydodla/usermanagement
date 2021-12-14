@@ -2,8 +2,11 @@ package com.otsi.retail.authservice.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -22,15 +25,19 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ParentPrivilages;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
+import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.Exceptions.InvalidInputsException;
 import com.otsi.retail.authservice.Exceptions.RolesNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.PrivilageRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.SubPrivillageRepo;
+import com.otsi.retail.authservice.Repository.UserRepo;
+import com.otsi.retail.authservice.mapper.RoleMapper;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
+import com.otsi.retail.authservice.requestModel.RoleVo;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.requestModel.SubPrivillagesvo;
 
@@ -39,6 +46,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired
+	private UserRepo userRepo;
+	@Autowired
+	private RoleMapper rolemapper;
 	@Autowired
 	private PrivilageRepo privilageRepo;
 	@Autowired
@@ -340,17 +351,27 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	}
 
 	@Override
-	public List<Role> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException {
+	public List<RoleVo> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException {
 		logger.info("############### getRolesWithFilter method starts ###################");
+		List<RoleVo>rolevo = new ArrayList<RoleVo>();
 
 		if (null != req.getRoleName()) {
 			Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
+				roles.stream().forEach(r->{ 
+					
+					
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+						
+					rolevo.add(vo);
+					
+					});
 				logger.info("############### getRolesWithFilter method ends ###################");
+				
 
-				return roles;
+				return rolevo;
 			} else {
 				logger.debug("Roles not found with this RoleName : " + req.getRoleName());
 				logger.error("Roles not found with this RoleName : " + req.getRoleName());
@@ -361,9 +382,20 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		if (null != req.getCreatedBy() && "" != req.getCreatedBy()) {
 			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
 			if (!CollectionUtils.isEmpty(roles)) {
+				
+				
+				roles.stream().forEach(r->{ 
+					
+					
+				RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+					
+				rolevo.add(vo);
+				
+				});
 				logger.info("############### getRolesWithFilter method ends ###################");
-
-				return roles;
+				
+				return rolevo;
+				
 			} else {
 				logger.debug("No roles created by with this User : " + req.getCreatedBy());
 				logger.error("No roles created by with this User : " + req.getCreatedBy());
@@ -374,9 +406,17 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		if (null != req.getCreatedDate()) {
 			List<Role> roles = roleRepository.findByCreatedDate(req.getCreatedDate());
 			if (!CollectionUtils.isEmpty(roles)) {
+				roles.stream().forEach(r->{ 
+					
+					
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+						
+					rolevo.add(vo);
+					
+					});
 				logger.info("############### getRolesWithFilter method ends ###################");
 
-				return roles;
+				return rolevo;
 			} else {
 				logger.debug("No roles created  in this Date : " + req.getCreatedDate());
 				logger.error("No roles created  in this Date : " + req.getCreatedDate());
