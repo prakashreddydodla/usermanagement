@@ -64,6 +64,7 @@ public class EndpointConstants {
 	public static final String GET_DISTRICT = "/getDistrict";
 	public static final String UPDATE_STORE = "/store";
 	public static final String GET_STORELIST = "/storeList";
+	public static final String GET_GSTDETAILS = "/getgstDetails";
 
 	
 	

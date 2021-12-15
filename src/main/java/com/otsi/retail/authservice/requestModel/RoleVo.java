@@ -38,7 +38,7 @@ public class RoleVo {
 	private long usersCount;
 	private List<ParentPrivilegesVo> parentPrivilageVo;
 	private List<SubPrivillageVo> subPrivilageVo;
-
+    private ClientDomainVo clientDomainVo;
 	
 	
 	

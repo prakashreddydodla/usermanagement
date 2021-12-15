@@ -15,9 +15,11 @@ import org.springframework.util.CollectionUtils;
 
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Districts;
+import com.otsi.retail.authservice.Entity.GstDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
+import com.otsi.retail.authservice.Repository.GstRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
@@ -32,6 +34,9 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired
+	private GstRepository gstRepo;
 
 	@Autowired
 	private ChannelRepo clientChannelRepo;
@@ -53,6 +58,25 @@ public class StoreServiceImpl implements StoreService {
 			storeEntity.setPhoneNumber(vo.getPhoneNumber());
 			storeEntity.setCreatedBy(vo.getCreatedBy());
 			storeEntity.setStateCode(vo.getStateCode());
+			if(null!= vo.getGstNumber()) {
+				Optional<GstDetails> gstDetailsopt= gstRepo.findByGstNumber(vo.getGstNumber());
+				if(!gstDetailsopt.isPresent()) {
+					GstDetails gstInfo =new GstDetails();
+					gstInfo.setClientId(vo.getClientId());
+					gstInfo.setCreatedBy(vo.getCreatedBy());
+					gstInfo.setCreatedDate(LocalDate.now());
+					gstInfo.setGstNumber(vo.getGstNumber());
+					gstInfo.setStateCode(vo.getStateCode());
+			        gstRepo.save(gstInfo);
+					
+				}
+				
+			}else {
+				logger.debug("gstNumber should not be null");
+				logger.error("gstNumber should not be null");
+				throw new RuntimeException("gstNumber should not be null");
+			}
+			
 			if (null != vo.getStoreOwner()) {
 				Optional<UserDeatils> userfromDb = userRepo.findById(vo.getStoreOwner().getUserId());
 				if (userfromDb.isPresent()) {
@@ -298,5 +322,28 @@ public class StoreServiceImpl implements StoreService {
 			throw new RuntimeException("Store Id's should not be null");
 		}
 
+	}
+
+	@Override
+	public GstDetails getGstDetails(long clientId,String stateCode) {
+		logger.info("################  getGstDetails  method starts ###########");
+		if (clientId!=0L&& stateCode!=null) {
+	    GstDetails gstDetails = gstRepo.findByClientIdAndStateCode(clientId,stateCode);
+		if(gstDetails!= null) {
+			logger.info("################  getGstDetails  method ends ###########");
+			return gstDetails;
+		}
+		else {
+			logger.debug("gst Details not found with the given Details");
+			logger.error("gst Details not found with the given Details");
+			throw new RuntimeException("gst Details not found with the given Details");
+		}
+			
+		}else {
+			logger.debug("clientId and sateCode should not be null");
+			logger.error("clientId and sateCode should not be null");
+			throw new RuntimeException("clientId and sateCode should not be null");
+		}
+		
 	}
 }

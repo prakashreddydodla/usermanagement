@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.otsi.retail.authservice.Entity.Districts;
+import com.otsi.retail.authservice.Entity.GstDetails;
 import com.otsi.retail.authservice.Entity.States;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
@@ -168,4 +169,17 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@GetMapping(EndpointConstants.GET_GSTDETAILS)
+	public GateWayResponse<?> getGstDetails(@RequestParam("clientId") long clientId,@RequestParam("stateCode") String stateCode) {
+		try {
+			logger.info("In GET_GSTDETAILS request clientId : " + clientId);
+
+			GstDetails res = storeService.getGstDetails(clientId,stateCode);
+
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
 }

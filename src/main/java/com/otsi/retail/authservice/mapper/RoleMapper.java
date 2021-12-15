@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.Repository.UserRepo;
+import com.otsi.retail.authservice.requestModel.ClientDomainVo;
+import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.ParentPrivilegesVo;
 import com.otsi.retail.authservice.requestModel.RoleVo;
 import com.otsi.retail.authservice.requestModel.SubPrivillageVo;
@@ -30,6 +32,7 @@ public class RoleMapper {
 		vo.setCreatedBy(role.getCreatedBy());
 		vo.setActive(role.isActive());
 		vo.setUsersCount(userRepo.countByRoleRoleId(role.getRoleId()));
+		
 		role.getParentPrivilages().stream().forEach(p -> {
 			ParentPrivilegesVo pvo = new ParentPrivilegesVo();
 			List<ParentPrivilegesVo> plvo = new ArrayList<>();
@@ -57,7 +60,36 @@ public class RoleMapper {
 			vo.setSubPrivilageVo(slvo);
 
 		});
-
+		ClientDomainVo cdVo= new ClientDomainVo();
+		cdVo.setClientDomainaId(role.getClientDomian().getClientDomainaId());
+		cdVo.setCreatedBy(role.getClientDomian().getCreatedBy());
+		cdVo.setCreatedDate(role.getClientDomian().getCreatedDate());
+		cdVo.setDiscription(role.getClientDomian().getDiscription());
+		cdVo.setDomaiName(role.getClientDomian().getDomaiName());
+		cdVo.setLastModifyedDate(role.getClientDomian().getLastModifyedDate());
+		cdVo.setModifiedBy(role.getClientDomian().getModifiedBy());
+		cdVo.setActive(role.getClientDomian().isActive());
+		
+		
+		List<MasterDomianVo> mdVo = new ArrayList<>();
+		role.getClientDomian().getDomain().stream().forEach(m->{
+			MasterDomianVo mVo= new MasterDomianVo();
+			mVo.setDomainName(m.getChannelName());
+			mVo.setCreatedBy(m.getCreatedBy());
+			mVo.setCreatedDate(m.getCreatedDate());
+			mVo.setDiscription(m.getDiscription());
+			mVo.setId(m.getId());
+			mVo.setLastModifyedDate(m.getLastModifyedDate());
+			mVo.setStatus(m.isStatus());
+			mdVo.add(mVo);
+			
+		});
+		cdVo.setDomainMasterVo(mdVo);
+		 vo.setClientDomainVo(cdVo);
+		
+		
+		
+        
 		return vo;
 
 	}

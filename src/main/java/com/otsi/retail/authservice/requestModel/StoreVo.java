@@ -31,6 +31,8 @@ public class StoreVo {
 	private String createdBy;
 	private UserDetailsVo storeOwner;
 	private long domainId;
+	private String gstNumber;
+	private long clientId;
 	//private List<UserDetailsVo> storeUsers;
 	
 }

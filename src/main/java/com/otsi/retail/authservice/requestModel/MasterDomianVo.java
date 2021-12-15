@@ -18,7 +18,7 @@ public class MasterDomianVo {
 	private boolean status;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private String createdBy;
 }
 
 
