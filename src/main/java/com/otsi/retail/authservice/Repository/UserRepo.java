@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -55,6 +56,25 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 	//int countByRoleId(long roleId);
 
 	long countByRoleRoleId(long roleId);
+
+
+	//List<UserDeatils> findByIsActiveAndIsCustomer(Boolean true1, Boolean false1);
+
+	//List<UserDeatils> findByStoresIdAndisCustomer(long id, Boolean false1);
+
+	//List<UserDeatils> findByRoleRoleIdAndIsCustomer(long roleId, Boolean false1);
+
+	
+
+	List<UserDeatils> findByclientDomians_clientIdAndIsActiveAndIsCustomer(Long clientId, Boolean true1,
+			Boolean false1);
+
+
+	List<UserDeatils> findByclientDomians_clientIdAndRoleRoleNameAndIsCustomer(Long clientId, String r, Boolean false1);
+
+	List<UserDeatils> findByclientDomians_clientIdAndStores_NameAndIsCustomer(Long clientId, String s, Boolean false1);
+
+
 
 
 

@@ -83,5 +83,16 @@ public class EndpointConstants {
 	
 	public static final String IMAGE = "/image";
 	public static final String IMAGE_SCANNING = "/imageScanning";
+	
+	
+//#########################################  ReportsController Endpoints  ########################################
+  
+	public static final String USERS_BY_ROLE = "/usersByRole";
+	public static final String ACTIVE_VS_INACTIVE_USERS = "/activeVsInactiveUsers";
+	public static final String STORES_VS_EMPLOYEES = "/storesVsEmployees";
+	public static final String COLOR_CODES = "/getcolorCodes";
+
+
+	
 
 }
