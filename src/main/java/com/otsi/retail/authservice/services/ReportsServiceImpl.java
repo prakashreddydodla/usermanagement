@@ -56,7 +56,7 @@ public class ReportsServiceImpl implements ReportsService {
 			count++;
 
 		});
-
+		count = 0;
 		return rvo;
 	}
 
@@ -65,17 +65,25 @@ public class ReportsServiceImpl implements ReportsService {
 		List<ReportVo> rvo = new ArrayList<ReportVo>();
 		List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndIsActiveAndIsCustomer(clientId, Boolean.TRUE,
 				Boolean.FALSE);
-		Long count = users.stream().map(u -> u.getUserId()).count();
+		Long acount = users.stream().map(u -> u.getUserId()).count();
 		ReportVo vo = new ReportVo();
 		vo.setName("ActiveUsers");
-		vo.setCount(count);
+		vo.setCount(acount);
 		rvo.add(vo);
 		List<UserDeatils> Inactiveusers = userRepo.findByclientDomians_clientIdAndIsActiveAndIsCustomer(clientId,
 				Boolean.FALSE, Boolean.FALSE);
 		Long incount = Inactiveusers.stream().map(u -> u.getUserId()).count();
-		vo.setName("inactiveUsers");
-		vo.setCount(incount);
-		rvo.add(vo);
+		ReportVo voI = new ReportVo();
+		voI.setName("inactiveUsers");
+		voI.setCount(incount);
+		rvo.add(voI);
+		List<ColorEntity> colorCodes = colorRepo.findAll();
+		rvo.stream().forEach(r -> {
+			r.setColorCode(colorCodes.get(count).getColorCode());
+			count++;
+
+		});
+		count = 0;
 		return rvo;
 	}
 
@@ -101,7 +109,7 @@ public class ReportsServiceImpl implements ReportsService {
 			count++;
 
 		});
-
+		count = 0;
 		return rvo;
 	}
 
