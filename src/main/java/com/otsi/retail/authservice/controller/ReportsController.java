@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +17,10 @@ import com.otsi.retail.authservice.services.ReportsService;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 @RestController
+@RequestMapping(EndpointConstants.STORE)
 public class ReportsController {
 
 	private Logger logger = LoggerFactory.getLogger(ReportsController.class);
@@ -67,8 +72,8 @@ public class ReportsController {
 		}
 
 	}
-	@GetMapping(path = EndpointConstants.COLOR_CODES)
-	public GateWayResponse<?> saveColorCodes(List<String> colorCodes) {
+	@PostMapping(path = EndpointConstants.COLOR_CODES)
+	public GateWayResponse<?> saveColorCodes(@RequestBody List<String> colorCodes) {
 
 		try {
 

@@ -86,11 +86,12 @@ public class EndpointConstants {
 	
 	
 //#########################################  ReportsController Endpoints  ########################################
-  
+	public static final String REPORTS = "/reports";
+
 	public static final String USERS_BY_ROLE = "/usersByRole";
 	public static final String ACTIVE_VS_INACTIVE_USERS = "/activeVsInactiveUsers";
 	public static final String STORES_VS_EMPLOYEES = "/storesVsEmployees";
-	public static final String COLOR_CODES = "/getcolorCodes";
+	public static final String COLOR_CODES = "/savetcolorCodes";
 
 
 	
