@@ -13,6 +13,7 @@ import com.otsi.retail.authservice.Entity.ColorEntity;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserDeatils;
+import com.otsi.retail.authservice.Exceptions.ColourCodeNotFoundException;
 import com.otsi.retail.authservice.Repository.ColorRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
@@ -33,84 +34,114 @@ public class ReportsServiceImpl implements ReportsService {
 	int count = 0;
 
 	@Override
-	public List<ReportVo> getUsersByRole(Long clientId) {
+	public List<ReportVo> getUsersByRole(Long clientId) throws Exception {
+		try {
+			List<ReportVo> rvo = new ArrayList<ReportVo>();
 
-		List<ReportVo> rvo = new ArrayList<ReportVo>();
+			List<Role> role = roleRepo.findAll();
+			List<String> roleName = role.stream().map(a -> a.getRoleName()).distinct().collect(Collectors.toList());
+			roleName.stream().forEach(r -> {
+				List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndRoleRoleNameAndIsCustomer(clientId, r,
+						Boolean.FALSE);
+				Long usersCount = users.stream().map(a -> a.getUserId()).count();
 
-		List<Role> role = roleRepo.findAll();
-		List<String> roleName = role.stream().map(a -> a.getRoleName()).distinct().collect(Collectors.toList());
-		roleName.stream().forEach(r -> {
-			List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndRoleRoleNameAndIsCustomer(clientId, r,
-					Boolean.FALSE);
-			Long usersCount = users.stream().map(a -> a.getUserId()).count();
+				ReportVo vo = new ReportVo();
+				vo.setName(r);
+				vo.setCount(usersCount);
+				rvo.add(vo);
 
-			ReportVo vo = new ReportVo();
-			vo.setName(r);
-			vo.setCount(usersCount);
-			rvo.add(vo);
+			});
+			List<ColorEntity> colorCodes = colorRepo.findAll();
+			rvo.stream().forEach(r -> {
+				if (count > (colorCodes.size())) {
 
-		});
-		List<ColorEntity> colorCodes = colorRepo.findAll();
-		rvo.stream().forEach(r -> {
-			r.setColorCode(colorCodes.get(count).getColorCode());
-			count++;
+					throw new ColourCodeNotFoundException("color codes not available");
+				}
+				r.setColorCode(colorCodes.get(count).getColorCode());
+				count++;
 
-		});
-		count = 0;
-		return rvo;
+			});
+			count = 0;
+			return rvo;
+		} catch (Exception ex) {
+			throw new Exception(ex);
+
+		} finally {
+			count = 0;
+		}
 	}
 
 	@Override
-	public List<ReportVo> getActiveUsers(Long clientId) {
-		List<ReportVo> rvo = new ArrayList<ReportVo>();
-		List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndIsActiveAndIsCustomer(clientId, Boolean.TRUE,
-				Boolean.FALSE);
-		Long acount = users.stream().map(u -> u.getUserId()).count();
-		ReportVo vo = new ReportVo();
-		vo.setName("ActiveUsers");
-		vo.setCount(acount);
-		rvo.add(vo);
-		List<UserDeatils> Inactiveusers = userRepo.findByclientDomians_clientIdAndIsActiveAndIsCustomer(clientId,
-				Boolean.FALSE, Boolean.FALSE);
-		Long incount = Inactiveusers.stream().map(u -> u.getUserId()).count();
-		ReportVo voI = new ReportVo();
-		voI.setName("inactiveUsers");
-		voI.setCount(incount);
-		rvo.add(voI);
-		List<ColorEntity> colorCodes = colorRepo.findAll();
-		rvo.stream().forEach(r -> {
-			r.setColorCode(colorCodes.get(count).getColorCode());
-			count++;
+	public List<ReportVo> getActiveUsers(Long clientId) throws Exception {
+		try {
+			List<ReportVo> rvo = new ArrayList<ReportVo>();
+			List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndIsActiveAndIsCustomer(clientId,
+					Boolean.TRUE, Boolean.FALSE);
+			Long acount = users.stream().map(u -> u.getUserId()).count();
+			ReportVo vo = new ReportVo();
+			vo.setName("ActiveUsers");
+			vo.setCount(acount);
+			rvo.add(vo);
+			List<UserDeatils> Inactiveusers = userRepo.findByclientDomians_clientIdAndIsActiveAndIsCustomer(clientId,
+					Boolean.FALSE, Boolean.FALSE);
+			Long incount = Inactiveusers.stream().map(u -> u.getUserId()).count();
+			ReportVo voI = new ReportVo();
+			voI.setName("inactiveUsers");
+			voI.setCount(incount);
+			rvo.add(voI);
+			List<ColorEntity> colorCodes = colorRepo.findAll();
+			rvo.stream().forEach(r -> {
+				if (count > (colorCodes.size())) {
 
-		});
-		count = 0;
-		return rvo;
+					throw new ColourCodeNotFoundException("color codes not available");
+				}
+				r.setColorCode(colorCodes.get(count).getColorCode());
+				count++;
+
+			});
+			count = 0;
+			return rvo;
+		} catch (Exception ex) {
+			throw new Exception(ex);
+		} finally {
+			count = 0;
+		}
 	}
 
 	@Override
-	public List<ReportVo> StoresVsEmployees(Long clientId) {
+	public List<ReportVo> StoresVsEmployees(Long clientId) throws Exception {
+		try {
+			List<ReportVo> rvo = new ArrayList<ReportVo>();
+			List<Store> stores = storeRepo.findAll();
+			List<String> storeName = stores.stream().map(a -> a.getName()).distinct().collect(Collectors.toList());
+			storeName.stream().forEach(s -> {
+				List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndStores_NameAndIsCustomer(clientId, s,
+						Boolean.FALSE);
+				Long usersCount = users.stream().map(a -> a.getUserId()).count();
+				ReportVo vo = new ReportVo();
+				vo.setName(s);
+				vo.setCount(usersCount);
+				rvo.add(vo);
 
-		List<ReportVo> rvo = new ArrayList<ReportVo>();
-		List<Store> stores = storeRepo.findAll();
-		List<String> storeName = stores.stream().map(a -> a.getName()).distinct().collect(Collectors.toList());
-		storeName.stream().forEach(s -> {
-			List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndStores_NameAndIsCustomer(clientId, s,
-					Boolean.FALSE);
-			Long usersCount = users.stream().map(a -> a.getUserId()).count();
-			ReportVo vo = new ReportVo();
-			vo.setName(s);
-			vo.setCount(usersCount);
-			rvo.add(vo);
+			});
+			List<ColorEntity> colorCodes = colorRepo.findAll();
+			rvo.stream().forEach(r -> {
+				if (count > (colorCodes.size())) {
 
-		});
-		List<ColorEntity> colorCodes = colorRepo.findAll();
-		rvo.stream().forEach(r -> {
-			r.setColorCode(colorCodes.get(count).getColorCode());
-			count++;
+					throw new ColourCodeNotFoundException("color codes not available");
+				}
+				r.setColorCode(colorCodes.get(count).getColorCode());
+				count++;
 
-		});
-		count = 0;
-		return rvo;
+			});
+			count = 0;
+			return rvo;
+		} catch (Exception ex) {
+			throw new Exception(ex);
+		} finally {
+			count = 0;
+		}
+
 	}
 
 	@Override

@@ -11,11 +11,11 @@ import com.otsi.retail.authservice.requestModel.ReportVo;
 @Component
 public interface ReportsService {
 
-	List<ReportVo> getUsersByRole(Long clientId);
+	List<ReportVo> getUsersByRole(Long clientId) throws Exception;
 
-	List<ReportVo> getActiveUsers(Long clientId);
+	List<ReportVo> getActiveUsers(Long clientId) throws Exception;
 
-	List<ReportVo> StoresVsEmployees(Long clientId);
+	List<ReportVo> StoresVsEmployees(Long clientId) throws Exception;
 
 	String SaveColorCodes(List<ColorCodeVo> colorCodes);
 
