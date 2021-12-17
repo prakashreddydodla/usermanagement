@@ -17,6 +17,7 @@ import com.otsi.retail.authservice.Repository.ColorRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserRepo;
+import com.otsi.retail.authservice.requestModel.ColorCodeVo;
 import com.otsi.retail.authservice.requestModel.ReportVo;
 
 @Service
@@ -37,10 +38,10 @@ public class ReportsServiceImpl implements ReportsService {
 		List<ReportVo> rvo = new ArrayList<ReportVo>();
 
 		List<Role> role = roleRepo.findAll();
-	List<String> roleName	=role.stream().map(a->a.getRoleName()).distinct().collect(Collectors.toList());		
-	roleName.stream().forEach(r -> {
-			List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndRoleRoleNameAndIsCustomer(clientId,
-					r, Boolean.FALSE);
+		List<String> roleName = role.stream().map(a -> a.getRoleName()).distinct().collect(Collectors.toList());
+		roleName.stream().forEach(r -> {
+			List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndRoleRoleNameAndIsCustomer(clientId, r,
+					Boolean.FALSE);
 			Long usersCount = users.stream().map(a -> a.getUserId()).count();
 
 			ReportVo vo = new ReportVo();
@@ -69,8 +70,8 @@ public class ReportsServiceImpl implements ReportsService {
 		vo.setName("ActiveUsers");
 		vo.setCount(count);
 		rvo.add(vo);
-		List<UserDeatils> Inactiveusers = userRepo.findByclientDomians_clientIdAndIsActiveAndIsCustomer(clientId, Boolean.FALSE,
-				Boolean.FALSE);
+		List<UserDeatils> Inactiveusers = userRepo.findByclientDomians_clientIdAndIsActiveAndIsCustomer(clientId,
+				Boolean.FALSE, Boolean.FALSE);
 		Long incount = Inactiveusers.stream().map(u -> u.getUserId()).count();
 		vo.setName("inactiveUsers");
 		vo.setCount(incount);
@@ -83,7 +84,7 @@ public class ReportsServiceImpl implements ReportsService {
 
 		List<ReportVo> rvo = new ArrayList<ReportVo>();
 		List<Store> stores = storeRepo.findAll();
-		List<String> storeName	= stores.stream().map(a->a.getName()).distinct().collect(Collectors.toList());		
+		List<String> storeName = stores.stream().map(a -> a.getName()).distinct().collect(Collectors.toList());
 		storeName.stream().forEach(s -> {
 			List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndStores_NameAndIsCustomer(clientId, s,
 					Boolean.FALSE);
@@ -105,10 +106,13 @@ public class ReportsServiceImpl implements ReportsService {
 	}
 
 	@Override
-	public String SaveColorCodes(List<String> colorCodes) {
+	public String SaveColorCodes(List<ColorCodeVo> colorCodes) {
+		ColorEntity color = new ColorEntity();
+		colorCodes.forEach(a -> {
+			color.setColorCode(a.getColorCode());
+			colorRepo.save(color);
 
-		colorRepo.save(colorCodes);
-
+		});
 		return "colors saved successfully";
 	}
 

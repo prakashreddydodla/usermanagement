@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.otsi.retail.authservice.requestModel.ColorCodeVo;
 import com.otsi.retail.authservice.requestModel.ReportVo;
 
 @Component
@@ -16,6 +17,6 @@ public interface ReportsService {
 
 	List<ReportVo> StoresVsEmployees(Long clientId);
 
-	String SaveColorCodes(List<String> colorCodes);
+	String SaveColorCodes(List<ColorCodeVo> colorCodes);
 
 }
