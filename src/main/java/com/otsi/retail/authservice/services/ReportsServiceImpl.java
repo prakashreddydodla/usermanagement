@@ -60,7 +60,7 @@ public class ReportsServiceImpl implements ReportsService {
 				ColorCodeVo cvo=new ColorCodeVo();
 				cvo.setColorCode(colorCodes.get(count).getColorCode());
 				cvo.setColorName(colorCodes.get(count).getColorName());
-				cvo.setFamilies(colorCodes.get(count).getFamilies());
+				
 				cvo.setRgb(colorCodes.get(count).getRgb());
 				r.setColorCodeVo(cvo);
 				count++;
@@ -103,7 +103,7 @@ public class ReportsServiceImpl implements ReportsService {
 				ColorCodeVo cvo=new ColorCodeVo();
 				cvo.setColorCode(colorCodes.get(count).getColorCode());
 				cvo.setColorName(colorCodes.get(count).getColorName());
-				cvo.setFamilies(colorCodes.get(count).getFamilies());
+				
 				cvo.setRgb(colorCodes.get(count).getRgb());
 				r.setColorCodeVo(cvo);
 				count++;
@@ -144,7 +144,7 @@ public class ReportsServiceImpl implements ReportsService {
 				ColorCodeVo cvo=new ColorCodeVo();
 				cvo.setColorCode(colorCodes.get(count).getColorCode());
 				cvo.setColorName(colorCodes.get(count).getColorName());
-				cvo.setFamilies(colorCodes.get(count).getFamilies());
+				
 				cvo.setRgb(colorCodes.get(count).getRgb());
 				r.setColorCodeVo(cvo);
 	
@@ -168,7 +168,7 @@ public class ReportsServiceImpl implements ReportsService {
 			ColorEntity color = new ColorEntity();
 			color.setColorCode(a.getColorCode());
 			color.setColorName(a.getColorName());
-			color.setFamilies(a.getFamilies());
+			
 			color.setRgb(a.getRgb());
 			
 			

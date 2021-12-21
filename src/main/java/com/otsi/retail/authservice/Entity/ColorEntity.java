@@ -25,8 +25,6 @@ public class ColorEntity {
 	private String colorCode;
     private String colorName;
 	private String rgb;
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "colour_Id")
-	private List<ColourFamilies> families;
+	
 
 }
