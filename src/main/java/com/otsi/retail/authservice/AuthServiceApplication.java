@@ -44,6 +44,9 @@ public class AuthServiceApplication {
 	String REGION;
 	@Value("${Cognito.aws.userpool_id}")
 	String USERPOOL_ID;
+	
+
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApplication.class, args);

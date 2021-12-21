@@ -2,8 +2,8 @@ package com.otsi.retail.authservice.controller;
 
 import java.text.ParseException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +42,7 @@ public class AuthController {
 	@Autowired
 	private CognitoClient cognitoClient;
 	//
-	private Logger logger = LoggerFactory.getLogger(AuthController.class);
+	private Logger logger = LogManager.getLogger(AuthController.class);
 	@PostMapping(path = EndpointConstants.ADD_ROLE)
 	public GateWayResponse<?> addRole(@RequestBody AddRoleRequest req) {
 		Response res = null;
