@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
-        run: mvn -B package --file pom.xml -DskipTests -Dspring.profiles.active=cloud
+        run: mvn -B package --file pom.xml -DskipTests -Pcloud
       - name: Persistent workflow data as artificats 
         uses: actions/upload-artifact@v2
         with: 
