@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.RuntimeCryptoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,16 +49,20 @@ public class UserServiceImpl implements UserService {
 	private StoreRepo storeRepo;
 	@Autowired
 	private CognitoClient cognitoClient;
+	private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	public List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest) throws Exception {
-
+		logger.info(" ###############  getUserFromDb method starts  ##############3");
 		List<UserDeatils> users = new ArrayList<>();
 		if (0l != userRequest.getId()) {
 			Optional<UserDeatils> user = userRepo.findByUserId(userRequest.getId());
 			if (user.isPresent()) {
 				users.add(user.get());
+				logger.info(" ###############  getUserFromDb method ends  ##############3");
 				return users;
 			} else {
+				logger.debug("User not found with this Id : " + userRequest.getId());
+				logger.error("User not found with this Id : " + userRequest.getId());
 				throw new RuntimeException("User not found with this Id : " + userRequest.getId());
 			}
 
@@ -65,9 +71,12 @@ public class UserServiceImpl implements UserService {
 			Optional<UserDeatils> user = userRepo.findByUserName(userRequest.getName());
 			if (user.isPresent()) {
 				users.add(user.get());
+				logger.info(" ###############  getUserFromDb method ends  ##############3");
 				return users;
 
 			} else {
+				logger.debug("User not found with this UserName : " + userRequest.getName());
+				logger.error("User not found with this UserName : " + userRequest.getName());
 				throw new RuntimeException("User not found with this UserName : " + userRequest.getName());
 			}
 		}
@@ -75,9 +84,12 @@ public class UserServiceImpl implements UserService {
 			Optional<UserDeatils> user = userRepo.findByPhoneNumber(userRequest.getPhoneNo());
 			if (user.isPresent()) {
 				users.add(user.get());
+				logger.info(" ###############  getUserFromDb method ends  ##############3");
 				return users;
 
 			} else {
+				logger.debug("No user found with this userName: " + userRequest.getPhoneNo());
+				logger.error("No user found with this userName: " + userRequest.getPhoneNo());
 				throw new Exception("No user found with this userName: " + userRequest.getPhoneNo());
 			}
 		}
@@ -85,51 +97,72 @@ public class UserServiceImpl implements UserService {
 		if (0L != userRequest.getRoleId() && userRequest.isActive()) {
 			users = userRepo.findByRoleRoleIdAndIsActive(userRequest.getRoleId(), Boolean.TRUE);
 			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (0L != userRequest.getRoleId() && userRequest.isInActive()) {
 			users = userRepo.findByRoleRoleIdAndIsActive(userRequest.getRoleId(), Boolean.FALSE);
 			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (0L != userRequest.getRoleId() && !userRequest.isActive() && !userRequest.isInActive()) {
 			users = userRepo.findByRoleRoleId(userRequest.getRoleId());
 			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 
 		if (0L != userRequest.getStoreId() && userRequest.isActive()) {
 			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(), Boolean.TRUE);
 			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (0L != userRequest.getStoreId() && userRequest.isInActive()) {
 			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(), Boolean.FALSE);
 			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (0L != userRequest.getStoreId() && !userRequest.isActive() && !userRequest.isInActive()) {
 			users = userRepo.findByStores_Id(userRequest.getStoreId());
 			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
 			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
+		logger.debug("Please select atleast one input");
+		logger.error("Please select atleast one input");
 		throw new RuntimeException("Please select atleast one input");
 
 	}
 
 	public List<UserListResponse> getUserForClient(int clientId) throws Exception {
+		logger.info(" ###############  getUserForClient method starts  ##############3");
 
 		List<UserDeatils> users = userRepo.findByUserAv_NameAndUserAv_IntegerValue(CognitoAtributes.CLIENT_ID,
 				clientId);
@@ -164,25 +197,29 @@ public class UserServiceImpl implements UserService {
 					if (b.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
 						userVo.setDomian(b.getIntegerValue());
 					}
-					if(b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)){
+					if (b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)) {
 						userVo.setDob(b.getStringValue());
 					}
-                    if(b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)){
+					if (b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
 						userVo.setAddress(b.getStringValue());
 
-					}    
+					}
 				});
 				userList.add(userVo);
 			});
-
+			logger.info(" ###############  getUserForClient method ends  ##############3");
 			return userList;
 		} else {
+			logger.debug("No users found with this client");
+			logger.error("No users found with this client");
 			throw new Exception("No users found with this client");
 		}
 
 	}
 
 	public List<UserListResponse> getUsersForClientDomain(long clientDomianId) {
+		logger.info(" ###############  getUsersForClientDomain method starts  ##############3");
+
 		List<UserDeatils> users = userRepo.findByClientDomians_ClientDomainaId(clientDomianId);
 
 		if (!CollectionUtils.isEmpty(users)) {
@@ -216,6 +253,7 @@ public class UserServiceImpl implements UserService {
 				});
 				userList.add(userVo);
 			});
+			logger.info(" ###############  getUsersForClientDomain method ends  ##############3");
 
 			return userList;
 		} else {
@@ -226,16 +264,22 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public GetCustomerResponce getCustomerbasedOnMobileNumber(String type, String value) {
+		logger.info(" ###############  getCustomerbasedOnMobileNumber method starts  ##############3");
+
 		Optional<UserDeatils> user = Optional.empty();
 		if (null != type && type.equalsIgnoreCase("mobileNo")) {
 			user = userRepo.findByPhoneNumber(value);
 			if (!user.isPresent()) {
+				logger.debug("No customer found with this MobileNo : " + value);
+				logger.error("No customer found with this MobileNo : " + value);
 				throw new RuntimeException("No customer found with this MobileNo : " + value);
 			}
 		}
 		if (null != type && type.equalsIgnoreCase("id")) {
 			user = userRepo.findByUserId(Long.parseLong(value));
 			if (!user.isPresent()) {
+				logger.debug("No customer found with this Id : " + value);
+				logger.error("No customer found with this Id : " + value);
 				throw new RuntimeException("No customer found with this Id : " + value);
 			}
 		}
@@ -267,11 +311,16 @@ public class UserServiceImpl implements UserService {
 
 			customer.setActive(user.get().isActive());
 		}
+		logger.info(" ###############  getCustomerbasedOnMobileNumber method ends  ##############3");
+
 		return customer;
 
 	}
 
-	public String updateUser(UpdateUserRequest req) {
+	@Override
+	public String updateUser(UpdateUserRequest req) throws RuntimeException {
+		logger.info(" ###############  updateUser method starts  ##############3");
+
 		try {
 			Optional<UserDeatils> userOptional = userRepo.findById(req.getUserId());
 			if (userOptional.isPresent()) {
@@ -287,8 +336,9 @@ public class UserServiceImpl implements UserService {
 					if (role.isPresent()) {
 						userFromDb.setRole(role.get());
 					} else {
-						throw new RuntimeException(
-								"Role not d=found in DB with this Id : " + req.getRole().getRoleId());
+						logger.debug("Role not found in DB with this Id : " + req.getRole().getRoleId());
+						logger.error("Role not found in DB with this Id : " + req.getRole().getRoleId());
+						throw new RuntimeException("Role not found in DB with this Id : " + req.getRole().getRoleId());
 					}
 				}
 				UserDeatils savedUser = userRepo.save(userFromDb);
@@ -296,36 +346,49 @@ public class UserServiceImpl implements UserService {
 				userFromDb.getUserAv().stream().forEach(av -> {
 					UserAv userAv = av;
 					if (userAv.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+						if(null!=req.getEmail()) {
 						userAv.setStringValue(req.getEmail());
 						userAv.setLastModifyedDate(LocalDate.now());
 						userAv.setUserData(savedUser);
 						userAvRepo.save(userAv);
+						}
 					}
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.PARENTID)) {
+						if(null!=req.getParentId()) {
 						userAv.setIntegerValue(Integer.parseInt(req.getParentId()));
 						userAv.setLastModifyedDate(LocalDate.now());
 						userAv.setUserData(savedUser);
 						userAvRepo.save(userAv);
+						}
 					}
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
-						userAv.setStringValue(req.getAddress());
-						userAv.setLastModifyedDate(LocalDate.now());
-						userAv.setUserData(savedUser);
-						userAvRepo.save(userAv);
+						if(null!=req.getAddress()) {
+							userAv.setStringValue(req.getAddress());
+							userAv.setLastModifyedDate(LocalDate.now());
+							userAv.setUserData(savedUser);
+							userAvRepo.save(userAv);
+						}
+						
 					}
 
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
-						userAv.setIntegerValue(Integer.parseInt(req.getDomianId()));
-						userAv.setLastModifyedDate(LocalDate.now());
-						userAv.setUserData(savedUser);
-						userAvRepo.save(userAv);
+						if(null!=req.getDomianId()) {
+							userAv.setIntegerValue(Integer.parseInt(req.getDomianId()));
+							userAv.setLastModifyedDate(LocalDate.now());
+							userAv.setUserData(savedUser);
+							userAvRepo.save(userAv);
 
+						}
+						
 					}
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
-						userAv.setIntegerValue(Integer.parseInt(req.getClientId()));
-						userAv.setLastModifyedDate(LocalDate.now());
-						userAv.setUserData(savedUser);
-						userAvRepo.save(userAv);
+						if(null!=req.getClientId()) {
+							userAv.setIntegerValue(Integer.parseInt(req.getClientId()));
+							userAv.setLastModifyedDate(LocalDate.now());
+							userAv.setUserData(savedUser);
+							userAvRepo.save(userAv);
+						}
+						
 
 					}
 				});
@@ -339,6 +402,8 @@ public class UserServiceImpl implements UserService {
 						if (dbClientDomainRecord.isPresent()) {
 							clientDomains.add(dbClientDomainRecord.get());
 						} else {
+							logger.debug("Client Domian not found with this Id : " + clientDomianId);
+							logger.error("Client Domian not found with this Id : " + clientDomianId);
 							throw new RuntimeException("Client Domian not found with this Id : " + clientDomianId);
 						}
 					});
@@ -356,20 +421,81 @@ public class UserServiceImpl implements UserService {
 					});
 					savedUser.setStores(stores);
 					userRepo.save(savedUser);
+					logger.info(" ###############  updated user in DB ##############3");
 				}
+				logger.info(" ###############  updating user in cognito userpool ##############3");
 				AdminUpdateUserAttributesResult result = cognitoClient.updateUserInCognito(req);
 				if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+					logger.info(" ###############  updated user in cognito userpool ##############3");
+					logger.info(" ###############  updateUser method ends  ##############3");
 					return "SucessFully updated";
 				} else {
+					logger.debug("Failed to update");
+					logger.error("Failed to update");
 					throw new RuntimeException("Failed to update");
 				}
 			} else {
+				logger.debug("User not found with this Id :" + req.getUserId());
+				logger.error("User not found with this Id :" + req.getUserId());
 				throw new RuntimeException("User not found with this Id :" + req.getUserId());
 			}
 
 		} catch (RuntimeException re) {
+			logger.debug(re.getMessage());
+			logger.error(re.getMessage());
 			throw new RuntimeException(re.getMessage());
 		}
+	}
+
+	@Override
+	public UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception {
+
+		logger.info("################  getUserbasedOnMobileNumber method starts  ############");
+		Optional<UserDeatils> userOptional = userRepo.findByUserNameAndIsCustomer(mobileNo, Boolean.FALSE);
+		if (!userOptional.isPresent()) {
+			logger.debug("User details not found with this mobile number : " + mobileNo);
+			logger.error("User details not found with this mobile number : " + mobileNo);
+			throw new Exception("User details not found with this mobile number : " + mobileNo);
+		}
+		UserDeatils user = userOptional.get();
+		UserListResponse userVo = new UserListResponse();
+		userVo.setUserId(user.getUserId());
+		userVo.setUserName(user.getUserName());
+		userVo.setCreatedBy(user.getCreatedBy());
+		userVo.setCreatedDate(user.getCreatedDate());
+		userVo.setSuperAdmin(user.isSuperAdmin());
+		userVo.setGender(user.getGender());
+		userVo.setActive(user.isActive());
+		List<StoreVo> stores = new ArrayList<>();
+		if (null != user.getStores()) {
+			user.getStores().stream().forEach(str -> {
+				StoreVo storeVo = new StoreVo();
+				storeVo.setId(str.getStateId());
+				storeVo.setName(str.getName());
+				stores.add(storeVo);
+
+			});
+			userVo.setStores(stores);
+		}
+		if (null != user.getRole()) {
+			userVo.setRoleName(user.getRole().getRoleName());
+		}
+		user.getUserAv().stream().forEach(b -> {
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+				userVo.setEmail(b.getStringValue());
+			}
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
+				userVo.setDomian(b.getIntegerValue());
+			}
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)) {
+				userVo.setDob(b.getStringValue());
+			}
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
+				userVo.setAddress(b.getStringValue());
+			}
+		});
+		logger.info("################  getUserbasedOnMobileNumber method ends  ############");
+		return userVo;
 	}
 
 	/*

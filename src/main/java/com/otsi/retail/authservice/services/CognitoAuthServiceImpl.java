@@ -60,6 +60,7 @@ import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
+import com.otsi.retail.authservice.requestModel.UpdateUserAttribute;
 import com.otsi.retail.authservice.responceModel.Response;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 import com.otsi.retail.authservice.utils.DataTypesEnum;
@@ -86,105 +87,9 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	private StoreRepo storeRepo;
 	private Logger logger = LoggerFactory.getLogger(CognitoAuthServiceImpl.class);
 
-	public Response signUp(String userName, String email, String password, String givenName, String name,
-			String phoneNo, String storeId) throws Exception {
-		Response res = new Response();
-		SignUpResult result = cognitoClient.signUp(userName, email, password, givenName, name, phoneNo, storeId);
-		System.out.println(result.toString());
-		if (result != null) {
-			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				res.setStatusCode(200);
-				res.setBody("Confirmation Code is sent to " + result.getCodeDeliveryDetails().getDestination());
-			} else {
-				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-				res.setBody("something went wrong");
-			}
-			return res;
-		} else {
-			throw new Exception("");
-
-		}
-	}
-
-	/**
-	 * @apiNote Login using AWS Cognito service for authentication
-	 *
-	 * @param String userName, String password (username,password should not be
-	 *               null)
-	 * 
-	 * @return key-value pairs for auth tokens(idToken,accessToken,refreshToken)
-	 */
-
-	public Map<String, String> login(String email, String password, String selectedStore) throws Exception {
-
-		try {
-			AdminInitiateAuthResult authResult = cognitoClient.login(email, password);
-			AuthenticationResultType resultType = authResult.getAuthenticationResult();
-
-			String idToken = authResult.getAuthenticationResult().getIdToken();
-			JWTClaimsSet claims = awsCognitoTokenProcessor.getCliamsFromToken(idToken);
-			String assignedStores = (String) claims.getClaims().get("custom:userAssignedStores");
-			String[] listOfStores = assignedStores.split(",");
-			boolean isStoreFound = Boolean.FALSE;
-			for (String store : listOfStores) {
-				if (store.equals(selectedStore)) {
-					isStoreFound = Boolean.TRUE;
-				}
-			}
-			if (isStoreFound != Boolean.TRUE) {
-				throw new Exception("User don't have access to this store");
-			}
-			return new LinkedHashMap<String, String>() {
-				{
-					put("idToken", resultType.getIdToken());
-					put("accessToken", resultType.getAccessToken());
-					put("refreshToken", resultType.getRefreshToken());
-					put("message", "Successfully login");
-					put("expiresIn", resultType.getExpiresIn().toString());
-				}
-			};
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			String[] authError = e.getMessage().split("\\(");
-			String error = authError[0];
-			System.out.println("**********" + authError[0]);
-			throw new Exception(error);
-		}
-	}
-
-	/**
-	 * @apiNote Confirm the signUp by entering confirmation code which is sent to
-	 *          email
-	 *
-	 * @param String userName, String confirmationCode (username,password should not
-	 *               be null)
-	 * 
-	 * @return Http status 200 for positive case & other than 200 for negitive cases
-	 */
-
-	public Response confirmSignUp(String userName, String confirmationCode) throws Exception {
-		Response res = null;
-		ConfirmSignUpResult result = cognitoClient.confirmSignUp(userName, confirmationCode);
-		if (result != null) {
-			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				res.setBody("Sucessfully confirmed your email");
-				res.setStatusCode(200);
-				return res;
-			} else {
-				res.setErrorDescription("Internal server error");
-				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-				return res;
-
-			}
-
-		}
-		return null;
-
-	}
-
 	@Override
 	public Response addRoleToUser(String groupName, String userName) throws InvalidParameterException, Exception {
-		logger.info("assing role to user method starts");
+		logger.info("#############  assing role to user method starts  ###############");
 
 		Response res = new Response();
 		Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
@@ -301,34 +206,29 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	public Response createUser(AdminCreatUserRequest request) throws Exception {
 		Response res = new Response();
 
-		/*
-		 * if (null == request.getRole()) { throw new
-		 * Exception("Role should not be null"); }
-		 */
 		/**
 		 * If the user is custmore we need to save user in our local DB not in Cognito
 		 */
 		try {
 			boolean usernameExists = userRepo.existsByUserNameAndIsCustomer(request.getUsername(), Boolean.FALSE);
 			if (usernameExists) {
+				logger.debug("UserName already exists");
+				logger.error("UserName already exists");
 				throw new RuntimeException("UserName already exists");
 			}
 			boolean userphoneNoExists = userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),
 					Boolean.FALSE);
 			if (userphoneNoExists) {
+				logger.debug("Mobile Number already exists");
+				logger.error("Mobile Number already exists");
 				throw new RuntimeException("Mobile Number already exists");
 			}
-			/*
-			 * boolean customerNameExists=
-			 * userRepo.existsByUserNameAndIsCustomer(request.getUsername(),Boolean.TRUE);
-			 * if(customerNameExists) { throw new
-			 * RuntimeException("Customer Name already exists");
-			 * 
-			 * }
-			 */
+
 			boolean csutomerPhoneNoExists = userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),
 					Boolean.TRUE);
 			if (csutomerPhoneNoExists) {
+				logger.debug("Customer Phone number already exists");
+				logger.error("Customer Phone number already exists");
 				throw new RuntimeException("Customer Phone number already exists");
 
 			}
@@ -356,116 +256,65 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 				if (null == request.getAddress()) {
 					missingFileds.add("Address");
-					// throw new RuntimeException(" sholud not be null");
 				}
 				if (null == request.getBirthDate()) {
 					missingFileds.add("BirthDate");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
-				/*
-				 * if (null == request.getChannelId()) { missingFileds.add("ChannelId"); //
-				 * throw new RuntimeException(" sholud not be null"); }
-				 */
+
 				if (null == request.getClientDomain()) {
 					missingFileds.add("ClientDomain");
-
-//					throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getDomianId()) {
 					missingFileds.add("DomianId");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getClientId()) {
 					missingFileds.add("ClientId");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getCreatedBy()) {
 					missingFileds.add("CreatedBy");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getEmail()) {
 					missingFileds.add("Email");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getGender()) {
 					missingFileds.add("Gender");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getIsConfigUser()) {
 					missingFileds.add("IsConfigUser");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getIsCustomer()) {
 					// missingFileds.add("IsCustomer");
 					request.setIsCustomer("false");
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getIsSuperAdmin()) {
 					missingFileds.add("IsSuperAdmin");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getName()) {
 					missingFileds.add("Name");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getParentId()) {
 					missingFileds.add("ParentId");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getPhoneNumber()) {
 					missingFileds.add("Phone Number");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
-				/*
-				 * if (null == request.getRole()) { missingFileds.add("Role"); // throw new
-				 * RuntimeException(" sholud not be null"); }
-				 */
 				if (null == request.getStores()) {
 					missingFileds.add("Stores");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (null == request.getUsername()) {
 					missingFileds.add("User Name");
-
-					// throw new RuntimeException(" sholud not be null");
-
 				}
 				if (missingFileds.size() > 0) {//
 					if (request.getIsConfigUser().equalsIgnoreCase("true")) {
 						if (null != request.getClientId() && request.getClientId() != "") {
 							deleteClientWhileConfigUserNotCreated(request.getClientId());
-							
+
 							logger.info("Client details entity delete Id : " + request.getClientId());
 						}
+						logger.debug("Please give values for these feilds also : " + missingFileds);
 						logger.error("Please give values for these feilds also : " + missingFileds);
-					throw new RuntimeException("Please give values for these feilds also : " + missingFileds);
-				}
+						throw new RuntimeException("Please give values for these feilds also : " + missingFileds);
+					}
 				}
 				AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
 				if (result != null) {
@@ -487,7 +336,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						if (request.getIsConfigUser().equalsIgnoreCase("true")) {
 							if (null != request.getClientId() && request.getClientId() != "") {
 								deleteClientWhileConfigUserNotCreated(request.getClientId());
-								
+
 								logger.info("Client details entity delete Id : " + request.getClientId());
 							}
 						}
@@ -497,16 +346,16 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				}
 				return res;
 
-				
 			}
 		} catch (Exception e) {
 			if (request.getIsConfigUser().equalsIgnoreCase("true")) {
 				if (null != request.getClientId() && request.getClientId() != "") {
 					deleteClientWhileConfigUserNotCreated(request.getClientId());
-					
+
 					logger.info("Client details entity delete Id : " + request.getClientId());
 				}
 			}
+			logger.debug(e.getMessage());
 			logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
@@ -532,6 +381,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			return userDetails.getUserAttributes().stream().filter(a -> a.getName().equals("custom:assignedStores"))
 					.findFirst().get().getValue().split(",");
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
+			logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 
@@ -549,6 +400,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	public String enableOrDisableUser(String userName, String actionType) throws Exception {
 		try {
 			if (actionType.equals("enable")) {
+				logger.info("########### enable user method starts   ######");
 				AdminEnableUserResult res = cognitoClient.userEnabled(userName);
 				if (res.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 					Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
@@ -556,9 +408,14 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					user.setActive(Boolean.TRUE);
 					user.setLastModifyedDate(LocalDate.now());
 					userRepo.save(user);
+
+					logger.info("########### enable user method ends   ######");
+
 				}
 			}
 			if (actionType.equals("disable")) {
+				logger.info("########### disable user method starts   ######");
+
 				AdminDisableUserResult res = cognitoClient.userDisabled(userName);
 				if (res.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 					Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
@@ -566,47 +423,17 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					user.setActive(Boolean.FALSE);
 					user.setLastModifyedDate(LocalDate.now());
 					userRepo.save(user);
+					logger.info("########### disable user method ends   ######");
+
 				}
 			}
 			return "sucessfully updated";
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
+			logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 
-	}
-
-//********************************** SCHEDULER JOB  ****************************************************
-	/***
-	 * This Scheduler will executes every day 12:00 am to migrating the user data in
-	 * Cognito userpool to Our application Database
-	 */
-
-	// @Scheduled(cron = "0 0 0 * * ?")
-	public void saveUsersDataIntoDataBase() {
-		try {
-
-			logger.info(
-					"************Saving user details from cognito userpool to UserManagement DB----Sechdular Statred********");
-			logger.info("Schedular starts time---->" + LocalDateTime.now());
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(Calendar.DATE, -2);
-			ListUsersResult resultFromCognito = cognitoClient.getAllUsers();
-			resultFromCognito.getUsers().stream().filter(user -> user.getUserStatus().equalsIgnoreCase("confirmed")
-					&& user.getUserLastModifiedDate().after(calendar.getTime())).forEach(a -> {
-						try {
-
-							saveUsersIndataBase(a.getUserCreateDate(), a.getUserLastModifiedDate(), a.getAttributes(),
-									0L, a.getUsername(),a.getEnabled());
-						} catch (Exception e) {
-							logger.error(e.getMessage());
-							System.out.println(e.getMessage());
-						}
-					});
-			logger.info("********Schedular Ended*********");
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -618,7 +445,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	 * @param attributes
 	 * @param roleId
 	 * @param userName
-	 * @param enable 
+	 * @param enable
 	 * @return
 	 * @throws Exception
 	 */
@@ -627,12 +454,16 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		/*
 		 * 1=long,2=string,3=date,4=boolean
 		 */
+
+		logger.info("########### saveUsersIndataBase user method ends (Migrate user from Cognito user-pool to local DB)   ######");
+
 		try {
 			UserDeatils user = new UserDeatils();
 			/**
 			 * Save the User first along with role
 			 */
-			UserDeatils savedUser = saveUser(attributes, roleId, userName,enable);
+			UserDeatils savedUser = saveUser(attributes, roleId, userName, enable);
+			logger.info("#############  Saving user attributes in Database  starts ###########");
 			List<UserAv> userAvList = new ArrayList<>();
 			UserAv userAv1 = new UserAv();
 			userAv1.setType(DataTypesEnum.DATE.getValue());
@@ -640,6 +471,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			userAv1.setDateValue(userCreateDate);
 			userAv1.setUserData(savedUser);
 			userAvRepo.save(userAv1);
+			logger.info("############# USER_CREATE_DATE attribute saved ###########");
+
 
 			UserAv userAv2 = new UserAv();
 			userAv2.setType(DataTypesEnum.DATE.getValue());
@@ -647,6 +480,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			userAv2.setDateValue(userLastModifiedDate);
 			userAv2.setUserData(savedUser);
 			userAvRepo.save(userAv2);
+			logger.info("############# USER_LAST_MODIFIEDDATE attribute saved ###########");
+
 			attributes.stream().forEach(a -> {
 
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.PARENTID)) {
@@ -656,6 +491,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setIntegerValue(Integer.parseInt(a.getValue()));
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# PARENTID attribute saved ###########");
+
 				}
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS
 
@@ -666,6 +503,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setStringValue(a.getValue());
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# ADDRESS attribute saved ###########");
+
 				}
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)) {
 					UserAv userAv = new UserAv();
@@ -674,14 +513,17 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setStringValue(a.getValue());
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# BIRTHDATE attribute saved ###########");
+
 					userAvList.add(userAv);
 				}
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.ASSIGNED_STORES)) {
 
 					String[] storenames = a.getValue().split(",");
 					Arrays.asList(storenames).stream().forEach(storeName -> {
+						String[] sName= storeName.split(";");
 
-						Optional<Store> dbStoreRecord = storeRepo.findByName(storeName);
+						Optional<Store> dbStoreRecord = storeRepo.findByName(sName[0]);
 						if (dbStoreRecord.isPresent()) {
 							List<Store> storesOfUser = savedUser.getStores();
 							if (!CollectionUtils.isEmpty(storesOfUser)) {
@@ -693,6 +535,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 								savedUser.setStores(newStores);
 							}
 							userRepo.save(savedUser);
+							logger.info("############# ASSIGNED_STORES attribute saved ###########");
+
 						}
 					});
 				}
@@ -704,6 +548,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setIntegerValue(Integer.parseInt(a.getValue()));
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# DOMAINID attribute saved ###########");
+
 				}
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
 
@@ -713,6 +559,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setStringValue(a.getValue());
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# EMAIL attribute saved ###########");
+
 				}
 
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.ENABLED)) {
@@ -723,6 +571,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setBooleanValue(Boolean.getBoolean(a.getValue()));
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# IS_ACTIVE attribute saved ###########");
+
 				}
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.USER_STATUS)) {
 
@@ -732,6 +582,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setStringValue(a.getValue());
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# USER_STATUS attribute saved ###########");
+
 				}
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.CLIENTDOMIANS)) {
 
@@ -751,8 +603,11 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 								savedUser.setClientDomians(clientDomains);
 							}
 							userRepo.save(savedUser);
+							logger.info("############# CLIENTDOMIANS attribute saved ###########");
+
 
 						} else {
+							logger.debug("No client domians found in DB");
 							logger.error("No client domians found in DB");
 						}
 					});
@@ -763,6 +618,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setStringValue(a.getValue());
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# CLIENTDOMIANS attribute saved ###########");
+
 				}
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
 
@@ -772,6 +629,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setIntegerValue(Integer.parseInt(a.getValue()));
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# CLIENT_ID attribute saved ###########");
+
 				}
 				if (a.getName().equalsIgnoreCase(CognitoAtributes.IS_CONFIGUSER)) {
 
@@ -781,16 +640,21 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userAv.setBooleanValue(Boolean.getBoolean(a.getValue()));
 					userAv.setUserData(savedUser);
 					userAvRepo.save(userAv);
+					logger.info("############# IS_CONFIGUSER attribute saved ###########");
+
 				}
 			});
-			return "success";
+			return "success:"+savedUser.getUserId();
 
 		} catch (Exception e) {
 			return "fail";
 		}
 	}
 
-	private UserDeatils saveUser(List<AttributeType> attributes, long roleId, String userName, Boolean enable) throws Exception {
+	private UserDeatils saveUser(List<AttributeType> attributes, long roleId, String userName, Boolean enable)
+			throws Exception {
+		logger.info("###############   Saving user object in database method starts  ###########");
+
 		UserDeatils user = new UserDeatils();
 		user.setCreatedDate(LocalDate.now());
 		user.setLastModifyedDate(LocalDate.now());
@@ -809,7 +673,11 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		});
 		try {
 			UserDeatils userSaved = userRepo.save(user);
+			logger.info("###############    UserDetails object saved in database method starts  ###########");
+
 			if (roleId != 0L) {
+				logger.info("###############   Saving Role for the user    ###########");
+
 				Optional<Role> role = roleRepository.findById(roleId);
 				if (role.isPresent()) {
 					userSaved.setRole(role.get());
@@ -817,6 +685,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					Role specialRole = new Role();
 					attributes.stream().forEach(b -> {
 						if (b.getName().equalsIgnoreCase(CognitoAtributes.IS_SUPER_ADMIN)) {
+							logger.info("###############    Role is SuperAdmin    ###########");
+
 							if (b.getValue().equalsIgnoreCase("true")) {
 								Optional<Role> roleSuperAdmin = roleRepository.findByRoleName("super_admin");
 								if (roleSuperAdmin.isPresent()) {
@@ -826,6 +696,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 							}
 						}
 						if (b.getName().equalsIgnoreCase(CognitoAtributes.IS_CONFIGUSER)) {
+							logger.info("###############    Role is Config user    ###########");
+
 							if (b.getValue().equalsIgnoreCase("true")) {
 								Optional<Role> roleCognifuser = roleRepository.findByRoleName("config_user");
 								if (roleCognifuser.isPresent()) {
@@ -839,9 +711,12 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				}
 			}
 			UserDeatils dbResponce = userRepo.save(userSaved);
+			logger.info("###############    Saved UserDeatils object in DB    ###########");
+
 			return dbResponce;
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -857,12 +732,15 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	 */
 	@Override
 	public AdminRespondToAuthChallengeResult authResponceForNewUser(NewPasswordChallengeRequest req) throws Exception {
+		logger.info("###############    authResponceForNewUser method starts    ###########");
+
 		try {
 			AdminRespondToAuthChallengeResult responceFromCognito = cognitoClient.respondAuthChalleng(req);
 			if (responceFromCognito.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 				/**
 				 * Get confirmed user details from cognito userpool
 				 */
+				logger.info("###############    Getting user deatils from userpool     ###########"+req.getUserName());
 
 				AdminGetUserResult userFromCognito = cognitoClient.getUserFromUserpool(req.getUserName());
 
@@ -870,20 +748,39 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				 * Save the confirmed user into Userdetails table in Usermangement DB
 				 */
 
+
 				Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());
 				long roleId = 0L;
 				if (role.isPresent()) {
 					roleId = role.get().getRoleId();
 				}
+				logger.info("###############    Save the confirmed user into Userdetails table in Usermangement DB    ###########"+req.getUserName());
+
 				String res = saveUsersIndataBase(userFromCognito.getUserCreateDate(),
 						userFromCognito.getUserLastModifiedDate(), userFromCognito.getUserAttributes(), roleId,
-						req.getUserName(),userFromCognito.getEnabled());
-				if (!res.equalsIgnoreCase("success")) {
+						req.getUserName(), userFromCognito.getEnabled());
+				if (res.equalsIgnoreCase("fail")) {
+					logger.error("User confirmed in Cognito userpool but not saved in Database");
+					logger.debug("User confirmed in Cognito userpool but not saved in Database");
 					throw new Exception("User confirmed in Cognito userpool but not saved in Database");
 				}
+				
+				String[] tokens=res.split(":");
+				
+
+				String savedUserId=tokens[1];	
+				
+				UpdateUserAttribute request=new UpdateUserAttribute();
+				request.setUserName(req.getUserName());
+				request.setAttributeName(CognitoAtributes.USER_ID);
+				request.setAttributeValue(savedUserId);
+				cognitoClient.updateSingleUserAttributeInUserpool(request);
+				logger.info("###############    authResponceForNewUser method ends    ###########");
 				return responceFromCognito;
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage());
+			logger.debug(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 		return null;

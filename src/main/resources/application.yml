@@ -2,15 +2,12 @@
 server:
   port: 8084
   
-spring:
-  application:
-    name: user-management-service
-  
+spring:  application:    name: user-management-service  
   datasource:
     platform: postgres
-    url: jdbc:postgresql://10.100.119.97:5432/UserManagement
+    url: jdbc:postgresql://localhost:5432/UserManagement
     username: postgres
-    password: 12345
+    password: Otsi@123
     
   jpa:
    hibernate:
@@ -20,13 +17,13 @@ spring:
    
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://10.100.143.45:8762/eureka/
-  # instance:
-    # instance-id: ${spring.application.name}:${random.int}
-    # hostname: localhost
+      defaultZone: http://service-registry:8762/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+    hostname: localhost
 
   
 Cognito:    

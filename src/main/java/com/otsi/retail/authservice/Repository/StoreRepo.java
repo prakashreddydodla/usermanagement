@@ -32,4 +32,7 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 
 	List<Store> findByIdIn(List<Long> storeIds);
 
+
+	
+
 }

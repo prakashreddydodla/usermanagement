@@ -5,9 +5,15 @@ import java.util.List;
 
 import com.otsi.retail.authservice.Entity.Role;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data	
+@ToString
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdminCreatUserRequest {
 
 	private String email;

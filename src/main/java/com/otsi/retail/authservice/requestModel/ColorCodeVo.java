@@ -1,22 +1,21 @@
 package com.otsi.retail.authservice.requestModel;
 
+import java.util.List;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@ToString
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetUserRequestModel {
+@ToString
+public class ColorCodeVo {
 
-	private long id;
-	private String phoneNo;
-	private String name;
-	private boolean active;
-	private boolean inActive;
-	private long roleId;
-	private long storeId;
+	private String colorCode;
+	private String colorName;
+	private String rgb;
 	
 }

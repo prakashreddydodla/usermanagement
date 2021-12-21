@@ -66,4 +66,9 @@ if(!CollectionUtils.isEmpty(district)) {
 			throw new Exception(e.getMessage());
 		}
 	}
+
+	public List<Districts> getStoresForGivenIds(List<Long> storeIds) {
+
+		return null;
+	}
 }

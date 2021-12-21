@@ -17,6 +17,7 @@ public class EndpointConstants {
 	public static final String CONFIRM_FORGET_PASSWORD = "/confirmforgetPassword";
 	public static final String ENABLE_OR_DISABLE_USER = "/enabledOrdisabledUser/{user}/{action}";
 	public static final String RESET_USER_PASSWORD = "/resetUserPassword/{userName}";
+	public static final String GET_USER_PROFILE = "/get_user_profile/{mobileNo}";
 
 
 	
@@ -63,6 +64,7 @@ public class EndpointConstants {
 	public static final String GET_DISTRICT = "/getDistrict";
 	public static final String UPDATE_STORE = "/store";
 	public static final String GET_STORELIST = "/storeList";
+	public static final String GET_GSTDETAILS = "/getgstDetails";
 
 	
 	
@@ -81,5 +83,17 @@ public class EndpointConstants {
 	
 	public static final String IMAGE = "/image";
 	public static final String IMAGE_SCANNING = "/imageScanning";
+	
+	
+//#########################################  ReportsController Endpoints  ########################################
+	public static final String REPORTS = "/reports";
+
+	public static final String USERS_BY_ROLE = "/usersByRole";
+	public static final String ACTIVE_VS_INACTIVE_USERS = "/activeVsInactiveUsers";
+	public static final String STORES_VS_EMPLOYEES = "/storesVsEmployees";
+	public static final String COLOR_CODES = "/savetcolorCodes";
+
+
+	
 
 }

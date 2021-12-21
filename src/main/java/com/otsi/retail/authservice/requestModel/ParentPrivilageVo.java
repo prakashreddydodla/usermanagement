@@ -5,9 +5,15 @@ import java.util.List;
 
 import com.otsi.retail.authservice.Entity.SubPrivillage;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ParentPrivilageVo {
 
 	private long id;

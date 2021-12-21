@@ -9,7 +9,9 @@ import com.otsi.retail.authservice.Entity.UserDeatils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,6 +31,8 @@ public class StoreVo {
 	private String createdBy;
 	private UserDetailsVo storeOwner;
 	private long domainId;
+	private String gstNumber;
+	private long clientId;
 	//private List<UserDetailsVo> storeUsers;
 	
 }

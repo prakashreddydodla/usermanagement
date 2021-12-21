@@ -5,18 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@ToString
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetUserRequestModel {
+@ToString
+public class UpdateUserAttribute {
 
-	private long id;
-	private String phoneNo;
-	private String name;
-	private boolean active;
-	private boolean inActive;
-	private long roleId;
-	private long storeId;
+	private String attributeName;
+	private String attributeValue;
+	private String userName;
 	
 }

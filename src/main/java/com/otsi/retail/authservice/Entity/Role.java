@@ -42,6 +42,8 @@ public class Role  {
 	private String createdBy;
 	private String modifiedBy;
 	private boolean isActive;
+	
+	
 
 	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	@JoinTable(name = "role_parentPrivilages",
