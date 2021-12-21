@@ -9,6 +9,6 @@ import com.otsi.retail.authservice.Entity.ColorEntity;
 @Repository
 public interface ColorRepo extends JpaRepository<ColorEntity, Long> {
 
-	void save(List<String> colorCodes);
+	void save(List<ColorEntity> colorcode);
 
 }

@@ -2,31 +2,22 @@ package com.otsi.retail.authservice.Entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ColorEntity {
+public class ColourFamilies {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long colour_Id;
-	private String colorCode;
-    private String colorName;
-	private String rgb;
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "colour_Id")
-	private List<ColourFamilies> families;
+	private int fId;
+	private String colourFamily;
 
 }

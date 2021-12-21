@@ -57,7 +57,12 @@ public class ReportsServiceImpl implements ReportsService {
 
 					throw new ColourCodeNotFoundException("color codes not available");
 				}
-				r.setColorCode(colorCodes.get(count).getColorCode());
+				ColorCodeVo cvo=new ColorCodeVo();
+				cvo.setColorCode(colorCodes.get(count).getColorCode());
+				cvo.setColorName(colorCodes.get(count).getColorName());
+				cvo.setFamilies(colorCodes.get(count).getFamilies());
+				cvo.setRgb(colorCodes.get(count).getRgb());
+				r.setColorCodeVo(cvo);
 				count++;
 
 			});
@@ -95,7 +100,12 @@ public class ReportsServiceImpl implements ReportsService {
 
 					throw new ColourCodeNotFoundException("color codes not available");
 				}
-				r.setColorCode(colorCodes.get(count).getColorCode());
+				ColorCodeVo cvo=new ColorCodeVo();
+				cvo.setColorCode(colorCodes.get(count).getColorCode());
+				cvo.setColorName(colorCodes.get(count).getColorName());
+				cvo.setFamilies(colorCodes.get(count).getFamilies());
+				cvo.setRgb(colorCodes.get(count).getRgb());
+				r.setColorCodeVo(cvo);
 				count++;
 
 			});
@@ -130,7 +140,14 @@ public class ReportsServiceImpl implements ReportsService {
 
 					throw new ColourCodeNotFoundException("color codes not available");
 				}
-				r.setColorCode(colorCodes.get(count).getColorCode());
+				
+				ColorCodeVo cvo=new ColorCodeVo();
+				cvo.setColorCode(colorCodes.get(count).getColorCode());
+				cvo.setColorName(colorCodes.get(count).getColorName());
+				cvo.setFamilies(colorCodes.get(count).getFamilies());
+				cvo.setRgb(colorCodes.get(count).getRgb());
+				r.setColorCodeVo(cvo);
+	
 				count++;
 
 			});
@@ -146,12 +163,19 @@ public class ReportsServiceImpl implements ReportsService {
 
 	@Override
 	public String SaveColorCodes(List<ColorCodeVo> colorCodes) {
-		ColorEntity color = new ColorEntity();
+		List<ColorEntity> colorcode = new ArrayList<ColorEntity>();
 		colorCodes.forEach(a -> {
+			ColorEntity color = new ColorEntity();
 			color.setColorCode(a.getColorCode());
+			color.setColorName(a.getColorName());
+			color.setFamilies(a.getFamilies());
+			color.setRgb(a.getRgb());
+			
+			
 			colorRepo.save(color);
 
 		});
+		
 		return "colors saved successfully";
 	}
 
