@@ -523,6 +523,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					Arrays.asList(storenames).stream().forEach(storeName -> {
 						String[] sName= storeName.split(":");
 
+						
 						Optional<Store> dbStoreRecord = storeRepo.findByName(sName[0]);
 						if (dbStoreRecord.isPresent()) {
 							List<Store> storesOfUser = savedUser.getStores();
