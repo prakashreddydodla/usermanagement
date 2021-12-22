@@ -124,16 +124,16 @@ public class ReportsServiceImpl implements ReportsService {
 			List<ReportVo> rvo = new ArrayList<ReportVo>();
 			List<Store> stores = storeRepo.findAll();
 			List<String> storeName = stores.stream().map(a -> a.getName()).distinct().collect(Collectors.toList());
-			storeName.stream().forEach(s -> {
-				List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndStores_NameAndIsCustomer(clientId, s,
+			Long storesCount= storeName.stream().count();
+				List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndIsCustomer(clientId, 
 						Boolean.FALSE);
 				Long usersCount = users.stream().map(a -> a.getUserId()).count();
 				ReportVo vo = new ReportVo();
-				vo.setName(s);
+				vo.setStoresCount(storesCount);
 				vo.setCount(usersCount);
 				rvo.add(vo);
 
-			});
+			
 			List<ColorEntity> colorCodes = colorRepo.findAll();
 			rvo.stream().forEach(r -> {
 				if (count > (colorCodes.size())) {

@@ -8,6 +8,7 @@ public class ReportVo {
 	
 private	String name;
 private	Long count;
+private Long storesCount;
 private ColorCodeVo colorCodeVo;
 
 }
