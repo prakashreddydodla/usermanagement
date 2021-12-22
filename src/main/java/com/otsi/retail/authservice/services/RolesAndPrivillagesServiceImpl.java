@@ -370,6 +370,96 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	public List<RoleVo> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException {
 		logger.info("############### getRolesWithFilter method starts ###################");
 		List<RoleVo> rolevo = new ArrayList<RoleVo>();
+		
+		if(null != req.getRoleName()&&null != req.getCreatedDate()&& null!= req.getCreatedBy()){
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndCreatedDate(req.getRoleName(),req.getCreatedBy(),req.getCreatedDate());
+			if (role.isPresent()) {
+				List<Role> roles = new ArrayList<>();
+				roles.add(role.get());
+				roles.stream().forEach(r -> {
+
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+
+					rolevo.add(vo);
+
+				});
+				logger.info("############### getRolesWithFilter method ends ###################");
+
+				return rolevo;
+			} else {
+				logger.debug("Roles not found with this given details : " + req.getRoleName());
+				logger.error("Roles not found with this given details : " + req.getRoleName());
+				throw new RolesNotFoundException("Roles not found with this givenDetails : " + req.getRoleName());
+			}
+			
+		}
+		if(null != req.getRoleName()&&null != req.getCreatedDate()&& null== req.getCreatedBy()){
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDate(req.getRoleName(),req.getCreatedDate());
+			if (role.isPresent()) {
+				List<Role> roles = new ArrayList<>();
+				roles.add(role.get());
+				roles.stream().forEach(r -> {
+
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+
+					rolevo.add(vo);
+
+				});
+				logger.info("############### getRolesWithFilter method ends ###################");
+
+				return rolevo;
+			} else {
+				logger.debug("Roles not found with this given details : " + req.getRoleName());
+				logger.error("Roles not found with this given details : " + req.getRoleName());
+				throw new RolesNotFoundException("Roles not found with this givenDetails : " + req.getRoleName());
+			}
+			
+		}
+		if(null != req.getRoleName()&&null == req.getCreatedDate()&& null!= req.getCreatedBy()){
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedBy(req.getRoleName(),req.getCreatedBy());
+			if (role.isPresent()) {
+				List<Role> roles = new ArrayList<>();
+				roles.add(role.get());
+				roles.stream().forEach(r -> {
+
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+
+					rolevo.add(vo);
+
+				});
+				logger.info("############### getRolesWithFilter method ends ###################");
+
+				return rolevo;
+			} else {
+				logger.debug("Roles not found with this given details : " + req.getRoleName());
+				logger.error("Roles not found with this given details : " + req.getRoleName());
+				throw new RolesNotFoundException("Roles not found with this givenDetails : " + req.getRoleName());
+			}
+			
+		}
+		if(null == req.getRoleName()&&null != req.getCreatedDate()&& null!= req.getCreatedBy()){
+			Optional<Role> role = roleRepository.findByCreatedByAndCreatedDate(req.getCreatedBy(),req.getCreatedDate());
+			if (role.isPresent()) {
+				List<Role> roles = new ArrayList<>();
+				roles.add(role.get());
+				roles.stream().forEach(r -> {
+
+					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
+
+					rolevo.add(vo);
+
+				});
+				logger.info("############### getRolesWithFilter method ends ###################");
+
+				return rolevo;
+			} else {
+				logger.debug("Roles not found with this given details : " + req.getRoleName());
+				logger.error("Roles not found with this given details : " + req.getRoleName());
+				throw new RolesNotFoundException("Roles not found with this givenDetails : " + req.getRoleName());
+			}
+			
+		}
+		
 
 		if (null != req.getRoleName()) {
 			Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());

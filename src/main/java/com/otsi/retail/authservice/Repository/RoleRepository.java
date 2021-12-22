@@ -33,6 +33,14 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	Optional<Role> findByRoleId(long roleId);
 
+	Optional<Role> findByRoleNameAndCreatedByAndCreatedDate(String roleName, String createdBy, LocalDate createdDate);
+
+	Optional<Role> findByRoleNameAndCreatedDate(String roleName, LocalDate createdDate);
+
+	Optional<Role> findByRoleNameAndCreatedBy(String roleName, String createdBy);
+
+	Optional<Role> findByCreatedByAndCreatedDate(String createdBy, LocalDate createdDate);
+
 	
 
 }
