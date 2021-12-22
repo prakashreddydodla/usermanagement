@@ -332,7 +332,7 @@ public class UserServiceImpl implements UserService {
 				userFromDb.setGender(req.getGender());
 				userFromDb.setLastModifyedDate(LocalDate.now());
 				if (null != req.getRole()) {
-					Optional<Role> role = roleRepository.findById(req.getRole().getRoleId());
+					Optional<Role> role = roleRepository.findByRoleName(req.getRole().getRoleName());
 					if (role.isPresent()) {
 						userFromDb.setRole(role.get());
 					} else {
