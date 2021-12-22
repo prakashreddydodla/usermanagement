@@ -438,10 +438,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			
 		}
 		if(null == req.getRoleName()&&null != req.getCreatedDate()&& null!= req.getCreatedBy()){
-			Optional<Role> role = roleRepository.findByCreatedByAndCreatedDate(req.getCreatedBy(),req.getCreatedDate());
-			if (role.isPresent()) {
-				List<Role> roles = new ArrayList<>();
-				roles.add(role.get());
+			List<Role> roles = roleRepository.findByCreatedByAndCreatedDate(req.getCreatedBy(),req.getCreatedDate());
+			if (!CollectionUtils.isEmpty(roles)) {
+				
 				roles.stream().forEach(r -> {
 
 					RoleVo vo = rolemapper.convertEntityToRoleVo(r);
