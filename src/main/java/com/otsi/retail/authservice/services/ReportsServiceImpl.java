@@ -133,8 +133,8 @@ public class ReportsServiceImpl implements ReportsService {
 			vo.setCount(storesCount);
 			rvo.add(vo);
 			ReportVo vo1 = new ReportVo();
-			vo.setName("users");
-			vo.setCount(usersCount);
+			vo1.setName("users");
+			vo1.setCount(usersCount);
 			rvo.add(vo1);
 
 			List<ColorEntity> colorCodes = colorRepo.findAll();
