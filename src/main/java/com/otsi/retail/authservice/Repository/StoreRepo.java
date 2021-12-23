@@ -33,6 +33,15 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 	List<Store> findByIdIn(List<Long> storeIds);
 
 
+	List<Store> findByStateCode(String stateId);
+
+
+	List<Store> findByStateCodeAndDistrictId(String stateId, long districtId);
+
+
+	List<Store> findByStateCodeAndDistrictIdAndCityId(String stateId, long districtId, String cityId);
+
+
 	
 
 }

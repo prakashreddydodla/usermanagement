@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
-		if (null != userRequest.getStoreName() && userRequest.isActive() && userRequest.getRoleName()!=null) {
+		if (null != userRequest.getStoreName() && userRequest.isInActive() && userRequest.getRoleName()!=null) {
 			users = userRepo.findByStores_NameAndRoleRoleNameAndIsActive(userRequest.getStoreName(),userRequest.getRoleName(),Boolean.FALSE);
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this given Details : " + userRequest.getRoleName());

@@ -243,8 +243,8 @@ public class StoreServiceImpl implements StoreService {
 	public List<Store> getStoresOnFilter(GetStoresRequestVo vo) {
 		logger.info("################  getStoresOnFilter  method starts ###########");
 
-		if (0L != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateId(vo.getStateId());
+		if (null != vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateCode(vo.getStateId());
 			if (!CollectionUtils.isEmpty(stores)) {
 				return stores;
 			} else {
@@ -266,8 +266,8 @@ public class StoreServiceImpl implements StoreService {
 
 			}
 		}
-		if (0L != vo.getDistrictId() && 0L != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateIdAndDistrictId(vo.getStateId(), vo.getDistrictId());
+		if (0L != vo.getDistrictId() && null != vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictId(vo.getStateId(), vo.getDistrictId());
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
 
@@ -278,6 +278,22 @@ public class StoreServiceImpl implements StoreService {
 				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
 
 			}
+			
+
+		}
+		if (0L != vo.getDistrictId() && null != vo.getStateId()&& null!=vo.getCityId()) {
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndCityId(vo.getStateId(), vo.getDistrictId(),vo.getCityId());
+			if (!CollectionUtils.isEmpty(stores)) {
+				logger.info("################  getStoresOnFilter  method ends ###########");
+
+				return stores;
+			} else {
+				logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
+				logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
+				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
+
+			}
+			
 
 		}
 		if (null != vo.getStoreName()) {
