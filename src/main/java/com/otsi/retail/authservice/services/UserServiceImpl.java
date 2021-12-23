@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if ((null == userRequest.getRoleName()||""==userRequest.getRoleName())&& (null==userRequest.getStoreName()||""==userRequest.getStoreName()) && userRequest.isInActive()) {
-			users = userRepo.findByIsActive( Boolean.TRUE);
+			users = userRepo.findByIsActive( Boolean.FALSE);
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
