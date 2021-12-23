@@ -93,68 +93,100 @@ public class UserServiceImpl implements UserService {
 				throw new Exception("No user found with this userName: " + userRequest.getPhoneNo());
 			}
 		}
+		if (null != userRequest.getStoreName() && userRequest.isActive() && userRequest.getRoleName()!=null) {
+			users = userRepo.findByStores_NameAndRoleRoleNameAndIsActive(userRequest.getStoreName(),userRequest.getRoleName(),Boolean.TRUE);
+			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this given Details : " + userRequest.getRoleName());
+				logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Given Details: " + userRequest.getRoleName());
+			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			return users;
+		}
+		if (null != userRequest.getStoreName() && userRequest.isActive() && userRequest.getRoleName()!=null) {
+			users = userRepo.findByStores_NameAndRoleRoleNameAndIsActive(userRequest.getStoreName(),userRequest.getRoleName(),Boolean.FALSE);
+			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this given Details : " + userRequest.getRoleName());
+				logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Given Details: " + userRequest.getRoleName());
+			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			return users;
+		}
+		if (null != userRequest.getStoreName() && !userRequest.isActive()&&!userRequest.isInActive()&& userRequest.getRoleName()!=null) {
+			users = userRepo.findByStores_NameAndRoleRoleName(userRequest.getStoreName(),userRequest.getRoleName());
+			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this given Details : " + userRequest.getRoleName());
+				logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Given Details: " + userRequest.getRoleName());
+			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			return users;
+		}
 
-		if (0L != userRequest.getRoleId() && userRequest.isActive()) {
-			users = userRepo.findByRoleRoleIdAndIsActive(userRequest.getRoleId(), Boolean.TRUE);
+		if (null != userRequest.getRoleName() && userRequest.isActive()) {
+			users = userRepo.findByRoleRoleNameAndIsActive(userRequest.getRoleName(), Boolean.TRUE);
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
-		if (0L != userRequest.getRoleId() && userRequest.isInActive()) {
-			users = userRepo.findByRoleRoleIdAndIsActive(userRequest.getRoleId(), Boolean.FALSE);
+		if (null != userRequest.getRoleName() && userRequest.isInActive()) {
+			users = userRepo.findByRoleRoleNameAndIsActive(userRequest.getRoleName(), Boolean.FALSE);
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
-		if (0L != userRequest.getRoleId() && !userRequest.isActive() && !userRequest.isInActive()) {
-			users = userRepo.findByRoleRoleId(userRequest.getRoleId());
+		if (null != userRequest.getRoleName() && !userRequest.isActive() && !userRequest.isInActive()) {
+			users = userRepo.findByRoleRoleName(userRequest.getRoleName());
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 
-		if (0L != userRequest.getStoreId() && userRequest.isActive()) {
-			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(), Boolean.TRUE);
+		if (null != userRequest.getStoreName() && userRequest.isActive()) {
+			users = userRepo.findByStores_NameAndIsActive(userRequest.getStoreName(), Boolean.TRUE);
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
-		if (0L != userRequest.getStoreId() && userRequest.isInActive()) {
-			users = userRepo.findByStores_IdAndIsActive(userRequest.getStoreId(), Boolean.FALSE);
+		if (null != userRequest.getStoreName() && userRequest.isInActive()) {
+			users = userRepo.findByStores_NameAndIsActive(userRequest.getStoreName(), Boolean.FALSE);
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
-		if (0L != userRequest.getStoreId() && !userRequest.isActive() && !userRequest.isInActive()) {
-			users = userRepo.findByStores_Id(userRequest.getStoreId());
+		if (null != userRequest.getStoreName() && !userRequest.isActive() && !userRequest.isInActive()) {
+			users = userRepo.findByStores_Name(userRequest.getStoreName());
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleId());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleId());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleId());
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
+		
+		
 		logger.debug("Please select atleast one input");
 		logger.error("Please select atleast one input");
 		throw new RuntimeException("Please select atleast one input");
