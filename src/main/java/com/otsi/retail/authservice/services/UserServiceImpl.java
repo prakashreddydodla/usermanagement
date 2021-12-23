@@ -134,6 +134,27 @@ public class UserServiceImpl implements UserService {
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
+		if ((null == userRequest.getRoleName()||""==userRequest.getRoleName())&& (null==userRequest.getStoreName()||""==userRequest.getStoreName()) && userRequest.isActive()) {
+			users = userRepo.findByIsActive( Boolean.TRUE);
+			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
+			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			return users;
+		}
+		if ((null == userRequest.getRoleName()||""==userRequest.getRoleName())&& (null==userRequest.getStoreName()||""==userRequest.getStoreName()) && userRequest.isInActive()) {
+			users = userRepo.findByIsActive( Boolean.TRUE);
+			if (CollectionUtils.isEmpty(users)) {
+				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
+			}
+			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			return users;
+		}
+		
 		if (null != userRequest.getRoleName() && userRequest.isInActive()) {
 			users = userRepo.findByRoleRoleNameAndIsActive(userRequest.getRoleName(), Boolean.FALSE);
 			if (CollectionUtils.isEmpty(users)) {

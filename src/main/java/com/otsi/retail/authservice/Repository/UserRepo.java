@@ -88,6 +88,8 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByStores_NameAndRoleRoleName(String storeName, String roleName);
 
+	List<UserDeatils> findByIsActive(Boolean true1);
+
 
 
 
