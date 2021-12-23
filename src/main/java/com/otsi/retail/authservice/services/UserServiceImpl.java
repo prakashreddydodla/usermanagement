@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 			}
 
 		}
-		if (null != userRequest.getName()) {
+		if (null != userRequest.getName() && ""!=userRequest.getName() ) {
 			Optional<UserDeatils> user = userRepo.findByUserName(userRequest.getName());
 			if (user.isPresent()) {
 				users.add(user.get());
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 				throw new RuntimeException("User not found with this UserName : " + userRequest.getName());
 			}
 		}
-		if (null != userRequest.getPhoneNo()) {
+		if (null != userRequest.getPhoneNo() && ""!=userRequest.getPhoneNo()) {
 			Optional<UserDeatils> user = userRepo.findByPhoneNumber(userRequest.getPhoneNo());
 			if (user.isPresent()) {
 				users.add(user.get());
