@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -57,6 +57,7 @@ import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.LimitExceededException;
 import com.amazonaws.services.cognitoidp.model.ListUsersRequest;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
+import com.amazonaws.services.cognitoidp.model.NotAuthorizedException;
 import com.amazonaws.services.cognitoidp.model.PasswordResetRequiredException;
 import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
@@ -77,7 +78,7 @@ import com.otsi.retail.authservice.utils.CognitoAtributes;
 public class CognitoClient {
 
 	private final AWSCognitoIdentityProvider client;
-	private Logger logger = LoggerFactory.getLogger(CognitoClient.class);
+	private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 	private String ACCESS_KEY;
 	private String SECRET_ACCESS_KEY;
@@ -196,7 +197,7 @@ public class CognitoClient {
 			attributeType = userAttributes.getUserAttributes().stream()
 					.filter(a -> a.getName().equals(CognitoAtributes.ASSIGNED_STORES)).findFirst().get();
 			StringBuilder assignedStores = new StringBuilder(attributeType.getValue());
-			stores.stream().forEach(a -> assignedStores.append("," + a.getName()+":"+a.getId()));
+			stores.stream().forEach(a -> assignedStores.append("," + a.getName() + ":" + a.getId()));
 			attributes.add(new AttributeType().withName(CognitoAtributes.ASSIGNED_STORES)
 					.withValue(assignedStores.toString()));
 			updateUserAttributesRequest.setUsername(userName);
@@ -241,7 +242,9 @@ public class CognitoClient {
 			logger.debug(ie.getErrorMessage());
 			logger.error(ie.getErrorMessage());
 			throw new Exception(ie.getErrorMessage());
-		} catch (Exception e) {
+		}
+
+		catch (Exception e) {
 			logger.debug(e.getMessage());
 			logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
@@ -374,7 +377,7 @@ public class CognitoClient {
 
 	private String setStores(List<StoreVo> stores) {
 		StringBuffer storesString = new StringBuffer();
-		stores.stream().forEach(a -> storesString.append(a.getName() + ":"+a.getId()+","));
+		stores.stream().forEach(a -> storesString.append(a.getName() + ":" + a.getId() + ","));
 		return storesString.toString();
 	}
 
@@ -405,6 +408,11 @@ public class CognitoClient {
 			logger.error(pre.getErrorMessage());
 			throw new Exception(pre.getErrorMessage());
 		}
+		catch (NotAuthorizedException nae) {
+			logger.debug(nae.getErrorMessage());
+			logger.error(nae.getErrorMessage());
+			throw new Exception(nae.getErrorMessage());
+		} 
 
 	}
 
@@ -766,7 +774,7 @@ public class CognitoClient {
 			logger.error(unfe.getErrorMessage());
 			throw new RuntimeException(unfe.getErrorMessage());
 
-		}catch (Exception e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 

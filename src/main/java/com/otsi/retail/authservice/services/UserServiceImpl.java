@@ -6,9 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.RuntimeCryptoException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 //import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	private StoreRepo storeRepo;
 	@Autowired
 	private CognitoClient cognitoClient;
-	private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
 	public List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest) throws Exception {
 		logger.info(" ###############  getUserFromDb method starts  ##############3");
