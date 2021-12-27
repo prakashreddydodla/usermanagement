@@ -181,4 +181,13 @@ public class ReportsServiceImpl implements ReportsService {
 		return "colors saved successfully";
 	}
 
+	@Override
+	public List<ColorEntity> getColorCodes() {
+		List<ColorEntity> colorcodes = colorRepo.findAll();
+		
+		return colorcodes;
+	}
+	
+	
+
 }

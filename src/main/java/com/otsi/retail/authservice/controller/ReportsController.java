@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.otsi.retail.authservice.Entity.ColorEntity;
 import com.otsi.retail.authservice.requestModel.ColorCodeVo;
 import com.otsi.retail.authservice.requestModel.ReportVo;
 import com.otsi.retail.authservice.services.ReportsService;
@@ -88,5 +89,22 @@ public class ReportsController {
 		}
 
 	}
+	@GetMapping(path = EndpointConstants.GETCOLOR_CODES)
+	public GateWayResponse<?> getColorCodes() {
+
+		try {
+
+			logger.info("usersByRole method starts");
+			List<ColorEntity> ent = reportsService.getColorCodes( );
+			return new GateWayResponse<>(200, ent, "", "true");
+
+		} catch (Exception e) {
+
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+
+	}
+	
+	
 
 }
