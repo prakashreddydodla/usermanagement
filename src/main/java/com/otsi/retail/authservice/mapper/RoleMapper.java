@@ -32,10 +32,11 @@ public class RoleMapper {
 		vo.setCreatedBy(role.getCreatedBy());
 		vo.setActive(role.isActive());
 		vo.setUsersCount(userRepo.countByRoleRoleId(role.getRoleId()));
+		List<ParentPrivilegesVo> plvo = new ArrayList<>();
 		
 		role.getParentPrivilages().stream().forEach(p -> {
 			ParentPrivilegesVo pvo = new ParentPrivilegesVo();
-			List<ParentPrivilegesVo> plvo = new ArrayList<>();
+			
 
 			pvo.setId(p.getId());
 			pvo.setName(p.getName());
@@ -43,13 +44,13 @@ public class RoleMapper {
 			pvo.setPath(p.getPath());
 			pvo.setParentImage(p.getParentImage());
 			plvo.add(pvo);
-			vo.setParentPrivilageVo(plvo);
+			
 		});
+		List<SubPrivillageVo> slvo = new ArrayList<>();
 
 		role.getSubPrivilages().stream().forEach(s -> {
 			SubPrivillageVo svo = new SubPrivillageVo();
-			List<SubPrivillageVo> slvo = new ArrayList<>();
-
+			
 			svo.setId(s.getId());
 			svo.setName(s.getName());
 			svo.setDescription(s.getDescription());
@@ -57,9 +58,12 @@ public class RoleMapper {
 			svo.setChildImage(s.getChildImage());
 			svo.setParentPrivillageId(s.getParentPrivillageId());
 			slvo.add(svo);
-			vo.setSubPrivilageVo(slvo);
+			
 
 		});
+		 vo.setParentPrivilageVo(plvo);
+
+		vo.setSubPrivilageVo(slvo);
 		ClientDomainVo cdVo= new ClientDomainVo();
 		cdVo.setClientDomainaId(role.getClientDomian().getClientDomainaId());
 		cdVo.setCreatedBy(role.getClientDomian().getCreatedBy());
