@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.websocket.server.PathParam;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +41,7 @@ public class UserController {
 
 	@Autowired
 	private CognitoClient cognitoClient;
-	private Logger logger = LoggerFactory.getLogger(UserController.class);
+	private Logger logger = LogManager.getLogger(UserController.class);
 
 	@PostMapping(EndpointConstants.GET_USER)
 	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest) {

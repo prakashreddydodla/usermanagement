@@ -72,7 +72,23 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByclientDomians_clientIdAndRoleRoleNameAndIsCustomer(Long clientId, String r, Boolean false1);
 
-	List<UserDeatils> findByclientDomians_clientIdAndStores_NameAndIsCustomer(Long clientId, String s, Boolean false1);
+	//List<UserDeatils> findByclientDomians_clientIdAndStores_NameAndIsCustomer(Long clientId, String s, Boolean false1);
+
+	List<UserDeatils> findByclientDomians_clientIdAndIsCustomer(Long clientId, Boolean false1);
+
+	List<UserDeatils> findByRoleRoleNameAndIsActive(String roleName, Boolean true1);
+
+	List<UserDeatils> findByRoleRoleName(String roleName);
+
+	List<UserDeatils> findByStores_NameAndIsActive(String storeName, Boolean false1);
+
+	List<UserDeatils> findByStores_Name(String storeName);
+
+	List<UserDeatils> findByStores_NameAndRoleRoleNameAndIsActive(String storeName, String roleName, Boolean true1);
+
+	List<UserDeatils> findByStores_NameAndRoleRoleName(String storeName, String roleName);
+
+	List<UserDeatils> findByIsActive(Boolean true1);
 
 
 

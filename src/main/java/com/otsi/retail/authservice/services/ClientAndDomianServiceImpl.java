@@ -7,8 +7,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	private ClientDetailsRepo clientDetailsRepo;
 	@Autowired
 	private Domian_MasterRepo domian_MasterRepo;
-	private Logger logger = LoggerFactory.getLogger(CognitoClient.class);
+	private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 	@Override
 	public String createMasterDomain(MasterDomianVo domainVo) throws Exception {

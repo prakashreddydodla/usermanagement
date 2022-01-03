@@ -92,6 +92,9 @@ public class EndpointConstants {
 	public static final String ACTIVE_VS_INACTIVE_USERS = "/activeVsInactiveUsers";
 	public static final String STORES_VS_EMPLOYEES = "/storesVsEmployees";
 	public static final String COLOR_CODES = "/savetcolorCodes";
+	public static final String GETCOLOR_CODES = "/gettcolorCodes";
+
+	
 
 
 	
