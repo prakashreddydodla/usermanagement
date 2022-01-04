@@ -48,10 +48,10 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 8084
   postgres: 
-    type: ClusterIP
+    type: NodePort
     port: 5432
 
 ingress:
