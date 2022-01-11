@@ -32,8 +32,8 @@ eureka:
   
 Cognito:    
       aws: 
-        accesskey: AKIAYZOXA3O4HNGVWCQL
-        secret_access_key: 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 
+        accesskey: AKIAYZOXA3O4PQ4A33KX
+        secret_access_key: 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 
         client_id: 1tk6nn66mll5thvmgdlnuo54fi
         userpool_id: ap-south-1_gttd6A4tT
         region: ap-south-1
