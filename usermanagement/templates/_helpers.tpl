@@ -34,6 +34,7 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "usermanagement.labels" -}}
+app.kubernetes.io/pod-communication: "true" 
 helm.sh/chart: {{ include "usermanagement.chart" . }}
 {{ include "usermanagement.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
