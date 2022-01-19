@@ -37,7 +37,7 @@ Cognito:
         client_id: 1tk6nn66mll5thvmgdlnuo54fi
         userpool_id: ap-south-1_gttd6A4tT
         region: ap-south-1
-        idTokenPoolUrl: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_W7vTQcho9
+        idTokenPoolUrl: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_gttd6A4tT
         
 logging:
    level:
