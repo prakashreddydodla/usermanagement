@@ -51,22 +51,7 @@ public class ReportsServiceImpl implements ReportsService {
 				rvo.add(vo);
 
 			});
-			List<ColorEntity> colorCodes = colorRepo.findAll();
-			rvo.stream().forEach(r -> {
-				if (count > (colorCodes.size())) {
-
-					throw new ColourCodeNotFoundException("color codes not available");
-				}
-				ColorCodeVo cvo = new ColorCodeVo();
-				cvo.setColorCode(colorCodes.get(count).getColorCode());
-				cvo.setColorName(colorCodes.get(count).getColorName());
-
-				cvo.setRgb(colorCodes.get(count).getRgb());
-				r.setColorCodeVo(cvo);
-				count++;
-
-			});
-			count = 0;
+			
 			return rvo;
 		} catch (Exception ex) {
 			throw new Exception(ex);
