@@ -338,7 +338,7 @@ public class CognitoClient {
 		} catch (UsernameExistsException uee) {
 			logger.debug("UserName already exits");
 			logger.error("UserName already exits");
-			throw new Exception("UserName already exits");
+			throw new Exception(uee.getErrorMessage());
 
 		} catch (AliasExistsException ae) {
 			logger.debug("Email already exits");
