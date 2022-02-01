@@ -9,7 +9,8 @@ env:
   postgres_data: /var/lib/postgresql/data/pgdata
   postgres_db: UserManagement
 
-replicaCount: 2
+replicaCount: 1
+replicaCountPos: 1
 namespace: 
   name: default
 image:
@@ -102,5 +103,5 @@ affinity: {}
 persistence: 
   enabled: true
   storageClass: gp2
-  accessMode: ReadWriteMany
+  accessMode: ReadWriteOnce
   size: 1Gi
