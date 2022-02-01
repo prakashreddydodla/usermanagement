@@ -102,5 +102,5 @@ affinity: {}
 persistence: 
   enabled: true
   storageClass: gp2
-  accessMode: ReadWriteOnce
+  accessMode: ReadWriteMany
   size: 1Gi
