@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
+import com.otsi.retail.authservice.requestModel.UserDetailsVo;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
 
@@ -28,6 +29,8 @@ public interface UserService {
 
 	UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception;
 	public String updateUser(UpdateUserRequest req);
+
+	List<UserDetailsVo> getUsersForGivenIds(List<Long> userIds);
 	
 	
 	

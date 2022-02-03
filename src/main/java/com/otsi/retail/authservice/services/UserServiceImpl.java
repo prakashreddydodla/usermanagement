@@ -32,6 +32,7 @@ import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.StoreVo;
 //import com.otsi.retail.authservice.requestModel.PersonVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
+import com.otsi.retail.authservice.requestModel.UserDetailsVo;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
@@ -550,6 +551,34 @@ public class UserServiceImpl implements UserService {
 		});
 		logger.info("################  getUserbasedOnMobileNumber method ends  ############");
 		return userVo;
+	}
+
+	@Override
+	public List<UserDetailsVo> getUsersForGivenIds(List<Long> userIds) {
+		List<UserDeatils> users = userRepo.findByUserIdInAndIsCustomer(userIds,Boolean.FALSE);
+		if(!users.isEmpty()) {
+			
+			List<UserDetailsVo> vo =new ArrayList<>();
+			users.stream().forEach(u -> {
+				UserDetailsVo uvo = new UserDetailsVo();
+				uvo.setUserId(u.getUserId());
+				uvo.setUserName(u.getUserName());
+				uvo.setPhoneNumber(u.getPhoneNumber());
+				
+				vo.add(uvo);
+			});
+			
+			
+			
+			
+			return vo;
+			
+		}else {
+				logger.debug("No users found with these userId's");
+				logger.error("No users found with these userId's");
+				throw new RuntimeException("No users found with these userId's");
+		}
+		
 	}
 
 	/*
