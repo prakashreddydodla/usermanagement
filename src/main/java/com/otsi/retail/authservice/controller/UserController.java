@@ -21,6 +21,7 @@ import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
+import com.otsi.retail.authservice.requestModel.UserDetailsVo;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
 import com.otsi.retail.authservice.services.CognitoAuthService;
@@ -53,6 +54,17 @@ public class UserController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@PostMapping(EndpointConstants.GET_USERSFOR_GIVENIDS)
+	public GateWayResponse<?> getUsersForGivenIds(@RequestBody List<Long> userIds) {
+		try {
+			logger.info("In GET_USER request : "+userIds.toString());
+			List<UserDetailsVo> res = userService.getUsersForGivenIds(userIds);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
 
 	@GetMapping(EndpointConstants.GET_ALL_USERS)
 	public GateWayResponse<?> getAllUsers() {

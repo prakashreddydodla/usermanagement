@@ -90,6 +90,10 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByIsActive(Boolean true1);
 
+	
+
+	List<UserDeatils> findByUserIdInAndIsCustomer(List<Long> userIds, Boolean false1);
+
 
 
 
