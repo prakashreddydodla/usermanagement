@@ -10,6 +10,7 @@ env:
   postgres_db: UserManagement
 
 replicaCount: 1
+replicaCountPos: 1
 namespace: 
   name: default
 image:
@@ -100,7 +101,7 @@ tolerations: []
 affinity: {}
 
 persistence: 
-  enabled: false
+  enabled: true
   storageClass: gp2
   accessMode: ReadWriteOnce
   size: 1Gi

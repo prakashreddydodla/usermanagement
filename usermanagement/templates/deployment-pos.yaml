@@ -7,7 +7,7 @@ metadata:
     {{- include "usermanagement.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicaCountPos }}
   {{- end }}
   selector:
     matchLabels:
@@ -72,7 +72,7 @@ spec:
         - name: usermanagement-data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ include "usermanagement.fullname" . }}-pos
+            claimName: {{ include "usermanagement.fullname" . }}
         {{- else }}
           emptyDir: {}
         {{- end -}}
