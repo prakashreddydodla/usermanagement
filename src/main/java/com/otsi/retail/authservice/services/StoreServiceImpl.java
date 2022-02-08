@@ -244,8 +244,8 @@ public class StoreServiceImpl implements StoreService {
 		logger.info("################  getStoresOnFilter  method starts ###########");
 		
 		
-		if (0L != vo.getDistrictId() && null != vo.getStateId()&& null!=vo.getCityId()) {
-			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndCityId(vo.getStateId(), vo.getDistrictId(),vo.getCityId());
+		if (0L != vo.getDistrictId() && null != vo.getStateId()&& null!=vo.getStoreName()) {
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndName(vo.getStateId(), vo.getDistrictId(),vo.getStoreName());
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
 
@@ -275,6 +275,21 @@ public class StoreServiceImpl implements StoreService {
 			
 
 		}
+		if (null != vo.getStoreName() && null != vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateCodeAndName(vo.getStateId(), vo.getStoreName());
+			if (!CollectionUtils.isEmpty(stores)) {
+				logger.info("################  getStoresOnFilter  method ends ###########");
+
+				return stores;
+			} else {
+				logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
+				logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
+				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
+
+			}
+			
+
+		}
 
 		if (null != vo.getStateId()) {
 			List<Store> stores = storeRepo.findByStateCode(vo.getStateId());
@@ -286,8 +301,8 @@ public class StoreServiceImpl implements StoreService {
 				throw new RuntimeException("Stores not found with this StateId : " + vo.getStateId());
 			}
 		}
-		if (null != vo.getCityId()) {
-			List<Store> stores = storeRepo.findByCityId(vo.getCityId());
+		if (null != vo.getStoreName()) {
+			List<Store> stores = storeRepo.findByName(vo.getStoreName());
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
 
@@ -301,21 +316,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 		
 		
-		if (null != vo.getStoreName()) {
-			Optional<Store> storeOptional = storeRepo.findByName(vo.getStoreName());
-			if (storeOptional.isPresent()) {
-				List<Store> stores = new ArrayList<>();
-				stores.add(storeOptional.get());
-				logger.info("################  getStoresOnFilter  method ends ###########");
-
-				return stores;
-			} else {
-				logger.debug("Stores not found with this StoreName : " + vo.getStoreName());
-				logger.error("Stores not found with this StoreName : " + vo.getStoreName());
-				throw new RuntimeException("Stores not found with this StoreName : " + vo.getStoreName());
-			}
-
-		}
+		
 		logger.debug("Please provide valid information");
 		logger.error("Please provide valid information");
 		throw new RuntimeException("Please provide valid information");

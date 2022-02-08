@@ -317,6 +317,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					}
 				}
 				AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
+				System.out.println("AdminCreeateUserResult :"+result.toString());
 				if (result != null) {
 					if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 						res.setStatusCode(200);
@@ -524,15 +525,21 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						String[] sName= storeName.split(":");
 
 						
-						Optional<Store> dbStoreRecord = storeRepo.findByName(sName[0]);
-						if (dbStoreRecord.isPresent()) {
+						List<Store> dbStoreRecord = storeRepo.findByName(sName[0]);
+						if (!dbStoreRecord.isEmpty()) {
 							List<Store> storesOfUser = savedUser.getStores();
 							if (!CollectionUtils.isEmpty(storesOfUser)) {
-								storesOfUser.add(dbStoreRecord.get());
+								dbStoreRecord.stream().forEach(s->{
+									storesOfUser.add(s);
+								});
+								
 								savedUser.setStores(storesOfUser);
 							} else {
 								List<Store> newStores = new ArrayList<>();
-								newStores.add(dbStoreRecord.get());
+								dbStoreRecord.stream().forEach(s->{
+									newStores.add(s);
+								});
+								
 								savedUser.setStores(newStores);
 							}
 							userRepo.save(savedUser);
