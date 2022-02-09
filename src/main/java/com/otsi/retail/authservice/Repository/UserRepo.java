@@ -96,6 +96,8 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByIsActiveAndClientDomians_ClientDomainaId(Boolean true1, long clientDomainId);
 
+	List<UserDeatils> findByIsActiveAndClientDomians_ClientId(Boolean true1, long clientDomainId);
+
 
 
 

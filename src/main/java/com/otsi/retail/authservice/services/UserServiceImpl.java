@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if ((null == userRequest.getRoleName()||""==userRequest.getRoleName())&& (null==userRequest.getStoreName()||""==userRequest.getStoreName()) && userRequest.isActive()) {
-			users = userRepo.findByIsActiveAndClientDomians_ClientDomainaId( Boolean.TRUE,userRequest.getClientDomainId());
+			users = userRepo.findByIsActiveAndClientDomians_ClientId( Boolean.TRUE,userRequest.getClientDomainId());
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if ((null == userRequest.getRoleName()||""==userRequest.getRoleName())&& (null==userRequest.getStoreName()||""==userRequest.getStoreName()) && userRequest.isInActive()) {
-			users = userRepo.findByIsActiveAndClientDomians_ClientDomainaId( Boolean.FALSE,userRequest.getClientDomainId());
+			users = userRepo.findByIsActiveAndClientDomians_ClientId( Boolean.FALSE,userRequest.getClientDomainId());
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
