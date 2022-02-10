@@ -12,8 +12,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.codec.ServerCodecConfigurer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.amazonaws.services.rekognition.AmazonRekognition;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.jwk.source.RemoteJWKSet;
 import com.nimbusds.jose.proc.JWSKeySelector;
@@ -33,6 +35,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @SpringBootApplication
 @EnableEurekaClient
+@EnableScheduling
 @OpenAPIDefinition(info =
 @Info(title = "user-management", version = "1.0", description = "Documentation UserManagement API v1.0"))
 
@@ -41,6 +44,9 @@ public class AuthServiceApplication {
 	String REGION;
 	@Value("${Cognito.aws.userpool_id}")
 	String USERPOOL_ID;
+	
+
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApplication.class, args);
@@ -66,4 +72,7 @@ public class AuthServiceApplication {
 				.build()
 				.apiInfo(new ApiInfoBuilder().version("1.0").title("user-management").description("Documentation UserManagement API v1.0").build());
 	}
+	
+	
+	
 }

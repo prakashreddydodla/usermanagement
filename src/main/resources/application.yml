@@ -1,15 +1,26 @@
 
 server:
-  port: 0
+  port: 8084
   
 spring:  application:    name: user-management-service  
-
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/UserManagement
+    username: postgres
+    password: 12345678
+    
+  jpa:
+   hibernate:
+    ddl-auto: create
+   database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+   show-sql: true
+   
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://service-registry:8762/eureka/
   instance:
     instance-id: ${spring.application.name}:${random.int}
     hostname: localhost
@@ -17,10 +28,10 @@ eureka:
   
 Cognito:    
       aws: 
-        accesskey: AKIAYZOXA3O4HNGVWCQL
-        secret_access_key: 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 
-        client_id: 2640gqqchl9bhtoaipi09de0nr
-        userpool_id: ap-south-1_W7vTQcho9
+        accesskey: AKIAYZOXA3O4PQ4A33KX
+        secret_access_key: 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 
+        client_id: 1tk6nn66mll5thvmgdlnuo54fi
+        userpool_id: ap-south-1_gttd6A4tT
         region: ap-south-1
         idTokenPoolUrl: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_W7vTQcho9
         

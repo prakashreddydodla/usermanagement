@@ -1,0 +1,53 @@
+
+server:
+  port: 8084
+  
+spring:
+  application:
+    name: user-management-service
+  
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://10.100.119.97:5432/UserManagement
+    username: postgres
+    password: 12345
+    
+  jpa:
+   hibernate:
+    ddl-auto: update
+   database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+   show-sql: true
+   
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://10.100.143.45:8762/eureka/
+  # instance:
+    # instance-id: ${spring.application.name}:${random.int}
+    # hostname: localhost
+
+
+  
+Cognito:    
+      aws: 
+        accesskey: AKIAYZOXA3O4PQ4A33KX
+        secret_access_key: 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 
+        client_id: 1tk6nn66mll5thvmgdlnuo54fi
+        userpool_id: ap-south-1_gttd6A4tT
+        region: ap-south-1
+        idTokenPoolUrl: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_gttd6A4tT
+        
+logging:
+   level:
+      org:
+       springframework:
+                security:
+                       web:
+                         FilterChainProxy : debug
+
+
+
+springdoc:
+  packagesToScan: com.otsi.retail.authservice   

@@ -2,21 +2,20 @@ package com.otsi.retail.authservice.requestModel;
 
 import java.util.List;
 
+import com.otsi.retail.authservice.Entity.Store;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+@ToString
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AssignStoresRequest {
 
 	private String userName;
-	private List<String> stores;
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public List<String> getStores() {
-		return stores;
-	}
-	public void setStores(List<String> stores) {
-		this.stores = stores;
-	}
+	private List<Store> stores;
+
 	
 }
