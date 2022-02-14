@@ -1,8 +1,6 @@
 package com.otsi.retail.authservice.controller;
 
 import java.util.List;
-import java.util.Map;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,36 +65,6 @@ public class ReportsController {
 			logger.info("usersByRole method starts");
 			List<ReportVo> count = reportsService.StoresVsEmployees(clientId);
 			return new GateWayResponse<>(200, count, "", "true");
-
-		} catch (Exception e) {
-
-			return new GateWayResponse<>(400, null, e.getMessage(), "false");
-		}
-
-	}
-	@PostMapping(path = EndpointConstants.COLOR_CODES)
-	public GateWayResponse<?> saveColorCodes(@RequestBody List<ColorCodeVo> colorCodes) {
-
-		try {
-
-			logger.info("usersByRole method starts");
-			String msg = reportsService.SaveColorCodes(colorCodes );
-			return new GateWayResponse<>(200, msg, "", "true");
-
-		} catch (Exception e) {
-
-			return new GateWayResponse<>(400, null, e.getMessage(), "false");
-		}
-
-	}
-	@GetMapping(path = EndpointConstants.GETCOLOR_CODES)
-	public GateWayResponse<?> getColorCodes() {
-
-		try {
-
-			logger.info("usersByRole method starts");
-			List<ColorEntity> ent = reportsService.getColorCodes( );
-			return new GateWayResponse<>(200, ent, "", "true");
 
 		} catch (Exception e) {
 

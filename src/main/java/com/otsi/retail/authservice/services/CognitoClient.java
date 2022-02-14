@@ -129,8 +129,8 @@ public class CognitoClient {
 						(new AttributeType().withName(CognitoAtributes.GENDER).withValue("male")),
 						(new AttributeType().withName(CognitoAtributes.USER_ASSIGNED_STORES).withValue(storeId)));
 
-		SignUpResult result = client.signUp(request);
-		return result;
+	
+		return client.signUp(request);
 	}
 
 	// After SIGNUP user need to confirmSignUp by calling this API
@@ -154,8 +154,8 @@ public class CognitoClient {
 		AdminInitiateAuthRequest authRequest = new AdminInitiateAuthRequest()
 				.withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH).withUserPoolId(USERPOOL_ID).withClientId(CLIENT_ID)
 				.withAuthParameters(authParams);
-		AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
-		return authResult;
+		
+		return client.adminInitiateAuth(authRequest);
 	}
 
 	// This API is used assign role(group) to user

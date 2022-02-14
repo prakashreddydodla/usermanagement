@@ -8,11 +8,8 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.RuntimeCryptoException;
-
 //import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -137,7 +134,7 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if ((null == userRequest.getRoleName()||""==userRequest.getRoleName())&& (null==userRequest.getStoreName()||""==userRequest.getStoreName()) && userRequest.isActive()) {
-			users = userRepo.findByIsActive( Boolean.TRUE);
+			users = userRepo.findByIsActiveAndClientDomians_ClientId( Boolean.TRUE,userRequest.getClientDomainId());
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
@@ -147,7 +144,7 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if ((null == userRequest.getRoleName()||""==userRequest.getRoleName())&& (null==userRequest.getStoreName()||""==userRequest.getStoreName()) && userRequest.isInActive()) {
-			users = userRepo.findByIsActive( Boolean.FALSE);
+			users = userRepo.findByIsActiveAndClientDomians_ClientId( Boolean.FALSE,userRequest.getClientDomainId());
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
@@ -469,9 +466,12 @@ public class UserServiceImpl implements UserService {
 				if (!CollectionUtils.isEmpty(req.getStores())) {
 					List<Store> stores = new ArrayList<>();
 					req.getStores().stream().forEach(storeVo -> {
-						Optional<Store> storeOptional = storeRepo.findByName(storeVo.getName());
-						if (storeOptional.isPresent()) {
-							stores.add(storeOptional.get());
+						List<Store> storeOptional = storeRepo.findByName(storeVo.getName());
+						if (!storeOptional.isEmpty()) {
+							storeOptional.stream().forEach(s->{
+								stores.add(s);	
+							});
+		
 						}
 					});
 					savedUser.setStores(stores);

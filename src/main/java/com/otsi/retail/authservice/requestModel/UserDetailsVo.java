@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.otsi.retail.authservice.Entity.Role;
-import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
 
 import lombok.AllArgsConstructor;

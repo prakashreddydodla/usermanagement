@@ -1,10 +1,8 @@
 package com.otsi.retail.authservice.services;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,51 +12,35 @@ import java.util.Date;
  * 
  */
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
 import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
 import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminDisableUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminEnableUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
-import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthResult;
 import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.AttributeType;
-import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
-import com.amazonaws.services.cognitoidp.model.ConfirmSignUpResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
-import com.amazonaws.services.cognitoidp.model.ListUsersResult;
-import com.amazonaws.services.cognitoidp.model.SignUpResult;
-import com.nimbusds.jwt.JWTClaimsSet;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDeatils;
-import com.otsi.retail.authservice.Exceptions.UserAlreadyExistsException;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.ClientcDomianRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepo;
-import com.otsi.retail.authservice.configuration.AwsCognitoTokenProcessor;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
-import com.otsi.retail.authservice.requestModel.ClientDomianVo;
-import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
 import com.otsi.retail.authservice.requestModel.UpdateUserAttribute;
 import com.otsi.retail.authservice.responceModel.Response;
@@ -70,8 +52,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 	@Autowired
 	private CognitoClient cognitoClient;
-	@Autowired
-	private AwsCognitoTokenProcessor awsCognitoTokenProcessor;
+	//@Autowired
+	//private AwsCognitoTokenProcessor awsCognitoTokenProcessor;
 	@Autowired
 	private UserRepo userRepo;
 	@Autowired
@@ -99,7 +81,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				UserDeatils user = userOptional.get();
 				Role role = roleOptional.get();
 				user.setRole(role);
-				UserDeatils savedUser = userRepo.save(user);
+				 userRepo.save(user);
 				logger.info("Assign role to user in Local DB is Sucess");
 
 			} catch (Exception e) {
@@ -123,7 +105,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				return res;
 			}
 		} else
-			throw new Exception();
+			throw new Exception("no users found with this users");
 
 	}
 
@@ -188,7 +170,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				}
 			} else
 
-				throw new Exception();
+				throw new Exception("No user found with this username in userpool");
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -242,7 +224,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 				user.setCustomer(Boolean.TRUE);
 
-				UserDeatils savedUser = userRepo.save(user);
+				 userRepo.save(user);
 				res.setBody("Saved Sucessfully");
 				res.setStatusCode(200);
 				return res;
@@ -317,6 +299,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					}
 				}
 				AdminCreateUserResult result = cognitoClient.adminCreateUser(request);
+				System.out.println("AdminCreeateUserResult :"+result.toString());
 				if (result != null) {
 					if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 						res.setStatusCode(200);
@@ -325,7 +308,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						 * Adding role to the saved user in cognito userpool
 						 */
 						if (null != request.getRole().getRoleName() && null != request.getUsername()) {
-							Response roleResponse = addRoleToUser(request.getRole().getRoleName(),
+							addRoleToUser(request.getRole().getRoleName(),
 									request.getUsername());
 							res.setBody("with user " + result);
 						}
@@ -458,7 +441,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		logger.info("########### saveUsersIndataBase user method ends (Migrate user from Cognito user-pool to local DB)   ######");
 
 		try {
-			UserDeatils user = new UserDeatils();
+			//UserDeatils user = new UserDeatils();
 			/**
 			 * Save the User first along with role
 			 */
@@ -524,15 +507,21 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						String[] sName= storeName.split(":");
 
 						
-						Optional<Store> dbStoreRecord = storeRepo.findByName(sName[0]);
-						if (dbStoreRecord.isPresent()) {
+						List<Store> dbStoreRecord = storeRepo.findByName(sName[0]);
+						if (!dbStoreRecord.isEmpty()) {
 							List<Store> storesOfUser = savedUser.getStores();
 							if (!CollectionUtils.isEmpty(storesOfUser)) {
-								storesOfUser.add(dbStoreRecord.get());
+								dbStoreRecord.stream().forEach(s->{
+									storesOfUser.add(s);
+								});
+								
 								savedUser.setStores(storesOfUser);
 							} else {
 								List<Store> newStores = new ArrayList<>();
-								newStores.add(dbStoreRecord.get());
+								dbStoreRecord.stream().forEach(s->{
+									newStores.add(s);
+								});
+								
 								savedUser.setStores(newStores);
 							}
 							userRepo.save(savedUser);
@@ -711,10 +700,10 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					userSaved.setRole(specialRole);
 				}
 			}
-			UserDeatils dbResponce = userRepo.save(userSaved);
+			
 			logger.info("###############    Saved UserDeatils object in DB    ###########");
 
-			return dbResponce;
+			return userRepo.save(userSaved);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			logger.debug(e.getMessage());

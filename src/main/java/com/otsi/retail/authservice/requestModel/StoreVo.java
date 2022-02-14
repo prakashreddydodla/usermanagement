@@ -1,11 +1,6 @@
 package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDate;
-import java.util.List;
-
-import com.otsi.retail.authservice.Entity.ClientDomains;
-import com.otsi.retail.authservice.Entity.UserDeatils;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
