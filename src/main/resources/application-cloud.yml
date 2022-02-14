@@ -5,6 +5,16 @@ server:
 spring:
   application:
     name: user-management-service
+   
+  httpclient:
+     pool:
+       type: fixed
+       max-connections: 10000
+       acquire-timeout: 800000
+       max-life-time: 3000s
+       max-idle-time: 600s
+     connect-timeout: 80000
+     response-timeout: 600s
   
   datasource:
     platform: postgres
