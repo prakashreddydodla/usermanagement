@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.otsi.retail.authservice.Entity.ParentPrivilages;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
@@ -21,7 +20,6 @@ import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
 import com.otsi.retail.authservice.requestModel.RoleVo;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
-import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.RolesAndPrivillagesServiceImpl;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;

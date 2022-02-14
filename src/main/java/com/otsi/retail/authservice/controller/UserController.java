@@ -2,12 +2,9 @@ package com.otsi.retail.authservice.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
@@ -24,11 +20,8 @@ import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVo;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
-import com.otsi.retail.authservice.services.CognitoAuthService;
-import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.CognitoClient;
 import com.otsi.retail.authservice.services.UserService;
-import com.otsi.retail.authservice.services.UserServiceImpl;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
