@@ -200,9 +200,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						});
 						roleEntity.setParentPrivilages(parentPrivilageEntites);
 					} else {
-						logger.debug("Atleast one parent privillege is required");
-						logger.error("Atleast one parent privillege is required");
-						throw new Exception("Atleast one parent privillege is required");
+						logger.debug("Atleast one parent privilege is required");
+						logger.error("Atleast one parent privilege is required");
+						throw new Exception("Atleast one parent privilege is required");
 					}
 
 					if (!CollectionUtils.isEmpty(role.getSubPrivillages())) {
@@ -221,7 +221,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					} else {
 						logger.debug("Atleast one sub privilege is required");
 						logger.error("Atleast one sub privilege is required");
-						throw new Exception("Atleast one sub privillege is required");
+						throw new Exception("Atleast one sub privilege is required");
 					}
 
 					dbResult = roleRepository.save(roleEntity);
