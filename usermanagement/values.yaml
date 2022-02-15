@@ -103,6 +103,6 @@ affinity: {}
 
 persistence: 
   enabled: true
-  storageClass: efs-sc
-  accessMode: ReadWriteMany
+  storageClass: gp2
+  accessMode: ReadWriteOnce
   size: 5Gi
