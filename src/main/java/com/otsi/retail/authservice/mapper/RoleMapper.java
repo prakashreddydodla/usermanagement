@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.otsi.retail.authservice.Entity.Role;
-import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.requestModel.ClientDomainVo;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;

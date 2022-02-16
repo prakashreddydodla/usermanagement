@@ -10,14 +10,12 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Domain_Master;
-import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
@@ -28,8 +26,6 @@ import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 @Service
 public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
-	@Autowired
-	private CognitoClient cognitoClient;
 	@Autowired
 	private ChannelRepo clientChannelRepo;
 	@Autowired

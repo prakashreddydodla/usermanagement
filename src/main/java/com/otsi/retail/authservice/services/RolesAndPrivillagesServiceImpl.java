@@ -2,37 +2,28 @@ package com.otsi.retail.authservice.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.amazonaws.services.cognitoidp.model.CreateGroupResult;
 import com.amazonaws.services.cognitoidp.model.GroupExistsException;
-import com.amazonaws.services.cognitoidp.model.UpdateGroupResult;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ParentPrivilages;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
-import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.Exceptions.InvalidInputsException;
 import com.otsi.retail.authservice.Exceptions.RolesNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.PrivilageRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.SubPrivillageRepo;
-import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.mapper.RoleMapper;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
@@ -46,8 +37,6 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 	@Autowired
 	private RoleRepository roleRepository;
-	@Autowired
-	private UserRepo userRepo;
 	@Autowired
 	private RoleMapper rolemapper;
 	@Autowired
@@ -204,16 +193,16 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							if (parentPrivilage.isPresent()) {
 								parentPrivilageEntites.add(parentPrivilage.get());
 							} else {
-								logger.debug("Given privilage not found in master");
-								logger.error("Given privilage not found in master");
-								throw new RuntimeException("Given privilage not found in master");
+								logger.debug("Given privilege not found in master");
+								logger.error("Given privilege not found in master");
+								throw new RuntimeException("Given privilege not found in master");
 							}
 						});
 						roleEntity.setParentPrivilages(parentPrivilageEntites);
 					} else {
-						logger.debug("Atleast one parent privillage is required");
-						logger.error("Atleast one parent privillage is required");
-						throw new Exception("Atleast one parent privillage is required");
+						logger.debug("Atleast one parent privilege is required");
+						logger.error("Atleast one parent privilege is required");
+						throw new Exception("Atleast one parent privilege is required");
 					}
 
 					if (!CollectionUtils.isEmpty(role.getSubPrivillages())) {
@@ -223,16 +212,16 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							if (privilage.isPresent()) {
 								subPrivilageEntites.add(privilage.get());
 							} else {
-								logger.debug("Given sub privilage not found in master");
-								logger.error("Given sub privilage not found in master");
-								throw new RuntimeException("Given sub privilage not found in master");
+								logger.debug("Given sub privilege not found in master");
+								logger.error("Given sub privilege not found in master");
+								throw new RuntimeException("Given sub privilege not found in master");
 							}
 						});
 						roleEntity.setSubPrivilages(subPrivilageEntites);
 					} else {
-						logger.debug("Atleast one sub privillage is required");
-						logger.error("Atleast one sub privillage is required");
-						throw new Exception("Atleast one sub privillage is required");
+						logger.debug("Atleast one sub privilege is required");
+						logger.error("Atleast one sub privilege is required");
+						throw new Exception("Atleast one sub privilege is required");
 					}
 
 					dbResult = roleRepository.save(roleEntity);
@@ -284,8 +273,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				throw new Exception("Role not found with this role Id: " + roleId);
 			}
 		} catch (Exception e) {
-			logger.debug("Error occurs while get privillages : " + e.getMessage());
-			logger.error("Error occurs while get privillages : " + e.getMessage());
+			logger.debug("Error occurs while get privileges : " + e.getMessage());
+			logger.error("Error occurs while get privileges : " + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 
@@ -532,7 +521,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	public String updateRole(CreateRoleRequest request) throws Exception {
 		logger.info("############### Create Role method Starts ###################");
 		// Role roleEntity = new Role();
-		Role dbResult = null;
+		//Role dbResult = null;
 		try {
 			Optional<Role> roleOptional = roleRepository.findByRoleId(request.getRoleId());
 			Role roleEntity = roleOptional.get();
@@ -597,7 +586,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			}
 
 			roleRepository.save(roleEntity);
-			UpdateGroupResult res = cognitoClient.updateRole(request);
+			cognitoClient.updateRole(request);
 			logger.info("Update role method Ends");
 			return "Successfully update the role";
 

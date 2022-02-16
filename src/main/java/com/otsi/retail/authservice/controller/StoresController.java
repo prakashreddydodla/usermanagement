@@ -20,12 +20,9 @@ import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
 import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
 import com.otsi.retail.authservice.requestModel.SaveStatesAndDistrictsRequest;
-import com.otsi.retail.authservice.requestModel.StateVo;
 import com.otsi.retail.authservice.requestModel.StoreVo;
-import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.StatesAndDistrctsService;
 import com.otsi.retail.authservice.services.StoreService;
-import com.otsi.retail.authservice.services.StoreServiceImpl;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 

@@ -19,8 +19,6 @@ import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.services.ClientAndDomianService;
-import com.otsi.retail.authservice.services.ClientAndDomianServiceImpl;
-import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
