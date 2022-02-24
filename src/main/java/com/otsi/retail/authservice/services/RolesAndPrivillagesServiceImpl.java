@@ -193,16 +193,16 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							if (parentPrivilage.isPresent()) {
 								parentPrivilageEntites.add(parentPrivilage.get());
 							} else {
-								logger.debug("Given privilage not found in master");
-								logger.error("Given privilage not found in master");
-								throw new RuntimeException("Given privilage not found in master");
+								logger.debug("Given privilege not found in master");
+								logger.error("Given privilege not found in master");
+								throw new RuntimeException("Given privilege not found in master");
 							}
 						});
 						roleEntity.setParentPrivilages(parentPrivilageEntites);
 					} else {
-						logger.debug("Atleast one parent privillage is required");
-						logger.error("Atleast one parent privillage is required");
-						throw new Exception("Atleast one parent privillage is required");
+						logger.debug("Atleast one parent privilege is required");
+						logger.error("Atleast one parent privilege is required");
+						throw new Exception("Atleast one parent privilege is required");
 					}
 
 					if (!CollectionUtils.isEmpty(role.getSubPrivillages())) {
@@ -212,16 +212,16 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							if (privilage.isPresent()) {
 								subPrivilageEntites.add(privilage.get());
 							} else {
-								logger.debug("Given sub privilage not found in master");
-								logger.error("Given sub privilage not found in master");
-								throw new RuntimeException("Given sub privilage not found in master");
+								logger.debug("Given sub privilege not found in master");
+								logger.error("Given sub privilege not found in master");
+								throw new RuntimeException("Given sub privilege not found in master");
 							}
 						});
 						roleEntity.setSubPrivilages(subPrivilageEntites);
 					} else {
-						logger.debug("Atleast one sub privillage is required");
-						logger.error("Atleast one sub privillage is required");
-						throw new Exception("Atleast one sub privillage is required");
+						logger.debug("Atleast one sub privilege is required");
+						logger.error("Atleast one sub privilege is required");
+						throw new Exception("Atleast one sub privilege is required");
 					}
 
 					dbResult = roleRepository.save(roleEntity);
@@ -273,8 +273,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				throw new Exception("Role not found with this role Id: " + roleId);
 			}
 		} catch (Exception e) {
-			logger.debug("Error occurs while get privillages : " + e.getMessage());
-			logger.error("Error occurs while get privillages : " + e.getMessage());
+			logger.debug("Error occurs while get privileges : " + e.getMessage());
+			logger.error("Error occurs while get privileges : " + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 

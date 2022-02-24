@@ -16,7 +16,7 @@ public class EndpointConstants {
 	public static final String FORGET_PASSWORD = "/forgetPassword";
 	public static final String CONFIRM_FORGET_PASSWORD = "/confirmforgetPassword";
 	public static final String ENABLE_OR_DISABLE_USER = "/enabledOrdisabledUser/{user}/{action}";
-	public static final String RESET_USER_PASSWORD = "/resetUserPassword/{userName}";
+	public static final String RESET_USER_PASSWORD = "/resetUserPassword";
 	public static final String GET_USER_PROFILE = "/get_user_profile/{mobileNo}";
 
 

@@ -191,7 +191,7 @@ public class AuthController {
 	}
 
 	@GetMapping(path = EndpointConstants.RESET_USER_PASSWORD)
-	public GateWayResponse<?> adminRestPasssword(@PathVariable String userName) {
+	public GateWayResponse<?> adminRestPasssword(@RequestParam String userName) {
 		try {
 			logger.info("In RESET_USER_PASSWORD request userName : "+userName);
 			AdminResetUserPasswordResult		res = cognitoClient.adminresetPassword(userName);

@@ -1,6 +1,6 @@
 
 server:
-  port: 8090
+  port: 8084
   
 spring:
   application:
@@ -23,7 +23,7 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://service-registry:8762/eureka/
+      defaultZone: http://localhost:8762/eureka/
   instance:
     instance-id: ${spring.application.name}:${random.int}
     hostname: localhost
