@@ -7,14 +7,13 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.otsi.retail.authservice.Entity.ClientDomains;
-import com.otsi.retail.authservice.Entity.Districts;
 import com.otsi.retail.authservice.Entity.GstDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserDeatils;
@@ -40,7 +39,7 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private ChannelRepo clientChannelRepo;
-	private Logger logger = LoggerFactory.getLogger(StoreServiceImpl.class);
+	private Logger logger = LogManager.getLogger(StoreServiceImpl.class);
 
 	@Override
 	@Transactional(rollbackOn = { RuntimeException.class })
@@ -242,32 +241,10 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<Store> getStoresOnFilter(GetStoresRequestVo vo) {
 		logger.info("################  getStoresOnFilter  method starts ###########");
-
-		if (0L != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateId(vo.getStateId());
-			if (!CollectionUtils.isEmpty(stores)) {
-				return stores;
-			} else {
-				logger.debug("Stores not found with this StateId : " + vo.getDistrictId());
-				logger.error("Stores not found with this StateId : " + vo.getDistrictId());
-				throw new RuntimeException("Stores not found with this StateId : " + vo.getDistrictId());
-			}
-		}
-		if (null != vo.getCityId()) {
-			List<Store> stores = storeRepo.findByCityId(vo.getCityId());
-			if (!CollectionUtils.isEmpty(stores)) {
-				logger.info("################  getStoresOnFilter  method ends ###########");
-
-				return stores;
-			} else {
-				logger.debug("Stores not found with this CityId : " + vo.getDistrictId());
-				logger.error("Stores not found with this CityId : " + vo.getDistrictId());
-				throw new RuntimeException("Stores not found with this CityId : " + vo.getDistrictId());
-
-			}
-		}
-		if (0L != vo.getDistrictId() && 0L != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateIdAndDistrictId(vo.getStateId(), vo.getDistrictId());
+		
+		
+		if (0L != vo.getDistrictId() && null != vo.getStateId()&& null!=vo.getStoreName()) {
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndName(vo.getStateId(), vo.getDistrictId(),vo.getStoreName());
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
 
@@ -278,23 +255,67 @@ public class StoreServiceImpl implements StoreService {
 				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
 
 			}
+			
 
 		}
-		if (null != vo.getStoreName()) {
-			Optional<Store> storeOptional = storeRepo.findByName(vo.getStoreName());
-			if (storeOptional.isPresent()) {
-				List<Store> stores = new ArrayList<>();
-				stores.add(storeOptional.get());
+		
+		if (0L != vo.getDistrictId() && null != vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictId(vo.getStateId(), vo.getDistrictId());
+			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
 
 				return stores;
 			} else {
-				logger.debug("Stores not found with this StoreName : " + vo.getStoreName());
-				logger.error("Stores not found with this StoreName : " + vo.getStoreName());
-				throw new RuntimeException("Stores not found with this StoreName : " + vo.getStoreName());
+				logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
+				logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
+				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
+
 			}
+			
 
 		}
+		if (null != vo.getStoreName() && null != vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateCodeAndName(vo.getStateId(), vo.getStoreName());
+			if (!CollectionUtils.isEmpty(stores)) {
+				logger.info("################  getStoresOnFilter  method ends ###########");
+
+				return stores;
+			} else {
+				logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
+				logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
+				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
+
+			}
+			
+
+		}
+
+		if (null != vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateCode(vo.getStateId());
+			if (!CollectionUtils.isEmpty(stores)) {
+				return stores;
+			} else {
+				logger.debug("Stores not found with this StateId : " + vo.getStateId());
+				logger.error("Stores not found with this StateId : " + vo.getStateId());
+				throw new RuntimeException("Stores not found with this StateId : " + vo.getStateId());
+			}
+		}
+		if (null != vo.getStoreName()) {
+			List<Store> stores = storeRepo.findByName(vo.getStoreName());
+			if (!CollectionUtils.isEmpty(stores)) {
+				logger.info("################  getStoresOnFilter  method ends ###########");
+
+				return stores;
+			} else {
+				logger.debug("Stores not found with this CityId : " + vo.getCityId());
+				logger.error("Stores not found with this CityId : " + vo.getCityId());
+				throw new RuntimeException("Stores not found with this CityId : " + vo.getCityId());
+
+			}
+		}
+		
+		
+		
 		logger.debug("Please provide valid information");
 		logger.error("Please provide valid information");
 		throw new RuntimeException("Please provide valid information");

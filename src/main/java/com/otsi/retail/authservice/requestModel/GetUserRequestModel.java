@@ -16,7 +16,8 @@ public class GetUserRequestModel {
 	private String name;
 	private boolean active;
 	private boolean inActive;
-	private long roleId;
-	private long storeId;
+	private String roleName;
+	private String storeName;
+	private long clientDomainId;
 	
 }

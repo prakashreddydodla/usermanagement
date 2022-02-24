@@ -11,7 +11,6 @@ import com.otsi.retail.authservice.Entity.States;
 import com.otsi.retail.authservice.Repository.DistrictRepo;
 import com.otsi.retail.authservice.Repository.StateRepo;
 import com.otsi.retail.authservice.requestModel.SaveStatesAndDistrictsRequest;
-import com.otsi.retail.authservice.requestModel.StateVo;
 
 @Service
 public class StatesAndDistrctsService {
@@ -30,13 +29,13 @@ public class StatesAndDistrctsService {
 				states.setStateName(sataeVo.getName());
 				states.setStateCode(sataeVo.getCode());
 				states.setCapital(sataeVo.getCapital());
-				States savedState = stateRepo.save(states);
+				 stateRepo.save(states);
 				sataeVo.getDistricts().stream().forEach(districtVo -> {
 					Districts district = new Districts();
 					district.setDistrictName(districtVo.getName());
 					district.setStateCode(sataeVo.getCode());
 					district.setDistrictId(Long.parseLong(districtVo.getId()));
-					Districts savedDistrict = districtRepo.save(district);
+					 districtRepo.save(district);
 				});
 
 			});

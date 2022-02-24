@@ -7,11 +7,11 @@ spring:  application:    name: user-management-service
     platform: postgres
     url: jdbc:postgresql://localhost:5432/UserManagement
     username: postgres
-    password: Otsi@123
+    password: 12345678
     
   jpa:
    hibernate:
-    ddl-auto: update
+    ddl-auto: create
    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
    show-sql: true
    
@@ -28,8 +28,8 @@ eureka:
   
 Cognito:    
       aws: 
-        accesskey: AKIAYZOXA3O4HNGVWCQL
-        secret_access_key: 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 
+        accesskey: AKIAYZOXA3O4PQ4A33KX
+        secret_access_key: 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 
         client_id: 1tk6nn66mll5thvmgdlnuo54fi
         userpool_id: ap-south-1_gttd6A4tT
         region: ap-south-1

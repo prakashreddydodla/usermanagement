@@ -2,8 +2,8 @@ package com.otsi.retail.authservice.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.otsi.retail.authservice.Entity.ParentPrivilages;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
@@ -21,7 +20,6 @@ import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
 import com.otsi.retail.authservice.requestModel.RoleVo;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
-import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.RolesAndPrivillagesServiceImpl;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
@@ -32,7 +30,7 @@ public class RolesAndPrivillagesController {
 	@Autowired
 	private RolesAndPrivillagesServiceImpl rolesAndPrivillagesService;
 
-	private Logger logger = LoggerFactory.getLogger(RolesAndPrivillagesController.class);
+	private Logger logger = LogManager.getLogger(RolesAndPrivillagesController.class);
 //
 	@PostMapping(path = EndpointConstants.CREATE_ROLE)
 	public GateWayResponse<?> createRole(@RequestBody CreateRoleRequest request) {

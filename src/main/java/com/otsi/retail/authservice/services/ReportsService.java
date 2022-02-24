@@ -1,10 +1,9 @@
 package com.otsi.retail.authservice.services;
 
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Component;
 
+import com.otsi.retail.authservice.Entity.ColorEntity;
 import com.otsi.retail.authservice.requestModel.ColorCodeVo;
 import com.otsi.retail.authservice.requestModel.ReportVo;
 
@@ -17,6 +16,6 @@ public interface ReportsService {
 
 	List<ReportVo> StoresVsEmployees(Long clientId) throws Exception;
 
-	String SaveColorCodes(List<ColorCodeVo> colorCodes);
+	
 
 }

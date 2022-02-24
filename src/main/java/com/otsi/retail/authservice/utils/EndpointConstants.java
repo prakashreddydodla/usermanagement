@@ -16,7 +16,7 @@ public class EndpointConstants {
 	public static final String FORGET_PASSWORD = "/forgetPassword";
 	public static final String CONFIRM_FORGET_PASSWORD = "/confirmforgetPassword";
 	public static final String ENABLE_OR_DISABLE_USER = "/enabledOrdisabledUser/{user}/{action}";
-	public static final String RESET_USER_PASSWORD = "/resetUserPassword/{userName}";
+	public static final String RESET_USER_PASSWORD = "/resetUserPassword";
 	public static final String GET_USER_PROFILE = "/get_user_profile/{mobileNo}";
 
 
@@ -71,8 +71,9 @@ public class EndpointConstants {
 // ##########################################     USER CONTROLLER  END_POINTS     #########################################
 	
 	public static final String USER = "/user";
+	public static final String GET_USERSFOR_GIVENIDS = "/getUsersForGivenIds";
 	public static final String GET_USER = "/getUser";
-	public static final String GET_ALL_USERS = "/getallUsers";
+    public static final String GET_ALL_USERS = "/getallUsers";
 	public static final String GET_ALL_USERS_BY_CLIENT_ID = "/getallUsers/{clientId}";
 	public static final String GET_ALL_USERS_BY_CLIENT_DOMIAN = "/usersByClientDomianId/{clientDomianId}";
 	public static final String GET_CUSTOMER = "/customer/{feild}/{mobileNo}";
@@ -92,6 +93,9 @@ public class EndpointConstants {
 	public static final String ACTIVE_VS_INACTIVE_USERS = "/activeVsInactiveUsers";
 	public static final String STORES_VS_EMPLOYEES = "/storesVsEmployees";
 	public static final String COLOR_CODES = "/savetcolorCodes";
+	public static final String GETCOLOR_CODES = "/gettcolorCodes";
+
+	
 
 
 	

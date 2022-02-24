@@ -7,17 +7,15 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Domain_Master;
-import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
@@ -29,14 +27,12 @@ import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
-	private CognitoClient cognitoClient;
-	@Autowired
 	private ChannelRepo clientChannelRepo;
 	@Autowired
 	private ClientDetailsRepo clientDetailsRepo;
 	@Autowired
 	private Domian_MasterRepo domian_MasterRepo;
-	private Logger logger = LoggerFactory.getLogger(CognitoClient.class);
+	private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 	@Override
 	public String createMasterDomain(MasterDomianVo domainVo) throws Exception {

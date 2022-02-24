@@ -1,11 +1,9 @@
 package com.otsi.retail.authservice.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.otsi.retail.authservice.Entity.UserDeatils;
@@ -38,7 +36,7 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	boolean existsByPhoneNumber(String phoneNumber);
 
-	Optional<UserDeatils> findByUserId(long l);
+	Optional<UserDeatils> findByUserId(Long l);
 
 	boolean existsByUserNameAndIsCustomer(String username, Boolean false1);
 
@@ -72,7 +70,31 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByclientDomians_clientIdAndRoleRoleNameAndIsCustomer(Long clientId, String r, Boolean false1);
 
-	List<UserDeatils> findByclientDomians_clientIdAndStores_NameAndIsCustomer(Long clientId, String s, Boolean false1);
+	//List<UserDeatils> findByclientDomians_clientIdAndStores_NameAndIsCustomer(Long clientId, String s, Boolean false1);
+
+	List<UserDeatils> findByclientDomians_clientIdAndIsCustomer(Long clientId, Boolean false1);
+
+	List<UserDeatils> findByRoleRoleNameAndIsActive(String roleName, Boolean true1);
+
+	List<UserDeatils> findByRoleRoleName(String roleName);
+
+	List<UserDeatils> findByStores_NameAndIsActive(String storeName, Boolean false1);
+
+	List<UserDeatils> findByStores_Name(String storeName);
+
+	List<UserDeatils> findByStores_NameAndRoleRoleNameAndIsActive(String storeName, String roleName, Boolean true1);
+
+	List<UserDeatils> findByStores_NameAndRoleRoleName(String storeName, String roleName);
+
+	List<UserDeatils> findByIsActive(Boolean true1);
+
+	
+
+	List<UserDeatils> findByUserIdInAndIsCustomer(List<Long> userIds, Boolean false1);
+
+	List<UserDeatils> findByIsActiveAndClientDomians_ClientDomainaId(Boolean true1, long clientDomainId);
+
+	List<UserDeatils> findByIsActiveAndClientDomians_ClientId(Boolean true1, long clientDomainId);
 
 
 

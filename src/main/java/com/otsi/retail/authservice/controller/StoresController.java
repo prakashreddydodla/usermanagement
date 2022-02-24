@@ -2,8 +2,8 @@ package com.otsi.retail.authservice.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +20,9 @@ import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
 import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
 import com.otsi.retail.authservice.requestModel.SaveStatesAndDistrictsRequest;
-import com.otsi.retail.authservice.requestModel.StateVo;
 import com.otsi.retail.authservice.requestModel.StoreVo;
-import com.otsi.retail.authservice.services.CognitoAuthServiceImpl;
 import com.otsi.retail.authservice.services.StatesAndDistrctsService;
 import com.otsi.retail.authservice.services.StoreService;
-import com.otsi.retail.authservice.services.StoreServiceImpl;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
@@ -36,7 +33,7 @@ public class StoresController {
 	private StoreService storeService;
 	@Autowired
 	private StatesAndDistrctsService statesAndDistrctsService;
-	private Logger logger = LoggerFactory.getLogger(StoresController.class);
+	private Logger logger = LogManager.getLogger(StoresController.class);
 
 	
 	@PostMapping(EndpointConstants.CREATE_STORE)
