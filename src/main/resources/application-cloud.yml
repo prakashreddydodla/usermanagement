@@ -18,7 +18,7 @@ spring:
   
   datasource:
     platform: postgres
-    url: jdbc:postgresql://10.100.119.97:5432/UserManagement
+    url: jdbc:postgresql://usermanagement-pos:5432/UserManagement
     username: postgres
     password: 12345
     
