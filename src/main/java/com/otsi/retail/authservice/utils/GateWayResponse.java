@@ -3,7 +3,6 @@
  */
 package com.otsi.retail.authservice.utils;
 
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -77,6 +76,7 @@ public class GateWayResponse<T> {
 	 * @param error
 	 */
 
+	
 	public GateWayResponse(final int statusCode, final String message, final String error) {
 		super();
 		// this.status = status;
