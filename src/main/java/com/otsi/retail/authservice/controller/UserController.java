@@ -24,7 +24,11 @@ import com.otsi.retail.authservice.services.CognitoClient;
 import com.otsi.retail.authservice.services.UserService;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
-
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+@Api(value = "UserController", description = "REST APIs related to HsnDetails Entity !!!!")
 @RestController
 @RequestMapping(EndpointConstants.USER)
 public class UserController {
@@ -36,7 +40,10 @@ public class UserController {
 	@Autowired
 	private CognitoClient cognitoClient;
 	private Logger logger = LogManager.getLogger(UserController.class);
-
+	@ApiOperation(value = "getUser", notes = "get user details from db", response = UserDeatils.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserDeatils.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_USER)
 	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest) {
 		try {
@@ -47,6 +54,10 @@ public class UserController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@ApiOperation(value = "getUsersForGivenIds", notes = "get user details for given ids", response = UserDetailsVo.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserDetailsVo.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_USERSFOR_GIVENIDS)
 	public GateWayResponse<?> getUsersForGivenIds(@RequestBody List<Long> userIds) {
 		try {
@@ -58,7 +69,10 @@ public class UserController {
 		}
 	}
 	
-
+	@ApiOperation(value = "getAllUsers", notes = "get  all the user details", response = ListUsersResult.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = ListUsersResult.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ALL_USERS)
 	public GateWayResponse<?> getAllUsers() {
 		try {
@@ -70,7 +84,10 @@ public class UserController {
 
 		}
 	}
-
+	@ApiOperation(value = "getAllUsersByClientId", notes = "get  all the user detailsusing clientId", response = UserListResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserListResponse.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_ID)
 	public GateWayResponse<?> getUsersForClient(@PathVariable String clientId) {
 		try {
@@ -82,7 +99,10 @@ public class UserController {
 
 		}
 	}
-
+	@ApiOperation(value = "getAllUsersByClientDomainId", notes = "get  all the user detailsusing clientId and domainId", response = UserListResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserListResponse.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_DOMIAN)
 	public GateWayResponse<?> getUsersForClientDomianId(@PathVariable String clientDomianId) {
 		try {
@@ -94,6 +114,10 @@ public class UserController {
 
 		}
 	}
+	@ApiOperation(value = "getUserProfile", notes = "get   users based on MobileNumber", response = UserListResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserListResponse.class, responseContainer = "List") })
 	
 	@GetMapping(EndpointConstants.GET_USER_PROFILE)
 	public GateWayResponse<?> getCustomer(@PathVariable String mobileNo) {
@@ -106,7 +130,10 @@ public class UserController {
 
 		}
 	}
-
+	@ApiOperation(value = "getCustomer", notes = "get customer based on mobile number", response = GetCustomerResponce.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = GetCustomerResponce.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_CUSTOMER)
 	public GateWayResponse<?> getCustomer(@PathVariable String feild,@PathVariable String mobileNo) {
 		try {
@@ -119,6 +146,10 @@ public class UserController {
 		}
 	}
 //
+	@ApiOperation(value = "updateUser", notes = "update user record")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "List") })
 	@PutMapping("/updateUser")
 	public GateWayResponse<?> updateUser(@RequestBody UpdateUserRequest req) {
 		try {

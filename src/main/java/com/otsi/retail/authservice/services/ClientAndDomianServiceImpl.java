@@ -86,6 +86,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientEntity.setCreatedDate(LocalDate.now());
 			clientEntity.setLastModifyedDate(LocalDate.now());
 			clientEntity.setCreatedBy(clientVo.getCreatedBy());
+			clientEntity.setOrganizationName(clientVo.getOrganizationName());
 			ClientDetails savedClient = clientDetailsRepo.save(clientEntity);
 			logger.info("############### createClient method ends ###################");
 

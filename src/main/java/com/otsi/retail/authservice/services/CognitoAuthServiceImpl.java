@@ -660,6 +660,9 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.CREATED_BY)) {
 				user.setCreatedBy(a.getValue());
 			}
+			if(a.getName().equalsIgnoreCase(CognitoAtributes.IS_SUPER_ADMIN)) {
+				user.setSuperAdmin(Boolean.valueOf(a.getValue()));
+			}
 		});
 		try {
 			UserDeatils userSaved = userRepo.save(user);

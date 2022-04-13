@@ -217,6 +217,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 								throw new RuntimeException("Given sub privilege not found in master");
 							}
 						});
+						
 						roleEntity.setSubPrivilages(subPrivilageEntites);
 					} else {
 						logger.debug("Atleast one sub privilege is required");

@@ -13,10 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.otsi.retail.authservice.Entity.ColorEntity;
 import com.otsi.retail.authservice.requestModel.ColorCodeVo;
+import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
 import com.otsi.retail.authservice.requestModel.ReportVo;
 import com.otsi.retail.authservice.services.ReportsService;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 
 @RestController
@@ -26,7 +31,10 @@ public class ReportsController {
 	private Logger logger = LogManager.getLogger(ReportsController.class);
 	@Autowired
 	private ReportsService reportsService;
-
+	@ApiOperation(value = "usersByRole", notes = "get users using Roles")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = ReportVo.class, responseContainer = "List") })
 	@GetMapping(path = EndpointConstants.USERS_BY_ROLE)
 	public GateWayResponse<?> UsersByRole(@RequestParam Long clientId) {
 		try {
@@ -40,7 +48,10 @@ public class ReportsController {
 		}
 
 	}
-
+	@ApiOperation(value = "activeVsInactiveUsers", notes = "getting active users and inactive users")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = ReportVo.class, responseContainer = "List") })
 	@GetMapping(path = EndpointConstants.ACTIVE_VS_INACTIVE_USERS)
 	public GateWayResponse<?> ActiveUsers(@RequestParam Long clientId) {
 
@@ -56,7 +67,10 @@ public class ReportsController {
 		}
 
 	}
-
+	@ApiOperation(value = "storesVsEmployees", notes = "getting stores vs employees")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = ReportVo.class, responseContainer = "List") })
 	@GetMapping(path = EndpointConstants.STORES_VS_EMPLOYEES)
 	public GateWayResponse<?> StoresVsEmployees(@RequestParam Long clientId) {
 
