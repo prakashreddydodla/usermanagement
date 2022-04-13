@@ -4,3 +4,4 @@ FROM openjdk:8
 COPY  target/*  target/
 RUN  mv target/*.jar   target/usermanagement.jar
 ENTRYPOINT ["java", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
+
