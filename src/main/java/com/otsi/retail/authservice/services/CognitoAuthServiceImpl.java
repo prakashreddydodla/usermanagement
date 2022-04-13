@@ -192,23 +192,23 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		 * If the user is custmore we need to save user in our local DB not in Cognito
 		 */
 		try {
-			boolean usernameExists = userRepo.existsByUserNameAndIsCustomer(request.getUsername(), Boolean.FALSE);
-			if (usernameExists) {
+			List<UserDeatils> usernameExists = userRepo.existsByUserNameAndIsCustomer(request.getUsername(), Boolean.FALSE);
+			if (!CollectionUtils.isEmpty(usernameExists)) {
 				logger.debug("UserName already exists");
 				logger.error("UserName already exists");
 				throw new RuntimeException("UserName already exists");
 			}
-			boolean userphoneNoExists = userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),
+			List<UserDeatils> userphoneNoExists = userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),
 					Boolean.FALSE);
-			if (userphoneNoExists) {
+			if (!CollectionUtils.isEmpty(userphoneNoExists)) {
 				logger.debug("Mobile Number already exists");
 				logger.error("Mobile Number already exists");
 				throw new RuntimeException("Mobile Number already exists");
 			}
 
-			boolean csutomerPhoneNoExists = userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),
+			List<UserDeatils> csutomerPhoneNoExists = userRepo.existsByPhoneNumberAndIsCustomer(request.getPhoneNumber(),
 					Boolean.TRUE);
-			if (csutomerPhoneNoExists) {
+			if (!CollectionUtils.isEmpty(csutomerPhoneNoExists)) {
 				logger.debug("Customer Phone number already exists");
 				logger.error("Customer Phone number already exists");
 				throw new RuntimeException("Customer Phone number already exists");

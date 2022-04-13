@@ -60,10 +60,10 @@ public class AuthController {
 			res = cognitoAuthService.addRoleToUser(req.getGroupName(), req.getUserName());
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (InvalidParameterException ie) {
-			return new GateWayResponse<>(400, res, "", "false");
+			return new GateWayResponse<>(400, res, ie.getMessage(), "false");
 
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, res, "", "false");
+			return new GateWayResponse<>(400, res, e.getMessage(), "false");
 		}
 
 	}
@@ -229,6 +229,8 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 
+		
+		
 	}
 	@ApiOperation(value = "resetUserPassword", notes = "adminResetPasssword")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
