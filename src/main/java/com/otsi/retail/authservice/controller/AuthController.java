@@ -22,6 +22,7 @@ import com.amazonaws.services.cognitoidp.model.ForgotPasswordResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.proc.BadJOSEException;
+import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.requestModel.AddRoleRequest;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.AssignStoresRequest;
@@ -34,6 +35,10 @@ import com.otsi.retail.authservice.services.CognitoClient;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(EndpointConstants.AUTH)
 public class AuthController {
@@ -43,6 +48,10 @@ public class AuthController {
 	private CognitoClient cognitoClient;
 	//
 	private Logger logger = LogManager.getLogger(AuthController.class);
+	@ApiOperation(value = "addRole", notes = "adding Roles")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Response.class, responseContainer = "Object") })
 	@PostMapping(path = EndpointConstants.ADD_ROLE)
 	public GateWayResponse<?> addRole(@RequestBody AddRoleRequest req) {
 		Response res = null;
@@ -51,13 +60,17 @@ public class AuthController {
 			res = cognitoAuthService.addRoleToUser(req.getGroupName(), req.getUserName());
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (InvalidParameterException ie) {
-			return new GateWayResponse<>(400, res, "", "false");
+			return new GateWayResponse<>(400, res, ie.getMessage(), "false");
 
 		} catch (Exception e) {
-			return new GateWayResponse<>(400, res, "", "false");
+			return new GateWayResponse<>(400, res, e.getMessage(), "false");
 		}
 
 	}
+	@ApiOperation(value = "getUserInfo/{username}", notes = "getting user Details")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Response.class, responseContainer = "Object") })
 
 	@GetMapping(path = EndpointConstants.GET_USER_INFO)
 	public GateWayResponse<?> getUserInfo(@PathVariable String username) {
@@ -82,7 +95,10 @@ public class AuthController {
 
 		}
 	}
-
+	@ApiOperation(value = "assignStores", notes = "assigns stores to users")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Response.class, responseContainer = "Object") })
 	@PostMapping(path = EndpointConstants.ASSIGN_STORES)
 	public GateWayResponse<?> assignStoresToUser(@RequestBody AssignStoresRequest req) throws Exception {
 		logger.info("In ASSIGN_STORES request userName : "+req);
@@ -95,7 +111,10 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-
+	@ApiOperation(value = "createUser", notes = "creating users")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Response.class, responseContainer = "Object") })
 	@PostMapping(path =EndpointConstants.CREATE_USER)
 	public GateWayResponse<?> createUser(@RequestBody AdminCreatUserRequest request) {
 		Response res = new Response();
@@ -108,6 +127,10 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@ApiOperation(value = "authResponce", notes = "newPassword challange")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = AdminRespondToAuthChallengeResult.class, responseContainer = "Object") })
 
 	@PostMapping(path = EndpointConstants.AUTH_RESPONCE)
 	public GateWayResponse<?> newPasswordChallenge(@RequestBody NewPasswordChallengeRequest req) {
@@ -121,6 +144,10 @@ public class AuthController {
 		}
 
 	}
+	@ApiOperation(value = "loginWithTempPass", notes = "loginWith TempPassword")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = AdminInitiateAuthResult.class, responseContainer = "Object") })
 
 	@PostMapping(path = EndpointConstants.LOGIN_WITH_TEMP_PASS)
 	public GateWayResponse<?> loginwithTempPassword(@RequestBody LoginRequest request) {
@@ -139,6 +166,10 @@ public class AuthController {
 		}
 
 	}
+	@ApiOperation(value = "getUserStores/{userName}", notes = "getting stores for users using userName")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "String[]") })
 
 	@GetMapping(path = EndpointConstants.GET_USER_STORES)
 	public GateWayResponse<?> getUserStores(@PathVariable String userName) {
@@ -153,6 +184,10 @@ public class AuthController {
 		}
 
 	}
+	@ApiOperation(value = "forgetPassword", notes = "ForgetPassword")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = ForgotPasswordResult.class, responseContainer = "Object") })
 
 	@PostMapping(path = EndpointConstants.FORGET_PASSWORD)
 	public GateWayResponse<?> forgetPassword(@RequestParam String username) {
@@ -164,7 +199,10 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-
+	@ApiOperation(value = "confirmforgetPassword", notes = "password confirmation")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = ConfirmForgotPasswordResult.class, responseContainer = "Object") })
 	@PostMapping(path = EndpointConstants.CONFIRM_FORGET_PASSWORD)
 	public GateWayResponse<?> confirmForgetPassword(@RequestParam String username,
 			@RequestParam String confirmarionCode,String newPassword) {
@@ -177,7 +215,10 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-
+	@ApiOperation(value = "enabledOrdisabledUser/{user}/{action}", notes = "enabledOrdisabledUser")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "Object") })
 	@PutMapping(EndpointConstants.ENABLE_OR_DISABLE_USER)
 	public GateWayResponse<?> enabledOrdisabledUser(@PathVariable String user, @PathVariable String action) {
 		try {
@@ -188,13 +229,18 @@ public class AuthController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 
+		
+		
 	}
-
+	@ApiOperation(value = "resetUserPassword", notes = "adminResetPasssword")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = AdminResetUserPasswordResult.class, responseContainer = "Object") })
 	@GetMapping(path = EndpointConstants.RESET_USER_PASSWORD)
 	public GateWayResponse<?> adminRestPasssword(@RequestParam String userName) {
 		try {
 			logger.info("In RESET_USER_PASSWORD request userName : "+userName);
-			AdminResetUserPasswordResult		res = cognitoClient.adminresetPassword(userName);
+			AdminResetUserPasswordResult res = cognitoClient.adminresetPassword(userName);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

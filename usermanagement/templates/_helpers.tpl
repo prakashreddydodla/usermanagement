@@ -46,6 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "usermanagement.selectorLabels" -}}
+app.kubernetes.io/pod-communication: "true" 
 app.kubernetes.io/name: {{ include "usermanagement.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

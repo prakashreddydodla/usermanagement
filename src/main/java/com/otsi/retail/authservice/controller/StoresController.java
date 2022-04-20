@@ -26,6 +26,10 @@ import com.otsi.retail.authservice.services.StoreService;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(EndpointConstants.STORE)
 public class StoresController {
@@ -35,7 +39,10 @@ public class StoresController {
 	private StatesAndDistrctsService statesAndDistrctsService;
 	private Logger logger = LogManager.getLogger(StoresController.class);
 
-	
+	@ApiOperation(value = "createStore", notes = "create store")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "String") })
 	@PostMapping(EndpointConstants.CREATE_STORE)
 	public GateWayResponse<?> createStore(@RequestBody StoreVo vo) {
 		try {
@@ -50,6 +57,10 @@ public class StoresController {
 	}
 	
 //
+	@ApiOperation(value = "updateStore", notes = "update store record")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "List") })
 	@PutMapping(EndpointConstants.UPDATE_STORE)
 	public GateWayResponse<?> updateStore(@RequestBody StoreVo vo) {
 		try {
@@ -62,7 +73,10 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-
+	@ApiOperation(value = "getClientDomainStores", notes = "get store details using clientDomainId")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Store.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_CLIENT_DOMIAN_STORES)
 	public GateWayResponse<?> getClientDomianStores(@RequestParam("clientDomianId") long clientDomianId) {
 		try {
@@ -76,6 +90,10 @@ public class StoresController {
 		}
 	}
 	
+	@ApiOperation(value = "getClientStores", notes = "get store details using clientId")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Store.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_CLIENT_STORES)
 	public GateWayResponse<?> getClientStores(@RequestParam("clientId") long clientId) {
 		try {
@@ -88,7 +106,10 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-
+	@ApiOperation(value = "assignStoresToDomain", notes = "assign stores to clientDomain")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "string") })
 	@PutMapping(EndpointConstants.ASSIGN_STORES_TO_DOMIAN)
 	public GateWayResponse<?> assignStoresToDomain(@RequestBody DomianStoresVo vo) {
 		try {
@@ -101,7 +122,10 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-
+	@ApiOperation(value = "getStoresWithFilter", notes = "get store details using search criteria")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Store.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_STORES_WITH_FILTER)
 	public GateWayResponse<?> getStoresWithFilter(@RequestBody GetStoresRequestVo vo ){
 		try {
@@ -114,7 +138,10 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
+	@ApiOperation(value = "saveStates", notes = "saving states and districts Details")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "string") })
 	@PostMapping(EndpointConstants.SAVE_STATES)
 	public GateWayResponse<?> saveStates(@RequestBody SaveStatesAndDistrictsRequest vo ){
 		try {
@@ -127,7 +154,10 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
+	@ApiOperation(value = "allStates", notes = "get all states  Details")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = States.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.ALL_STATES)
 	public GateWayResponse<?> getAllStates( ){
 		try {
@@ -140,7 +170,10 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
+	@ApiOperation(value = "getDistrict", notes = "get Districts for particular state")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Districts.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_DISTRICT)
 	public GateWayResponse<?> getDistrictsOfState(@RequestParam("stateCode") String stateCode){
 		try {
@@ -153,7 +186,10 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
+	@ApiOperation(value = "storeList", notes = "getStoresForGivenIds")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = Store.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_STORELIST)
 	public GateWayResponse<?> getStoresForGivenIds(@RequestBody List<Long> storeIds){
 		try {
@@ -166,6 +202,10 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@ApiOperation(value = "getgstDetails", notes = "getgstDetails")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = GstDetails.class, responseContainer = "object") })
 	@GetMapping(EndpointConstants.GET_GSTDETAILS)
 	public GateWayResponse<?> getGstDetails(@RequestParam("clientId") long clientId,@RequestParam("stateCode") String stateCode) {
 		try {

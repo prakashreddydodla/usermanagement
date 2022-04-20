@@ -5,10 +5,20 @@ server:
 spring:
   application:
     name: user-management-service
+   
+  httpclient:
+     pool:
+       type: fixed
+       max-connections: 10000
+       acquire-timeout: 800000
+       max-life-time: 3000s
+       max-idle-time: 600s
+     connect-timeout: 80000
+     response-timeout: 600s
   
   datasource:
     platform: postgres
-    url: jdbc:postgresql://10.100.119.97:5432/UserManagement
+    url: jdbc:postgresql://usermanagement-pos:5432/UserManagement
     username: postgres
     password: 12345
     
@@ -40,6 +50,8 @@ Cognito:
         idTokenPoolUrl: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_gttd6A4tT
         
 logging:
+ #  file:                      ## modifications start-  suggested by siva.b
+ #    name:                    ## modification end
    level:
       org:
        springframework:
