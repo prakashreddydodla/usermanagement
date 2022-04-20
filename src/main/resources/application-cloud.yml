@@ -50,6 +50,8 @@ Cognito:
         idTokenPoolUrl: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_gttd6A4tT
         
 logging:
+ #  file:                      ## modifications start-  suggested by siva.b
+ #    name:                    ## modification end
    level:
       org:
        springframework:
