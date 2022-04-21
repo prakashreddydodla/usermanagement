@@ -50,13 +50,8 @@ spec:
           #    path: /
           #    port: http
           volumeMounts:
-            - configMap:
-              items:
-              - key: newrelic.yml
-                path: /target/newrelic/newrelic.yml
-              name: newrelic-config
-          #  - name: usermanagement-data
-          #    mountPath: /app/database
+            - name: newrelic-config
+              mountPath: {{ .Values.volumeMounts.mountPath }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -71,7 +66,12 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      #volumes:
+      volumes:
+      - configMap:
+          items:
+          - key: newrelic.yml
+            path: newrelic.yml
+          name: newrelic-config
       #  - name: usermanagement-data
       #  {{- if .Values.persistence.enabled }}
       #    persistentVolumeClaim:
