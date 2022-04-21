@@ -71,7 +71,8 @@ spec:
           items:
           - key: newrelic.yml
             path: newrelic.yml
-          name: newrelic-config
+        name: newrelic-config
+        
       #  - name: usermanagement-data
       #  {{- if .Values.persistence.enabled }}
       #    persistentVolumeClaim:
