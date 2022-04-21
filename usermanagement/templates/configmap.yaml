@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+  namespace: default
+data:
+  newrelic.yml: |-
+    common.license_key: "c3d4c03b07732ef5b79ca544334c54bfFFFFNRAL"
+    common.app_name: {{ include "usermanagement.fullname" . }}
+    common.jfr.enabled: true
+  
+  
+    

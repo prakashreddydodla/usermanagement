@@ -1,0 +1,25 @@
+{
+    "scanExcludes": [
+        "node_modules",
+        "**/.git",
+        "**/pkg/mod/**",
+        "**/.kube",
+        "**/*.swp",
+        ".monokle"
+    ],
+    "fileIncludes": [
+        "*.yaml",
+        "*.yml"
+    ],
+    "folderReadsMaxDepth": 10,
+    "settings": {
+        "helmPreviewMode": "template",
+        "kustomizeCommand": "kubectl",
+        "createDefaultObjects": false,
+        "setDefaultPrimitiveValues": true
+    },
+    "kubeConfig": {
+        "path": "C:\\Users\\rkmad\\.kube\\config",
+        "currentContext": "kmuser@Microservice-K8S-Cluster.ap-south-1.eksctl.io"
+    }
+}

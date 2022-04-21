@@ -49,7 +49,12 @@ spec:
           #  httpGet:
           #    path: /
           #    port: http
-          #volumeMounts:
+          volumeMounts:
+            - configMap:
+              items:
+              - key: newrelic.yml
+                path: /target/newrelic/newrelic.yml
+              name: newrelic-config
           #  - name: usermanagement-data
           #    mountPath: /app/database
           resources:

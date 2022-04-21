@@ -15,4 +15,7 @@ ENV NEW_RELIC_LOG_FILE_NAME="STDOUT"
 RUN sed -i "s/'<%= license_key %>'/'c3d4c03b07732ef5b79ca544334c54bfFFFFNRAL'/g" target/newrelic/newrelic.yml
 RUN sed -i "s/app_name\: My Application/app_name\: usermanagement/g" target/newrelic/newrelic.yml
 
+#clean up 
+RUN 
+
 ENTRYPOINT ["java","-javaagent:target/newrelic/newrelic.jar", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
