@@ -10,4 +10,4 @@ ENV NEW_RELIC_APP_NAME="UserManagement"
 ENV NEW_RELIC_LICENSE_KEY="c3d4c03b07732ef5b79ca544334c54bfFFFFNRAL"
 ENV NEW_RELIC_LOG_FILE_NAME="STDOUT"
 
-ENTRYPOINT ["java","-javaagent:target/newrelic.jar", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
+ENTRYPOINT ["java","-javaagent:~/usermanagement/target/newrelic.jar", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
