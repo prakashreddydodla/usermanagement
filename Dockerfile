@@ -16,7 +16,7 @@ ENV NEW_RELIC_LOG_FILE_NAME="STDOUT"
 # RUN sed -i "s/app_name\: My Application/app_name\: usermanagement/g" target/newrelic/newrelic.yml
 
 # clean up 
-RUN apt remove unzip curl 
+RUN apt remove unzip curl -y
 RUN rm -rf newrelic-java.zip 
 
 ENTRYPOINT ["java","-javaagent:target/newrelic/newrelic.jar", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
