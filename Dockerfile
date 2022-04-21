@@ -11,4 +11,8 @@ ENV NEW_RELIC_APP_NAME="UserManagement"
 ENV NEW_RELIC_LICENSE_KEY="c3d4c03b07732ef5b79ca544334c54bfFFFFNRAL"
 ENV NEW_RELIC_LOG_FILE_NAME="STDOUT"
 
+# Replace License key and application name 
+RUN sed -i "s/'<%= license_key %>'/'c3d4c03b07732ef5b79ca544334c54bfFFFFNRAL'/g" target/newrelic/newrelic.yml
+RUN sed -i "s/app_name\: My Application/app_name\: usermanagement/g" target/newrelic/newrelic.yml
+
 ENTRYPOINT ["java","-javaagent:target/newrelic/newrelic.jar", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
