@@ -106,3 +106,6 @@ persistence:
   storageClass: gp2
   accessMode: ReadWriteOnce
   size: 5Gi
+
+volumeMounts: 
+  mountPath: /target/newrelic/
