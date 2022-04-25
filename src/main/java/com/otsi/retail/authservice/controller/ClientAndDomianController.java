@@ -60,17 +60,14 @@ public class ClientAndDomianController {
 			response = Domain_Master.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_MASTER_DOMAINS)
 	public GateWayResponse<?> getMasterDomians() {
-		try {
+		
 			logger.info("In GET_MASTER_DOMAINS request : ");
 
 			List<Domain_Master> res = clientAndDomianService.getMasterDomains();
 
 			return new GateWayResponse<>(200, res, "", "true");
 
-		} catch (Exception e) {
-			return new GateWayResponse<>(400, null, e.getMessage(), "false");
-
-		}
+		
 	}
 	@ApiOperation(value = "createClient", notes = "create clients")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -111,47 +108,41 @@ public class ClientAndDomianController {
 			response = ClientDomains.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_DOMAINS_FOR_CLIENT)
 	public GateWayResponse<?> getDomiansForClient(@PathVariable String clientId) {
-		try {
+		
 			logger.info("In GET_DOMAINS_FOR_CLIENT request : "+clientId);
 
 			List<ClientDomains> res = clientAndDomianService.getDomainsForClient(Long.parseLong(clientId));
 
 			return new GateWayResponse<>(200, res, "", "true");
-		} catch (Exception e) {
-			return new GateWayResponse<>(400, null, e.getMessage(), "false");
-		}
+		
 	}
 	@ApiOperation(value = "getClient/{clientId}", notes = "get client Details using clientId")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = ClientDetails.class, responseContainer = "Object") })
 	@GetMapping(EndpointConstants.GET_CLIENT)
-	public GateWayResponse<?> getClient(@PathVariable String clientId) {
-		try {
+	public GateWayResponse<?> getClient(@PathVariable String clientId) throws NumberFormatException, Exception {
+		
 			logger.info("In GET_CLIENT request : "+clientId);
 
 			ClientDetails res = clientAndDomianService.getClient(Long.parseLong(clientId));
 
 			return new GateWayResponse<>(200, res, "", "true");
-		} catch (Exception e) {
-			return new GateWayResponse<>(400, null, e.getMessage(), "false");
-		}
+		
 	}
 	@ApiOperation(value = "getAllClients", notes = "get All client Details ")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = ClientDetails.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ALL_CLIENTS)
-	public GateWayResponse<?> getAllClients() {
-		try {
+	public GateWayResponse<?> getAllClients() throws Exception {
+		
 			logger.info("In GET_ALL_CLIENTS request : ");
 
 			List<ClientDetails> res = clientAndDomianService.getAllClient();
 
 			return new GateWayResponse<>(200, res, "", "true");
-		} catch (Exception e) {
-			return new GateWayResponse<>(400, null, e.getMessage(), "false");
-		}
+		
 	}
 	@ApiOperation(value = "domian/{clientDomianId}", notes = "get domains By clientDomainId")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -159,15 +150,13 @@ public class ClientAndDomianController {
 			response = ClientDomains.class, responseContainer = "Object") })
 	@GetMapping(EndpointConstants.GET_DOMIAN_BY_ID)
 	public GateWayResponse<?> getDomianById(@PathVariable String clientDomianId){
-		try {
+		
 			logger.info("In GET_DOMIAN_BY_ID request clientDomianId : "+clientDomianId);
 
 		ClientDomains res = clientAndDomianService.getDomianById(Long.parseLong(clientDomianId));
 
 		return new GateWayResponse<>(200, res, "", "true");
-		} catch (Exception e) {
-			return new GateWayResponse<>(400, null, e.getMessage(), "false");
-		}
+		
 		
 	}
 }

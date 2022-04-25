@@ -322,6 +322,10 @@ public class CognitoClient {
 			userAtributes
 					.add(new AttributeType().withName(CognitoAtributes.ROLE_NAME).withValue(request.getRoleName()));
 		}
+		if (null != request.getCreatedBy()) {
+			userAtributes
+					.add(new AttributeType().withName(CognitoAtributes.CREATED_BY).withValue(String.valueOf(request.getCreatedBy())));
+		}
 
 		if (null != request.getClientDomain()) {
 			userAtributes.add(new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)

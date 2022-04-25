@@ -10,6 +10,6 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 @Repository
 public interface ClientcDomianRepo extends JpaRepository<ClientDomains, Long> {
 
-	Optional<ClientDomains> findByClientDomainaId(long clientDomianId);
+	Optional<ClientDomains> findById(long clientDomianId);
 
 }

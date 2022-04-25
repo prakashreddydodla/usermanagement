@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,7 @@ import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
 import com.otsi.retail.authservice.requestModel.RoleVo;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.requestModel.SubPrivillagesvo;
+import com.otsi.retail.authservice.utils.DateConverters;
 
 @Service
 public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesService {
@@ -59,9 +61,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				privilage.setDiscription(a.getParentPrivillage().getDescription());
 				privilage.setRead(Boolean.TRUE);
 				privilage.setWrite(Boolean.TRUE);
-				privilage.setCreatedDate(LocalDate.now());
+				//privilage.setCreatedDate(LocalDate.now());
 				privilage.setDomian(a.getParentPrivillage().getDomian());
-				privilage.setLastModifyedDate(LocalDate.now());
+				//privilage.setLastModifyedDate(LocalDate.now());
 
 				privilage.setParentImage(a.getParentPrivillage().getParentImage());
 				privilage.setPath(a.getParentPrivillage().getPath());
@@ -71,8 +73,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						SubPrivillage subPrivillage = new SubPrivillage();
 						subPrivillage.setName(b.getName());
 						subPrivillage.setDescription(b.getDescription());
-						subPrivillage.setCreatedDate(LocalDate.now());
-						subPrivillage.setModifyDate(LocalDate.now());
+						/*//subPrivillage.setCreatedDate(LocalDate.now());
+						subPrivillage.setModifyDate(LocalDate.now());*/
 						subPrivillage.setChildPath(b.getChildPath());
 						subPrivillage.setChildImage(b.getChildImage());
 						subPrivillage.setParentPrivillageId(parentPrivillage.getId());
@@ -94,8 +96,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			subPrivillage.setName(vo.getName());
 			subPrivillage.setDescription(vo.getDescription());
 			subPrivillage.setParentPrivillageId(vo.getParentId());
-			subPrivillage.setCreatedDate(LocalDate.now());
-			subPrivillage.setModifyDate(LocalDate.now());
+			/*subPrivillage.setCreatedDate(LocalDate.now());
+			subPrivillage.setModifyDate(LocalDate.now());*/
 			subPrivillageRepo.save(subPrivillage);
 			return "Sub privillege is created";
 		} catch (Exception e) {
@@ -114,7 +116,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			parentPrivillagesVo.setId(p.getId());
 			parentPrivillagesVo.setName(p.getName());
 			parentPrivillagesVo.setDescription(p.getDiscription());
-			parentPrivillagesVo.setLastModifyedDate(p.getLastModifyedDate());
+			parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
 			parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
 			List<SubPrivillage> subPrivillages = subPrivillageRepo.findByParentPrivillageId(p.getId());
 			if (!CollectionUtils.isEmpty(subPrivillages)) {
@@ -158,8 +160,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		Role dbResult = null;
 		roleEntity.setDiscription(role.getDescription());
 		roleEntity.setRoleName(role.getRoleName());
-		roleEntity.setCreatedDate(LocalDate.now());
-		roleEntity.setCreatedBy(role.getCreatedBy());
+		/*roleEntity.setCreatedDate(LocalDate.now());
+		roleEntity.setCreatedBy(role.getCreatedBy());*/
 		List<ParentPrivilages> parentPrivilageEntites = new ArrayList<>();
 		List<SubPrivillage> subPrivilageEntites = new ArrayList<>();
 		boolean isExits = roleRepository.existsByRoleNameIgnoreCase(role.getRoleName());
@@ -234,7 +236,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					CreateGroupResult cognitoResult = cognitoClient.createRole(role);
 					if (cognitoResult.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 						logger.info("############### Create Role method End ###################");
-						return "Role was Created with Id :" + dbResult.getRoleId();
+						return "Role was Created with Id :" + dbResult.getId();
 					}
 				} else {
 					logger.debug("Customer is not a role");
@@ -287,7 +289,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
       List<RoleVo> rolevo= new ArrayList<>();
 		try {
 			logger.info("getRolesForClientDomian method Starts");
-			List<Role> roles = roleRepository.findByClientDomian_clientDomainaId(clientId);
+			List<Role> roles = roleRepository.findByClientDomianId(clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
 				logger.info("############### getRolesForClientDomian method ends ###################");
 				roles.stream().forEach(r -> {
@@ -362,7 +364,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		List<RoleVo> rolevo = new ArrayList<RoleVo>();
 		
 		if(null != req.getRoleName()&&null != req.getCreatedDate()&& null!= req.getCreatedBy()){
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndCreatedDate(req.getRoleName(),req.getCreatedBy(),req.getCreatedDate());
+			LocalDateTime createddate = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+			
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndCreatedDate(req.getRoleName(),req.getCreatedBy(),createddate);
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -384,7 +388,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			
 		}
 		if(null != req.getRoleName()&&null != req.getCreatedDate()&& null== req.getCreatedBy()){
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDate(req.getRoleName(),req.getCreatedDate());
+			LocalDateTime createdDate = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDate(req.getRoleName(),createdDate);
+
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -428,7 +435,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			
 		}
 		if(null == req.getRoleName()&&null != req.getCreatedDate()&& null!= req.getCreatedBy()){
-			List<Role> roles = roleRepository.findByCreatedByAndCreatedDate(req.getCreatedBy(),req.getCreatedDate());
+			LocalDateTime createdDate = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+
+			List<Role> roles = roleRepository.findByCreatedByAndCreatedDate(req.getCreatedBy(),createdDate);
 			if (!CollectionUtils.isEmpty(roles)) {
 				
 				roles.stream().forEach(r -> {
@@ -472,7 +481,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			}
 		}
 
-		if (null != req.getCreatedBy() && "" != req.getCreatedBy()) {
+		if (null != req.getCreatedBy() && 0l!= req.getCreatedBy()) {
+
 			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
 			if (!CollectionUtils.isEmpty(roles)) {
 
@@ -524,12 +534,12 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		// Role roleEntity = new Role();
 		//Role dbResult = null;
 		try {
-			Optional<Role> roleOptional = roleRepository.findByRoleId(request.getRoleId());
+			Optional<Role> roleOptional = roleRepository.findById(request.getRoleId());
 			Role roleEntity = roleOptional.get();
-			roleEntity.setRoleId(request.getRoleId());
+			roleEntity.setId(request.getRoleId());
 			roleEntity.setDiscription(request.getDescription());
 			roleEntity.setRoleName(request.getRoleName());
-			roleEntity.setLastModifyedDate(LocalDate.now());
+			//roleEntity.setLastModifyedDate(LocalDate.now());
 			roleEntity.setModifiedBy(request.getCreatedBy());
 			List<ParentPrivilages> parentPrivilageEntites = new ArrayList<>();
 			List<SubPrivillage> subPrivilageEntites = new ArrayList<>();
@@ -614,7 +624,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			parentPrivillagesVo.setId(p.getId());
 			parentPrivillagesVo.setName(p.getName());
 			parentPrivillagesVo.setDescription(p.getDiscription());
-			parentPrivillagesVo.setLastModifyedDate(p.getLastModifyedDate());
+			parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
 			parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
 			parentPrivillagesVo.setDomian(p.getDomian());
 			List<SubPrivillage> subPrivillages = subPrivillageRepo.findByParentPrivillageId(p.getId());

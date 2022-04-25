@@ -4,6 +4,7 @@
 package com.otsi.retail.authservice.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,25 +22,25 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	Optional<Role> findByRoleName(String roleName);
 
-	List<Role> findByClientDomian_clientDomainaId(long clientId);
+	List<Role> findByClientDomianId(long clientId);
 
 	List<Role> findByClientDomian_client_Id(long clientId);
 
 	boolean existsByRoleNameIgnoreCase(String roleName);
 
-	List<Role> findByCreatedBy(String string);
+	List<Role> findByCreatedBy(Long long1);
 
 	List<Role> findByCreatedDate(LocalDate createdDate);
 
-	Optional<Role> findByRoleId(long roleId);
+	Optional<Role> findById(long roleId);
 
-	Optional<Role> findByRoleNameAndCreatedByAndCreatedDate(String roleName, String createdBy, LocalDate createdDate);
+	Optional<Role> findByRoleNameAndCreatedByAndCreatedDate(String roleName, Long string, LocalDateTime localDate);
 
-	Optional<Role> findByRoleNameAndCreatedDate(String roleName, LocalDate createdDate);
+	Optional<Role> findByRoleNameAndCreatedDate(String roleName, LocalDateTime createdDate);
 
-	Optional<Role> findByRoleNameAndCreatedBy(String roleName, String createdBy);
+	Optional<Role> findByRoleNameAndCreatedBy(String roleName, Long createdBy);
 
-	List<Role> findByCreatedByAndCreatedDate(String createdBy, LocalDate createdDate);
+	List<Role> findByCreatedByAndCreatedDate(Long createdBy, LocalDateTime createdDate);
 
 	
 

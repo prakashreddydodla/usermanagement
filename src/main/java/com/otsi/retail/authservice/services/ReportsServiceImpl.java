@@ -82,7 +82,7 @@ public class ReportsServiceImpl implements ReportsService {
 	public List<ReportVo> StoresVsEmployees(Long clientId) throws Exception {
 		try {
 			List<ReportVo> rvo = new ArrayList<ReportVo>();
-			List<Store> stores = storeRepo.findAll();
+			List<Store> stores = storeRepo.findByClientDomianlId_Client_Id(clientId);
 			List<String> storeName = stores.stream().map(a -> a.getName()).distinct().collect(Collectors.toList());
 			Long storesCount = storeName.stream().count();
 			List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndIsCustomer(clientId, Boolean.FALSE);

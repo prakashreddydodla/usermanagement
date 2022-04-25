@@ -222,7 +222,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setGender(request.getGender());
 				user.setCreatedBy(request.getCreatedBy());
 
-				user.setCustomer(Boolean.TRUE);
+				user.setIsCustomer(Boolean.TRUE);
 
 				 userRepo.save(user);
 				res.setBody("Saved Sucessfully");
@@ -388,8 +388,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				if (res.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 					Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
 					UserDeatils user = userOptional.get();
-					user.setActive(Boolean.TRUE);
-					user.setLastModifyedDate(LocalDate.now());
+					user.setIsActive(Boolean.TRUE);
+					//user.setLastModifyedDate(LocalDate.now());
 					userRepo.save(user);
 
 					logger.info("########### enable user method ends   ######");
@@ -403,8 +403,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				if (res.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 					Optional<UserDeatils> userOptional = userRepo.findByUserName(userName);
 					UserDeatils user = userOptional.get();
-					user.setActive(Boolean.FALSE);
-					user.setLastModifyedDate(LocalDate.now());
+					user.setIsActive(Boolean.FALSE);
+					//user.setLastModifyedDate(LocalDate.now());
 					userRepo.save(user);
 					logger.info("########### disable user method ends   ######");
 
@@ -646,10 +646,10 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		logger.info("###############   Saving user object in database method starts  ###########");
 
 		UserDeatils user = new UserDeatils();
-		user.setCreatedDate(LocalDate.now());
-		user.setLastModifyedDate(LocalDate.now());
+		/*user.setCreatedDate(LocalDate.now());
+		user.setLastModifyedDate(LocalDate.now());*/
 		user.setUserName(userName);
-		user.setActive(enable);
+		user.setIsActive(enable);
 		attributes.stream().forEach(a -> {
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.GENDER)) {
 				user.setGender(a.getValue());
@@ -658,10 +658,10 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setPhoneNumber(a.getValue());
 			}
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.CREATED_BY)) {
-				user.setCreatedBy(a.getValue());
+				user.setCreatedBy(Long.valueOf(a.getValue()));
 			}
 			if(a.getName().equalsIgnoreCase(CognitoAtributes.IS_SUPER_ADMIN)) {
-				user.setSuperAdmin(Boolean.valueOf(a.getValue()));
+				user.setIsSuperAdmin(Boolean.valueOf(a.getValue()));
 			}
 		});
 		try {
@@ -745,7 +745,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());
 				long roleId = 0L;
 				if (role.isPresent()) {
-					roleId = role.get().getRoleId();
+					roleId = role.get().getId();
 				}
 				logger.info("###############    Save the confirmed user into Userdetails table in Usermangement DB    ###########"+req.getUserName());
 

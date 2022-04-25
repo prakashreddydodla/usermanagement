@@ -12,11 +12,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateRoleRequest {
-private long roleId; //this feild is required for when updating role
+private Long roleId; //this feild is required for when updating role
 private String roleName;
 private String description;
-private long  clientDomianId;
-private String createdBy;
+private Long  clientDomianId;
+private Long createdBy;
 private List<ParentPrivilageVo> parentPrivilages;
 private List<SubPrivillagesvo> subPrivillages;
 }

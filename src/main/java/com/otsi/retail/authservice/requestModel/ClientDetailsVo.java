@@ -11,12 +11,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientDetailsVo {
-	private long id;
+	private Long id;
 	private String name;
 	private String organizationName;
 	private String address;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private String createdBy;
+	private Long createdBy;
 	//private List<ClientDomianVo> channelId;
 }

@@ -23,20 +23,20 @@ import lombok.NoArgsConstructor;
 public class ParentPrivilages extends BaseEntity {
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
-private long id;
+private Long id;
 private String name;
 private String discription;
-private boolean read;
-private boolean write;
+private Boolean read;
+private Boolean write;
 private String path;
 private String parentImage;
 @JsonIgnore
 @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "parentPrivilages")
 private List<Role> roleId;
 private int domian;
-private LocalDate createdDate;
-private LocalDate lastModifyedDate;
-private long createdBy;
-private String modifiedBy;
+/*private LocalDate createdDate;
+private LocalDate lastModifyedDate;*/
+//private Long createdBy;
+//private Long modifiedBy;
 
 }

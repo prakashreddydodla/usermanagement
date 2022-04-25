@@ -1,6 +1,6 @@
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,18 +13,18 @@ import lombok.Data;
 
 @Entity
 @Data
-public class ClientDetails  {
+public class ClientDetails extends BaseEntity  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	@Column(unique = true)
 	private String name;
 	private String organizationName;
 	private String address;
-	private LocalDate createdDate;
+	/*private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
-	private String modifiedBy;
+	private String modifiedBy;*/
 	private boolean isActive;
 
 	
