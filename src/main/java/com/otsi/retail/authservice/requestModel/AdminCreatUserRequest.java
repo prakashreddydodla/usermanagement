@@ -34,6 +34,6 @@ public class AdminCreatUserRequest {
 	private int[] clientDomain;
 	private String isCustomer;
 	private String isSuperAdmin;
-	private String createdBy;
+	private Long createdBy;
 	private String roleName;
 }

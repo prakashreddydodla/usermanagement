@@ -28,18 +28,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Role  {
+public class Role extends BaseEntity  {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long roleId;
+	private Long id;
 	@Column(unique=true)
 	private String roleName;
 	private String discription;
-	private LocalDate createdDate;
+	/*private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
-	private String modifiedBy;
+	private String modifiedBy;*/
 	private boolean isActive;
 	
 	

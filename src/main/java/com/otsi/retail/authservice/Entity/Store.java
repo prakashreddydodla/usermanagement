@@ -20,24 +20,24 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Store  {
+public class Store extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	private String name;
-	private long stateId;
+	private Long stateId;
 	private String stateCode;
-	private long districtId;
+	private Long districtId;
 	private String cityId;
 	private String area;
 	private String address;
 	private String phoneNumber;
-	private LocalDate createdDate;
+	/*private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
-	private String modifiedBy;
-	private boolean isActive;
+	private String modifiedBy;*/
+	private Boolean isActive;
 
 	
 	@OneToOne

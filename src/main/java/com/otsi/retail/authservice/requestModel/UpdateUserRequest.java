@@ -15,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UpdateUserRequest {
 
-	private long userId;
+	private Long userId;
 	private String email;
 	private String phoneNumber;
 	private String birthDate;
@@ -33,7 +33,7 @@ public class UpdateUserRequest {
 	private String clientId;
 	private String isConfigUser;
 	private int[] clientDomain;
-	private boolean isCustomer;
+	private Boolean isCustomer;
 	private String isSuperAdmin;
 	private String createBy;
 	private String roleName;

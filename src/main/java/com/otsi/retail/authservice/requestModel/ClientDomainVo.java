@@ -1,6 +1,6 @@
 package com.otsi.retail.authservice.requestModel;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Data;
@@ -9,13 +9,13 @@ import lombok.Data;
 @Data
 public class ClientDomainVo {
 
-	private long clientDomainaId;
+	private Long id;
 	private String domaiName;
 	private String discription;
-	private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private String createdBy;
-	private String modifiedBy;
+	private LocalDateTime createdDate;
+	private LocalDateTime lastModifyedDate;
+	private Long createdBy;
+	private Long modifiedBy;
 	private boolean isActive;
 	
 	private List<MasterDomianVo> domainMasterVo;

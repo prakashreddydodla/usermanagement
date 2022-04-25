@@ -26,11 +26,11 @@ public class RoleMapper {
 		vo.setCreatedDate(role.getCreatedDate());
 		vo.setModifiedBy(role.getModifiedBy());
 		vo.setDiscription(role.getDiscription());
-		vo.setRoleId(role.getRoleId());
-		vo.setLastModifyedDate(role.getLastModifyedDate());
+		vo.setId(role.getId());
+		vo.setLastModifyedDate(role.getLastModifiedDate());
 		vo.setCreatedBy(role.getCreatedBy());
 		vo.setActive(role.isActive());
-		vo.setUsersCount(userRepo.countByRoleRoleId(role.getRoleId()));
+		vo.setUsersCount(userRepo.countByRoleId(role.getId()));
 		List<ParentPrivilegesVo> plvo = new ArrayList<>();
 		
 		role.getParentPrivilages().stream().forEach(p -> {
@@ -64,12 +64,12 @@ public class RoleMapper {
 
 		vo.setSubPrivilageVo(slvo);
 		ClientDomainVo cdVo= new ClientDomainVo();
-		cdVo.setClientDomainaId(role.getClientDomian().getClientDomainaId());
+		cdVo.setId(role.getClientDomian().getId());
 		cdVo.setCreatedBy(role.getClientDomian().getCreatedBy());
 		cdVo.setCreatedDate(role.getClientDomian().getCreatedDate());
 		cdVo.setDiscription(role.getClientDomian().getDiscription());
 		cdVo.setDomaiName(role.getClientDomian().getDomaiName());
-		cdVo.setLastModifyedDate(role.getClientDomian().getLastModifyedDate());
+		cdVo.setLastModifyedDate(role.getClientDomian().getLastModifiedDate());
 		cdVo.setModifiedBy(role.getClientDomian().getModifiedBy());
 		cdVo.setActive(role.getClientDomian().isActive());
 		
@@ -82,7 +82,7 @@ public class RoleMapper {
 			mVo.setCreatedDate(m.getCreatedDate());
 			mVo.setDiscription(m.getDiscription());
 			mVo.setId(m.getId());
-			mVo.setLastModifyedDate(m.getLastModifyedDate());
+			mVo.setLastModifyedDate(m.getLastModifiedDate());
 			mVo.setStatus(m.isStatus());
 			mdVo.add(mVo);
 			

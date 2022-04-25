@@ -26,22 +26,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDeatils  {
+public class UserDeatils extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;//
+	private Long userId;
 	private String userName;
 	@Column(unique = true)
 	private String phoneNumber;
 	private String gender;
-	private LocalDate createdDate;
+	/*private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private String createdBy;
-	private boolean isActive;
-	private boolean isSuperAdmin;
-	private boolean isCustomer;
-	private String modifiedBy;
+	private String createdBy;*/
+	private Boolean isActive;
+	private Boolean isSuperAdmin;
+	private Boolean isCustomer;
+	//private String modifiedBy;
 	@ManyToOne
 	@JoinColumn(name = "roleId")
 	private Role role;
