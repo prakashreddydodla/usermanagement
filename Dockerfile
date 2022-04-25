@@ -10,7 +10,7 @@ RUN mv newrelic  target/newrelic
 COPY newrelic.yml  target/newrelic/newrelic.yml
 
 ENV NEW_RELIC_APP_NAME="UserManagement"
-ENV NEW_RELIC_LICENSE_KEY="c3d4c03b07732ef5b79ca544334c54bfFFFFNRAL"
+ENV NEW_RELIC_LICENSE_KEY="4dacb6025e2eadaedd6562a3ea9f48d5FFFFNRAL"
 ENV NEW_RELIC_LOG_FILE_NAME="STDOUT"
 
 # clean up 
