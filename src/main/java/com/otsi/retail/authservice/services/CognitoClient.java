@@ -331,6 +331,9 @@ public class CognitoClient {
 			userAtributes.add(new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
 					.withValue(clientDomiansConvertTostring(request.getClientDomain())));
 		}
+		if (null != request.getUserId()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.USER_ID).withValue(String.valueOf(request.getUserId())));
+		}
 
 		try {
 			createUserRequest.setUserAttributes(userAtributes);

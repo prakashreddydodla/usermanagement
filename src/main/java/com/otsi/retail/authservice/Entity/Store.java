@@ -37,7 +37,7 @@ public class Store extends BaseEntity {
 	private LocalDate lastModifyedDate;
 	private String createdBy;
 	private String modifiedBy;*/
-	private Boolean isActive;
+	private Boolean isActive =Boolean.FALSE;
 
 	
 	@OneToOne

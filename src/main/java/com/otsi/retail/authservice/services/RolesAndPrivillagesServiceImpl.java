@@ -1,10 +1,10 @@
 package com.otsi.retail.authservice.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -160,8 +160,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		Role dbResult = null;
 		roleEntity.setDiscription(role.getDescription());
 		roleEntity.setRoleName(role.getRoleName());
-		/*roleEntity.setCreatedDate(LocalDate.now());
-		roleEntity.setCreatedBy(role.getCreatedBy());*/
+		//roleEntity.setCreatedDate(LocalDate.now());
+		roleEntity.setCreatedBy(role.getCreatedBy());
 		List<ParentPrivilages> parentPrivilageEntites = new ArrayList<>();
 		List<SubPrivillage> subPrivilageEntites = new ArrayList<>();
 		boolean isExits = roleRepository.existsByRoleNameIgnoreCase(role.getRoleName());
@@ -204,7 +204,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					} else {
 						logger.debug("Atleast one parent privilege is required");
 						logger.error("Atleast one parent privilege is required");
-						throw new Exception("Atleast one parent privilege is required");
+						throw new Exception("Atleast one  privilege is required");
 					}
 
 					if (!CollectionUtils.isEmpty(role.getSubPrivillages())) {
@@ -216,7 +216,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							} else {
 								logger.debug("Given sub privilege not found in master");
 								logger.error("Given sub privilege not found in master");
-								throw new RuntimeException("Given sub privilege not found in master");
+								throw new RuntimeException("Given  privilege not found in master");
 							}
 						});
 						
@@ -224,7 +224,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					} else {
 						logger.debug("Atleast one sub privilege is required");
 						logger.error("Atleast one sub privilege is required");
-						throw new Exception("Atleast one sub privilege is required");
+						throw new Exception("Atleast one  privilege is required");
 					}
 
 					dbResult = roleRepository.save(roleEntity);
@@ -387,10 +387,13 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			}
 			
 		}
-		if(null != req.getRoleName()&&null != req.getCreatedDate()&& null== req.getCreatedBy()){
-			LocalDateTime createdDate = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
 
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDate(req.getRoleName(),createdDate);
+		if(null != req.getRoleName()&&null != req.getCreatedDate()&& null== req.getCreatedBy()){
+			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
+
+
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDateBetween(req.getRoleName(),createdDatefrom,createdDateTo);
 
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
@@ -435,9 +438,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			
 		}
 		if(null == req.getRoleName()&&null != req.getCreatedDate()&& null!= req.getCreatedBy()){
-			LocalDateTime createdDate = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
 
-			List<Role> roles = roleRepository.findByCreatedByAndCreatedDate(req.getCreatedBy(),createdDate);
+
+			List<Role> roles = roleRepository.findByCreatedByAndCreatedDateBetween(req.getCreatedBy(),createdDatefrom,createdDateTo);
 			if (!CollectionUtils.isEmpty(roles)) {
 				
 				roles.stream().forEach(r -> {
@@ -505,7 +510,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 
 		if (null != req.getCreatedDate()) {
-			List<Role> roles = roleRepository.findByCreatedDate(req.getCreatedDate());
+			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
+
+			List<Role> roles = roleRepository.findByCreatedDateBetween(createdDatefrom,createdDateTo);
 			if (!CollectionUtils.isEmpty(roles)) {
 				roles.stream().forEach(r -> {
 

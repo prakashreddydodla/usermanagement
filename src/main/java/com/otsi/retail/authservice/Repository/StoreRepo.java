@@ -12,7 +12,7 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 	List<Store> findByName(String storeName);
 
 
-	List<Store> findByClientDomianlId_Id(long clientId);
+	List<Store> findByClientDomianlIdId(long clientId);
 	List<Store> findByClientDomianlId_Client_Id(long clientId);
 
 

@@ -100,7 +100,7 @@ public class StoresController {
 		try {
 			logger.info("In GET_CLIENT_STORES request clientId : " + clientId);
 
-			List<Store> res = storeService.getStoresForClient(clientId);
+			List<StoreVo> res = storeService.getStoresForClient(clientId);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {

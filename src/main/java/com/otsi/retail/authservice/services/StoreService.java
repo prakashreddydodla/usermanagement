@@ -14,7 +14,7 @@ public interface StoreService {
 
 	 String createStore(StoreVo vo) throws Exception;
 	 List<Store> getStoresForClientDomian(long clientDomianId) throws Exception;
-	 List<Store> getStoresForClient(long clientId) throws Exception;
+	 List<StoreVo> getStoresForClient(long clientId) throws Exception;
 	 String assignStoreToClientDomain(DomianStoresVo vo) throws Exception;
 	 List<Store> getStoresOnFilter(GetStoresRequestVo vo,Long clientId);
 	 String updateStore(StoreVo vo) throws RuntimeException, Exception;

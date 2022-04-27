@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.otsi.retail.authservice.Entity.Role;
@@ -19,7 +20,8 @@ import com.otsi.retail.authservice.Entity.Role;
  */
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-
+	
+	//@Query(value="select * from role WHERE role_name LIKE '---'" ,nativeQuery=true)
 	Optional<Role> findByRoleName(String roleName);
 
 	List<Role> findByClientDomianId(long clientId);
@@ -30,7 +32,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	List<Role> findByCreatedBy(Long long1);
 
-	List<Role> findByCreatedDate(LocalDate createdDate);
+	List<Role> findByCreatedDate(LocalDateTime createdDate);
 
 	Optional<Role> findById(long roleId);
 
@@ -41,6 +43,14 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 	Optional<Role> findByRoleNameAndCreatedBy(String roleName, Long createdBy);
 
 	List<Role> findByCreatedByAndCreatedDate(Long createdBy, LocalDateTime createdDate);
+
+	List<Role> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
+
+	Optional<Role> findByRoleNameAndCreatedDateBetween(String roleName, LocalDateTime createdDatefrom,
+			LocalDateTime createdDateTo);
+
+	List<Role> findByCreatedByAndCreatedDateBetween(Long createdBy, LocalDateTime createdDatefrom,
+			LocalDateTime createdDateTo);
 
 	
 

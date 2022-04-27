@@ -34,7 +34,7 @@ public class ReportsServiceImpl implements ReportsService {
 			List<Role> role = roleRepo.findAll();
 			List<String> roleName = role.stream().map(a -> a.getRoleName()).distinct().collect(Collectors.toList());
 			roleName.stream().forEach(r -> {
-				List<UserDeatils> users = userRepo.findByclientDomians_clientIdAndRoleRoleNameAndIsCustomer(clientId, r,
+				List<UserDeatils> users = userRepo.findByClientDomiansClientIdAndRoleRoleNameAndIsCustomer(clientId, r,
 						Boolean.FALSE);
 				Long usersCount = users.stream().map(a -> a.getUserId()).count();
 

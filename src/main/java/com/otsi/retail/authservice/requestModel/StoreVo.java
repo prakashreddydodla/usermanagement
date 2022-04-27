@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.requestModel;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,13 @@ public class StoreVo {
 	private String area;
 	private String address;
 	private String phoneNumber;
-	private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
+	private LocalDateTime createdDate;
+	private LocalDateTime lastModifyedDate;
 	private Long createdBy;
+	private String userName;
 	private UserDetailsVo storeOwner;
 	private Long domainId;
+	private String domainName;
 	private String gstNumber;
 	private Long clientId;
 	//private List<UserDetailsVo> storeUsers;

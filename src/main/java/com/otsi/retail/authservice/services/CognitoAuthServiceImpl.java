@@ -215,16 +215,16 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 			}
 
-			if (null != request.getIsCustomer() && request.getIsCustomer().equalsIgnoreCase("true")) {
+			if (null != request.getIsCustomer() && request.getIsCustomer()) {
 				UserDeatils user = new UserDeatils();
 				user.setUserName(request.getUsername());
 				user.setPhoneNumber(request.getPhoneNumber());
 				user.setGender(request.getGender());
 				user.setCreatedBy(request.getCreatedBy());
-
 				user.setIsCustomer(Boolean.TRUE);
-
-				 userRepo.save(user);
+				user= userRepo.save(user);
+				request.setUserId(user.getUserId());
+				 
 				res.setBody("Saved Sucessfully");
 				res.setStatusCode(200);
 				return res;
@@ -266,7 +266,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				}
 				if (null == request.getIsCustomer()) {
 					// missingFileds.add("IsCustomer");
-					request.setIsCustomer("false");
+					request.setIsCustomer(Boolean.FALSE);
 				}
 				if (null == request.getIsSuperAdmin()) {
 					missingFileds.add("IsSuperAdmin");

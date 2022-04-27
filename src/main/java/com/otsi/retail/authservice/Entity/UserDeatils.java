@@ -38,9 +38,9 @@ public class UserDeatils extends BaseEntity {
 	/*private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;*/
-	private Boolean isActive;
+	private Boolean isActive = Boolean.FALSE;
 	private Boolean isSuperAdmin;
-	private Boolean isCustomer;
+	private Boolean isCustomer = Boolean.FALSE;
 	//private String modifiedBy;
 	@ManyToOne
 	@JoinColumn(name = "roleId")
