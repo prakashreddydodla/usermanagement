@@ -359,7 +359,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	}
 
 	@Override
-	public List<RoleVo> getRolesWithFilter(RolesFilterRequest req) throws RuntimeException {
+	public List<RoleVo> getRolesWithFilter(RolesFilterRequest req, Long clientId) throws RuntimeException {
 		logger.info("############### getRolesWithFilter method starts ###################");
 		List<RoleVo> rolevo = new ArrayList<RoleVo>();
 		
@@ -513,7 +513,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
 			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
 
-			List<Role> roles = roleRepository.findByCreatedDateBetween(createdDatefrom,createdDateTo);
+			List<Role> roles = roleRepository.findByCreatedDateBetweenAndClientDomian_Client_Id(createdDatefrom,createdDateTo,clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
 				roles.stream().forEach(r -> {
 

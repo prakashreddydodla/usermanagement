@@ -44,7 +44,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	List<Role> findByCreatedByAndCreatedDate(Long createdBy, LocalDateTime createdDate);
 
-	List<Role> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
+	List<Role> findByCreatedDateBetweenAndClientDomian_Client_Id(LocalDateTime createdDatefrom, LocalDateTime createdDateTo,Long clientId);
 
 	Optional<Role> findByRoleNameAndCreatedDateBetween(String roleName, LocalDateTime createdDatefrom,
 			LocalDateTime createdDateTo);

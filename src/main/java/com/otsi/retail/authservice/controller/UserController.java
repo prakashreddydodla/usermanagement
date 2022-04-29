@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,10 +46,10 @@ public class UserController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = UserDeatils.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_USER)
-	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest) {
+	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest,@RequestHeader("userId") Long userId) {
 		try {
 			logger.info("In GET_USER request : "+userRequest.toString());
-			List<UserDeatils> res = userService.getUserFromDb(userRequest);
+			List<UserDeatils> res = userService.getUserFromDb(userRequest,userId);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

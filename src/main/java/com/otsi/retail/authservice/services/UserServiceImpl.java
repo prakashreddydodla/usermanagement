@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	private CognitoClient cognitoClient;
 	private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-	public List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest) throws Exception {
+	public List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest,Long userId) throws Exception {
 		logger.info(" ###############  getUserFromDb method starts  ##############3");
 		List<UserDeatils> users = new ArrayList<>();
 		if (0l != userRequest.getId()) {
@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if (null != userRequest.getRoleName() && !userRequest.isActive() && !userRequest.isInActive()) {
-			users = userRepo.findByRoleRoleName(userRequest.getRoleName());
+			users = userRepo.findByRoleRoleNameAndUserId(userRequest.getRoleName(),userId);
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		if (null != userRequest.getStoreName() && userRequest.isActive()) {
-			users = userRepo.findByStores_NameAndIsActive(userRequest.getStoreName(), Boolean.TRUE);
+			users = userRepo.findByStores_NameAndIsActiveAndUserId(userRequest.getStoreName(), Boolean.TRUE,userId);
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
@@ -186,21 +186,21 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if (null != userRequest.getStoreName() && userRequest.isInActive()) {
-			users = userRepo.findByStores_NameAndIsActive(userRequest.getStoreName(), Boolean.FALSE);
+			users = userRepo.findByStores_NameAndIsActiveAndUserId(userRequest.getStoreName(), Boolean.FALSE,userId);
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.debug("No users found with this storeName : " + userRequest.getStoreName());
+				logger.error("No users found with this storeName : " + userRequest.getStoreName());
+				throw new RuntimeException("No users found with this storeName : " + userRequest.getStoreName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (null != userRequest.getStoreName() && !userRequest.isActive() && !userRequest.isInActive()) {
-			users = userRepo.findByStores_Name(userRequest.getStoreName());
+			users = userRepo.findByStores_NameAndUserId(userRequest.getStoreName(),userId);
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.debug("No users found with this storeName : " + userRequest.getStoreName());
+				logger.error("No users found with this Role ID : " + userRequest.getStoreName());
+				throw new RuntimeException("No users found with this storeName : " + userRequest.getStoreName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;

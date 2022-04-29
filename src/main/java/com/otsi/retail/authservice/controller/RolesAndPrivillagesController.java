@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -190,10 +191,10 @@ public class RolesAndPrivillagesController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = RoleVo.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.ROLES_WITH_FILTER)
-	public GateWayResponse<?> getRolesWithFilter(@RequestBody RolesFilterRequest req) {
+	public GateWayResponse<?> getRolesWithFilter(@RequestBody RolesFilterRequest req,@RequestHeader("clientId") Long clientId) {
 		try {
 			logger.info("In ROLES_WITH_FILTER request  : " + req);
-			List<RoleVo> res = rolesAndPrivillagesService.getRolesWithFilter(req);
+			List<RoleVo> res = rolesAndPrivillagesService.getRolesWithFilter(req,clientId);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (RuntimeException re) {

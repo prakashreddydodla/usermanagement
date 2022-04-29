@@ -76,11 +76,11 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByRoleRoleNameAndIsActive(String roleName, Boolean true1);
 
-	List<UserDeatils> findByRoleRoleName(String roleName);
+	List<UserDeatils> findByRoleRoleNameAndUserId(String roleName,Long userId);
 
-	List<UserDeatils> findByStores_NameAndIsActive(String storeName, Boolean false1);
+	List<UserDeatils> findByStores_NameAndIsActiveAndUserId(String storeName, Boolean false1,Long userId);
 
-	List<UserDeatils> findByStores_Name(String storeName);
+	List<UserDeatils> findByStores_NameAndUserId(String storeName,Long userId);
 
 	List<UserDeatils> findByStores_NameAndRoleRoleNameAndIsActive(String storeName, String roleName, Boolean true1);
 
