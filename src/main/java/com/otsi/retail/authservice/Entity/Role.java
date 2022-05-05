@@ -58,6 +58,12 @@ public class Role  extends BaseEntity implements Serializable  {
 	inverseJoinColumns = { @JoinColumn(name  = "id")})
 	private List<SubPrivilege> subPrivileges;
 	
+	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+	@JoinTable(name = "role_childPrivilages",
+	joinColumns= { @JoinColumn(name = "roleId")},
+	inverseJoinColumns = { @JoinColumn(name  = "id")})
+	private List<ChildPrivilege> childPrivilages;
+	
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "role")
