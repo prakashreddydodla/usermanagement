@@ -3,8 +3,6 @@
  */
 package com.otsi.retail.authservice.requestModel;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

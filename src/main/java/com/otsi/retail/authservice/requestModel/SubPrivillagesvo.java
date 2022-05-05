@@ -25,6 +25,6 @@ public class SubPrivillagesvo {
 	private String childPath;
 	private String childImage;
 	private int domian;
-	private List<ChildPrivilege> childPrivillages;
+	private List<ChildPrivilegeVo> childPrivillages;
 
 }

@@ -87,9 +87,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						subPrivillage.setDomian(b.getDomian());
 						SubPrivillage subPrivillagesSave = subPrivillageRepo.save(subPrivillage);
 
-						if (!CollectionUtils.isEmpty(a.getChildPrivillages())) {
+						if (!CollectionUtils.isEmpty(b.getChildPrivillages())) {
 
-							a.getChildPrivillages().stream().forEach(c -> {
+							b.getChildPrivillages().stream().forEach(c -> {
 
 								ChildPrivilege childPrivilege = new ChildPrivilege();
 								childPrivilege.setName(c.getName());
