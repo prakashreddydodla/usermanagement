@@ -37,9 +37,9 @@ public class UserAv  extends BaseEntity{
 	
 	private boolean booleanValue;
 
-	private LocalDate createdDate;
+	/*private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private Long createdBy;*/
 	
 	@JsonIgnore
 	@ManyToOne

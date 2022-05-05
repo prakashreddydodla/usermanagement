@@ -16,10 +16,11 @@ public interface UserService {
 /**
  * 
  * @param userRequest
+ * @param userId 
  * @return
  * @throws Exception
  */
-	List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest) throws Exception;
+	List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest, Long userId) throws Exception;
 
 	List<UserListResponse> getUserForClient(int clientId) throws Exception;
 

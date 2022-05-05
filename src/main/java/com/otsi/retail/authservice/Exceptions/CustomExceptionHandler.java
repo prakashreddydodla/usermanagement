@@ -19,6 +19,19 @@ import reactor.netty.http.client.PrematureCloseException;
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private Logger log = LogManager.getLogger(CustomExceptionHandler.class);
+	
+	@ExceptionHandler(value = RecordNotFoundException.class)
+	public ResponseEntity<Object> handleRecordNotFoundException(RecordNotFoundException recordNotException) {
+		ErrorResponse<?> error = new ErrorResponse<>( recordNotException.getStatusCode(),recordNotException.getMessage());
+		log.error("error response is:" + error);
+		return new ResponseEntity<Object>(error, HttpStatus.OK);
+	}
+	@ExceptionHandler(value = DuplicateRecordException.class)
+	public ResponseEntity<Object> handleDuplicateRecordException(DuplicateRecordException duplicateRecordException) {
+		ErrorResponse<?> error = new ErrorResponse<>(duplicateRecordException.DRF_STATUSCODE, duplicateRecordException.DRF_DESCRIPTION);
+		log.error("error response is:" + error);
+		return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
+	}
 
 	
 	//java.net.ConnectException

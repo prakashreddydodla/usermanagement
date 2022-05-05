@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,13 +13,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MasterDomianVo {
-	private long id;
+	private Long id;
 	private String domainName;
 	private String discription;
 	private boolean status;
-	private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private String createdBy;
+	private LocalDateTime createdDate;
+	private LocalDateTime lastModifyedDate;
+	private Long createdBy;
 }
 
 

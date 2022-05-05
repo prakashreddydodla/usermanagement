@@ -13,10 +13,10 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SubPrivillagesvo {
 
-	private long id;
+	private Long id;
 	private String name;
 	private String description;
-	private long parentId;
+	private Long parentId;
 	private LocalDate createdDate;
 	private LocalDate modifyDate;
 	private String childPath;

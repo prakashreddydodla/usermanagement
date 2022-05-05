@@ -12,7 +12,7 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 	List<Store> findByName(String storeName);
 
 
-	List<Store> findByClientDomianlId_ClientDomainaId(long clientId);
+	List<Store> findByClientDomianlIdId(long clientId);
 	List<Store> findByClientDomianlId_Client_Id(long clientId);
 
 
@@ -44,6 +44,22 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 
 
 	List<Store> findByStateCodeAndName(String stateId, String storeName);
+
+
+	List<Store> findByStateCodeAndDistrictIdAndNameAndClientDomianlId_Client_Id(String stateId, Long districtId,
+			String storeName, Long clientId);
+
+
+	List<Store> findByStateCodeAndDistrictIdAndClientDomianlId_Client_Id(String stateId, Long districtId,
+			Long clientId);
+
+
+	List<Store> findByStateCodeAndNameAndClientDomianlId_Client_Id(String stateId, String storeName, Long clientId);
+
+
+	List<Store> findByStateCodeAndClientDomianlId_Client_Id(String stateId, Long clientId);
+
+
 
 
 	

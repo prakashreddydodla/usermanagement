@@ -20,21 +20,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubPrivillage {
+public class SubPrivillage extends BaseEntity {
 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	private String name;
 	private String description;
 	private String childPath;
 	private String childImage;
 	private int domian;
-	private long parentPrivillageId;
-	private LocalDate createdDate;
+	private Long parentPrivillageId;
+	/*private LocalDate createdDate;
 	private LocalDate modifyDate;
-	private String modifiedBy;
+	private String modifiedBy;*/
 
 	
 	@JsonIgnore

@@ -12,14 +12,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ClientDomianVo {
 
-	private long clientChannelid;
+	private Long clientChannelid;
 	private String name;
 	private String discription;
 	private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
-	private String createdBy;
+	private Long createdBy;
 	//private List<Domain_Master> channel;
-	private long masterDomianId;
-	private long clientId;
+	private Long masterDomianId;
+	private Long clientId;
 
 }

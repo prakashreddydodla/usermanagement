@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.otsi.retail.authservice.Entity.SubPrivillage;
@@ -16,12 +17,12 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ParentPrivilageVo {
 
-	private long id;
+	private Long id;
 	private String name;
 	private String description;
-	private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private long createdBy;
+	private LocalDateTime createdDate;
+	private LocalDateTime lastModifyedDate;
+	private Long createdBy;
 	private List<SubPrivillage> subPrivillages;
 	private String parentImage;
 	private String path;

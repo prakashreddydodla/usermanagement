@@ -21,17 +21,16 @@ import lombok.Data;
 
 @Entity
 @Data
-public class ClientDomains {
-
+public class ClientDomains extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long clientDomainaId;
+	private Long id;
 	private String domaiName;
 	private String discription;
-	private LocalDate createdDate;
+	/*private LocalDate createdDate;
 	private LocalDate lastModifyedDate;
 	private String createdBy;
-	private String modifiedBy;
+	private String modifiedBy;*/
 	private boolean isActive;
 
 	

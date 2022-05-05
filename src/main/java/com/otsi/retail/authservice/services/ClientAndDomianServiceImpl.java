@@ -16,6 +16,9 @@ import org.springframework.util.CollectionUtils;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Domain_Master;
+import com.otsi.retail.authservice.Exceptions.BusinessException;
+import com.otsi.retail.authservice.Exceptions.DuplicateRecordException;
+import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
@@ -42,8 +45,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		try {
 			domain.setChannelName(domainVo.getDomainName());
 			domain.setDiscription(domainVo.getDiscription());
-			domain.setCreatedDate(LocalDate.now());
-			domain.setLastModifyedDate(LocalDate.now());
+			/*domain.setCreatedDate(LocalDate.now());
+			domain.setLastModifyedDate(LocalDate.now());*/
 
 			Domain_Master savedChannel = domian_MasterRepo.save(domain);
 			logger.info("############### createMasterDomain method ends ###################");
@@ -65,7 +68,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (CollectionUtils.isEmpty(domains)) {
 			logger.debug("No master domians present in DB ");
 			logger.error("No master domians present in DB ");
-			throw new RuntimeException("No master domians present in DB ");
+			throw new RecordNotFoundException(BusinessException.RNF_DESCRIPTION, BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
 		logger.info("############### getMasterDomains method ends ###################");
 
@@ -83,8 +86,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			ClientDetails clientEntity = new ClientDetails();
 			clientEntity.setName(clientVo.getName());
 			clientEntity.setAddress(clientVo.getAddress());
-			clientEntity.setCreatedDate(LocalDate.now());
-			clientEntity.setLastModifyedDate(LocalDate.now());
+			/*clientEntity.setCreatedDate(LocalDate.now());
+			clientEntity.setLastModifyedDate(LocalDate.now());*/
 			clientEntity.setCreatedBy(clientVo.getCreatedBy());
 			clientEntity.setOrganizationName(clientVo.getOrganizationName());
 			ClientDetails savedClient = clientDetailsRepo.save(clientEntity);
@@ -94,7 +97,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			}else {
 				logger.debug("Client Name already exists in DB : "+clientVo.getName());
 				logger.error("Client Name already exists in DB : "+clientVo.getName());
-				throw new RuntimeException("Client Name already exists in DB : "+clientVo.getName());
+				throw new DuplicateRecordException("Client Name already exists in DB : "+clientVo.getName(),BusinessException.DRF_STATUSCODE);
 			}
 		}catch (RuntimeException e) {
 			 logger.debug(e.getMessage());
@@ -120,8 +123,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				ClientDomains clientDomians = new ClientDomains();
 				clientDomians.setDomaiName(domianVo.getName());
 				clientDomians.setDiscription(domianVo.getDiscription());
-				clientDomians.setCreatedDate(LocalDate.now());
-				clientDomians.setLastModifyedDate(LocalDate.now());
+				/*clientDomians.setCreatedDate(LocalDate.now());
+				clientDomians.setLastModifyedDate(LocalDate.now());*/
 				clientDomians.setCreatedBy(domianVo.getCreatedBy());
 				if (0L != domianVo.getClientId()) {
 					Optional<ClientDetails> client_db = clientDetailsRepo.findById(domianVo.getClientId());
@@ -130,7 +133,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					} else {
 						logger.debug("No client details found with this Client Id : " + domianVo.getClientId());
 						logger.error("No client details found with this Client Id : " + domianVo.getClientId());
-						throw new RuntimeException("No client details found with this Client Id : " + domianVo.getClientId());
+						throw new RecordNotFoundException("No client details found with this Client Id : " + domianVo.getClientId(),BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 					}
 				}
 				if (null != clientDomians.getDomain()) {
@@ -144,7 +147,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					} else {
 						logger.debug("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
 						logger.error("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
-						throw new RuntimeException("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
+						throw new RecordNotFoundException("Master Domian not found with this Id : " + domianVo.getMasterDomianId(),BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 					}
 				} else {
 					List<Domain_Master> newAssignedDomians = new ArrayList<>();
@@ -156,14 +159,14 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					} else {
 						logger.debug("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
 						logger.error("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
-						throw new RuntimeException("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
+						throw new RecordNotFoundException("Master Domian not found with this Id : " + domianVo.getMasterDomianId(),BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 					}
 				}
 
 				ClientDomains dbObject = clientChannelRepo.save(clientDomians);
 				if (dbObject != null) {
 					logger.info("############### assignDomianToClient method ends ###################");
-					return "Domian assigned to client with domainId : " + dbObject.getClientDomainaId();
+					return "Domian assigned to client with domainId : " + dbObject.getId();
 				} else {
 					logger.debug("Domain not assinged to client");
 					logger.error("Domain not assinged to client");
@@ -195,7 +198,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		} else {
 			logger.debug("No Client found with this Id : " + clientId);
 			logger.error("No Client found with this Id : " + clientId);
-			throw new Exception("No Client found with this Id : " + clientId);
+			throw new RecordNotFoundException("No Client found with this Id : " + clientId,BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 
 		}
 	}
@@ -213,8 +216,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		else {
 			logger.debug("No clients found");
 			logger.error("No clients found");
-			throw new Exception("No clients found");
-
+			throw new RecordNotFoundException("No clients found",BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
 	}
 
@@ -230,7 +232,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		} else {
 			logger.debug("No domian found with this Client :" + clientId);
 			logger.error("No domian found with this Client :" + clientId);
-			throw new RuntimeException("No domian found with this Client :" + clientId);
+			throw new RecordNotFoundException("No domian found with this Client :" + clientId,BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
 
 	}
@@ -239,7 +241,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	public ClientDomains getDomianById(long clientDomianId) {
 		logger.info("############### getDomianById method starts ###################");
 
-		Optional<ClientDomains> domianOptional = clientChannelRepo.findByClientDomainaId(clientDomianId);
+		Optional<ClientDomains> domianOptional = clientChannelRepo.findById(clientDomianId);
 		if (domianOptional.isPresent()) {
 			logger.info("############### getDomianById method ends ###################");
 
@@ -248,7 +250,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		} else {
 			logger.debug("Client domian not found with this Id : " + clientDomianId);
 			logger.error("Client domian not found with this Id : " + clientDomianId);
-			throw new RuntimeException("Client domian not found with this Id : " + clientDomianId);
+			throw new RecordNotFoundException("Client domian not found with this Id : " + clientDomianId,BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
 	}
 

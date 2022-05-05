@@ -1,14 +1,17 @@
 package com.otsi.retail.authservice.services;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,13 +27,17 @@ import com.otsi.retail.authservice.Repository.UserRepo;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
 import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
 import com.otsi.retail.authservice.requestModel.StoreVo;
+import com.otsi.retail.authservice.requestModel.UserDetailsVo;
 
 @Service
 public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private StoreRepo storeRepo;
-
+	
+	@Autowired
+	private UserServiceImpl userserviceImpl;
+	
 	@Autowired
 	private UserRepo userRepo;
 	
@@ -63,7 +70,7 @@ public class StoreServiceImpl implements StoreService {
 					GstDetails gstInfo =new GstDetails();
 					gstInfo.setClientId(vo.getClientId());
 					gstInfo.setCreatedBy(vo.getCreatedBy());
-					gstInfo.setCreatedDate(LocalDate.now());
+					//gstInfo.setCreatedDate(LocalDate.now());
 					gstInfo.setGstNumber(vo.getGstNumber());
 					gstInfo.setStateCode(vo.getStateCode());
 			        gstRepo.save(gstInfo);
@@ -96,8 +103,8 @@ public class StoreServiceImpl implements StoreService {
 					throw new RuntimeException("No client Domian found with this DomianId :" + vo.getDomainId());
 				}
 			}
-			storeEntity.setCreatedDate(LocalDate.now());
-			storeEntity.setLastModifyedDate(LocalDate.now());
+			/*storeEntity.setCreatedDate(LocalDate.now());
+			storeEntity.setLastModifyedDate(LocalDate.now());*/
 			Store savedStore = storeRepo.save(storeEntity);
 			logger.info("Create store method End");
 			return "Store created with storeId : " + savedStore.getId();
@@ -130,7 +137,7 @@ public class StoreServiceImpl implements StoreService {
 			storeEntity.setArea(vo.getArea());
 			storeEntity.setPhoneNumber(vo.getPhoneNumber());
 			storeEntity.setModifiedBy(vo.getCreatedBy());
-			storeEntity.setLastModifyedDate(LocalDate.now());
+			//storeEntity.setLastModifyedDate(LocalDate.now());
 			if (null != vo.getStoreOwner()) {
 				Optional<UserDeatils> userfromDb = userRepo.findById(vo.getStoreOwner().getUserId());
 				if (userfromDb.isPresent()) {
@@ -151,7 +158,7 @@ public class StoreServiceImpl implements StoreService {
 					throw new RuntimeException("No client Domian found with this DomianId :" + vo.getDomainId());
 				}
 			}
-			storeEntity.setLastModifyedDate(LocalDate.now());
+			//storeEntity.setLastModifyedDate(LocalDate.now());
 			Store savedStore = storeRepo.save(storeEntity);
 			logger.info("Update store method End");
 			return "Store Updated with storeId : " + savedStore.getId();
@@ -172,7 +179,7 @@ public class StoreServiceImpl implements StoreService {
 	public List<Store> getStoresForClientDomian(long clientDomianId) throws Exception {
 		try {
 			logger.info("**********getStoresForClientDomia Method Statrs");
-			List<Store> stores = storeRepo.findByClientDomianlId_ClientDomainaId(clientDomianId);
+			List<Store> stores = storeRepo.findByClientDomianlIdId(clientDomianId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("**********getStoresForClientDomia Method Ends");
 				return stores;
@@ -190,21 +197,60 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<Store> getStoresForClient(long clientId) throws Exception {
+	public List<StoreVo> getStoresForClient(long clientId) throws Exception {
 		try {
 			logger.info("################  getStoresForClient  method starts ###########");
 			List<Store> stores = storeRepo.findByClientDomianlId_Client_Id(clientId);
-			if (!CollectionUtils.isEmpty(stores)) {
-				logger.info("################  getStoresForClient  method ends ###########");
-				return stores;
+
+			List<StoreVo> storesVO = new ArrayList<>();
+			stores.stream().forEach(store -> {
+				GstDetails gstdetails = getGstDetails(clientId, store.getStateCode());
+				StoreVo storeVo = convertToVo(store);
+				storeVo.setGstNumber(gstdetails.getGstNumber());
+				storesVO.add(storeVo);
+			});
+
+			List<Long> ids = stores.stream().map(s -> s.getCreatedBy()).collect(Collectors.toList());
+			List<UserDetailsVo> userDetailsVo = userserviceImpl.getUsersForGivenIds(ids);
+
+			Map<Long, String> userDetailsMap = userDetailsVo.stream()
+					.collect(Collectors.toMap(UserDetailsVo::getUserId, UserDetailsVo::getUserName));
+
+			storesVO.stream().forEach(storeVo -> {
+				if (userDetailsMap.containsKey(storeVo.getCreatedBy())) {
+					storeVo.setUserName(userDetailsMap.get(storeVo.getCreatedBy()));
+				}
+			});
+
+			if (!CollectionUtils.isEmpty(storesVO)) {
+				return storesVO;
 			} else
-			logger.debug("No stores found");
-			logger.error("No stores found");
-			throw new Exception("No stores found");
+				throw new Exception("No stores found for client " + clientId);
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}
+	
+	
+	private StoreVo convertToVo(Store store) {
+		StoreVo storeVo = new StoreVo();
+		storeVo.setAddress(store.getAddress());
+		storeVo.setArea(store.getArea());
+		storeVo.setCityId(store.getCityId());
+		storeVo.setCreatedBy(store.getCreatedBy());
+		storeVo.setDistrictId(store.getDistrictId());
+		storeVo.setName(store.getName());
+		storeVo.setPhoneNumber(store.getPhoneNumber());
+		storeVo.setDomainId(store.getClientDomianlId().getId());
+		storeVo.setStateCode(store.getStateCode());
+		storeVo.setCreatedDate(store.getCreatedDate());
+		storeVo.setStateId(store.getStateId());
+		storeVo.setId(store.getId());
+		storeVo.setDomainName(store.getClientDomianlId().getDomaiName());
+		return storeVo;
+
+	}
+	
 
 	@Override
 	public String assignStoreToClientDomain(DomianStoresVo vo) throws Exception {
@@ -239,12 +285,12 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<Store> getStoresOnFilter(GetStoresRequestVo vo) {
+	public List<Store> getStoresOnFilter(GetStoresRequestVo vo,Long clientId ) {
 		logger.info("################  getStoresOnFilter  method starts ###########");
 		
 		
-		if (0L != vo.getDistrictId() && null != vo.getStateId()&& null!=vo.getStoreName()) {
-			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndName(vo.getStateId(), vo.getDistrictId(),vo.getStoreName());
+		if (0L != vo.getDistrictId() && null != vo.getStateId()&& ""!=vo.getStateId() && null!=vo.getStoreName()&& ""!=vo.getStoreName()) {
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndNameAndClientDomianlId_Client_Id(vo.getStateId(), vo.getDistrictId(),vo.getStoreName(),clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
 
@@ -252,15 +298,15 @@ public class StoreServiceImpl implements StoreService {
 			} else {
 				logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
 				logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
-				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
+				throw new RuntimeException("Stores not found with this given information : " + vo.getDistrictId());
 
 			}
 			
 
 		}
 		
-		if (0L != vo.getDistrictId() && null != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateCodeAndDistrictId(vo.getStateId(), vo.getDistrictId());
+		if (0L != vo.getDistrictId() && null != vo.getStateId() && ""!=vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndClientDomianlId_Client_Id(vo.getStateId(), vo.getDistrictId(),clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
 
@@ -268,14 +314,14 @@ public class StoreServiceImpl implements StoreService {
 			} else {
 				logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
 				logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
-				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
+				throw new RuntimeException("Stores not found with this DistrictId  and sateId: " + vo.getDistrictId()+ "" +vo.getStateId());
 
 			}
 			
 
 		}
-		if (null != vo.getStoreName() && null != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateCodeAndName(vo.getStateId(), vo.getStoreName());
+		if (null != vo.getStoreName()&& ""!=vo.getStoreName() && null != vo.getStateId()&& ""!=vo.getStateId() && 0L == vo.getDistrictId()) {
+			List<Store> stores = storeRepo.findByStateCodeAndNameAndClientDomianlId_Client_Id(vo.getStateId(), vo.getStoreName(),clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
 
@@ -283,15 +329,15 @@ public class StoreServiceImpl implements StoreService {
 			} else {
 				logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
 				logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
-				throw new RuntimeException("Stores not found with this DistrictId : " + vo.getDistrictId());
+				throw new RuntimeException("Stores not found with this StateId and storeName : " + vo.getStateId());
 
 			}
 			
 
 		}
 
-		if (null != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateCode(vo.getStateId());
+		if (null != vo.getStateId()&& ""!=vo.getStateId()) {
+			List<Store> stores = storeRepo.findByStateCodeAndClientDomianlId_Client_Id(vo.getStateId(),clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				return stores;
 			} else {
@@ -300,7 +346,7 @@ public class StoreServiceImpl implements StoreService {
 				throw new RuntimeException("Stores not found with this StateId : " + vo.getStateId());
 			}
 		}
-		if (null != vo.getStoreName()) {
+		if (null != vo.getStoreName() && ""!=vo.getStoreName()) {
 			List<Store> stores = storeRepo.findByName(vo.getStoreName());
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");

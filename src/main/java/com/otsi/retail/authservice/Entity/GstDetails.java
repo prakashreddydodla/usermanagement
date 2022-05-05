@@ -15,13 +15,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class GstDetails {
+public class GstDetails extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long gstId;
+	private Long gstId;
 	private String gstNumber;
-	private long clientId;
+	private Long clientId;
 	private String stateCode;
-	private String createdBy;
-	private LocalDate createdDate;
+	//private String createdBy;
+	//private LocalDate createdDate;
 }

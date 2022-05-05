@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -99,7 +100,7 @@ public class StoresController {
 		try {
 			logger.info("In GET_CLIENT_STORES request clientId : " + clientId);
 
-			List<Store> res = storeService.getStoresForClient(clientId);
+			List<StoreVo> res = storeService.getStoresForClient(clientId);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -127,11 +128,11 @@ public class StoresController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = Store.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_STORES_WITH_FILTER)
-	public GateWayResponse<?> getStoresWithFilter(@RequestBody GetStoresRequestVo vo ){
+	public GateWayResponse<?> getStoresWithFilter(@RequestBody GetStoresRequestVo vo,@RequestHeader("clientId") Long clientId ){
 		try {
-			logger.info("In GET_STORES_WITH_FILTER request  : " + vo);
+			logger.info("In GET_STORES_WITH_FILTER request  : " + vo,clientId);
 
-		List<Store> res=storeService.getStoresOnFilter(vo);
+		List<Store> res=storeService.getStoresOnFilter(vo,clientId);
 
 		return new GateWayResponse<>(200, res, "", "true");
 		}catch (Exception e) {

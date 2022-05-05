@@ -11,13 +11,13 @@ import lombok.ToString;
 @NoArgsConstructor
 public class GetUserRequestModel {
 
-	private long id;
+	private Long id;
 	private String phoneNo;
 	private String name;
 	private boolean active;
 	private boolean inActive;
 	private String roleName;
 	private String storeName;
-	private long clientDomainId;
+	private Long clientDomainId;
 	
 }

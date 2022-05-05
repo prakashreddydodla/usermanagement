@@ -13,7 +13,7 @@ public class Districts {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	private String stateCode;
 	private long districtId;
 	private String districtName;

@@ -322,10 +322,17 @@ public class CognitoClient {
 			userAtributes
 					.add(new AttributeType().withName(CognitoAtributes.ROLE_NAME).withValue(request.getRoleName()));
 		}
+		if (null != request.getCreatedBy()) {
+			userAtributes
+					.add(new AttributeType().withName(CognitoAtributes.CREATED_BY).withValue(String.valueOf(request.getCreatedBy())));
+		}
 
 		if (null != request.getClientDomain()) {
 			userAtributes.add(new AttributeType().withName(CognitoAtributes.CLIENTDOMIANS)
 					.withValue(clientDomiansConvertTostring(request.getClientDomain())));
+		}
+		if (null != request.getUserId()) {
+			userAtributes.add(new AttributeType().withName(CognitoAtributes.USER_ID).withValue(String.valueOf(request.getUserId())));
 		}
 
 		try {

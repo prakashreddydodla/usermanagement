@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SubPrivillageVo {
 	
-	private long id;
+	private Long id;
 	private String name;
 	private String description;
 	private String childPath;
 	private String childImage;
-	private long parentPrivillageId;
+	private Long parentPrivillageId;
 
 }

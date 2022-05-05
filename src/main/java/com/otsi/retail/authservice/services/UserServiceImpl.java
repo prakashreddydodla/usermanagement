@@ -50,11 +50,11 @@ public class UserServiceImpl implements UserService {
 	private CognitoClient cognitoClient;
 	private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-	public List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest) throws Exception {
+	public List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest,Long userId) throws Exception {
 		logger.info(" ###############  getUserFromDb method starts  ##############3");
 		List<UserDeatils> users = new ArrayList<>();
 		if (0l != userRequest.getId()) {
-			Optional<UserDeatils> user = userRepo.findByUserId(userRequest.getId());
+			Optional<UserDeatils> user = userRepo.findById(userRequest.getId());
 			if (user.isPresent()) {
 				users.add(user.get());
 				logger.info(" ###############  getUserFromDb method ends  ##############3");
@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if (null != userRequest.getRoleName() && !userRequest.isActive() && !userRequest.isInActive()) {
-			users = userRepo.findByRoleRoleName(userRequest.getRoleName());
+			users = userRepo.findByRoleRoleNameAndUserId(userRequest.getRoleName(),userId);
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		if (null != userRequest.getStoreName() && userRequest.isActive()) {
-			users = userRepo.findByStores_NameAndIsActive(userRequest.getStoreName(), Boolean.TRUE);
+			users = userRepo.findByStores_NameAndIsActiveAndUserId(userRequest.getStoreName(), Boolean.TRUE,userId);
 			if (CollectionUtils.isEmpty(users)) {
 				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
 				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
@@ -186,21 +186,21 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 		if (null != userRequest.getStoreName() && userRequest.isInActive()) {
-			users = userRepo.findByStores_NameAndIsActive(userRequest.getStoreName(), Boolean.FALSE);
+			users = userRepo.findByStores_NameAndIsActiveAndUserId(userRequest.getStoreName(), Boolean.FALSE,userId);
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.debug("No users found with this storeName : " + userRequest.getStoreName());
+				logger.error("No users found with this storeName : " + userRequest.getStoreName());
+				throw new RuntimeException("No users found with this storeName : " + userRequest.getStoreName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
 		}
 		if (null != userRequest.getStoreName() && !userRequest.isActive() && !userRequest.isInActive()) {
-			users = userRepo.findByStores_Name(userRequest.getStoreName());
+			users = userRepo.findByStores_NameAndUserId(userRequest.getStoreName(),userId);
 			if (CollectionUtils.isEmpty(users)) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
-				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
+				logger.debug("No users found with this storeName : " + userRequest.getStoreName());
+				logger.error("No users found with this Role ID : " + userRequest.getStoreName());
+				throw new RuntimeException("No users found with this storeName : " + userRequest.getStoreName());
 			}
 			logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users;
@@ -226,8 +226,8 @@ public class UserServiceImpl implements UserService {
 				userVo.setUserName(a.getUserName());
 				userVo.setCreatedBy(a.getCreatedBy());
 				userVo.setCreatedDate(a.getCreatedDate());
-				userVo.setSuperAdmin(a.isSuperAdmin());
-				userVo.setActive(a.isActive());
+				userVo.setIsSuperAdmin(a.getIsSuperAdmin());
+				userVo.setIsActive(a.getIsActive());
 				List<StoreVo> stores = new ArrayList<>();
 				if (null != a.getStores()) {
 					a.getStores().stream().forEach(str -> {
@@ -272,7 +272,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserListResponse> getUsersForClientDomain(long clientDomianId) {
 		logger.info(" ###############  getUsersForClientDomain method starts  ##############3");
 
-		List<UserDeatils> users = userRepo.findByClientDomians_ClientDomainaId(clientDomianId);
+		List<UserDeatils> users = userRepo.findByClientDomiansId(clientDomianId);
 
 		if (!CollectionUtils.isEmpty(users)) {
 			List<UserListResponse> userList = new ArrayList<>();
@@ -283,7 +283,7 @@ public class UserServiceImpl implements UserService {
 				userVo.setCreatedBy(a.getCreatedBy());
 				userVo.setCreatedDate(a.getCreatedDate());
 				userVo.setDomian(clientDomianId);
-				userVo.setActive(a.isActive());
+				userVo.setIsActive(a.getIsActive());
 				List<StoreVo> stores = new ArrayList<>();
 				if (null != a.getStores()) {
 					a.getStores().stream().forEach(str -> {
@@ -355,13 +355,13 @@ public class UserServiceImpl implements UserService {
 
 			customer.setGender(user.get().getGender());
 		}
-		if (null != user.get().getLastModifyedDate()) {
+		if (null != user.get().getLastModifiedDate()) {
 
-			customer.setLastModifyedDate(user.get().getLastModifyedDate());
+			customer.setLastModifyedDate(user.get().getLastModifiedDate());
 		}
-		if (true != user.get().isActive()) {
+		if (true != user.get().getIsActive()) {
 
-			customer.setActive(user.get().isActive());
+			customer.setIsActive(user.get().getIsActive());
 		}
 		logger.info(" ###############  getCustomerbasedOnMobileNumber method ends  ##############3");
 
@@ -382,15 +382,15 @@ public class UserServiceImpl implements UserService {
 				userFromDb.setUserName(req.getUsername());
 				userFromDb.setPhoneNumber(req.getPhoneNumber());
 				userFromDb.setGender(req.getGender());
-				userFromDb.setLastModifyedDate(LocalDate.now());
+				//userFromDb.setLastModifyedDate(LocalDate.now());
 				if (null != req.getRole()) {
 					Optional<Role> role = roleRepository.findByRoleName(req.getRole().getRoleName());
 					if (role.isPresent()) {
 						userFromDb.setRole(role.get());
 					} else {
-						logger.debug("Role not found in DB with this Id : " + req.getRole().getRoleId());
-						logger.error("Role not found in DB with this Id : " + req.getRole().getRoleId());
-						throw new RuntimeException("Role not found in DB with this Id : " + req.getRole().getRoleId());
+						logger.debug("Role not found in DB with this Id : " + req.getRole().getId());
+						logger.error("Role not found in DB with this Id : " + req.getRole().getId());
+						throw new RuntimeException("Role not found in DB with this Id : " + req.getRole().getId());
 					}
 				}
 				UserDeatils savedUser = userRepo.save(userFromDb);
@@ -400,7 +400,7 @@ public class UserServiceImpl implements UserService {
 					if (userAv.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
 						if(null!=req.getEmail()) {
 						userAv.setStringValue(req.getEmail());
-						userAv.setLastModifyedDate(LocalDate.now());
+						//userAv.setLastModifyedDate(LocalDate.now());
 						userAv.setUserData(savedUser);
 						userAvRepo.save(userAv);
 						}
@@ -408,7 +408,7 @@ public class UserServiceImpl implements UserService {
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.PARENTID)) {
 						if(null!=req.getParentId()) {
 						userAv.setIntegerValue(Integer.parseInt(req.getParentId()));
-						userAv.setLastModifyedDate(LocalDate.now());
+						//userAv.setLastModifyedDate(LocalDate.now());
 						userAv.setUserData(savedUser);
 						userAvRepo.save(userAv);
 						}
@@ -416,7 +416,7 @@ public class UserServiceImpl implements UserService {
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
 						if(null!=req.getAddress()) {
 							userAv.setStringValue(req.getAddress());
-							userAv.setLastModifyedDate(LocalDate.now());
+							//userAv.setLastModifyedDate(LocalDate.now());
 							userAv.setUserData(savedUser);
 							userAvRepo.save(userAv);
 						}
@@ -426,7 +426,7 @@ public class UserServiceImpl implements UserService {
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
 						if(null!=req.getDomianId()) {
 							userAv.setIntegerValue(Integer.parseInt(req.getDomianId()));
-							userAv.setLastModifyedDate(LocalDate.now());
+							//userAv.setLastModifyedDate(LocalDate.now());
 							userAv.setUserData(savedUser);
 							userAvRepo.save(userAv);
 
@@ -436,7 +436,7 @@ public class UserServiceImpl implements UserService {
 					if (av.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
 						if(null!=req.getClientId()) {
 							userAv.setIntegerValue(Integer.parseInt(req.getClientId()));
-							userAv.setLastModifyedDate(LocalDate.now());
+							//userAv.setLastModifyedDate(LocalDate.now());
 							userAv.setUserData(savedUser);
 							userAvRepo.save(userAv);
 						}
@@ -518,9 +518,9 @@ public class UserServiceImpl implements UserService {
 		userVo.setUserName(user.getUserName());
 		userVo.setCreatedBy(user.getCreatedBy());
 		userVo.setCreatedDate(user.getCreatedDate());
-		userVo.setSuperAdmin(user.isSuperAdmin());
+		userVo.setIsSuperAdmin(user.getIsSuperAdmin());
 		userVo.setGender(user.getGender());
-		userVo.setActive(user.isActive());
+		userVo.setIsActive(user.getIsActive());
 		List<StoreVo> stores = new ArrayList<>();
 		if (null != user.getStores()) {
 			user.getStores().stream().forEach(str -> {
@@ -555,7 +555,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDetailsVo> getUsersForGivenIds(List<Long> userIds) {
-		List<UserDeatils> users = userRepo.findByUserIdInAndIsCustomer(userIds,Boolean.FALSE);
+		List<UserDeatils> users = userRepo.findByuserIdInAndIsCustomer(userIds,Boolean.FALSE);
 		if(!users.isEmpty()) {
 			
 			List<UserDetailsVo> vo =new ArrayList<>();
