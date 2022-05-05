@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.Entity.GstDetails;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
@@ -166,6 +167,17 @@ public class RolesAndPrivillagesController {
 		try {
 			logger.info("In SUB_PRIVILAGES request parentId : " + parentId);
 			List<SubPrivillage> res = rolesAndPrivillagesService.getSubPrivillages(Long.parseLong(parentId));
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
+	@GetMapping(EndpointConstants.CHILD_PRIVILAGES)
+	public GateWayResponse<?> getChildPrivilegesForSubPrivilege(@PathVariable String subPrivilegeId) {
+		try {
+			logger.info("In SUB_PRIVILAGES request parentId : " + subPrivilegeId);
+			List<ChildPrivilege> res = rolesAndPrivillagesService.getChildPrivileges(Long.parseLong(subPrivilegeId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

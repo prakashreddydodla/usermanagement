@@ -3,6 +3,8 @@ package com.otsi.retail.authservice.services;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
@@ -22,7 +24,9 @@ public interface RolesAndPrivillagesService {
 	List<ParentPrivilageVo> getAllPrivilages();
 
 	List<SubPrivillage> getSubPrivillages(long parentId) throws Exception;
-
+	
+	List<ChildPrivilege> getChildPrivileges(long subPrivillageId) throws Exception;
+	
 	String createRole(CreateRoleRequest role) throws Exception;
 
 	Role getPrivilages(long roleId) throws Exception;

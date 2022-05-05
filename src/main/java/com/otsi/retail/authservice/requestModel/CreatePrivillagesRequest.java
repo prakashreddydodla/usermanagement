@@ -15,4 +15,5 @@ public class CreatePrivillagesRequest {
 
 	private ParentPrivilageVo parentPrivillage;
 	private List<SubPrivillagesvo> subPrivillages;
+	private List<ChildPrivilegeVo> childPrivillages;
 }
