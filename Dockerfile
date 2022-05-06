@@ -18,3 +18,4 @@ RUN apt remove unzip curl -y
 RUN rm -rf newrelic-java.zip 
 
 ENTRYPOINT ["java","-javaagent:target/newrelic/newrelic.jar", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
+
