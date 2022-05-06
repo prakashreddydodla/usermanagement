@@ -172,11 +172,14 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
+	@ApiOperation(value = "childPrivileges/{subPrivilegeId}", notes = "getChildPrivileges By subPrivillageId")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = ChildPrivilege.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.CHILD_PRIVILAGES)
 	public GateWayResponse<?> getChildPrivilegesForSubPrivilege(@PathVariable String subPrivilegeId) {
 		try {
-			logger.info("In SUB_PRIVILAGES request parentId : " + subPrivilegeId);
+			logger.info("In CHILD_PRIVILAGES request subPrivilegeId : " + subPrivilegeId);
 			List<ChildPrivilege> res = rolesAndPrivillagesService.getChildPrivileges(Long.parseLong(subPrivilegeId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {

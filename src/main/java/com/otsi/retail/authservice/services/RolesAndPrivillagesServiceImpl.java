@@ -189,6 +189,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		roleEntity.setCreatedBy(role.getCreatedBy());
 		List<ParentPrivilages> parentPrivilageEntites = new ArrayList<>();
 		List<SubPrivillage> subPrivilageEntites = new ArrayList<>();
+		List<ChildPrivilege> childPrivilageEntities = new ArrayList<>();
 		boolean isExits = roleRepository.existsByRoleNameIgnoreCase(role.getRoleName());
 		if (!isExits) {
 			try {
@@ -235,6 +236,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					if (!CollectionUtils.isEmpty(role.getSubPrivillages())) {
 
 						role.getSubPrivillages().stream().forEach(sub -> {
+
 							Optional<SubPrivillage> privilage = subPrivillageRepo.findById(sub.getId());
 							if (privilage.isPresent()) {
 								subPrivilageEntites.add(privilage.get());
@@ -243,6 +245,28 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 								logger.error("Given sub privilege not found in master");
 								throw new RuntimeException("Given  privilege not found in master");
 							}
+							
+							// code added by sudheer
+
+							if (!CollectionUtils.isEmpty(sub.getChildPrivillages())) {
+								sub.getChildPrivillages().stream().forEach(child -> {
+
+									Optional<ChildPrivilege> privilege = childPrivilegeRepo.findById(child.getId());
+									if (privilege.isPresent()) {
+
+										childPrivilageEntities.add(privilege.get());
+
+									} else {
+
+										logger.debug("Given child privilege not found in master");
+										logger.error("Given child privilege not found in master");
+										throw new RuntimeException("Given  privilege not found in master");
+									}
+
+								});
+								roleEntity.setChildPrivilages(childPrivilageEntities);
+							}
+
 						});
 
 						roleEntity.setSubPrivilages(subPrivilageEntites);
@@ -251,6 +275,29 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						logger.error("Atleast one sub privilege is required");
 						throw new Exception("Atleast one  privilege is required");
 					}
+
+					// code added by sudheer
+
+//					if (!CollectionUtils.isEmpty(role.getChildPrivileges())) {
+//
+//						role.getChildPrivileges().stream().forEach(child -> {
+//							Optional<ChildPrivilege> privilege = childPrivilegeRepo.findById(child.getId());
+//							if (privilege.isPresent()) {
+//
+//								childPrivilageEntities.add(privilege.get());
+//
+//							} else {
+//
+//								logger.debug("Given child privilege not found in master");
+//								logger.error("Given child privilege not found in master");
+//								throw new RuntimeException("Given  privilege not found in master");
+//							}
+//
+//						});
+//
+//						roleEntity.setChildPrivilages(childPrivilageEntities);
+//
+//					}
 
 					dbResult = roleRepository.save(roleEntity);
 					logger.info("role created in db-->Succes");
