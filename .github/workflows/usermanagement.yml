@@ -71,6 +71,29 @@ jobs:
         with:
           cluster-name: Microservice-K8S-Cluster
           command: helm upgrade --set image.tag="$GITHUB_SHA" --install ${{ env.MODULE_NAME }} ./${{ env.MODULE_NAME }}
+          
+#  test:
+#    needs: deploy
+#    runs-on: ubuntu-latest
+#    steps: 
+#      - uses: actions/checkout@v2
+#      - name: Set up Maven
+#        uses: stCarolas/setup-maven@v4
+#        with:
+#          maven-version: 3.8.2
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Build with Maven
+#        run: mvn -B package --file pom.xml -DskipTests 
+#      - name: testing after deployment 
+#        run: |
+#          - git clone https://github.com/niranjanmaradapu/EasyRetailAutoTesting.git
+#          - java org.testng.TestNG C:\Users\Admin\Desktop\STMSeleniumTutorial\workspace\SoftwareTestingMaterial\testng.xml
+    
             
       
        
