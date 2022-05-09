@@ -3,6 +3,7 @@ package com.otsi.retail.authservice.requestModel;
 import java.util.List;
 
 import com.otsi.retail.authservice.Entity.SubPrivillage;
+import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,6 @@ public class SubPrivillageVo {
 	private String childImage;
 	private Long parentPrivillageId;
 	private List<ChildPrivilegeVo> childPrivillages;
+	private PrevilegeType previlegeType;
 
 }

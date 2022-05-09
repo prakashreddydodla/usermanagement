@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.otsi.retail.authservice.Entity.SubPrivillage;
+import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,4 +28,5 @@ public class ParentPrivilageVo {
 	private String parentImage;
 	private String path;
 	private int domian;
+	private PrevilegeType previlegeType;
 }

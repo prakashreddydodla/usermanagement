@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +33,8 @@ public class SubPrivillage extends BaseEntity {
 	private String childImage;
 	private int domian;
 	private Long parentPrivillageId;
+	private PrevilegeType previlegeType;
+	
 	/*private LocalDate createdDate;
 	private LocalDate modifyDate;
 	private String modifiedBy;*/

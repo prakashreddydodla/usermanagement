@@ -3,6 +3,8 @@
  */
 package com.otsi.retail.authservice.requestModel;
 
+import com.otsi.retail.authservice.utils.PrevilegeType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,7 @@ public class ChildPrivilegeVo {
 	private String subChildPath;
 	private String subChildImage;
 	private int domian;
-	private Long subPrivillageId;	
+	private Long subPrivillageId;
+	private PrevilegeType previlegeType;
 
 }

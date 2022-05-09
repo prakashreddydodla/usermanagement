@@ -262,9 +262,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 										logger.error("Given child privilege not found in master");
 										throw new RuntimeException("Given  privilege not found in master");
 									}
+									
+									roleEntity.setChildPrivilages(childPrivilageEntities);
 
 								});
-								roleEntity.setChildPrivilages(childPrivilageEntities);
+								
 							}
 
 						});
