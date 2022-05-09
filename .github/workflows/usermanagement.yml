@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - DevOps
+      - master
   pull_request:
     branches: 
       - DevOps
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,6 +51,29 @@ jobs:
          docker build -t ${{ env.MODULE_NAME }}  .
          docker tag ${{ env.MODULE_NAME }}  ${{ steps.ecr.outputs.account }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.MODULE_NAME }}:${{ github.sha }}
          docker push ${{ steps.ecr.outputs.account }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.MODULE_NAME }}:${{ github.sha }}
+
+#  test:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    if: github.ref == 'refs/heads/master'
+#    steps: 
+#      - uses: actions/checkout@v2
+#      - name: Set up Maven
+#        uses: stCarolas/setup-maven@v4
+#        with:
+#          maven-version: 3.8.2
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Build with Maven
+#        run: mvn -B package --file pom.xml -DskipTests 
+#      - name: testing after deployment 
+#        run: |
+#          - git clone https://github.com/niranjanmaradapu/EasyRetailAutoTesting.git
+#          - java org.testng.TestNG C:\Users\Admin\Desktop\STMSeleniumTutorial\workspace\SoftwareTestingMaterial\testng.xml
   deploy:
     needs: build
     runs-on: ubuntu-latest
