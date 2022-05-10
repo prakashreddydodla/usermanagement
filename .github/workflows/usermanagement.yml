@@ -100,9 +100,9 @@ jobs:
           command: helm upgrade --set image.tag="$GITHUB_SHA" --install ${{ env.MODULE_NAME }} ./${{ env.MODULE_NAME }}
           
 
-#  test:
-#    needs: deploy
-#    runs-on: ubuntu-latest
+# test:
+#   needs: deploy
+#   runs-on: ubuntu-latest
 #    steps: 
 #      - uses: actions/checkout@v2
 #      - name: Set up Maven
@@ -120,6 +120,8 @@ jobs:
 #      - name: testing after deployment 
 #        run: |
 #          - git clone https://github.com/niranjanmaradapu/EasyRetailAutoTesting.git
+#      - name: Setup tmate session
+#        uses: mxschmitt/action-tmate@v1
 #          - java org.testng.TestNG C:\Users\Admin\Desktop\STMSeleniumTutorial\workspace\SoftwareTestingMaterial\testng.xml
     
             
