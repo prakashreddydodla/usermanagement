@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       MODULE_NAME: usermanagement
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v2
       - name: Set up Maven
@@ -81,9 +78,6 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       MODULE_NAME: usermanagement
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v2         
       - name: AWS Credentials
