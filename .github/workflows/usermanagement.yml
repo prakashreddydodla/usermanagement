@@ -16,7 +16,9 @@ jobs:
     env: 
       MODULE_NAME: usermanagement
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          repository: 'niranjanmaradapu/usermanagement'
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4
         with:
@@ -79,7 +81,9 @@ jobs:
     env: 
       MODULE_NAME: usermanagement
     steps:
-      - uses: actions/checkout@v2         
+      - uses: actions/checkout@v3
+        with:
+          repository: 'niranjanmaradapu/usermanagement'        
       - name: AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
