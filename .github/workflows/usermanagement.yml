@@ -83,6 +83,7 @@ jobs:
 #        run: |
 #          - git clone https://github.com/niranjanmaradapu/EasyRetailAutoTesting.git
 #          - java org.testng.TestNG C:\Users\Admin\Desktop\STMSeleniumTutorial\workspace\SoftwareTestingMaterial\testng.xml
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
