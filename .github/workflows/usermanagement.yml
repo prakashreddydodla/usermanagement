@@ -57,6 +57,7 @@ jobs:
       - name: Build and Push to ECR
         run: |
          docker build -t ${{ env.MODULE_NAME }}  .
+         
          docker tag ${{ env.MODULE_NAME }}  ${{ steps.ecr.outputs.account }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.MODULE_NAME }}:${{ github.sha }}
          docker push ${{ steps.ecr.outputs.account }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.MODULE_NAME }}:${{ github.sha }}
 
