@@ -52,6 +52,8 @@ jobs:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ap-south-1
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3  
       - name: Build and Push to ECR
         run: |
          docker build -t ${{ env.MODULE_NAME }}  .
