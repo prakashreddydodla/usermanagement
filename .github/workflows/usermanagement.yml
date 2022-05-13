@@ -24,6 +24,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: 'niranjanmaradapu/usermanagement'
+          ref: DevOps
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4
         with:
@@ -52,12 +53,10 @@ jobs:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ap-south-1
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3  
+    
       - name: Build and Push to ECR
-        run: |
+        run: | 
          docker build -t ${{ env.MODULE_NAME }}  .
-         
          docker tag ${{ env.MODULE_NAME }}  ${{ steps.ecr.outputs.account }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.MODULE_NAME }}:${{ github.sha }}
          docker push ${{ steps.ecr.outputs.account }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.MODULE_NAME }}:${{ github.sha }}
 
@@ -92,6 +91,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: 'niranjanmaradapu/usermanagement'        
+          ref: DevOps
       - name: AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
