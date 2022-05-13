@@ -21,6 +21,7 @@ import com.otsi.retail.authservice.Entity.ParentPrivilages;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.Exceptions.InvalidInputsException;
+import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Exceptions.RolesNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ChildPrivilegeRepo;
@@ -740,4 +741,43 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			throw new Exception("subPrivillageId should not be null");
 		}
 	}
+	
+	
+	
+	@Override
+	public String deletePrevileges(Long id) {
+
+
+	Optional<ParentPrivilages> parentId = privilageRepo.findById(id);
+
+	if(parentId.isPresent())
+	{
+
+	privilageRepo.deleteById(parentId.get().getId());
+
+	List<SubPrivillage> parentPrivillageIds = subPrivillageRepo.findByParentPrivillageId(parentId.get().getId());
+
+
+
+	parentPrivillageIds.stream().forEach(p -> {
+
+
+
+	List<ChildPrivilege> subPrivillageIds = childPrivilegeRepo.findBySubPrivillageId(p.getId());
+	childPrivilegeRepo.deleteInBatch(subPrivillageIds);
+	});
+
+	subPrivillageRepo.deleteInBatch(parentPrivillageIds);
+	}else {
+
+	throw new RecordNotFoundException("Parent Id Not Exits", 400);
+
+	}
+
+
+
+	return "Privileges deleted Successfully";
+	}
 }
+
+

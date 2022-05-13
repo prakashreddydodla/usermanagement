@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.otsi.retail.authservice.Entity.ChildPrivilege;
-import com.otsi.retail.authservice.Entity.GstDetails;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
@@ -38,11 +39,11 @@ public class RolesAndPrivillagesController {
 	private RolesAndPrivillagesServiceImpl rolesAndPrivillagesService;
 
 	private Logger logger = LogManager.getLogger(RolesAndPrivillagesController.class);
+
 //
 	@ApiOperation(value = "createRole", notes = "CreatingRoles")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = String.class, responseContainer = "String") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = String.class, responseContainer = "String") })
 	@PostMapping(path = EndpointConstants.CREATE_ROLE)
 	public GateWayResponse<?> createRole(@RequestBody CreateRoleRequest request) {
 
@@ -61,10 +62,10 @@ public class RolesAndPrivillagesController {
 
 		}
 	}
+
 	@ApiOperation(value = "updateRole", notes = "UpdatingRoles")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = String.class, responseContainer = "String") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = String.class, responseContainer = "String") })
 	@PutMapping(path = EndpointConstants.UPDATE_ROLE)
 	public GateWayResponse<?> updateRole(@RequestBody CreateRoleRequest request) {
 
@@ -84,10 +85,10 @@ public class RolesAndPrivillagesController {
 
 		}
 	}
+
 	@ApiOperation(value = "getRolesForDomian/{domianId}", notes = "getting Roles using domainId")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = RoleVo.class, responseContainer = "List") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = RoleVo.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ROLES_FOR_DOMIAN)
 	public GateWayResponse<?> getRolesForDomian(@PathVariable String domianId) {
 		try {
@@ -99,10 +100,10 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "getRolesForClient/{clientId}", notes = "getting Roles using clientId")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = RoleVo.class, responseContainer = "List") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = RoleVo.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ROLES_FOR_CLIENT)
 	public GateWayResponse<?> getRolesForClient(@PathVariable String clientId) {
 		try {
@@ -114,10 +115,10 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "addPrevilage", notes = "adding privileges to master")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = String.class, responseContainer = "String") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = String.class, responseContainer = "String") })
 	@PostMapping(EndpointConstants.ADD_PREVILAGE)
 	public GateWayResponse<?> savePrevilageToMaster(@RequestBody List<CreatePrivillagesRequest> privilages) {
 		try {
@@ -130,10 +131,10 @@ public class RolesAndPrivillagesController {
 		}
 
 	}
+
 	@ApiOperation(value = "getPrivilages/{roleId}", notes = "get privileges by roleId")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = Role.class, responseContainer = "object") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = Role.class, responseContainer = "object") })
 	@GetMapping(EndpointConstants.GET_PRIVILAGES)
 	public GateWayResponse<?> getPrivilagesOfRole(@PathVariable String roleId) {
 		try {
@@ -144,10 +145,10 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "privilagesByName/{roleName}", notes = "getPrivileges By Rolename")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = Role.class, responseContainer = "object") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = Role.class, responseContainer = "object") })
 	@GetMapping(EndpointConstants.PRIVILAGES_BY_NAME)
 	public GateWayResponse<?> getPrivilagesOfRoleByRoleName(@PathVariable String roleName) {
 		try {
@@ -158,10 +159,10 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "subPrivilages/{parentId}", notes = "getSubPrivileges By parentId")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = SubPrivillage.class, responseContainer = "List") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = SubPrivillage.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.SUB_PRIVILAGES)
 	public GateWayResponse<?> getsubPrivilagesForParent(@PathVariable String parentId) {
 		try {
@@ -172,10 +173,10 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "childPrivileges/{subPrivilegeId}", notes = "getChildPrivileges By subPrivillageId")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = ChildPrivilege.class, responseContainer = "List") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = ChildPrivilege.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.CHILD_PRIVILAGES)
 	public GateWayResponse<?> getChildPrivilegesForSubPrivilege(@PathVariable String subPrivilegeId) {
 		try {
@@ -186,10 +187,10 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "getAllPrivilages", notes = "get All Privileges ")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = ParentPrivilageVo.class, responseContainer = "List") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = ParentPrivilageVo.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ALL_PRIVILAGES)
 	public GateWayResponse<?> getAllPrivilages() {
 		try {
@@ -201,15 +202,16 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "rolesWithFilter", notes = "get Roles based on conditions")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = RoleVo.class, responseContainer = "List") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = RoleVo.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.ROLES_WITH_FILTER)
-	public GateWayResponse<?> getRolesWithFilter(@RequestBody RolesFilterRequest req,@RequestHeader("clientId") Long clientId) {
+	public GateWayResponse<?> getRolesWithFilter(@RequestBody RolesFilterRequest req,
+			@RequestHeader("clientId") Long clientId) {
 		try {
 			logger.info("In ROLES_WITH_FILTER request  : " + req);
-			List<RoleVo> res = rolesAndPrivillagesService.getRolesWithFilter(req,clientId);
+			List<RoleVo> res = rolesAndPrivillagesService.getRolesWithFilter(req, clientId);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (RuntimeException re) {
@@ -218,10 +220,10 @@ public class RolesAndPrivillagesController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "privillagesForDomian/{domian}", notes = "get Privileges For Domain")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful retrieval", 
-			response = ParentPrivilageVo.class, responseContainer = "List") })
+			@ApiResponse(code = 200, message = "Successful retrieval", response = ParentPrivilageVo.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_PRIVILLAGES_BY_DOMIAN)
 	public GateWayResponse<?> getPrivillagesForDomian(@PathVariable String domian) {
 
@@ -229,6 +231,22 @@ public class RolesAndPrivillagesController {
 			logger.info("In GET_PRIVILLAGES_BY_DOMIAN request  domian : " + domian);
 			List<ParentPrivilageVo> res = rolesAndPrivillagesService
 					.getAllPrivilagesForDomian(Integer.parseInt(domian));
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+
+	@ApiOperation(value = "deletePrivileges", notes = "delete Privileges")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", response = ParentPrivilageVo.class, responseContainer = "String") })
+	@DeleteMapping(EndpointConstants.DELETE_PRIVILLAGES)
+	public GateWayResponse<?> deletePrivillages(@RequestParam Long id) {
+
+		try {
+
+			String res = rolesAndPrivillagesService.deletePrevileges(id);
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
