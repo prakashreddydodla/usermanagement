@@ -27,6 +27,8 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 	List<Role> findByClientDomianId(long clientId);
 
 	List<Role> findByClientDomian_client_Id(long clientId);
+	
+	List<Role> findByClientId(Long clientId);
 
 	boolean existsByRoleNameIgnoreCase(String roleName);
 
@@ -44,7 +46,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	List<Role> findByCreatedByAndCreatedDate(Long createdBy, LocalDateTime createdDate);
 
-	List<Role> findByCreatedDateBetweenAndClientDomian_Client_Id(LocalDateTime createdDatefrom, LocalDateTime createdDateTo,Long clientId);
+	List<Role> findByCreatedDateBetweenAndClientId(LocalDateTime createdDatefrom, LocalDateTime createdDateTo,Long clientId);
 
 	Optional<Role> findByRoleNameAndCreatedDateBetween(String roleName, LocalDateTime createdDatefrom,
 			LocalDateTime createdDateTo);

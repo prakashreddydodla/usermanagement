@@ -14,8 +14,12 @@ public class States extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	private Long stateId;
+	
 	private String stateCode;
+	
 	private String stateName;
+	
 	private String capital;
 }

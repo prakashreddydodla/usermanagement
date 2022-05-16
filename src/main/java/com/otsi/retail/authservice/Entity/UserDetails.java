@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -26,22 +26,25 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDeatils extends BaseEntity {
+public class UserDetails extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
+	private Long id;
+	
 	private String userName;
+	
 	@Column(unique = true)
 	private String phoneNumber;
+	
 	private String gender;
-	/*private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private String createdBy;*/
+	
 	private Boolean isActive = Boolean.FALSE;
+	
 	private Boolean isSuperAdmin;
+	
 	private Boolean isCustomer = Boolean.FALSE;
-	//private String modifiedBy;
+	
 	@ManyToOne
 	@JoinColumn(name = "roleId")
 	private Role role;
@@ -50,7 +53,7 @@ public class UserDeatils extends BaseEntity {
 	private List<UserAv> userAv;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_store", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
+	@JoinTable(name = "user_store", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "id") })
 	private List<Store> stores;
 	

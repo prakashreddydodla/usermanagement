@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.otsi.retail.authservice.Entity.ColorEntity;
 import com.otsi.retail.authservice.requestModel.ColorCodeVo;
-import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
+import com.otsi.retail.authservice.requestModel.ParentPrivilegeVO;
 import com.otsi.retail.authservice.requestModel.ReportVo;
 import com.otsi.retail.authservice.services.ReportsService;
 import com.otsi.retail.authservice.utils.EndpointConstants;

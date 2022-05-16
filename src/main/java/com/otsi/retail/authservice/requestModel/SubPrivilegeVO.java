@@ -7,13 +7,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParentPrivilegesVo {
-	
+public class SubPrivilegeVO {
+
 	private Long id;
+
 	private String name;
-	private String discription;
-	
-	private String path;
-	private String parentImage;
+
+	private String description;
+
+	private String childPath;
+
+	private String childImage;
+
+	private Long parentPrivilegeId;
 
 }

@@ -11,26 +11,42 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StoreVo {
+public class StoreVO {
 
 	private Long id;
+	
 	private String name;
+	
 	private Long stateId;
+	
 	private String stateCode;
+	
 	private Long districtId;
+	
 	private String cityId;
+	
 	private String area;
+	
 	private String address;
+	
 	private String phoneNumber;
+	
 	private LocalDateTime createdDate;
+	
 	private LocalDateTime lastModifyedDate;
+	
 	private Long createdBy;
+	
 	private String userName;
-	private UserDetailsVo storeOwner;
+	
+	private UserDetailsVO storeOwner;
+	
 	private Long domainId;
+	
 	private String domainName;
+	
 	private String gstNumber;
+	
 	private Long clientId;
-	//private List<UserDetailsVo> storeUsers;
 	
 }

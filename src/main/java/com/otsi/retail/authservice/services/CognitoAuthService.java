@@ -2,6 +2,7 @@ package com.otsi.retail.authservice.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
 import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult;
@@ -20,11 +21,11 @@ public interface CognitoAuthService {
 
 	Response assignStoreToUser(List<Store> stores, String userName) throws Exception;
 
-	Response createUser(AdminCreatUserRequest request) throws Exception;
+	ResponseEntity<?> createUser(AdminCreatUserRequest request);
 
 	String[] getStoresForUser(String userName) throws Exception;
 
 	String enableOrDisableUser(String userName, String actionType) throws Exception;
 
-	AdminRespondToAuthChallengeResult authResponceForNewUser(NewPasswordChallengeRequest req) throws Exception;
+	AdminRespondToAuthChallengeResult authChallenge(NewPasswordChallengeRequest req) throws Exception;
 }

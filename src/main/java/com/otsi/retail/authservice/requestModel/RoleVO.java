@@ -11,14 +11,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RoleVo {
+public class RoleVO {
 	
 	
 	private long id;
 
 	private String roleName;
 	
-	private String discription;
+	private String description;
 	
 	private LocalDateTime createdDate;
 	
@@ -32,11 +32,11 @@ public class RoleVo {
 	
 	private Long usersCount;
 	
-	private List<ParentPrivilegesVo> parentPrivilageVo;
+	private List<ParentPrivilegesVO> parentPrivilege;
 	
-	private List<SubPrivillageVo> subPrivilageVo;
+	private List<SubPrivilegeVO> subPrivilege;
 	
-    private ClientDomainVo clientDomainVo;
+    private ClientDomainVo clientDomain;
 	
 	
 	

@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,35 +32,36 @@ public class Role extends BaseEntity  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@Column(unique=true)
 	private String roleName;
-	private String discription;
-	/*private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private String createdBy;
-	private String modifiedBy;*/
+	
+	private String description;
+	
 	private boolean isActive;
 	
-	
-
 	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	@JoinTable(name = "role_parentPrivilages",
 	joinColumns= { @JoinColumn(name = "roleId")},
 	inverseJoinColumns = { @JoinColumn(name  = "id")})
-	private List<ParentPrivilages> parentPrivilages;
+	private List<ParentPrivilege> parentPrivileges;
 	
 	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	@JoinTable(name = "role_subPrivilages",
 	joinColumns= { @JoinColumn(name = "roleId")},
 	inverseJoinColumns = { @JoinColumn(name  = "id")})
-	private List<SubPrivillage> subPrivilages;
+	private List<SubPrivilege> subPrivileges;
 	
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "role")
-	private List<UserDeatils> user;
+	private List<UserDetails> user;
 	
 	@ManyToOne
 	@JoinColumn(name = "clientDomian")
 	private ClientDomains clientDomian;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "client_id")
+	private ClientDetails client;
 }

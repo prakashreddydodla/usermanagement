@@ -6,20 +6,20 @@ import org.springframework.stereotype.Component;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Domain_Master;
-import com.otsi.retail.authservice.requestModel.ClientDetailsVo;
+import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 
 @Component
 public interface ClientAndDomianService {
 
-	String createMasterDomain(MasterDomianVo domainVo) throws Exception;
+	String createMasterDomain(MasterDomianVo masterDomianVo) throws Exception;
 
 	List<Domain_Master> getMasterDomains();
 
-	String createClient(ClientDetailsVo clientVo) throws Exception;
+	ClientDetails createClient(ClientDetailsVO clientDetailsVO);
 
-	String assignDomianToClient(ClientDomianVo domianVo);
+	String assignDomianToClient(ClientDomianVo clientDomianVo);
 
 	ClientDetails getClient(long clientId) throws Exception;
 

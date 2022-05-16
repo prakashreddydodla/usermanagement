@@ -50,4 +50,4 @@ logging:
 
 
 springdoc:
-  packagesToScan: com.otsi.retail.authservice   
+  packagesToScan: com.otsi.retail.authservice 

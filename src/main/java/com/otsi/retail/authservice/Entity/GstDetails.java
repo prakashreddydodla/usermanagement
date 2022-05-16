@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,9 +18,11 @@ public class GstDetails extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long gstId;
+	
 	private String gstNumber;
+	
 	private Long clientId;
+	
 	private String stateCode;
-	//private String createdBy;
-	//private LocalDate createdDate;
+	
 }

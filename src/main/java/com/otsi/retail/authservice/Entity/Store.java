@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,32 +24,39 @@ public class Store extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String name;
-	private Long stateId;
-	private String stateCode;
-	private Long districtId;
-	private String cityId;
-	private String area;
-	private String address;
-	private String phoneNumber;
-	/*private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private String createdBy;
-	private String modifiedBy;*/
-	private Boolean isActive =Boolean.FALSE;
 
-	
+	private String name;
+
+	private Long stateId;
+
+	private String stateCode;
+
+	private Long districtId;
+
+	private String cityId;
+
+	private String area;
+
+	private String address;
+
+	private String phoneNumber;
+
+	private Boolean isActive = Boolean.FALSE;
+
+	@ManyToOne
+	@JoinColumn(name = "client_id")
+	private ClientDetails client;
+
 	@OneToOne
 	@JoinColumn(name = "store_owner")
-	private UserDeatils storeOwner;
-	
-//	@ManyToMany(mappedBy = "store",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private UserDetails storeOwner;
+
 	@ManyToOne
 	@JoinColumn(name = "domianId")
 	private ClientDomains clientDomianlId;
-	
+
 	@JsonIgnore
-	@ManyToMany(mappedBy = "stores",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	private List<UserDeatils> storeUsers;
+	@ManyToMany(mappedBy = "stores", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<UserDetails> storeUsers;
 
 }
