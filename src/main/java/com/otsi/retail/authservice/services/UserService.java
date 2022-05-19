@@ -33,7 +33,9 @@ public interface UserService {
 
 	List<UserDetailsVO> getUserDetailsByIds(List<Long> userIds);
 	
+	List<UserDetailsVo> getCustomersForGivenIds(List<Long> userIds);
 	
+	UserDeatils getMobileNumber(String mobileNumber);
 	
 	
 }

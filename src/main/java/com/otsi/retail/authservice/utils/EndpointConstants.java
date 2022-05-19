@@ -72,6 +72,8 @@ public class EndpointConstants {
 	
 	public static final String USER = "/user";
 	public static final String GET_USERSFOR_GIVENIDS = "/getUsersForGivenIds";
+	public static final String GET_MOBILENUMBER = "/mobilenumber";
+	public static final String GET_CUSTOMERSFOR_GIVENIDS = "/getCustomersForGivenIds";
 	public static final String GET_USER = "/getUser";
     public static final String GET_ALL_USERS = "/users";
 	public static final String GET_ALL_USERS_BY_CLIENT_ID = "/users/{clientId}";
