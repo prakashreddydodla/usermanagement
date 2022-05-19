@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
@@ -25,10 +26,11 @@ import com.otsi.retail.authservice.services.CognitoClient;
 import com.otsi.retail.authservice.services.UserService;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 @Api(value = "UserController", description = "REST APIs related to HsnDetails Entity !!!!")
 @RestController
 @RequestMapping(EndpointConstants.USER)
@@ -46,10 +48,10 @@ public class UserController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = UserDeatils.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_USER)
-	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest,@RequestHeader("userId") Long userId) {
+	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest,@RequestHeader("clientId") Long clientId) {
 		try {
 			logger.info("In GET_USER request : "+userRequest.toString());
-			List<UserDeatils> res = userService.getUserFromDb(userRequest,userId);
+			List<UserDeatils> res = userService.getUserFromDb(userRequest,clientId);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -69,6 +71,36 @@ public class UserController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+	@ApiOperation(value = "", notes = "getMobileNumber", response = UserDeatils.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserDeatils.class, responseContainer = "List") })
+	@GetMapping(EndpointConstants.GET_MOBILENUMBER)
+	public GateWayResponse<?> getMobileNumber(@RequestParam String mobileNumber) {
+		try {
+			logger.info("In GET_MOBILENUMBER request : "+mobileNumber);
+			UserDeatils res = userService.getMobileNumber(mobileNumber);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	@ApiOperation(value = "getCustomersForGivenIds", notes = "get customer details for given ids", response = UserDetailsVo.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserDetailsVo.class, responseContainer = "List") })
+	@PostMapping(EndpointConstants.GET_CUSTOMERSFOR_GIVENIDS)
+	public GateWayResponse<?> getCustomersForGivenIds(@RequestBody List<Long> userIds) {
+		try {
+			logger.info("In GET_CUSTOMER request : "+userIds.toString());
+			List<UserDetailsVo> res = userService.getCustomersForGivenIds(userIds);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
 	
 	@ApiOperation(value = "getAllUsers", notes = "get  all the user details", response = ListUsersResult.class)
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),

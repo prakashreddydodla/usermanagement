@@ -74,7 +74,7 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByclientDomians_clientIdAndIsCustomer(Long clientId, Boolean false1);
 
-	List<UserDeatils> findByRoleRoleNameAndIsActive(String roleName, Boolean true1);
+	List<UserDeatils> findByRoleRoleNameAndIsActiveAndUserId(String roleName, Boolean true1,Long userId);
 
 	List<UserDeatils> findByRoleRoleNameAndUserId(String roleName,Long userId);
 
@@ -84,7 +84,7 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByStores_NameAndRoleRoleNameAndIsActive(String storeName, String roleName, Boolean true1);
 
-	List<UserDeatils> findByStores_NameAndRoleRoleName(String storeName, String roleName);
+	List<UserDeatils> findByStores_NameAndRoleRoleNameAndUserId(String storeName, String roleName,Long userId);
 
 	List<UserDeatils> findByIsActive(Boolean true1);
 
@@ -98,6 +98,21 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean true1, String clientId,
 			int clientDomainId);
+
+	List<UserDeatils> findByStores_NameAndRoleRoleNameAndClientDomians_Client_Id(String storeName, String roleName,
+			Long clientId);
+
+	List<UserDeatils> findByRoleRoleNameAndIsActiveAndClientDomians_Client_Id(String roleName, Boolean true1,
+			Long clientId);
+
+	List<UserDeatils> findByRoleRoleNameAndClientDomians_Client_Id(String roleName, Long clientId);
+
+	List<UserDeatils> findByStores_NameAndIsActiveAndClientDomians_Client_Id(String storeName, Boolean true1,
+			Long clientId);
+
+	List<UserDeatils> findByStores_NameAndClientDomians_Client_Id(String storeName, Long clientId);
+
+	
 
 
 

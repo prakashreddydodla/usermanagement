@@ -364,9 +364,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		List<RoleVo> rolevo = new ArrayList<RoleVo>();
 		
 		if(null != req.getRoleName()&&null != req.getCreatedDate()&& null!= req.getCreatedBy()){
-			LocalDateTime createddate = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
 			
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndCreatedDate(req.getRoleName(),req.getCreatedBy(),createddate);
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndCreatedDateBetweenAndClientDomian_Client_Id(req.getRoleName(),req.getCreatedBy(),createdDatefrom,createdDateTo,clientId);
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -393,7 +394,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
 
 
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDateBetween(req.getRoleName(),createdDatefrom,createdDateTo);
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDateBetweenAndClientDomian_Client_Id(req.getRoleName(),createdDatefrom,createdDateTo,clientId);
 
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
@@ -416,7 +417,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			
 		}
 		if(null != req.getRoleName()&&null == req.getCreatedDate()&& null!= req.getCreatedBy()){
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedBy(req.getRoleName(),req.getCreatedBy());
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndClientDomian_Client_Id(req.getRoleName(),req.getCreatedBy(),clientId);
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -442,7 +443,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
 
 
-			List<Role> roles = roleRepository.findByCreatedByAndCreatedDateBetween(req.getCreatedBy(),createdDatefrom,createdDateTo);
+			List<Role> roles = roleRepository.findByCreatedByAndCreatedDateBetweenAndClientDomian_Client_Id(req.getCreatedBy(),createdDatefrom,createdDateTo,clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
 				
 				roles.stream().forEach(r -> {
@@ -465,7 +466,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		
 
 		if (null != req.getRoleName()) {
-			Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());
+			Optional<Role> role = roleRepository.findByRoleNameAndClientDomian_Client_Id(req.getRoleName(),clientId);
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -488,7 +489,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 		if (null != req.getCreatedBy() && 0l!= req.getCreatedBy()) {
 
-			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
+			List<Role> roles = roleRepository.findByCreatedByAndClientDomian_Client_Id(req.getCreatedBy(),clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
 
 				roles.stream().forEach(r -> {
