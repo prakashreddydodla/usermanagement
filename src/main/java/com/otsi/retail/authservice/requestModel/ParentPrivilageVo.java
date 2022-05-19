@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.utils.PrevilegeType;
 
@@ -25,6 +26,7 @@ public class ParentPrivilageVo {
 	private LocalDateTime lastModifyedDate;
 	private Long createdBy;
 	private List<SubPrivillage> subPrivillages;
+	private List<ChildPrivilege> childPrivillages;
 	private String parentImage;
 	private String path;
 	private int domian;

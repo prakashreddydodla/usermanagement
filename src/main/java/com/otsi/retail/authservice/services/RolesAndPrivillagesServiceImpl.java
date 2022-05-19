@@ -136,6 +136,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		logger.info("############### getAllPrivilages method Starts ###################");
 
 		List<ParentPrivilageVo> listOfParentPrivillages = new ArrayList<>();
+		
 		List<ParentPrivilages> entity = privilageRepo.findAll();
 		entity.stream().forEach(p -> {
 			ParentPrivilageVo parentPrivillagesVo = new ParentPrivilageVo();
@@ -148,6 +149,17 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			if (!CollectionUtils.isEmpty(subPrivillages)) {
 				parentPrivillagesVo.setSubPrivillages(subPrivillages);
 			}
+
+			subPrivillages.stream().forEach(s -> {
+
+				List<ChildPrivilege> childPrivillages = childPrivilegeRepo.findBySubPrivillageId(s.getId());
+				if (!CollectionUtils.isEmpty(childPrivillages)) {
+
+					parentPrivillagesVo.setChildPrivillages(childPrivillages);
+                
+				}
+			});
+
 			listOfParentPrivillages.add(parentPrivillagesVo);
 
 		});
@@ -246,7 +258,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 								logger.error("Given sub privilege not found in master");
 								throw new RuntimeException("Given  privilege not found in master");
 							}
-							
+
 							// code added by sudheer
 
 							if (!CollectionUtils.isEmpty(sub.getChildPrivillages())) {
@@ -263,11 +275,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 										logger.error("Given child privilege not found in master");
 										throw new RuntimeException("Given  privilege not found in master");
 									}
-									
+
 									roleEntity.setChildPrivilages(childPrivilageEntities);
 
 								});
-								
+
 							}
 
 						});
@@ -741,43 +753,32 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			throw new Exception("subPrivillageId should not be null");
 		}
 	}
-	
-	
-	
+
 	@Override
 	public String deletePrevileges(Long id) {
 
+		Optional<ParentPrivilages> parentId = privilageRepo.findById(id);
 
-	Optional<ParentPrivilages> parentId = privilageRepo.findById(id);
+		if (parentId.isPresent()) {
 
-	if(parentId.isPresent())
-	{
+			privilageRepo.deleteById(parentId.get().getId());
 
-	privilageRepo.deleteById(parentId.get().getId());
+			List<SubPrivillage> parentPrivillageIds = subPrivillageRepo
+					.findByParentPrivillageId(parentId.get().getId());
 
-	List<SubPrivillage> parentPrivillageIds = subPrivillageRepo.findByParentPrivillageId(parentId.get().getId());
+			parentPrivillageIds.stream().forEach(p -> {
 
+				List<ChildPrivilege> subPrivillageIds = childPrivilegeRepo.findBySubPrivillageId(p.getId());
+				childPrivilegeRepo.deleteInBatch(subPrivillageIds);
+			});
 
+			subPrivillageRepo.deleteInBatch(parentPrivillageIds);
+		} else {
 
-	parentPrivillageIds.stream().forEach(p -> {
+			throw new RecordNotFoundException("Parent Id Not Exits", 400);
 
+		}
 
-
-	List<ChildPrivilege> subPrivillageIds = childPrivilegeRepo.findBySubPrivillageId(p.getId());
-	childPrivilegeRepo.deleteInBatch(subPrivillageIds);
-	});
-
-	subPrivillageRepo.deleteInBatch(parentPrivillageIds);
-	}else {
-
-	throw new RecordNotFoundException("Parent Id Not Exits", 400);
-
-	}
-
-
-
-	return "Privileges deleted Successfully";
+		return "Privileges deleted Successfully";
 	}
 }
-
-
