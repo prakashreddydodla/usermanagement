@@ -56,6 +56,12 @@ public class Role extends BaseEntity  {
 	inverseJoinColumns = { @JoinColumn(name  = "id")})
 	private List<SubPrivillage> subPrivilages;
 	
+	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+	@JoinTable(name = "role_childPrivilages",
+	joinColumns= { @JoinColumn(name = "roleId")},
+	inverseJoinColumns = { @JoinColumn(name  = "id")})
+	private List<ChildPrivilege> childPrivilages;
+	
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "role")

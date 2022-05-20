@@ -19,6 +19,7 @@ private Long  clientDomianId;
 private Long createdBy;
 private List<ParentPrivilageVo> parentPrivilages;
 private List<SubPrivillagesvo> subPrivillages;
+//private List<ChildPrivilegeVo> childPrivileges;
 }
 
 

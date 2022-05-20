@@ -44,6 +44,7 @@ public class EndpointConstants {
 	public static final String GET_PRIVILAGES = "/getPrivilages/{roleId}";
 	public static final String PRIVILAGES_BY_NAME = "/privilagesByName/{roleName}";
 	public static final String SUB_PRIVILAGES = "/subPrivilages/{parentId}";
+	public static final String CHILD_PRIVILAGES = "/childPrivileges/{subPrivilegeId}";
 	public static final String GET_ALL_PRIVILAGES = "/getAllPrivilages";
 	public static final String ROLES_WITH_FILTER = "/rolesWithFilter";
 	public static final String GET_PRIVILLAGES_BY_DOMIAN = "/privillagesForDomian/{domian}";
@@ -96,8 +97,7 @@ public class EndpointConstants {
 	public static final String STORES_VS_EMPLOYEES = "/storesVsEmployees";
 	public static final String COLOR_CODES = "/savetcolorCodes";
 	public static final String GETCOLOR_CODES = "/gettcolorCodes";
-
-	
+    public static final String DELETE_PRIVILLAGES = "/deletePrivileges";
 
 
 	

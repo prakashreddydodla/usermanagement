@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,8 @@ private Boolean read;
 private Boolean write;
 private String path;
 private String parentImage;
+private PrevilegeType previlegeType;
+
 @JsonIgnore
 @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "parentPrivilages")
 private List<Role> roleId;

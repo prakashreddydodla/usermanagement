@@ -1,6 +1,8 @@
+/**
+ * 
+ */
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.otsi.retail.authservice.utils.PrevilegeType;
 
@@ -17,33 +20,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Sudheer.Swamy
+ *
+ */
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubPrivillage extends BaseEntity {
-
+public class ChildPrivilege extends BaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
 	private String description;
-	private String childPath;
-	private String childImage;
+	private String subChildPath;
+	private String subChildImage;
 	private int domian;
-	private Long parentPrivillageId;
+	private Long subPrivillageId;
 	private PrevilegeType previlegeType;
 	
-	/*private LocalDate createdDate;
-	private LocalDate modifyDate;
-	private String modifiedBy;*/
-
-	
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "subPrivilages")
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "childPrivilages")
 	private List<Role> roleId;
-
 	
 }
-

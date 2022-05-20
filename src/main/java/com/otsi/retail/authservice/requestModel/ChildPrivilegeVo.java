@@ -1,9 +1,8 @@
+/**
+ * 
+ */
 package com.otsi.retail.authservice.requestModel;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
@@ -11,23 +10,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * @author Sudheer.Swamy
+ *
+ */
 @ToString
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubPrivillagesvo {
-
+public class ChildPrivilegeVo {
+	
 	private Long id;
 	private String name;
 	private String description;
-	private Long parentId;
-	private LocalDate createdDate;
-	private LocalDate modifyDate;
-	private String childPath;
-	private String childImage;
+	private String subChildPath;
+	private String subChildImage;
 	private int domian;
-	private List<ChildPrivilegeVo> childPrivillages;
-	private List<ChildPrivilege> childPrivillagesEntity;
+	private Long subPrivillageId;
 	private PrevilegeType previlegeType;
 
 }
