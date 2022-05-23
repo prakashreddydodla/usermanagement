@@ -20,6 +20,8 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.GstDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserDeatils;
+import com.otsi.retail.authservice.Exceptions.BusinessException;
+import com.otsi.retail.authservice.Exceptions.DuplicateRecordException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.GstRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
@@ -54,6 +56,9 @@ public class StoreServiceImpl implements StoreService {
 
 		Store storeEntity = new Store();
 		try {
+		Store	store = storeRepo.findByNameAndClientDomianlId_Client_Id(vo.getName(),vo.getClientId());
+			if(store==null) {
+			
 			logger.info("Create store method Starts");
 			storeEntity.setName(vo.getName());
 			storeEntity.setAddress(vo.getAddress());
@@ -108,6 +113,10 @@ public class StoreServiceImpl implements StoreService {
 			Store savedStore = storeRepo.save(storeEntity);
 			logger.info("Create store method End");
 			return "Store created with storeId : " + savedStore.getId();
+			}else {
+				throw new DuplicateRecordException("storeName already exist with this clientId"+vo.getClientId(),BusinessException.DRF_STATUSCODE);
+			}
+			
 		} catch (RuntimeException re) {
 			logger.debug("Error occurs while Creating Store :" + re.getMessage());
 			logger.error("Error occurs while Creating Store :" + re.getMessage());
@@ -117,6 +126,7 @@ public class StoreServiceImpl implements StoreService {
 			logger.error("Error occurs while Creating Store :" + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
+		
 	}
 
 	/////////////////////////
