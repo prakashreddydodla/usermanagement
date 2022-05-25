@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.Entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,8 +28,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Role extends BaseEntity  {
+public class Role  extends BaseEntity implements Serializable  {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -61,7 +67,7 @@ public class Role extends BaseEntity  {
 	@JoinColumn(name = "clientDomian")
 	private ClientDomains clientDomian;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private ClientDetails client;
 }

@@ -141,8 +141,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 				return subPrivillages;
 			} else {
-				logger.error("No subprivillages found");
-				throw new Exception("No subprivillages found");
+				logger.error("No sub privileges found");
+				throw new Exception("No sub privileges found");
 			}
 		} else {
 			logger.error("parentId should not be null");
@@ -291,14 +291,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	}
 
 	@Override
-	public Role getPrivilagesByRoleName(String roleName) throws Exception {
-		try {
-			Optional<Role> role = roleRepository.findByRoleName(roleName);
-			return role.get();
-		} catch (Exception e) {
-			logger.error("Errors occurs while fecthing roles for client :" + e.getMessage());
-			throw new Exception(e.getMessage());
-		}
+	public Optional<Role> getPrivilagesByRoleName(String roleName) {
+		return roleRepository.findByRoleName(roleName);
+		
 	}
 
 	@Override
@@ -411,8 +406,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		if (null != req.getCreatedDate()) {
 			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
 			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
-			List<Role> roles = roleRepository.findByCreatedDateBetweenAndClientId(createdDatefrom,
-					createdDateTo, clientId);
+			List<Role> roles = roleRepository.findByCreatedDateBetweenAndClientId(createdDatefrom, createdDateTo,
+					clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
 				roles.stream().forEach(r -> {
 					RoleVO vo = rolemapper.convertEntityToRoleVo(r);

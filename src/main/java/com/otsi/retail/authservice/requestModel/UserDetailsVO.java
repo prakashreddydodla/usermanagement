@@ -27,7 +27,7 @@ public class UserDetailsVO {
 
 	private LocalDate createdDate;
 
-	private LocalDate lastModifyedDate;
+	private LocalDate lastModifiedDate;
 
 	private String createdBy;
 

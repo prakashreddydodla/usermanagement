@@ -1,8 +1,10 @@
 package com.otsi.retail.authservice.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
+
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivilege;
 import com.otsi.retail.authservice.requestModel.CreatePrivilegesRequest;
@@ -31,7 +33,7 @@ public interface RolesAndPrivillagesService {
 
 	List<RoleVO> getRolesByClient(Long clientId);
 
-	Role getPrivilagesByRoleName(String roleName) throws Exception;
+	Optional<Role> getPrivilagesByRoleName(String roleName) ;
 
 	List<RoleVO> getRolesWithFilter(RolesFilterRequest req,Long clientId) throws RuntimeException;
 

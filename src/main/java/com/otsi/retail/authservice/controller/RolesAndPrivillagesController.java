@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -130,14 +131,10 @@ public class RolesAndPrivillagesController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = Role.class, responseContainer = "object") })
 	@GetMapping(EndpointConstants.PRIVILAGES_BY_NAME)
-	public GateWayResponse<?> getPrivilagesOfRoleByRoleName(@PathVariable String roleName) {
-		try {
-			logger.info("In PRIVILAGES_BY_NAME request roleName : " + roleName);
-			Role res = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
-			return new GateWayResponse<>(200, res, "", "true");
-		} catch (Exception e) {
-			return new GateWayResponse<>(400, null, e.getMessage(), "false");
-		}
+	public ResponseEntity<?> getPrivilagesOfRoleByRoleName(@PathVariable String roleName) {
+		logger.info("In PRIVILAGES_BY_NAME request roleName : " + roleName);
+		Optional<Role> roleOptional = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
+		return ResponseEntity.ok(roleOptional);
 	}
 
 	@ApiOperation(value = EndpointConstants.SUB_PRIVILAGES, notes = "getSubPrivileges By parentId")
