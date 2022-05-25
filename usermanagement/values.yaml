@@ -9,8 +9,8 @@ env:
   postgres_data: /var/lib/postgresql/data/pgdata
   postgres_db: UserManagement
 
-replicaCount: 4
-replicaCountPos: 4
+replicaCount: 1
+replicaCountPos: 1
 namespace: 
   name: default
 image:
@@ -89,11 +89,11 @@ resources:
   #   memory: 128Mi
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
   maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetCPUUtilizationPercentage: 2
+  targetMemoryUtilizationPercentage: 2
 
 nodeSelector: {}
 
