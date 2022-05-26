@@ -38,5 +38,4 @@ public interface RolesAndPrivillagesService {
 	List<RoleVO> getRolesWithFilter(RolesFilterRequest req,Long clientId) throws RuntimeException;
 
 	String updateRole(CreateRoleRequest request) throws Exception;
-	String deletePrevileges(Long id);
 }

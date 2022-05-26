@@ -15,8 +15,8 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDetailsVo {
-	private Long userId;
+public class UserDetailsVO {
+	private Long id;
 	private String userName;
 	private String phoneNumber;
 	private String gender;
@@ -29,8 +29,8 @@ public class UserDetailsVo {
 	private Role role;
 	private List<ClientDomains> clientDomians;
 	private List<UserAv> userAv;
-	private List<StoreVo> stores;
-	private StoreVo ownerOf;
+	private List<StoreVO> stores;
+	private StoreVO ownerOf;
 	private Long modifiedBy;
 
 
