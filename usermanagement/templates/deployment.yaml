@@ -75,7 +75,7 @@ spec:
       #    emptyDir: {}
       #  {{- end -}}
 ...
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v3
 kind: HorizontalPodAutoscaler
 metadata:
   name: usermanagement
