@@ -9,7 +9,7 @@ env:
   postgres_data: /var/lib/postgresql/data/pgdata
   postgres_db: UserManagement
 
-replicaCount: 1
+# replicaCount: 1
 replicaCountPos: 1
 namespace: 
   name: default
@@ -89,7 +89,7 @@ resources:
   #   memory: 128Mi
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 2
