@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,11 +42,11 @@ public class ClientAndDomianController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = String.class, responseContainer = "string") })
 	@PostMapping(EndpointConstants.CREATE_MASTER_DOMIAN)
-	public GateWayResponse<?> creatDomian(@RequestBody MasterDomianVo domainVo) {
+	public GateWayResponse<?> creatDomian(@RequestBody MasterDomianVo domainVo,@RequestHeader("userId") Long userId) {
 		String res;
 		try {
 			logger.info("In CREATE_MASTER_DOMIAN request : "+domainVo);
-			res = clientAndDomianService.createMasterDomain(domainVo);
+			res = clientAndDomianService.createMasterDomain(domainVo,userId);
 
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -91,11 +92,11 @@ public class ClientAndDomianController {
 			response = String.class, responseContainer = "string") })
 
 	@PostMapping(EndpointConstants.ASSIGN_DOMAIN_TO_CLIENT)
-	public GateWayResponse<?> assignDomianToClient(@RequestBody ClientDomianVo clientDomianVo) {
+	public GateWayResponse<?> assignDomianToClient(@RequestBody ClientDomianVo clientDomianVo,@RequestHeader("userId") Long userId) {
 		try {
 			logger.info("In ASSIGN_DOMAIN_TO_CLIENT request : "+clientDomianVo);
 
-			String res = clientAndDomianService.assignDomianToClient(clientDomianVo);
+			String res = clientAndDomianService.assignDomianToClient(clientDomianVo,userId);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {

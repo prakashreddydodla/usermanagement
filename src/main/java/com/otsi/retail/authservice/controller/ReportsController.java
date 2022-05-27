@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,7 @@ public class ReportsController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = ReportVo.class, responseContainer = "List") })
 	@GetMapping(path = EndpointConstants.USERS_BY_ROLE)
-	public GateWayResponse<?> UsersByRole(@RequestParam Long clientId) {
+	public GateWayResponse<?> UsersByRole(@RequestHeader Long clientId) {
 		try {
 			logger.info("usersByRole method starts");
 			List<ReportVo> result = reportsService.getUsersByRole(clientId);
@@ -53,7 +54,7 @@ public class ReportsController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = ReportVo.class, responseContainer = "List") })
 	@GetMapping(path = EndpointConstants.ACTIVE_VS_INACTIVE_USERS)
-	public GateWayResponse<?> ActiveUsers(@RequestParam Long clientId) {
+	public GateWayResponse<?> ActiveUsers(@RequestHeader Long clientId) {
 
 		try {
 
@@ -72,7 +73,7 @@ public class ReportsController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = ReportVo.class, responseContainer = "List") })
 	@GetMapping(path = EndpointConstants.STORES_VS_EMPLOYEES)
-	public GateWayResponse<?> StoresVsEmployees(@RequestParam Long clientId) {
+	public GateWayResponse<?> StoresVsEmployees(@RequestHeader Long clientId) {
 
 		try {
 

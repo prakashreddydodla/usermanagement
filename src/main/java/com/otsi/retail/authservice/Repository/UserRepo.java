@@ -3,6 +3,8 @@ package com.otsi.retail.authservice.Repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +25,7 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 	List<UserDeatils> findByClientDomiansId(long clientDomianId);
 
 
-	List<UserDeatils> findByUserAv_NameAndUserAv_IntegerValue(String clientId, int clientId2);
+	Page<UserDeatils> findByUserAv_NameAndUserAv_IntegerValue(String clientId, int clientId2, Pageable pageable);
 
 
 	Optional<UserDeatils> findByPhoneNumberAndRoleRoleName(String mobileNo, String roleName);
@@ -82,7 +84,7 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByStores_NameAndUserId(String storeName,Long userId);
 
-	List<UserDeatils> findByStores_NameAndRoleRoleNameAndIsActive(String storeName, String roleName, Boolean true1);
+	Page<UserDeatils> findByStores_NameAndRoleRoleNameAndIsActive(String storeName, String roleName, Boolean true1, Pageable pageable);
 
 	List<UserDeatils> findByStores_NameAndRoleRoleNameAndUserId(String storeName, String roleName,Long userId);
 
@@ -96,21 +98,27 @@ public interface UserRepo extends JpaRepository<UserDeatils,Long> {
 
 	List<UserDeatils> findByIsActiveAndClientDomians_ClientId(Boolean true1, long clientDomainId);
 
-	List<UserDeatils> findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean true1, String clientId,
-			int clientDomainId);
+	Page<UserDeatils> findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean true1, String clientId,
+			int clientDomainId, Pageable pageable);
 
-	List<UserDeatils> findByStores_NameAndRoleRoleNameAndClientDomians_Client_Id(String storeName, String roleName,
-			Long clientId);
+	Page<UserDeatils> findByStores_NameAndRoleRoleNameAndClientDomians_Client_Id(String storeName, String roleName,
+			Long clientId, Pageable pageable);
 
-	List<UserDeatils> findByRoleRoleNameAndIsActiveAndClientDomians_Client_Id(String roleName, Boolean true1,
-			Long clientId);
+	Page<UserDeatils> findByRoleRoleNameAndIsActiveAndClientDomians_Client_Id(String roleName, Boolean true1,
+			Long clientId, Pageable pageable);
 
-	List<UserDeatils> findByRoleRoleNameAndClientDomians_Client_Id(String roleName, Long clientId);
+	Page<UserDeatils> findByRoleRoleNameAndClientDomians_Client_Id(String roleName, Long clientId, Pageable pageable);
 
-	List<UserDeatils> findByStores_NameAndIsActiveAndClientDomians_Client_Id(String storeName, Boolean true1,
-			Long clientId);
+	Page<UserDeatils> findByStores_NameAndIsActiveAndClientDomians_Client_Id(String storeName, Boolean true1,
+			Long clientId, Pageable pageable);
 
-	List<UserDeatils> findByStores_NameAndClientDomians_Client_Id(String storeName, Long clientId);
+	Page<UserDeatils> findByStores_NameAndClientDomians_Client_Id(String storeName, Long clientId, Pageable pageable);
+
+	Page<UserDeatils> findByUserId(Long id, Pageable pageable);
+
+	Page<UserDeatils> findByUserName(String name, Pageable pageable);
+
+	Page<UserDeatils> findByPhoneNumber(String phoneNo, Pageable pageable);
 
 	
 

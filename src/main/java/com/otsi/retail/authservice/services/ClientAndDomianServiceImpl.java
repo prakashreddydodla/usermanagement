@@ -38,7 +38,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 	@Override
-	public String createMasterDomain(MasterDomianVo domainVo) throws Exception {
+	public String createMasterDomain(MasterDomianVo domainVo,Long userId) throws Exception {
 		logger.info("############### createMasterDomain method Starts ###################");
 
 		Domain_Master domain = new Domain_Master();
@@ -47,6 +47,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			domain.setDiscription(domainVo.getDiscription());
 			/*domain.setCreatedDate(LocalDate.now());
 			domain.setLastModifyedDate(LocalDate.now());*/
+			domain.setCreatedBy(userId);
+			domain.setModifiedBy(userId);
 
 			Domain_Master savedChannel = domian_MasterRepo.save(domain);
 			logger.info("############### createMasterDomain method ends ###################");
@@ -112,7 +114,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	}
 
 	@Override
-	public String assignDomianToClient(ClientDomianVo domianVo) {
+	public String assignDomianToClient(ClientDomianVo domianVo,Long userId) {
 		logger.info("############### assignDomianToClient method Starts ###################");
 
 		boolean isExists = clientChannelRepo.existsByDomain_IdAndClientId(domianVo.getMasterDomianId(),
@@ -125,7 +127,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDomians.setDiscription(domianVo.getDiscription());
 				/*clientDomians.setCreatedDate(LocalDate.now());
 				clientDomians.setLastModifyedDate(LocalDate.now());*/
-				clientDomians.setCreatedBy(domianVo.getCreatedBy());
+				clientDomians.setCreatedBy(userId);
+				clientDomians.setModifiedBy(userId);
 				if (0L != domianVo.getClientId()) {
 					Optional<ClientDetails> client_db = clientDetailsRepo.findById(domianVo.getClientId());
 					if (client_db.isPresent()) {

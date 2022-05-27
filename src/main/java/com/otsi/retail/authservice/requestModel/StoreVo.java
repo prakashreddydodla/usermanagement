@@ -31,6 +31,7 @@ public class StoreVo {
 	private String domainName;
 	private String gstNumber;
 	private Long clientId;
+	private Boolean isActive;
 	//private List<UserDetailsVo> storeUsers;
 	
 }

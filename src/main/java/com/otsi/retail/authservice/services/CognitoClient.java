@@ -492,7 +492,7 @@ public class CognitoClient {
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 			logger.error(e.getMessage());
-			throw new Exception(e.getMessage());
+			throw new Exception(e.getLocalizedMessage());
 		}
 
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -74,6 +75,25 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+	@ApiOperation(value = "deleteStore", notes = "delete store record")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful deletion", 
+			response = String.class, responseContainer = "List") })
+	@DeleteMapping(EndpointConstants.DELETE_STORE)
+	public GateWayResponse<?> deleteStore(@RequestParam Long id) {
+		try {
+			logger.info("In DELETE_STORE request : " + id);
+
+			String res = storeService.deleteStore(id);
+
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
+	
 	@ApiOperation(value = "getClientDomainStores", notes = "get store details using clientDomainId")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", 

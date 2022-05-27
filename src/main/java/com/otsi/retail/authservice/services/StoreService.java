@@ -20,4 +20,5 @@ public interface StoreService {
 	 String updateStore(StoreVo vo) throws RuntimeException, Exception;
 	List<Store> getStoresForGivenIds(List<Long> stateCode);
 	GstDetails getGstDetails(long clientId, String stateCode);
+	String deleteStore(Long id);
 }

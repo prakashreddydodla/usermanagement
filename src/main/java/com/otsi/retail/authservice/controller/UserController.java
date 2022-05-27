@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,10 +50,10 @@ public class UserController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = UserDeatils.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_USER)
-	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest,@RequestHeader("clientId") Long clientId) {
+	public GateWayResponse<?> getUserFromDB(Pageable pageable ,@RequestBody GetUserRequestModel userRequest,@RequestHeader(required=false) Long clientId) {
 		try {
 			logger.info("In GET_USER request : "+userRequest.toString());
-			List<UserDeatils> res = userService.getUserFromDb(userRequest,clientId);
+			Page<UserDeatils> res = userService.getUserFromDb(userRequest,clientId,pageable);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -122,10 +124,10 @@ public class UserController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = UserListResponse.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_ID)
-	public GateWayResponse<?> getUsersForClient(@PathVariable String clientId) {
+	public GateWayResponse<?> getUsersForClient(Pageable pageable ,@PathVariable String clientId) {
 		try {
 			logger.info("In GET_ALL_USERS_BY_CLIENT_ID request clientId : "+clientId);
-			List<UserListResponse> res = userService.getUserForClient(Integer.parseInt(clientId));
+			Page<UserListResponse> res = userService.getUserForClient(Integer.parseInt(clientId),pageable);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -188,6 +190,22 @@ public class UserController {
 		try {
 			logger.info("In updateUser request mobileNo : "+req);
 			String res = userService.updateUser(req);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
+	
+	@ApiOperation(value = "deleteUser", notes = "delete user record")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "List") })
+	@PutMapping("/deleteUser")
+	public GateWayResponse<?> deleteUser(@RequestParam Long id) {
+		try {
+			logger.info("In updateUser request mobileNo : "+id);
+			String res = userService.deleteUser(id);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

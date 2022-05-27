@@ -221,6 +221,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setPhoneNumber(request.getPhoneNumber());
 				user.setGender(request.getGender());
 				user.setCreatedBy(request.getCreatedBy());
+				user.setModifiedBy(request.getCreatedBy());
 				user.setIsCustomer(Boolean.TRUE);
 				user= userRepo.save(user);
 				request.setUserId(user.getUserId());

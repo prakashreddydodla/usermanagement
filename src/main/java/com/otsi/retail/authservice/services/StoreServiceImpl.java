@@ -22,6 +22,7 @@ import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserDeatils;
 import com.otsi.retail.authservice.Exceptions.BusinessException;
 import com.otsi.retail.authservice.Exceptions.DuplicateRecordException;
+import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.GstRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
@@ -69,6 +70,7 @@ public class StoreServiceImpl implements StoreService {
 			storeEntity.setPhoneNumber(vo.getPhoneNumber());
 			storeEntity.setCreatedBy(vo.getCreatedBy());
 			storeEntity.setStateCode(vo.getStateCode());
+			
 			if(null!= vo.getGstNumber()) {
 				Optional<GstDetails> gstDetailsopt= gstRepo.findByGstNumber(vo.getGstNumber());
 				if(!gstDetailsopt.isPresent()) {
@@ -189,7 +191,7 @@ public class StoreServiceImpl implements StoreService {
 	public List<Store> getStoresForClientDomian(long clientDomianId) throws Exception {
 		try {
 			logger.info("**********getStoresForClientDomia Method Statrs");
-			List<Store> stores = storeRepo.findByClientDomianlIdId(clientDomianId);
+			List<Store> stores = storeRepo.findByClientDomianlIdIdAndIsActive(clientDomianId,Boolean.TRUE);
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("**********getStoresForClientDomia Method Ends");
 				return stores;
@@ -422,5 +424,26 @@ public class StoreServiceImpl implements StoreService {
 			throw new RuntimeException("clientId and sateCode should not be null");
 		}
 		
+	}
+
+	@Override
+	public String deleteStore(Long id) {
+		
+		Optional<Store> store = storeRepo.findById(id);
+		
+		if(store.isPresent()) {
+			Store storeEntity = store.get();
+			
+			storeEntity.setIsActive(Boolean.FALSE);
+			
+			storeRepo.save(storeEntity);
+			return "Store Deleted with storeId : " + storeEntity.getId();
+
+		}else {
+			throw new RuntimeException("No stores found with these storeId"+ id);
+		}
+			
+		
+				
 	}
 }

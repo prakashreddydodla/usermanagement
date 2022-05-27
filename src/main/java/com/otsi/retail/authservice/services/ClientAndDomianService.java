@@ -13,13 +13,13 @@ import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 @Component
 public interface ClientAndDomianService {
 
-	String createMasterDomain(MasterDomianVo domainVo) throws Exception;
+	String createMasterDomain(MasterDomianVo domainVo, Long userId) throws Exception;
 
 	List<Domain_Master> getMasterDomains();
 
 	String createClient(ClientDetailsVo clientVo) throws Exception;
 
-	String assignDomianToClient(ClientDomianVo domianVo);
+	String assignDomianToClient(ClientDomianVo domianVo,Long userId);
 
 	ClientDetails getClient(long clientId) throws Exception;
 

@@ -2,6 +2,8 @@ package com.otsi.retail.authservice.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.otsi.retail.authservice.Entity.UserDeatils;
@@ -17,12 +19,13 @@ public interface UserService {
  * 
  * @param userRequest
  * @param userId 
+ * @param pageable 
  * @return
  * @throws Exception
  */
-	List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest, Long userId) throws Exception;
+	Page<UserDeatils> getUserFromDb(GetUserRequestModel userRequest, Long userId, Pageable pageable) throws Exception;
 
-	List<UserListResponse> getUserForClient(int clientId) throws Exception;
+	Page<UserListResponse> getUserForClient(int clientId, Pageable pageable) throws Exception;
 
 	List<UserListResponse> getUsersForClientDomain(long clientDomianId);
 
@@ -36,6 +39,8 @@ public interface UserService {
 	List<UserDetailsVo> getCustomersForGivenIds(List<Long> userIds);
 	
 	UserDeatils getMobileNumber(String mobileNumber);
+
+	String deleteUser(Long id);
 	
 	
 }
