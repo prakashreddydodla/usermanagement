@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,5 +45,6 @@ private Boolean isActive;
 private List<Role> roleId;
 
 private Long domain;
+private PrevilegeType previlegeType;
 
 }

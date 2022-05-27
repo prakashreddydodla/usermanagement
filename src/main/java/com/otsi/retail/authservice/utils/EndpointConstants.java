@@ -66,6 +66,8 @@ public class EndpointConstants {
 	public static final String UPDATE_STORE = "/store";
 	public static final String GET_STORELIST = "/storeList";
 	public static final String GET_GSTDETAILS = "/getgstDetails";
+	public static final String DELETE_STORE = "/deleteStore";
+
 
 	
 	
@@ -73,6 +75,7 @@ public class EndpointConstants {
 	
 	public static final String USER = "/user";
 	public static final String GET_USERSFOR_GIVENIDS = "/getUsersForGivenIds";
+	
 	public static final String GET_MOBILENUMBER = "/mobilenumber";
 	public static final String GET_CUSTOMERSFOR_GIVENIDS = "/getCustomersForGivenIds";
 	public static final String GET_USER = "/getUser";

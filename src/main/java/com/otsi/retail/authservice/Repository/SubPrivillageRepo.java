@@ -12,4 +12,5 @@ public interface SubPrivillageRepo  extends JpaRepository<SubPrivilege, Long>{
 
 	List<SubPrivilege> findByParentPrivilegeId(Long id);
 
+
 }

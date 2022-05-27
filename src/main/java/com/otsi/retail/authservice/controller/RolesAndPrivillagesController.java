@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivilege;
 import com.otsi.retail.authservice.requestModel.CreatePrivilegesRequest;
@@ -192,5 +195,36 @@ public class RolesAndPrivillagesController {
 		List<ParentPrivilegeVO> privileges = rolesAndPrivillagesService.getAllPrivilagesForDomian();
 		return ResponseEntity.ok(privileges);
 	}
+	
+	@ApiOperation(value = "childPrivileges/{subPrivilegeId}", notes = "getChildPrivileges By subPrivillageId")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", response = ChildPrivilege.class, responseContainer = "List") })
+	@GetMapping(EndpointConstants.CHILD_PRIVILAGES)
+	public GateWayResponse<?> getChildPrivilegesForSubPrivilege(@PathVariable String subPrivilegeId) {
+		try {
+			logger.info("In CHILD_PRIVILAGES request subPrivilegeId : " + subPrivilegeId);
+			List<ChildPrivilege> res = rolesAndPrivillagesService.getChildPrivileges(Long.parseLong(subPrivilegeId));
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
+	@ApiOperation(value = "deletePrivileges", notes = "delete Privileges")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", response = ParentPrivilegeVO.class, responseContainer = "String") })
+	@DeleteMapping(EndpointConstants.DELETE_PRIVILLAGES)
+	public GateWayResponse<?> deletePrivillages(@RequestParam Long id) {
+
+		try {
+
+			String res = rolesAndPrivillagesService.deletePrevileges(id);
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+
 
 }

@@ -3,6 +3,8 @@ package com.otsi.retail.authservice.Repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +23,7 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	List<UserDetails> findByClientDomiansId(long clientDomianId);
 
-	List<UserDetails> findByUserAv_NameAndUserAv_IntegerValue(String clientId, Long clientId2);
+	Page<UserDetails> findByUserAv_NameAndUserAv_IntegerValue(String clientId, Long clientId2, Pageable pageable);
 
 	Optional<UserDetails> findByPhoneNumberAndRoleRoleName(String mobileNo, String roleName);
 
@@ -54,7 +56,7 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	List<UserDetails> findByclientDomians_clientIdAndIsCustomer(Long clientId, Boolean false1);
 
-	List<UserDetails> findByRoleRoleNameAndIsActive(String roleName, Boolean true1);
+	Page<UserDetails> findByRoleRoleNameAndIsActive(String roleName, Boolean true1, Pageable pageable);
 
 	List<UserDetails> findByRoleRoleNameAndId(String roleName, Long userId);
 
@@ -62,7 +64,7 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	List<UserDetails> findByStores_NameAndId(String storeName, Long userId);
 
-	List<UserDetails> findByStores_NameAndRoleRoleNameAndIsActive(String storeName, String roleName, Boolean true1);
+	Page<UserDetails> findByStores_NameAndRoleRoleNameAndIsActive(String storeName, String roleName, Boolean true1, Pageable pageable);
 
 	List<UserDetails> findByStores_NameAndRoleRoleName(String storeName, String roleName);
 
@@ -74,7 +76,27 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	List<UserDetails> findByIsActiveAndClientDomians_ClientId(Boolean true1, long clientDomainId);
 
-	List<UserDetails> findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean true1, String clientId,
-			int clientDomainId);
+	Page<UserDetails> findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean true1, String clientId,
+			int clientDomainId, Pageable pageable);
+
+	Page<UserDetails> findByStores_NameAndRoleRoleNameAndClient_Id(String storeName, String roleName,
+			Long clientId, Pageable pageable);
+
+	Page<UserDetails> findByRoleRoleNameAndClient_Id(String roleName, Long clientId, Pageable pageable);
+
+	Page<UserDetails> findByStores_NameAndIsActiveAndClient_Id(String storeName, Boolean true1,
+			Long clientId, Pageable pageable);
+
+	Page<UserDetails> findByStores_NameAndClient_Id(String storeName, Long clientId, Pageable pageable);
+
+	Page<UserDetails> findByRoleRoleNameAndIsActiveAndClient_Id(String roleName, Boolean false1,
+			Long clientId, Pageable pageable);
+
+	Page<UserDetails> findById(Long id, Pageable pageable);
+
+	Page<UserDetails> findByUserName(String name, Pageable pageable);
+
+	Page<UserDetails> findByPhoneNumber(String phoneNo, Pageable pageable);
+	
 
 }

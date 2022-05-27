@@ -3,7 +3,9 @@ package com.otsi.retail.authservice.requestModel;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.Entity.SubPrivilege;
+import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,9 +32,13 @@ public class ParentPrivilegeVO {
 	
 	private List<SubPrivilege> subPrivileges;
 	
+	private List<ChildPrivilege> childPrivillages;
+	
 	private String parentImage;
 	
 	private String path;
 	
 	private Long domain;
+	
+	private PrevilegeType previlegeType;
 }

@@ -28,4 +28,6 @@ public interface StoreService {
 	List<Store> getStoresForGivenIds(List<Long> stateCodes);
 
 	GstDetails getGstDetails(Long clientId, String stateCode);
+
+	String deleteStore(Long id);
 }

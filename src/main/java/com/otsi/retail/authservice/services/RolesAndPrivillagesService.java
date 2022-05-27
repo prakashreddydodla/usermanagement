@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivilege;
 import com.otsi.retail.authservice.requestModel.CreatePrivilegesRequest;
@@ -38,4 +39,8 @@ public interface RolesAndPrivillagesService {
 	List<RoleVO> getRolesWithFilter(RolesFilterRequest req,Long clientId) throws RuntimeException;
 
 	String updateRole(CreateRoleRequest request) throws Exception;
+
+	String deletePrevileges(Long id);
+	
+	List<ChildPrivilege> getChildPrivileges(long subPrivillageId) throws Exception;
 }

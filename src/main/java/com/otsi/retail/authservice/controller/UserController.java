@@ -5,7 +5,10 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
@@ -26,10 +30,11 @@ import com.otsi.retail.authservice.services.CognitoClient;
 import com.otsi.retail.authservice.services.UserService;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.GateWayResponse;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Api(value = "UserController", description = "REST APIs related to HsnDetails Entity !!!!")
 @RestController
@@ -47,11 +52,11 @@ public class UserController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = UserDetails.class, responseContainer = "List") })
 	@PostMapping(EndpointConstants.GET_USER)
-	public GateWayResponse<?> getUserFromDB(@RequestBody GetUserRequestModel userRequest,
-			@RequestHeader("userId") Long userId) {
+	public GateWayResponse<?> getUserFromDB(Pageable pageable,@RequestBody GetUserRequestModel userRequest,
+			@RequestHeader(required=false) Long clientId) {
 		try {
 			logger.info("In GET_USER request : " + userRequest.toString());
-			List<UserDetails> res = userService.getUserFromDb(userRequest, userId);
+			Page<UserDetails> res = userService.getUserFromDb(userRequest, clientId,pageable);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
@@ -71,6 +76,35 @@ public class UserController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@ApiOperation(value = "", notes = "getMobileNumber", response = UserDetails.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserDetails.class, responseContainer = "List") })
+	@GetMapping(EndpointConstants.GET_MOBILENUMBER)
+	public GateWayResponse<?> getMobileNumber(@RequestParam String mobileNumber) {
+		try {
+			logger.info("In GET_MOBILENUMBER request : "+mobileNumber);
+			UserDetails res = userService.getMobileNumber(mobileNumber);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	@ApiOperation(value = "getCustomersForGivenIds", notes = "get customer details for given ids", response = UserDetailsVO.class)
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = UserDetailsVO.class, responseContainer = "List") })
+	@PostMapping(EndpointConstants.GET_CUSTOMERSFOR_GIVENIDS)
+	public GateWayResponse<?> getCustomersForGivenIds(@RequestBody List<Long> userIds) {
+		try {
+			logger.info("In GET_CUSTOMER request : "+userIds.toString());
+			List<UserDetailsVO> res = userService.getCustomersForGivenIds(userIds);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
+	
 
 	@ApiOperation(value = EndpointConstants.GET_ALL_USERS, notes = "get  all the user details", response = ListUsersResult.class)
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -85,8 +119,8 @@ public class UserController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = UserListResponse.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_ID)
-	public ResponseEntity<?> getUsersForClient(@PathVariable Long clientId) throws NumberFormatException, Exception {
-		List<UserListResponse> res = userService.getUserForClient(clientId);
+	public ResponseEntity<?> getUsersForClient(Pageable pageable,@PathVariable Long clientId) throws NumberFormatException, Exception {
+		Page<UserListResponse> res = userService.getUserForClient(clientId,pageable);
 		return ResponseEntity.ok(res);
 	}
 
@@ -145,6 +179,21 @@ public class UserController {
 		try {
 			logger.info("In updateUser request mobileNo : " + req);
 			String res = userService.updateUser(req);
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
+	@ApiOperation(value = "deleteUser", notes = "delete user record")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", 
+			response = String.class, responseContainer = "List") })
+	@DeleteMapping("/deleteUser")
+	public GateWayResponse<?> deleteUser(@RequestParam Long id) {
+		try {
+			logger.info("In updateUser request mobileNo : "+id);
+			String res = userService.deleteUser(id);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

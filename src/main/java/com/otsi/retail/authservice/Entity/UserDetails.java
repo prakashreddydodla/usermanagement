@@ -66,5 +66,10 @@ public class UserDetails extends BaseEntity {
 	@JoinTable(name = "user_clientDomians", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
 			@JoinColumn(name = "clientDomainaId") })
 	private List<ClientDomains> clientDomians;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_client", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
+			@JoinColumn(name = "client_id") })	
+	private List<ClientDetails> client;
 
 }

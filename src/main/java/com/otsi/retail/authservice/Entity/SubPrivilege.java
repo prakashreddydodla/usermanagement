@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,6 +43,8 @@ public class SubPrivilege extends BaseEntity {
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "subPrivileges")
 	private List<Role> roleId;
+	
+	private PrevilegeType previlegeType;
 
 	
 }

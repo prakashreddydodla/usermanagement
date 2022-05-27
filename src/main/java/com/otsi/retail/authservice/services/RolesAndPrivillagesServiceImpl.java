@@ -17,14 +17,17 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.amazonaws.services.cognitoidp.model.CreateGroupResult;
 import com.amazonaws.services.cognitoidp.model.GroupExistsException;
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ParentPrivilege;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.SubPrivilege;
 import com.otsi.retail.authservice.Exceptions.InvalidInputsException;
+import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Exceptions.RolesNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
+import com.otsi.retail.authservice.Repository.ChildPrivilegeRepo;
 import com.otsi.retail.authservice.Repository.PrivilageRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.SubPrivillageRepo;
@@ -52,6 +55,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	private SubPrivillageRepo subPrivillageRepo;
 	@Autowired
 	private ChannelRepo channelRepo;
+	
+	@Autowired
+	private ChildPrivilegeRepo childPrivilegeRepo;
 
 	private Logger logger = LogManager.getLogger(RolesAndPrivillagesServiceImpl.class);
 
@@ -80,7 +86,23 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						subPrivilege.setChildImage(subPrivil.getChildImage());
 						subPrivilege.setParentPrivilegeId(parentPrivillage.getId());
 						subPrivilege.setDomain(subPrivil.getDomain());
-						subPrivillageRepo.save(subPrivilege);
+						SubPrivilege subPrivillagesSave = subPrivillageRepo.save(subPrivilege);
+
+						if (!CollectionUtils.isEmpty(subPrivil.getChildPrivillages())) {
+
+							subPrivil.getChildPrivillages().stream().forEach(c -> {
+
+								ChildPrivilege childPrivilege = new ChildPrivilege();
+								childPrivilege.setName(c.getName());
+								childPrivilege.setDescription(c.getDescription());
+								childPrivilege.setSubChildPath(c.getSubChildPath());
+								childPrivilege.setSubChildImage(c.getSubChildImage());
+								childPrivilege.setSubPrivillageId(subPrivillagesSave.getId());
+								childPrivilege.setDomian(c.getDomian());
+								childPrivilegeRepo.save(childPrivilege);
+
+							});
+						}
 					});
 				}
 			});
@@ -113,6 +135,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		logger.info("############### getAllPrivilages method Starts ###################");
 
 		List<ParentPrivilegeVO> listOfParentPrivillages = new ArrayList<>();
+		
 		List<ParentPrivilege> entity = privilageRepository.findAll();
 		entity.stream().forEach(p -> {
 			ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
@@ -125,6 +148,17 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			if (!CollectionUtils.isEmpty(subPrivillages)) {
 				parentPrivillagesVo.setSubPrivileges(subPrivillages);
 			}
+
+			subPrivillages.stream().forEach(s -> {
+
+				List<ChildPrivilege> childPrivillages = childPrivilegeRepo.findBySubPrivillageId(s.getId());
+				if (!CollectionUtils.isEmpty(childPrivillages)) {
+
+					parentPrivillagesVo.setChildPrivillages(childPrivillages);
+                
+				}
+			});
+
 			listOfParentPrivillages.add(parentPrivillagesVo);
 
 		});
@@ -132,6 +166,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 		return listOfParentPrivillages;
 	}
+
 
 	@Override
 	public List<SubPrivilege> getSubPrivillages(long parentId) throws Exception {
@@ -177,6 +212,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		role.setClient(clientDetails);
 		List<ParentPrivilege> parentPrivilageEntites = new ArrayList<>();
 		List<SubPrivilege> subPrivilageEntites = new ArrayList<>();
+		List<ChildPrivilege> childPrivilageEntities = new ArrayList<>();
 
 		try {
 			if (!createRoleRequest.getRoleName().equalsIgnoreCase("CUSTOMER")) {
@@ -211,7 +247,31 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						logger.error("Given sub privilege not found in master");
 						throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "sub privilege not found");
 					}
+					
+					// code added by sudheer
+
+					if (!CollectionUtils.isEmpty(sub.getChildPrivillages())) {
+						sub.getChildPrivillages().stream().forEach(child -> {
+
+							Optional<ChildPrivilege> privilege = childPrivilegeRepo.findById(child.getId());
+							if (privilege.isPresent()) {
+
+								childPrivilageEntities.add(privilege.get());
+
+							} else {
+
+								logger.debug("Given child privilege not found in master");
+								logger.error("Given child privilege not found in master");
+								throw new RuntimeException("Given  privilege not found in master");
+							}
+
+
+						});
+
+					}
 				});
+				role.setChildPrivilages(childPrivilageEntities);
+
 				role.setSubPrivileges(subPrivilageEntites);
 
 				role = roleRepository.save(role);
@@ -301,9 +361,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		List<RoleVO> rolevo = new ArrayList<RoleVO>();
 
 		if (null != req.getRoleName() && null != req.getCreatedDate() && null != req.getCreatedBy()) {
-			LocalDateTime createddate = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndCreatedDate(req.getRoleName(),
-					req.getCreatedBy(), createddate);
+			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
+			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndCreatedDateBetweenAndClient_Id(req.getRoleName(),req.getCreatedBy(), createdDatefrom, createdDateTo, clientId);
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -322,8 +382,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		if (null != req.getRoleName() && null != req.getCreatedDate() && null == req.getCreatedBy()) {
 			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
 			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDateBetween(req.getRoleName(), createdDatefrom,
-					createdDateTo);
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedDateBetweenAndClient_Id(
+					req.getRoleName(), createdDatefrom, createdDateTo, clientId);
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -340,7 +400,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 
 		if (null != req.getRoleName() && null == req.getCreatedDate() && null != req.getCreatedBy()) {
-			Optional<Role> role = roleRepository.findByRoleNameAndCreatedBy(req.getRoleName(), req.getCreatedBy());
+			
+			Optional<Role> role = roleRepository.findByRoleNameAndCreatedByAndClient_Id(req.getRoleName(), req.getCreatedBy(),clientId);
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -359,8 +420,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		if (null == req.getRoleName() && null != req.getCreatedDate() && null != req.getCreatedBy()) {
 			LocalDateTime createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(req.getCreatedDate());
 			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(req.getCreatedDate());
-			List<Role> roles = roleRepository.findByCreatedByAndCreatedDateBetween(req.getCreatedBy(), createdDatefrom,
-					createdDateTo);
+			List<Role> roles = roleRepository.findByCreatedByAndCreatedDateBetweenAndClient_Id(req.getCreatedBy(), createdDatefrom,
+					createdDateTo,clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
 				roles.stream().forEach(r -> {
 					RoleVO vo = rolemapper.convertEntityToRoleVo(r);
@@ -374,7 +435,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 
 		if (null != req.getRoleName()) {
-			Optional<Role> role = roleRepository.findByRoleName(req.getRoleName());
+			Optional<Role> role = roleRepository.findByRoleNameAndClient_Id(req.getRoleName(),clientId);
 			if (role.isPresent()) {
 				List<Role> roles = new ArrayList<>();
 				roles.add(role.get());
@@ -390,7 +451,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 
 		if (null != req.getCreatedBy() && 0l != req.getCreatedBy()) {
-			List<Role> roles = roleRepository.findByCreatedBy(req.getCreatedBy());
+			List<Role> roles = roleRepository.findByCreatedByAndClient_Id(req.getCreatedBy(),clientId);
 			if (!CollectionUtils.isEmpty(roles)) {
 				roles.stream().forEach(r -> {
 					RoleVO vo = rolemapper.convertEntityToRoleVo(r);
@@ -517,5 +578,52 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			listOfParentPrivillages.add(parentPrivillagesVo);
 		});
 		return listOfParentPrivillages;
+	}
+
+	@Override
+	public String deletePrevileges(Long id) {
+
+		Optional<ParentPrivilege> parentId = privilageRepository.findById(id);
+
+		if (parentId.isPresent()) {
+
+			privilageRepository.deleteById(parentId.get().getId());
+
+			List<SubPrivilege> parentPrivillageIds = subPrivillageRepo.findByParentPrivilegeId(parentId.get().getId());
+
+			parentPrivillageIds.stream().forEach(p -> {
+
+				List<ChildPrivilege> subPrivillageIds = childPrivilegeRepo.findBySubPrivillageId(p.getId());
+				childPrivilegeRepo.deleteInBatch(subPrivillageIds);
+			});
+
+			subPrivillageRepo.deleteInBatch(parentPrivillageIds);
+		} else {
+
+			throw new RecordNotFoundException("Parent Id Not Exits", 400);
+
+		}
+
+		return "Privileges deleted Successfully";
+	}
+
+	@Override
+	public List<ChildPrivilege> getChildPrivileges(long subPrivillageId) throws Exception {
+
+		if (0L != subPrivillageId) {
+			List<ChildPrivilege> childPrevilages = childPrivilegeRepo.findBySubPrivillageId(subPrivillageId);
+
+			if (!(CollectionUtils.isEmpty(childPrevilages))) {
+
+				return childPrevilages;
+
+			} else {
+
+				throw new Exception("No childprivillages found");
+			}
+		} else {
+
+			throw new Exception("subPrivillageId should not be null");
+		}
 	}
 }

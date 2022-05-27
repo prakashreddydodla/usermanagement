@@ -21,6 +21,8 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.GstDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserDetails;
+import com.otsi.retail.authservice.Exceptions.BusinessException;
+import com.otsi.retail.authservice.Exceptions.DuplicateRecordException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.GstRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
@@ -52,6 +54,8 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	@Transactional(rollbackOn = { RuntimeException.class })
 	public Store createStore(StoreVO vo) {
+		Store	store = storeRepo.findByNameAndClient_Id(vo.getName(),vo.getClientId());
+		if(store==null) {
 		Store storeEntity = new Store();
 		storeEntity.setName(vo.getName());
 		storeEntity.setAddress(vo.getAddress());
@@ -101,6 +105,9 @@ public class StoreServiceImpl implements StoreService {
 		}
 		storeEntity = storeRepo.save(storeEntity);
 		return storeEntity;
+		}else {
+			throw new DuplicateRecordException("storeName already exist with this clientId"+vo.getClientId(),BusinessException.DRF_STATUSCODE);
+		}
 	}
 
 	@Override
@@ -234,7 +241,7 @@ public class StoreServiceImpl implements StoreService {
 
 		if (0L != vo.getDistrictId() && null != vo.getStateId() && "" != vo.getStateId() && null != vo.getStoreName()
 				&& "" != vo.getStoreName()) {
-			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndNameAndClientDomianlId_Client_Id(
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndNameAndClient_Id(
 					vo.getStateId(), vo.getDistrictId(), vo.getStoreName(), clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
@@ -250,7 +257,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 
 		if (0L != vo.getDistrictId() && null != vo.getStateId() && "" != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndClientDomianlId_Client_Id(vo.getStateId(),
+			List<Store> stores = storeRepo.findByStateCodeAndDistrictIdAndClient_Id(vo.getStateId(),
 					vo.getDistrictId(), clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
@@ -267,7 +274,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 		if (null != vo.getStoreName() && "" != vo.getStoreName() && null != vo.getStateId() && "" != vo.getStateId()
 				&& 0L == vo.getDistrictId()) {
-			List<Store> stores = storeRepo.findByStateCodeAndNameAndClientDomianlId_Client_Id(vo.getStateId(),
+			List<Store> stores = storeRepo.findByStateCodeAndNameAndClient_Id(vo.getStateId(),
 					vo.getStoreName(), clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				logger.info("################  getStoresOnFilter  method ends ###########");
@@ -283,7 +290,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 
 		if (null != vo.getStateId() && "" != vo.getStateId()) {
-			List<Store> stores = storeRepo.findByStateCodeAndClientDomianlId_Client_Id(vo.getStateId(), clientId);
+			List<Store> stores = storeRepo.findByStateCodeAndClient_Id(vo.getStateId(), clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				return stores;
 			} else {
@@ -352,4 +359,26 @@ public class StoreServiceImpl implements StoreService {
 		}
 
 	}
+
+	@Override
+	public String deleteStore(Long id) {
+		
+		Optional<Store> store = storeRepo.findById(id);
+		
+		if(store.isPresent()) {
+			Store storeEntity = store.get();
+			
+			storeEntity.setIsActive(Boolean.FALSE);
+			
+			storeRepo.save(storeEntity);
+			return "Store Deleted with storeId : " + storeEntity.getId();
+
+		}else {
+			throw new RuntimeException("No stores found with these storeId"+ id);
+		}
+			
+		
+				
+	}
+	
 }
