@@ -27,7 +27,7 @@ public class UserDetailsVO {
 	private Boolean isSuperAdmin;
 	private Boolean isCustomer;
 	private Role role;
-	private List<ClientDomains> clientDomians;
+	//private List<ClientDomains> clientDomians;
 	private List<UserAv> userAv;
 	private List<StoreVO> stores;
 	private StoreVO ownerOf;
