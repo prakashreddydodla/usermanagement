@@ -22,6 +22,7 @@ import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
+import com.otsi.retail.authservice.requestModel.PrivilageVO;
 import com.otsi.retail.authservice.requestModel.RoleVo;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.services.RolesAndPrivillagesServiceImpl;
@@ -195,7 +196,7 @@ public class RolesAndPrivillagesController {
 	public GateWayResponse<?> getAllPrivilages() {
 		try {
 			logger.info("In GET_ALL_PRIVILAGES request  ");
-			List<ParentPrivilageVo> res = rolesAndPrivillagesService.getAllPrivilages();
+			PrivilageVO res = rolesAndPrivillagesService.getAllPrivilages();
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
@@ -229,7 +230,7 @@ public class RolesAndPrivillagesController {
 
 		try {
 			logger.info("In GET_PRIVILLAGES_BY_DOMIAN request  domian : " + domian);
-			List<ParentPrivilageVo> res = rolesAndPrivillagesService
+			PrivilageVO res = rolesAndPrivillagesService
 					.getAllPrivilagesForDomian(Integer.parseInt(domian));
 			return new GateWayResponse<>(200, res, "", "true");
 
