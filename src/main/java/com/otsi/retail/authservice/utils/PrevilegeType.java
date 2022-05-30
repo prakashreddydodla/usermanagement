@@ -9,6 +9,6 @@ package com.otsi.retail.authservice.utils;
  */
 public enum PrevilegeType {
 	
-	Web_Side,Mobile_Side;
+	Web,Mobile;
 
 }

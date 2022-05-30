@@ -24,6 +24,7 @@ import com.otsi.retail.authservice.Entity.SubPrivilege;
 import com.otsi.retail.authservice.requestModel.CreatePrivilegesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilegeVO;
+import com.otsi.retail.authservice.requestModel.PrivilegeVO;
 import com.otsi.retail.authservice.requestModel.RoleVO;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.services.RolesAndPrivillagesServiceImpl;
@@ -161,7 +162,7 @@ public class RolesAndPrivillagesController {
 	public GateWayResponse<?> getAllPrivilages() {
 		try {
 			logger.info("In GET_ALL_PRIVILAGES request  ");
-			List<ParentPrivilegeVO> res = rolesAndPrivillagesService.getAllPrivilages();
+			PrivilegeVO res = rolesAndPrivillagesService.getAllPrivilages();
 			return new GateWayResponse<>(200, res, "", "true");
 
 		} catch (Exception e) {
@@ -192,7 +193,7 @@ public class RolesAndPrivillagesController {
 			@ApiResponse(code = 200, message = "Successful retrieval", response = ParentPrivilegeVO.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_PRIVILLAGES)
 	public ResponseEntity<?> getPrivillagesForDomian() {
-		List<ParentPrivilegeVO> privileges = rolesAndPrivillagesService.getAllPrivilagesForDomian();
+		PrivilegeVO privileges = rolesAndPrivillagesService.getAllPrivilagesForDomian();
 		return ResponseEntity.ok(privileges);
 	}
 	
