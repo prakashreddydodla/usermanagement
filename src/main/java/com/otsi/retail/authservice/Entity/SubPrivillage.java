@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +33,6 @@ public class SubPrivillage extends BaseEntity {
 	private String childImage;
 	private int domian;
 	private Long parentPrivillageId;
-	@Enumerated(EnumType.STRING)
 	private PrevilegeType previlegeType;
 	
 	/*private LocalDate createdDate;

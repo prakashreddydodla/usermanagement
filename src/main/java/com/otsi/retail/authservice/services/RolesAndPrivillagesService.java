@@ -10,7 +10,6 @@ import com.otsi.retail.authservice.Entity.SubPrivillage;
 import com.otsi.retail.authservice.requestModel.CreatePrivillagesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilageVo;
-import com.otsi.retail.authservice.requestModel.PrivilageVO;
 import com.otsi.retail.authservice.requestModel.RoleVo;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.requestModel.SubPrivillagesvo;
@@ -22,9 +21,7 @@ public interface RolesAndPrivillagesService {
 
 	String saveSubPrivillages(SubPrivillagesvo vo) throws Exception;
 
-	//List<ParentPrivilageVo> getAllPrivilages();
-	
-	PrivilageVO getAllPrivilages();
+	List<ParentPrivilageVo> getAllPrivilages();
 
 	List<SubPrivillage> getSubPrivillages(long parentId) throws Exception;
 	

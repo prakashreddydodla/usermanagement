@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,7 +39,6 @@ public class ChildPrivilege extends BaseEntity {
 	private String subChildImage;
 	private int domian;
 	private Long subPrivillageId;
-	@Enumerated(EnumType.STRING)
 	private PrevilegeType previlegeType;
 	
 	@JsonIgnore
