@@ -342,8 +342,8 @@ public class CognitoClient {
 					.findById(Long.valueOf(request.getClientId()));
 			if (clientDetailsOptional.isPresent()) {
 				ClientDetails clientDetails = clientDetailsOptional.get();
-				userAtributes.add(new AttributeType().withName(CognitoAtributes.IS_DELIVERYSLIP_ENABLED)
-						.withValue(String.valueOf(clientDetails.getIsDeliverySlipEnabled())));
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.IS_ESTIMATION_SLIP_ENABLED)
+						.withValue(String.valueOf(clientDetails.getIsEsSlipEnabled())));
 				userAtributes.add(new AttributeType().withName(CognitoAtributes.IS_TAX_INCLUDED)
 						.withValue(String.valueOf(clientDetails.getIsTaxIncluded())));
 			}

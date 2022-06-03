@@ -31,7 +31,7 @@ public class ClientDetailsVO {
 	
 	private Long createdBy;
 	
-	private Boolean isDeliverySlipEnabled;
+	private Boolean isEsSlipEnabled;
 	
 	private Boolean isTaxIncluded;
 	

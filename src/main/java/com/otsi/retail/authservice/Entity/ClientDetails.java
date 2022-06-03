@@ -40,7 +40,7 @@ public class ClientDetails extends BaseEntity implements Serializable {
 
 	private String email;
 
-	private Boolean isDeliverySlipEnabled;
+	private Boolean isEsSlipEnabled;
 
 	private Boolean isTaxIncluded;
 

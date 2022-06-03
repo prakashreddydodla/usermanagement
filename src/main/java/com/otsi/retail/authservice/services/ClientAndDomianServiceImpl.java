@@ -80,7 +80,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientDetails.setOrganizationName(clientDetailsVO.getOrganizationName());
 			clientDetails.setMobile(clientDetailsVO.getMobile());
 			clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
-			clientDetails.setIsDeliverySlipEnabled(clientDetailsVO.getIsDeliverySlipEnabled());
+			clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
 			clientDetails = clientDetailsRepository.save(clientDetails);
 			return clientDetails;
 		} else {
