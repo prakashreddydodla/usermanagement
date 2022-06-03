@@ -77,12 +77,10 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	List<UserDetails> findByIsActiveAndClientDomians_ClientId(Boolean true1, long clientDomainId);
 
 	Page<UserDetails> findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean true1, String clientId,
-			int clientDomainId, Pageable pageable);
+			Long clientDomainId, Pageable pageable);
 
 	Page<UserDetails> findByStores_NameAndRoleRoleNameAndClient_Id(String storeName, String roleName,
 			Long clientId, Pageable pageable);
-
-	Page<UserDetails> findByRoleRoleNameAndClient_Id(String roleName, Long clientId, Pageable pageable);
 
 	Page<UserDetails> findByStores_NameAndIsActiveAndClient_Id(String storeName, Boolean true1,
 			Long clientId, Pageable pageable);
@@ -97,6 +95,8 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	Page<UserDetails> findByUserName(String name, Pageable pageable);
 
 	Page<UserDetails> findByPhoneNumber(String phoneNo, Pageable pageable);
+
+	Page<UserDetails> findByRoleRoleNameAndClientId(String roleName, Long clientId, Pageable pageable);
 	
 
 }

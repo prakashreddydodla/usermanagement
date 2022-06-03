@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.services;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,6 +33,7 @@ import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.AttributeType;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
+import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.Store;
@@ -212,7 +212,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						"mobile number already exists " + adminCreateUserRequest.getPhoneNumber());
 			}
 			List<String> missingFileds = new ArrayList<>();
-			//create customer
+			// create customer
 			if (null != adminCreateUserRequest.getIsCustomer() && adminCreateUserRequest.getIsCustomer()) {
 				UserDetails user = new UserDetails();
 				user.setUserName(adminCreateUserRequest.getUsername());
@@ -613,11 +613,11 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			}
 		});
 		try {
-			UserDetails userSaved = userRepository.save(user);
+			// UserDetails userSaved = userRepository.save(user);
 			if (roleId != 0L) {
 				Optional<Role> role = roleRepository.findById(roleId);
 				if (role.isPresent()) {
-					userSaved.setRole(role.get());
+					user.setRole(role.get());
 				} else {
 					Role specialRole = new Role();
 					attributes.stream().forEach(b -> {
@@ -625,7 +625,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 							if (b.getValue().equalsIgnoreCase("true")) {
 								Optional<Role> roleSuperAdmin = roleRepository.findByRoleName("super_admin");
 								if (roleSuperAdmin.isPresent()) {
-									userSaved.setRole(roleSuperAdmin.get());
+									user.setRole(roleSuperAdmin.get());
 								}
 
 							}
@@ -634,16 +634,20 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 							if (b.getValue().equalsIgnoreCase("true")) {
 								Optional<Role> roleCognifuser = roleRepository.findByRoleName("config_user");
 								if (roleCognifuser.isPresent()) {
-									userSaved.setRole(roleCognifuser.get());
+									user.setRole(roleCognifuser.get());
 								}
 
 							}
 						}
 					});
-					userSaved.setRole(specialRole);
+					user.setRole(specialRole);
 				}
 			}
-			return userRepository.save(userSaved);
+			Optional<ClientDetails> clientDetailsOptional = clientDetailsRepo.findById(786l);
+			if (clientDetailsOptional.isPresent()) {
+				user.setClient(Arrays.asList(clientDetailsOptional.get()));
+			}
+			return userRepository.save(user);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
