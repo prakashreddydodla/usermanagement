@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.swing.Spring;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -69,7 +69,9 @@ import com.amazonaws.services.cognitoidp.model.UpdateGroupRequest;
 import com.amazonaws.services.cognitoidp.model.UpdateGroupResult;
 import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
+import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.Store;
+import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
@@ -109,6 +111,9 @@ public class CognitoClient {
 		this.REGION = REGION;
 		client = createCognitoClient();
 	}
+
+	@Autowired
+	private ClientDetailsRepo clientDetailsRepository;
 
 	// To configure the cognito client. By using this cognito client we can
 	// communicate AWS Cognito userpool
@@ -332,6 +337,16 @@ public class CognitoClient {
 		if (null != request.getClientId()) {
 			userAtributes
 					.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID).withValue(request.getClientId()));
+
+			Optional<ClientDetails> clientDetailsOptional = clientDetailsRepository
+					.findById(Long.valueOf(request.getClientId()));
+			if (clientDetailsOptional.isPresent()) {
+				ClientDetails clientDetails = clientDetailsOptional.get();
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.IS_DELIVERYSLIP_ENABLED)
+						.withValue(String.valueOf(clientDetails.getIsDeliverySlipEnabled())));
+				userAtributes.add(new AttributeType().withName(CognitoAtributes.IS_TAX_INCLUDED)
+						.withValue(String.valueOf(clientDetails.getIsTaxIncluded())));
+			}
 		}
 
 		if (StringUtils.isNotEmpty(request.getRoleName())) {
@@ -348,8 +363,8 @@ public class CognitoClient {
 					.withValue(clientDomiansConvertTostring(request.getClientDomain())));
 		}
 		if (null != request.getId()) {
-			userAtributes.add(new AttributeType().withName(CognitoAtributes.USER_ID)
-					.withValue(String.valueOf(request.getId())));
+			userAtributes.add(
+					new AttributeType().withName(CognitoAtributes.USER_ID).withValue(String.valueOf(request.getId())));
 		}
 	}
 
@@ -605,7 +620,7 @@ public class CognitoClient {
 		request.setUserPoolId(USERPOOL_ID);
 		try {
 			ListUsersResult result = client.listUsers(request);
-			if (result.getSdkHttpMetadata().getHttpStatusCode() ==  HttpStatus.OK.value()) {
+			if (result.getSdkHttpMetadata().getHttpStatusCode() == HttpStatus.OK.value()) {
 				return result;
 			} else {
 				logger.error("No users found");

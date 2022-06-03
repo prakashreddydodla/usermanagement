@@ -27,6 +27,9 @@ public class CognitoAtributes {
 	public static final String CREATED_BY = "custom:createdBy";
 	public static final String ROLE_NAME = "custom:roleName";
 	public static final String USER_ID="custom:userId";
+	public static final String IS_DELIVERYSLIP_ENABLED="custom:isDeliverySlipEnabled";
+	public static final String IS_TAX_INCLUDED="custom:isTaxIncluded";
+
 
 	
 }

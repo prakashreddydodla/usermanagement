@@ -23,12 +23,19 @@ public class ClientDetailsVO {
 	
 	private LocalDate createdDate;
 	
-	private LocalDate lastModifyedDate;
+	private LocalDate lastModifiedDate;
 	
 	private String mobile;
 	
 	private String email;
 	
 	private Long createdBy;
+	
+	private Boolean isDeliverySlipEnabled;
+	
+	private Boolean isTaxIncluded;
+	
+	
+	
 	
 }

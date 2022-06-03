@@ -1,7 +1,7 @@
 package com.otsi.retail.authservice.services;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +19,6 @@ import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.Exceptions.BusinessException;
-import com.otsi.retail.authservice.Exceptions.DuplicateRecordException;
 import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
@@ -27,35 +26,28 @@ import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
-import com.otsi.retail.authservice.utils.ErrorCodes;
 
 @Service
 public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private ChannelRepo clientChannelRepository;
+
 	@Autowired
 	private ClientDetailsRepo clientDetailsRepository;
+
 	@Autowired
 	private Domian_MasterRepo domian_MasterRepo;
+
 	private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 	@Override
 	public String createMasterDomain(MasterDomianVo domainVo) throws Exception {
-		logger.info("############### createMasterDomain method Starts ###################");
-
 		Domain_Master domain = new Domain_Master();
 		try {
 			domain.setChannelName(domainVo.getDomainName());
 			domain.setDiscription(domainVo.getDiscription());
-			/*
-			 * domain.setCreatedDate(LocalDate.now());
-			 * domain.setLastModifyedDate(LocalDate.now());
-			 */
-
 			Domain_Master savedChannel = domian_MasterRepo.save(domain);
-			logger.info("############### createMasterDomain method ends ###################");
-
 			return "Channel created with Id : " + savedChannel.getId();
 
 		} catch (Exception e) {
@@ -67,17 +59,12 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Override
 	public List<Domain_Master> getMasterDomains() {
-		logger.info("############### getMasterDomains method Starts ###################");
-
 		List<Domain_Master> domains = domian_MasterRepo.findAll();
 		if (CollectionUtils.isEmpty(domains)) {
-			logger.debug("No master domians present in DB ");
 			logger.error("No master domians present in DB ");
 			throw new RecordNotFoundException(BusinessException.RNF_DESCRIPTION,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
-		logger.info("############### getMasterDomains method ends ###################");
-
 		return domains;
 	}
 
@@ -92,11 +79,14 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientDetails.setCreatedBy(clientDetailsVO.getCreatedBy());
 			clientDetails.setOrganizationName(clientDetailsVO.getOrganizationName());
 			clientDetails.setMobile(clientDetailsVO.getMobile());
+			clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
+			clientDetails.setIsDeliverySlipEnabled(clientDetailsVO.getIsDeliverySlipEnabled());
 			clientDetails = clientDetailsRepository.save(clientDetails);
 			return clientDetails;
 		} else {
 			logger.error("client name already exists: " + clientDetailsVO.getName());
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "client name already exists:"+clientDetailsVO.getName());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"client name already exists:" + clientDetailsVO.getName());
 		}
 	}
 
@@ -115,7 +105,6 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					if (client_db.isPresent()) {
 						clientDomians.setClient(client_db.get());
 					} else {
-						logger.debug("No client details found with this Client Id : " + domianVo.getClientId());
 						logger.error("No client details found with this Client Id : " + domianVo.getClientId());
 						throw new RecordNotFoundException(
 								"No client details found with this Client Id : " + domianVo.getClientId(),
@@ -171,15 +160,10 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Override
 	public ClientDetails getClient(long clientId) throws Exception {
-		logger.info("############### getClient method starts ###################");
-
 		Optional<ClientDetails> client = clientDetailsRepository.findById(clientId);
 		if (client.isPresent()) {
-			logger.info("############### getClient method ends ###################");
-
 			return client.get();
 		} else {
-			logger.debug("No Client found with this Id : " + clientId);
 			logger.error("No Client found with this Id : " + clientId);
 			throw new RecordNotFoundException("No Client found with this Id : " + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -189,31 +173,19 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Override
 	public List<ClientDetails> getAllClient() throws Exception {
-		logger.info("############### getAllClient method starts ###################");
-
 		List<ClientDetails> clients = clientDetailsRepository.findAll();
 		if (!CollectionUtils.isEmpty(clients)) {
-			logger.info("############### getAllClient method ends ###################");
 			return clients;
-
-		} else {
-			logger.debug("No clients found");
-			logger.error("No clients found");
-			throw new RecordNotFoundException("No clients found", BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override
 	public List<ClientDomains> getDomainsForClient(long clientId) {
-		logger.info("############### getDomainsForClient method starts ###################");
-
 		List<ClientDomains> clientDomians = clientChannelRepository.findByClient_Id(clientId);
 		if (!CollectionUtils.isEmpty(clientDomians)) {
-			logger.info("############### getDomainsForClient method ends ###################");
-
 			return clientDomians;
 		} else {
-			logger.debug("No domian found with this Client :" + clientId);
 			logger.error("No domian found with this Client :" + clientId);
 			throw new RecordNotFoundException("No domian found with this Client :" + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -223,16 +195,10 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Override
 	public ClientDomains getDomianById(long clientDomianId) {
-		logger.info("############### getDomianById method starts ###################");
-
 		Optional<ClientDomains> domianOptional = clientChannelRepository.findById(clientDomianId);
 		if (domianOptional.isPresent()) {
-			logger.info("############### getDomianById method ends ###################");
-
 			return domianOptional.get();
-
 		} else {
-			logger.debug("Client domian not found with this Id : " + clientDomianId);
 			logger.error("Client domian not found with this Id : " + clientDomianId);
 			throw new RecordNotFoundException("Client domian not found with this Id : " + clientDomianId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);

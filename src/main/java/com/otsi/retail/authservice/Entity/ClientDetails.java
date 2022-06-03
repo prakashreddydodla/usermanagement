@@ -35,8 +35,13 @@ public class ClientDetails extends BaseEntity implements Serializable {
 
 	@OneToMany(mappedBy = "client")
 	private List<ClientDomains> channelId;
-	
+
 	private String mobile;
-	
+
 	private String email;
+
+	private Boolean isDeliverySlipEnabled;
+
+	private Boolean isTaxIncluded;
+
 }
