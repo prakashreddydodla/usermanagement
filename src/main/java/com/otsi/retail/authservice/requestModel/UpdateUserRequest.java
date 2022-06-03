@@ -15,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UpdateUserRequest {
 
-	private Long userId;
+	private Long id;
 	
 	private String email;
 	

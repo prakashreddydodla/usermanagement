@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
+import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.Store;
@@ -22,6 +23,7 @@ import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Exceptions.UserNotFoundException;
+import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.ClientcDomianRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
@@ -57,6 +59,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CognitoClient cognitoClient;
+	
+	@Autowired
+	private ClientDetailsRepo clientRepo;
 
 	private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
@@ -388,11 +393,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String updateUser(UpdateUserRequest req) throws RuntimeException {
 		try {
-			Optional<UserDetails> userOptional = userRepository.findById(req.getUserId());
+			Optional<UserDetails> userOptional = userRepository.findById(req.getId());
 			if (userOptional.isPresent()) {
 
 				UserDetails userDetails = userOptional.get();
-				userDetails.setId(req.getUserId());
+				userDetails.setId(req.getId());
 				userDetails.setUserName(req.getUsername());
 				userDetails.setPhoneNumber(req.getPhoneNumber());
 				userDetails.setGender(req.getGender());
@@ -458,21 +463,21 @@ public class UserServiceImpl implements UserService {
 					}
 				});
 
-				if (null != req.getChannelId()) {
-					List<ClientDomains> clientDomains = new ArrayList<>();
-					Arrays.asList(req.getClientDomain()).stream().forEach(clientDomianId -> {
-						Optional<ClientDomains> dbClientDomainRecord = clientcDomianRepo
-								.findById(Long.parseLong(clientDomianId.toString()));
+				if (null != req.getClientId()) {
+					List<ClientDetails> clients = new ArrayList<>();
+					Arrays.asList(req.getClientId()).stream().forEach(clientId -> {
+						Optional<ClientDetails> dbClientRecord = clientRepo
+								.findById(Long.parseLong(clientId.toString()));
 
-						if (dbClientDomainRecord.isPresent()) {
-							clientDomains.add(dbClientDomainRecord.get());
+						if (dbClientRecord.isPresent()) {
+							clients.add(dbClientRecord.get());
 						} else {
-							logger.debug("Client Domian not found with this Id : " + clientDomianId);
-							logger.error("Client Domian not found with this Id : " + clientDomianId);
-							throw new RuntimeException("Client Domian not found with this Id : " + clientDomianId);
+							logger.debug("Client not found with this Id : " + clientId);
+							logger.error("Client not found with this Id : " + clientId);
+							throw new RuntimeException("Client not found with this Id : " + clientId);
 						}
 					});
-					savedUser.setClientDomians(clientDomains);
+					savedUser.setClient(clients);
 					userRepository.save(savedUser);
 				}
 
@@ -503,9 +508,9 @@ public class UserServiceImpl implements UserService {
 					throw new RuntimeException("Failed to update");
 				}
 			} else {
-				logger.debug("User not found with this Id :" + req.getUserId());
-				logger.error("User not found with this Id :" + req.getUserId());
-				throw new RuntimeException("User not found with this Id :" + req.getUserId());
+				logger.debug("User not found with this Id :" + req.getId());
+				logger.error("User not found with this Id :" + req.getId());
+				throw new RuntimeException("User not found with this Id :" + req.getId());
 			}
 
 		} catch (RuntimeException re) {

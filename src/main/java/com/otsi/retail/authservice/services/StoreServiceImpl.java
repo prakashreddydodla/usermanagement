@@ -24,6 +24,7 @@ import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.Exceptions.BusinessException;
 import com.otsi.retail.authservice.Exceptions.DuplicateRecordException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
+import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.GstRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserRepository;
@@ -49,6 +50,12 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private ChannelRepo clientChannelRepository;
+	
+	@Autowired
+	private ClientDetailsRepo clientRepo;
+	
+	
+	
 	private Logger logger = LogManager.getLogger(StoreServiceImpl.class);
 
 	@Override
@@ -132,13 +139,13 @@ public class StoreServiceImpl implements StoreService {
 				throw new RuntimeException("No user found in database for StoreOwner");
 			}
 		}
-		if (0L != vo.getDomainId()) {
-			Optional<ClientDomains> clientDomian = clientChannelRepository.findById(vo.getDomainId());
-			if (clientDomian.isPresent()) {
-				storeEntity.setClientDomianlId(clientDomian.get());
+		if (0L != vo.getClientId()) {
+			Optional<ClientDetails> client = clientRepo.findById(vo.getClientId());
+			if (client.isPresent()) {
+				storeEntity.setClient(client.get());
 			} else {
-				logger.error("No client Domian found with this DomianId :" + vo.getDomainId());
-				throw new RuntimeException("No client Domian found with this DomianId :" + vo.getDomainId());
+				logger.error("No client found with this DomianId :" + vo.getDomainId());
+				throw new RuntimeException("No client found with this DomianId :" + vo.getDomainId());
 			}
 		}
 		storeEntity = storeRepo.save(storeEntity);
@@ -266,7 +273,7 @@ public class StoreServiceImpl implements StoreService {
 			} else {
 				logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
 				logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
-				throw new RuntimeException("Stores not found with this DistrictId  and sateId: " + vo.getDistrictId()
+				throw new RuntimeException("Stores not found with this DistrictId  and stateId: " + vo.getDistrictId()
 						+ "" + vo.getStateId());
 
 			}
