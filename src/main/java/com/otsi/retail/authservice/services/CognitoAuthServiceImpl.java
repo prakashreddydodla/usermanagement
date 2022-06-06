@@ -426,10 +426,10 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	 * @throws Exception
 	 */
 	private Long saveUser(Date userCreateDate, Date userLastModifiedDate, List<AttributeType> attributes, long roleId,
-			String userName, Boolean enable,Long clientId) throws Exception {
+			String userName, Boolean enable, Long clientId) throws Exception {
 
 		// save user along with role
-		UserDetails user = saveUser(attributes, roleId, userName, enable,clientId);
+		UserDetails user = saveUser(attributes, roleId, userName, enable, clientId);
 
 		List<UserAv> userAvList = new ArrayList<>();
 		UserAv userAv1 = new UserAv();
@@ -593,8 +593,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		return user.getId();
 	}
 
-	private UserDetails saveUser(List<AttributeType> attributes, long roleId, String userName, Boolean enable,Long clientId)
-			throws Exception {
+	private UserDetails saveUser(List<AttributeType> attributes, long roleId, String userName, Boolean enable,
+			Long clientId) throws Exception {
 		UserDetails user = new UserDetails();
 		user.setUserName(userName);
 		user.setIsActive(enable);
@@ -643,9 +643,11 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					user.setRole(specialRole);
 				}
 			}
-			Optional<ClientDetails> clientDetailsOptional = clientDetailsRepo.findById(clientId);
-			if (clientDetailsOptional.isPresent()) {
-				user.setClient(Arrays.asList(clientDetailsOptional.get()));
+			if (clientId != null) {
+				Optional<ClientDetails> clientDetailsOptional = clientDetailsRepo.findById(clientId);
+				if (clientDetailsOptional.isPresent()) {
+					user.setClient(Arrays.asList(clientDetailsOptional.get()));
+				}
 			}
 			return userRepository.save(user);
 		} catch (Exception e) {
@@ -679,7 +681,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				}
 				Long userId = saveUser(userDetails.getUserCreateDate(), userDetails.getUserLastModifiedDate(),
 						userDetails.getUserAttributes(), roleId, newPasswordChallengeRequest.getUserName(),
-						userDetails.getEnabled(),newPasswordChallengeRequest.getClientId());
+						userDetails.getEnabled(), newPasswordChallengeRequest.getClientId());
 				UpdateUserAttribute request = new UpdateUserAttribute();
 				request.setUserName(newPasswordChallengeRequest.getUserName());
 				request.setAttributeName(CognitoAtributes.USER_ID);
