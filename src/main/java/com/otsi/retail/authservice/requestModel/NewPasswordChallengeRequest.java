@@ -20,4 +20,6 @@ public class NewPasswordChallengeRequest {
 	private String session;
 	
 	private String roleName;
+	
+	private Long clientId;
 }

@@ -47,6 +47,8 @@ public class StoreVO {
 	
 	private String gstNumber;
 	
+	private Boolean isActive;
+	
 	private Long clientId;
 	
 }

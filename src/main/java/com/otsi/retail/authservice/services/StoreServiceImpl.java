@@ -69,6 +69,7 @@ public class StoreServiceImpl implements StoreService {
 		storeEntity.setStateId(vo.getStateId());
 		storeEntity.setDistrictId(vo.getDistrictId());
 		storeEntity.setCityId(vo.getCityId());
+        storeEntity.setIsActive(Boolean.TRUE);
 		storeEntity.setArea(vo.getArea());
 		storeEntity.setPhoneNumber(vo.getPhoneNumber());
 		storeEntity.setCreatedBy(vo.getCreatedBy());
@@ -198,6 +199,7 @@ public class StoreServiceImpl implements StoreService {
 		storeVo.setCreatedBy(store.getCreatedBy());
 		storeVo.setDistrictId(store.getDistrictId());
 		storeVo.setName(store.getName());
+		storeVo.setIsActive(store.getIsActive());
 		storeVo.setPhoneNumber(store.getPhoneNumber());
 		//storeVo.setDomainId(store.getClientDomianlId().getId());
 		storeVo.setStateCode(store.getStateCode());
