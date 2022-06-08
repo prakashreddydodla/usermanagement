@@ -11,7 +11,7 @@ spring:  application:    name: user-management-service
 
   jpa:
    hibernate:
-    ddl-auto: create
+    ddl-auto: update
    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
    show-sql: true
    
@@ -20,7 +20,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://service-registry:8762/eureka/
+      defaultZone: http://localhost:8762/eureka/
   instance:
     instance-id: ${spring.application.name}:${random.int}
     hostname: localhost
@@ -43,4 +43,4 @@ logging:
                        web:
                          FilterChainProxy : debug
 springdoc:
-  packagesToScan: com.otsi.retail.authservice   
+  packagesToScan: com.otsi.retail.authservice
