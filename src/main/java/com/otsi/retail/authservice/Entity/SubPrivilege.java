@@ -1,51 +1,3 @@
-<<<<<<< HEAD:src/main/java/com/otsi/retail/authservice/Entity/SubPrivillage.java
-package com.otsi.retail.authservice.Entity;
-
-import java.time.LocalDate;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class SubPrivillage extends BaseEntity {
-
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private String name;
-	private String description;
-	private String childPath;
-	private String childImage;
-	private int domian;
-	private Long parentPrivillageId;
-	/*private LocalDate createdDate;
-	private LocalDate modifyDate;
-	private String modifiedBy;*/
-
-	
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "subPrivilages")
-	private List<Role> roleId;
-
-	
-}
-
-=======
 package com.otsi.retail.authservice.Entity;
 
 import java.util.List;
@@ -99,4 +51,3 @@ public class SubPrivilege extends BaseEntity {
 	
 }
 
->>>>>>> alpha-release:src/main/java/com/otsi/retail/authservice/Entity/SubPrivilege.java
