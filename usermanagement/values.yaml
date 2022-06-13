@@ -109,3 +109,4 @@ persistence:
 
 volumeMounts: 
   mountPath: /target/newrelic/
+  
