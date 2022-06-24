@@ -635,11 +635,17 @@ public class CognitoClient {
 	// Update the user in userpool. We need to set the update values to user
 	public AdminUpdateUserAttributesResult updateUserInCognito(UpdateUserRequest request) {
 		logger.info("##############  updateUserInCognito method starts  ##############");
-
+		String accountStatus;
 		try {
 			AdminUpdateUserAttributesRequest adminUpdateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
+			AdminDisableUserRequest adminDisableuser = new AdminDisableUserRequest();
+			AdminEnableUserRequest  adminEnableUser = new AdminEnableUserRequest();
 			adminUpdateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
 			adminUpdateUserAttributesRequest.setUsername(request.getUsername());
+			adminDisableuser.setUserPoolId(USERPOOL_ID);
+			adminDisableuser.setUsername(request.getUsername());
+			adminEnableUser.setUserPoolId(USERPOOL_ID);
+			adminEnableUser.setUsername(request.getUsername());
 
 			List<AttributeType> userAtributes = new ArrayList<>();
 			if (null != request.getEmail()) {
@@ -649,6 +655,16 @@ public class CognitoClient {
 				userAtributes.add(new AttributeType().withName(CognitoAtributes.PHONE_NUMBER)
 						.withValue(request.getPhoneNumber()));
 			}
+			
+			
+			if (null != request.getIsActive()) {
+				
+				if(request.getIsActive()==Boolean.TRUE)
+					client.adminEnableUser(adminEnableUser);
+				else
+					client.adminDisableUser(adminDisableuser);
+			}
+			
 
 			if (null != request.getName()) {
 				userAtributes.add(new AttributeType().withName(CognitoAtributes.NAME).withValue(request.getName()));

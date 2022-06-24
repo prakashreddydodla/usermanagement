@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,7 @@ import com.otsi.retail.authservice.requestModel.ParentPrivilegeVO;
 import com.otsi.retail.authservice.requestModel.PrivilegeVO;
 import com.otsi.retail.authservice.requestModel.RoleVO;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
+import com.otsi.retail.authservice.requestModel.SubPrivilegeVO;
 import com.otsi.retail.authservice.requestModel.SubPrivilegesVO;
 import com.otsi.retail.authservice.utils.DateConverters;
 import com.otsi.retail.authservice.utils.PrevilegeType;
@@ -201,7 +203,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
 				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
-					parentPrivillagesVo.setSubPrivileges(subPrivillages);
+					parentPrivillagesVo.setSubPrivilege(subPrivillages);
 				}
 
 				subPrivillages.stream().forEach(s -> {
@@ -231,7 +233,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
 				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
-					parentPrivillagesVo.setSubPrivileges(subPrivillages);
+					parentPrivillagesVo.setSubPrivilege(subPrivillages);
 				}
 
 				subPrivillages.stream().forEach(s -> {
@@ -567,8 +569,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				throw new RolesNotFoundException("No roles created  in this Date : " + req.getCreatedDate());
 			}
 		}
-		logger.error("Please give any one input feild for filter");
-		throw new InvalidInputsException("Please give any one input feild for filter");
+		logger.error("Please give any one input field for filter");
+		throw new InvalidInputsException("Please give any one input field for filter");
 	}
 
 	@Override
@@ -633,14 +635,14 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			roleRepository.save(roleEntity);
 			cognitoClient.updateRole(request);
 			logger.info("Update role method Ends");
-			return "Successfully update the role";
+			return "role updated sucessfully";
 
 		} catch (RuntimeException re) {
-			logger.error("Error occurs while updateing the role Error : " + re.getMessage());
+			logger.error("Error occurs while updating the role Error : " + re.getMessage());
 			throw new RuntimeException(re.getMessage());
 
 		} catch (Exception e) {
-			logger.error("Error occurs while updateing the role Error : " + e.getMessage());
+			logger.error("Error occurs while updating the role Error : " + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -651,6 +653,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 		// List<ParentPrivilages> entity = privilageRepository.findByDomian(domian);
 		PrivilegeVO privilegeVo = new PrivilegeVO();
+		
 
 		List<ParentPrivilege> entity = privilageRepository.findByIsActiveTrue();
 
@@ -664,19 +667,23 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
 				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
 				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
+				
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
-					parentPrivillagesVo.setSubPrivileges(subPrivillages);
+					List<SubPrivilegeVO>  subPrivilegeVO=	converListEntityToVo(subPrivillages);
+					subPrivilegeVO.stream().forEach(s -> {
+
+						List<ChildPrivilege> childPrivillages = childPrivilegeRepo.findBySubPrivillageId(s.getId());
+						if (!CollectionUtils.isEmpty(childPrivillages)) {
+							
+							s.setChildPrivillages(childPrivillages);
+							
+
+						}
+					});
+					parentPrivillagesVo.setSubPrivileges(subPrivilegeVO);
 				}
 
-				subPrivillages.stream().forEach(s -> {
-
-					List<ChildPrivilege> childPrivillages = childPrivilegeRepo.findBySubPrivillageId(s.getId());
-					if (!CollectionUtils.isEmpty(childPrivillages)) {
-						
-						parentPrivillagesVo.setChildPrivillages(childPrivillages);
-
-					}
-				});
+				
 
 				listOfwebPrivillages.add(parentPrivillagesVo);
 				privilegeVo.setWebPrivileges(listOfwebPrivillages);
@@ -692,18 +699,20 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
 				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
-					parentPrivillagesVo.setSubPrivileges(subPrivillages);
+					List<SubPrivilegeVO>  subPrivilegeVO=	converListEntityToVo(subPrivillages);
+					subPrivilegeVO.stream().forEach(s -> {
+
+						List<ChildPrivilege> childPrivillages = childPrivilegeRepo.findBySubPrivillageId(s.getId());
+						if (!CollectionUtils.isEmpty(childPrivillages)) {
+							
+							s.setChildPrivillages(childPrivillages);
+							
+
+						}
+					});
+					parentPrivillagesVo.setSubPrivileges(subPrivilegeVO);
 				}
 
-				subPrivillages.stream().forEach(s -> {
-
-					List<ChildPrivilege> childPrivillages = childPrivilegeRepo.findBySubPrivillageId(s.getId());
-					if (!CollectionUtils.isEmpty(childPrivillages)) {
-
-						parentPrivillagesVo.setChildPrivillages(childPrivillages);
-
-					}
-				});
 
 				listOfmobilePrivillages.add(parentPrivillagesVo);
 				privilegeVo.setMobilePrivileges(listOfmobilePrivillages);
@@ -713,6 +722,20 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		});
 		logger.info("############### getAllPrivilages method ends ###################");
 		return privilegeVo;
+	}
+
+	private List<SubPrivilegeVO> converListEntityToVo(List<SubPrivilege> subPrivillages) {
+		List<SubPrivilegeVO> subPrivilegesVo = new ArrayList<>();
+		subPrivillages.stream().forEach(subPrivillage->{
+			
+			SubPrivilegeVO subPrivilegeVo = new SubPrivilegeVO();
+			BeanUtils.copyProperties(subPrivillage, subPrivilegeVo);
+			subPrivilegesVo.add(subPrivilegeVo);
+			
+		});
+		return subPrivilegesVo;
+		
+		
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public interface StoreService {
 
 	List<Store> getStoresForClientDomian(Long clientDomianId);
 
-	List<StoreVO> getStoresByClient(Long clientId);
+	List<StoreVO> getStoresByClient(Long clientId, Boolean isActive);
 
 	String assignStoreToClientDomain(DomianStoresVo domainStoresVO) throws Exception;
 

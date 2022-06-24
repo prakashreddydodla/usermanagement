@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.amazonaws.services.cognitoidp.model.AdminDisableProviderForUserRequest;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
@@ -256,6 +257,7 @@ public class UserServiceImpl implements UserService {
 		userVo.setCreatedDate(a.getCreatedDate());
 		userVo.setIsSuperAdmin(a.getIsSuperAdmin());
 		userVo.setIsActive(a.getIsActive());
+		userVo.setPhoneNumber(a.getPhoneNumber());
 		List<StoreVO> stores = new ArrayList<>();
 		if (null != a.getStores()) {
 			a.getStores().stream().forEach(str -> {
@@ -401,6 +403,7 @@ public class UserServiceImpl implements UserService {
 				userDetails.setUserName(req.getUsername());
 				userDetails.setPhoneNumber(req.getPhoneNumber());
 				userDetails.setGender(req.getGender());
+				userDetails.setIsActive(req.getIsActive());
 				// userFromDb.setLastModifyedDate(LocalDate.now());
 				if (null != req.getRole()) {
 					Optional<Role> role = roleRepository.findByRoleName(req.getRole().getRoleName());
@@ -632,6 +635,8 @@ public class UserServiceImpl implements UserService {
 			UserDetails userDetails = userDetail.get();
 			userDetails.setIsActive(Boolean.FALSE);
 			userRepository.save(userDetails);
+			
+			//AdminDisableProviderForUserRequest adminDisableProviderForUser = cognitoClient.
 			return "user record deleted with the given id"+id;
 
 		}else {

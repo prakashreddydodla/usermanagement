@@ -2,6 +2,7 @@ package com.otsi.retail.authservice.requestModel;
 
 import java.util.List;
 
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
 import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class SubPrivilegeVO {
 	private String childImage;
 
 	private Long parentPrivilegeId;
-	private List<ChildPrivilegeVo> childPrivillages;
+	private List<ChildPrivilege> childPrivillages;
 	private PrevilegeType previlegeType;
 
 

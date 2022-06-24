@@ -129,6 +129,7 @@ public class StoreServiceImpl implements StoreService {
 		storeEntity.setDistrictId(vo.getDistrictId());
 		storeEntity.setCityId(vo.getCityId());
 		storeEntity.setArea(vo.getArea());
+		storeEntity.setIsActive(vo.getIsActive());
 		storeEntity.setPhoneNumber(vo.getPhoneNumber());
 		storeEntity.setModifiedBy(vo.getCreatedBy());
 		if (null != vo.getStoreOwner()) {
@@ -165,8 +166,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreVO> getStoresByClient(Long clientId) {
-		List<Store> stores = storeRepo.findByClientId(clientId);
+	public List<StoreVO> getStoresByClient(Long clientId,Boolean isActive) {
+		List<Store> stores = new ArrayList<>();
+		if(isActive==Boolean.FALSE) {
+		 stores = storeRepo.findByClientId(clientId);
+		}
+		else {
+			 stores = storeRepo.findByClientIdAndIsActive(clientId,Boolean.TRUE);
+          }
 		if (CollectionUtils.isEmpty(stores)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No stores found for client:" + clientId);
 		}

@@ -78,8 +78,8 @@ public class StoresController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = Store.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_CLIENT_STORES)
-	public ResponseEntity<?> getClientStores(@RequestParam("clientId") long clientId) {
-			List<StoreVO> stores = storeService.getStoresByClient(clientId);
+	public ResponseEntity<?> getClientStores(@RequestParam("clientId") long clientId,@RequestParam("isActive") Boolean isActive ) {
+			List<StoreVO> stores = storeService.getStoresByClient(clientId,isActive);
 			return ResponseEntity.ok(stores);
 		} 
 
