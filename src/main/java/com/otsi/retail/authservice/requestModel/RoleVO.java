@@ -3,6 +3,10 @@ package com.otsi.retail.authservice.requestModel;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.otsi.retail.authservice.Entity.ChildPrivilege;
+import com.otsi.retail.authservice.Entity.ClientDetails;
+import com.otsi.retail.authservice.Entity.SubPrivilege;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,11 +36,18 @@ public class RoleVO {
 	
 	private Long usersCount;
 	
-	private List<ParentPrivilegesVO> parentPrivilege;
+	private List<ParentPrivilegesVO> parentPrivileges;
 	
 	private List<SubPrivilegeVO> subPrivilege;
 	
+	private List<SubPrivilege> subPrivileges;
+	private List<ChildPrivilege> childPrivilages;
+	
     private ClientDomainVo clientDomain;
+    
+    private ClientDetailsVO clientDetailsVO;
+    
+    private ClientDetails client;
 	
 	
 	

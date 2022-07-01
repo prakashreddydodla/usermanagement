@@ -438,8 +438,18 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	}
 
 	@Override
-	public Optional<Role> getPrivilagesByRoleName(String roleName) {
-		return roleRepository.findByRoleName(roleName);
+	public RoleVO getPrivilagesByRoleName(String roleName) {
+		 
+			Optional<Role> role	= roleRepository.findByRoleName(roleName);
+			RoleVO roleVO = new RoleVO();
+			if(role.get()!= null) {
+				 roleVO = rolemapper.convertRoleEntityToRoleVo(role.get());
+				
+				
+			}
+			
+			
+				return roleVO;
 
 	}
 

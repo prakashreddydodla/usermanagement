@@ -137,7 +137,7 @@ public class RolesAndPrivillagesController {
 	@GetMapping(EndpointConstants.PRIVILAGES_BY_NAME)
 	public ResponseEntity<?> getPrivilagesOfRoleByRoleName(@PathVariable String roleName) {
 		logger.info("In PRIVILAGES_BY_NAME request roleName : " + roleName);
-		Optional<Role> roleOptional = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
+		RoleVO roleOptional = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
 		return ResponseEntity.ok(roleOptional);
 	}
 
