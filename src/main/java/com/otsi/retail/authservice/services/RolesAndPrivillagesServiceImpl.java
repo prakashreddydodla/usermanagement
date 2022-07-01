@@ -585,6 +585,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			roleEntity.setModifiedBy(request.getCreatedBy());
 			List<ParentPrivilege> parentPrivilageEntites = new ArrayList<>();
 			List<SubPrivilege> subPrivilageEntites = new ArrayList<>();
+			List<ChildPrivilege> ChildPrivilege = new ArrayList<>();
 
 			if (0L != request.getClientId()) {
 				Optional<ClientDetails> client = clientDetailsrepo.findById(request.getClientId());
@@ -625,7 +626,26 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						logger.error("Given sub privilage not found in master");
 						throw new RuntimeException("Given sub privilage not found in master");
 					}
+					if (!CollectionUtils.isEmpty(sub.getChildPrivillages())) {
+						sub.getChildPrivillages().stream().forEach(child -> {
+
+							Optional<ChildPrivilege> privilege = childPrivilegeRepo.findById(child.getId());
+							if (privilege.isPresent()) {
+
+								ChildPrivilege.add(privilege.get());
+
+							} else {
+
+								logger.debug("Given child privilege not found in master");
+								logger.error("Given child privilege not found in master");
+								throw new RuntimeException("Given  privilege not found in master");
+							}
+
+						});
+
+					}
 				});
+				roleEntity.setChildPrivilages(ChildPrivilege);
 				roleEntity.setSubPrivileges(subPrivilageEntites);
 			} else {
 				logger.error("Atleast one sub privillage is required");
