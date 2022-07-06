@@ -156,7 +156,7 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public List<Store> getStoresForClientDomian(Long clientDomianId) {
-		List<Store> stores = storeRepo.findByClientDomianlIdId(clientDomianId);
+		List<Store> stores = storeRepo.findByclient_Id(clientDomianId);
 		if (!CollectionUtils.isEmpty(stores)) {
 			logger.info("**********getStoresForClientDomia Method Ends");
 			return stores;

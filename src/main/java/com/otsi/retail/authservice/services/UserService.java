@@ -29,7 +29,7 @@ public interface UserService {
 
 	List<UserListResponse> getUsersForClientDomain(Long clientDomianId);
 
-	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo, String mobileNo2);
+	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo, String mobileNo2, Long clientId);
 
 	UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception;
 	public String updateUser(UpdateUserRequest req);

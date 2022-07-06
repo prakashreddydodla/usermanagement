@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+
 import org.springframework.web.server.ResponseStatusException;
 
 import com.amazonaws.services.cognitoidp.model.AdminAddUserToGroupResult;
@@ -197,7 +199,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	 *                   Create user (Customer/employee) based on role
 	 */
 	@Override
-	public ResponseEntity<?> createUser(AdminCreatUserRequest adminCreateUserRequest) {
+	public ResponseEntity<?> createUser(AdminCreatUserRequest adminCreateUserRequest,Long clientId) {
 		try {
 			boolean usernameExists = userRepository.existsByUserNameAndIsCustomer(adminCreateUserRequest.getUsername(),
 					Boolean.FALSE);
@@ -220,6 +222,14 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setGender(adminCreateUserRequest.getGender());
 				user.setCreatedBy(adminCreateUserRequest.getCreatedBy());
 				user.setIsCustomer(Boolean.TRUE);
+				if(ObjectUtils.isNotEmpty(clientId)) {
+					List<Long> ids = new ArrayList<>();
+					ids.add(clientId);		
+					List<ClientDetails> clientDetail = clientDetailsRepo.findByIdIn(ids);
+					if(!(CollectionUtils.isEmpty(clientDetail))) {
+						user.setClient(clientDetail);
+					}
+				}
 				user = userRepository.save(user);
 				adminCreateUserRequest.setId(user.getId());
 				return ResponseEntity.ok(CommonUtilities.buildSuccessResponse(Constants.SUCCESS, Constants.RESULT));
@@ -647,6 +657,14 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				Optional<ClientDetails> clientDetailsOptional = clientDetailsRepo.findById(clientId);
 				if (clientDetailsOptional.isPresent()) {
 					user.setClient(Arrays.asList(clientDetailsOptional.get()));
+				}
+			}
+			if(clientId == null) {
+				String[] splitted = userName.split("_");
+				String name = splitted[0];
+				ClientDetails clientDetail = clientDetailsRepo.findByName(name);
+				if (clientDetail!=null) {
+					user.setClient(Arrays.asList(clientDetail));
 				}
 			}
 			return userRepository.save(user);

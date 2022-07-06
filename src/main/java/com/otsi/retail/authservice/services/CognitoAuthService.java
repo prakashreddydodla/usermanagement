@@ -21,7 +21,7 @@ public interface CognitoAuthService {
 
 	Response assignStoreToUser(List<Store> stores, String userName) throws Exception;
 
-	ResponseEntity<?> createUser(AdminCreatUserRequest request);
+	ResponseEntity<?> createUser(AdminCreatUserRequest request, Long clientId);
 
 	String[] getStoresForUser(String userName) throws Exception;
 

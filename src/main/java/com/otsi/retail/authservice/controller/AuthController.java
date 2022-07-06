@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -126,9 +127,9 @@ public class AuthController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = Response.class, responseContainer = "Object") })
 	@PostMapping(path = EndpointConstants.CREATE_USER)
-	public ResponseEntity<?> createUser(@RequestBody AdminCreatUserRequest request) {
-		return cognitoAuthService.createUser(request);
-	}
+	public ResponseEntity<?> createUser(@RequestBody AdminCreatUserRequest request,@RequestHeader(required=false) Long clientId) {
+		return cognitoAuthService.createUser(request,clientId);
+	}	
 	
 
 /**

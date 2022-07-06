@@ -262,7 +262,7 @@ public class UserServiceImpl implements UserService {
 		if (null != a.getStores()) {
 			a.getStores().stream().forEach(str -> {
 				StoreVO storeVo = new StoreVO();
-				storeVo.setId(str.getStateId());
+				storeVo.setId(str.getId());
 				storeVo.setName(str.getName());
 				stores.add(storeVo);
 
@@ -338,12 +338,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public GetCustomerResponce getCustomerbasedOnMobileNumber(String type, String value) {
+	public GetCustomerResponce getCustomerbasedOnMobileNumber(String type, String value,Long clientId) {
 		logger.info(" ###############  getCustomerbasedOnMobileNumber method starts  ##############3");
 
 		Optional<UserDetails> user = Optional.empty();
 		if (null != type && type.equalsIgnoreCase("mobileNo")) {
-			user = userRepository.findByPhoneNumber(value);
+			user = userRepository.findByPhoneNumberAndClient_Id(value,clientId);
 			if (!user.isPresent()) {
 				logger.debug("No customer found with this MobileNo : " + value);
 				logger.error("No customer found with this MobileNo : " + value);
