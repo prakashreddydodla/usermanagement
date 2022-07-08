@@ -343,7 +343,7 @@ public class UserServiceImpl implements UserService {
 
 		Optional<UserDetails> user = Optional.empty();
 		if (null != type && type.equalsIgnoreCase("mobileNo")) {
-			user = userRepository.findByPhoneNumberAndClient_Id(value,clientId);
+			user = userRepository.findByPhoneNumber(value);
 			if (!user.isPresent()) {
 				logger.debug("No customer found with this MobileNo : " + value);
 				logger.error("No customer found with this MobileNo : " + value);
@@ -487,7 +487,7 @@ public class UserServiceImpl implements UserService {
 				if (!CollectionUtils.isEmpty(req.getStores())) {
 					List<Store> stores = new ArrayList<>();
 					req.getStores().stream().forEach(storeVo -> {
-						List<Store> storeOptional = storeRepo.findByName(storeVo.getName());
+						Optional<Store> storeOptional = storeRepo.findById(storeVo.getId());
 						if (!storeOptional.isEmpty()) {
 							storeOptional.stream().forEach(s -> {
 								stores.add(s);

@@ -486,10 +486,12 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.ASSIGNED_STORES)) {
 
 				String[] storenames = a.getValue().split(",");
-				Arrays.asList(storenames).stream().forEach(storeName -> {
+				
+			
+ 				Arrays.asList(storenames).stream().forEach(storeName -> {
 					String[] sName = storeName.split(":");
 
-					List<Store> stores = storeRepo.findByName(sName[0]);
+					Optional<Store> stores = storeRepo.findById(Long.parseLong(sName[1]));
 					if (!stores.isEmpty()) {
 						List<Store> userStores = user.getStores();
 
