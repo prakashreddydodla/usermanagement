@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -60,11 +61,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	private SubPrivillageRepo subPrivillageRepo;
 	@Autowired
 	private ChannelRepo channelRepo;
-	
+
 	@Autowired
 	private ClientDetailsRepo clientDetailsrepo;
-	
-	
 
 	@Autowired
 	private ChildPrivilegeRepo childPrivilegeRepo;
@@ -194,7 +193,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
 				parentPrivillagesVo.setPath(p.getPath());
 				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
-			    parentPrivillagesVo.setParentImage(p.getParentImage());
+				parentPrivillagesVo.setParentImage(p.getParentImage());
 
 				parentPrivillagesVo.setId(p.getId());
 				parentPrivillagesVo.setName(p.getName());
@@ -439,17 +438,15 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 	@Override
 	public RoleVO getPrivilagesByRoleName(String roleName) {
-		 
-			Optional<Role> role	= roleRepository.findByRoleName(roleName);
-			RoleVO roleVO = new RoleVO();
-			if(role.get()!= null) {
-				 roleVO = rolemapper.convertRoleEntityToRoleVo(role.get());
-				
-				
-			}
-			
-			
-				return roleVO;
+
+		Optional<Role> role = roleRepository.findByRoleName(roleName);
+		RoleVO roleVO = new RoleVO();
+		if (role.get() != null) {
+			roleVO = rolemapper.convertRoleEntityToRoleVo(role.get());
+
+		}
+
+		return roleVO;
 
 	}
 
@@ -677,46 +674,47 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 	}
 
-	public PrivilegeVO getAllPrivilagesForDomian() {
-		List<ParentPrivilegeVO> listOfwebPrivillages = new ArrayList<>();
-		List<ParentPrivilegeVO> listOfmobilePrivillages = new ArrayList<>();
+	public PrivilegeVO getAllPrivilagesForDomian(Boolean isEsSlipEnabled) {
+		List<ParentPrivilegeVO> listOfwebPrivileges = new ArrayList<>();
+		List<ParentPrivilegeVO> listOfmobilePrivileges = new ArrayList<>();
 
 		// List<ParentPrivilages> entity = privilageRepository.findByDomian(domian);
-		PrivilegeVO privilegeVo = new PrivilegeVO();
-		
+		PrivilegeVO privilegeVO = new PrivilegeVO();
 
 		List<ParentPrivilege> entity = privilageRepository.findByIsActiveTrue();
 
 		entity.stream().forEach(p -> {
 			if (p.getPrevilegeType() == PrevilegeType.Web) {
-				ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
-				parentPrivillagesVo.setId(p.getId());
-				parentPrivillagesVo.setName(p.getName());
-				parentPrivillagesVo.setDescription(p.getDescription());
-				parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
-				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
-				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
-				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
-				
-				if (!CollectionUtils.isEmpty(subPrivillages)) {
-					List<SubPrivilegeVO>  subPrivilegeVO=	converListEntityToVo(subPrivillages);
-					subPrivilegeVO.stream().forEach(s -> {
+				ParentPrivilegeVO parentPrivilegeVO = new ParentPrivilegeVO();
+				parentPrivilegeVO.setId(p.getId());
+				parentPrivilegeVO.setName(p.getName());
+				parentPrivilegeVO.setDescription(p.getDescription());
+				parentPrivilegeVO.setLastModifyedDate(p.getLastModifiedDate());
+				parentPrivilegeVO.setCreatedDate(p.getCreatedDate());
+				parentPrivilegeVO.setPrevilegeType(p.getPrevilegeType());
+				List<SubPrivilege> subPrivileges = subPrivillageRepo.findByParentPrivilegeId(p.getId());
 
-						List<ChildPrivilege> childPrivillages = childPrivilegeRepo.findBySubPrivillageId(s.getId());
-						if (!CollectionUtils.isEmpty(childPrivillages)) {
-							
-							s.setChildPrivillages(childPrivillages);
-							
+				if (!CollectionUtils.isEmpty(subPrivileges)) {
+					List<SubPrivilegeVO> subPrivilegeList = converListEntityToVo(subPrivileges);
 
+					subPrivilegeList.stream().forEach(subPrivilege -> {
+						List<ChildPrivilege> childPrivileges = childPrivilegeRepo
+								.findBySubPrivillageId(subPrivilege.getId());
+						if (isEsSlipEnabled != null && !isEsSlipEnabled) {
+							childPrivileges = childPrivileges.stream().filter(childPrivilege -> !childPrivilege
+									.getSubChildPath().equalsIgnoreCase("createddeliveryslip"))
+									.collect(Collectors.toList());
+						}
+						if (!CollectionUtils.isEmpty(childPrivileges)) {
+							subPrivilege.setChildPrivillages(childPrivileges);
 						}
 					});
-					parentPrivillagesVo.setSubPrivileges(subPrivilegeVO);
+
+					parentPrivilegeVO.setSubPrivileges(subPrivilegeList);
 				}
 
-				
-
-				listOfwebPrivillages.add(parentPrivillagesVo);
-				privilegeVo.setWebPrivileges(listOfwebPrivillages);
+				listOfwebPrivileges.add(parentPrivilegeVO);
+				privilegeVO.setWebPrivileges(listOfwebPrivileges);
 
 			} else {
 
@@ -729,43 +727,41 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
 				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
-					List<SubPrivilegeVO>  subPrivilegeVO=	converListEntityToVo(subPrivillages);
-					subPrivilegeVO.stream().forEach(s -> {
+					List<SubPrivilegeVO> subPrivilegeList = converListEntityToVo(subPrivillages);
 
-						List<ChildPrivilege> childPrivillages = childPrivilegeRepo.findBySubPrivillageId(s.getId());
-						if (!CollectionUtils.isEmpty(childPrivillages)) {
-							
-							s.setChildPrivillages(childPrivillages);
-							
-
+					subPrivilegeList.stream().forEach(subPrivilege -> {
+						List<ChildPrivilege> childPrivileges = childPrivilegeRepo
+								.findBySubPrivillageId(subPrivilege.getId());
+						if (isEsSlipEnabled != null && !isEsSlipEnabled) {
+							childPrivileges = childPrivileges.stream().filter(childPrivilege -> !childPrivilege
+									.getSubChildPath().equalsIgnoreCase("createddeliveryslip"))
+									.collect(Collectors.toList());
+						}
+						if (!CollectionUtils.isEmpty(childPrivileges)) {
+							subPrivilege.setChildPrivillages(childPrivileges);
 						}
 					});
-					parentPrivillagesVo.setSubPrivileges(subPrivilegeVO);
+					parentPrivillagesVo.setSubPrivileges(subPrivilegeList);
 				}
 
-
-				listOfmobilePrivillages.add(parentPrivillagesVo);
-				privilegeVo.setMobilePrivileges(listOfmobilePrivillages);
-
+				listOfmobilePrivileges.add(parentPrivillagesVo);
+				privilegeVO.setMobilePrivileges(listOfmobilePrivileges);
 			}
-
 		});
-		logger.info("############### getAllPrivilages method ends ###################");
-		return privilegeVo;
+		return privilegeVO;
 	}
 
 	private List<SubPrivilegeVO> converListEntityToVo(List<SubPrivilege> subPrivillages) {
 		List<SubPrivilegeVO> subPrivilegesVo = new ArrayList<>();
-		subPrivillages.stream().forEach(subPrivillage->{
-			
+		subPrivillages.stream().forEach(subPrivillage -> {
+
 			SubPrivilegeVO subPrivilegeVo = new SubPrivilegeVO();
 			BeanUtils.copyProperties(subPrivillage, subPrivilegeVo);
 			subPrivilegesVo.add(subPrivilegeVo);
-			
+
 		});
 		return subPrivilegesVo;
-		
-		
+
 	}
 
 	@Override

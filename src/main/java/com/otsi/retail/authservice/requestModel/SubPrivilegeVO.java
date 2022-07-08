@@ -25,7 +25,9 @@ public class SubPrivilegeVO {
 	private String childImage;
 
 	private Long parentPrivilegeId;
+	
 	private List<ChildPrivilege> childPrivillages;
+	
 	private PrevilegeType previlegeType;
 
 

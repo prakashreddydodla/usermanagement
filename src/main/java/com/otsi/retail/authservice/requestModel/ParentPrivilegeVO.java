@@ -33,6 +33,7 @@ public class ParentPrivilegeVO {
 	private List<SubPrivilege> subPrivilege;
 	
 	private List<ChildPrivilege> childPrivillages;
+	
 	private List<SubPrivilegeVO> subPrivileges;
 	
 	private String parentImage;
