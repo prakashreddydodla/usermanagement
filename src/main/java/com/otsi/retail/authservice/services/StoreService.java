@@ -30,4 +30,6 @@ public interface StoreService {
 	GstDetails getGstDetails(Long clientId, String stateCode);
 
 	String deleteStore(Long id);
+
+	Store getStoresByName(String storeName,Long clientId);
 }

@@ -396,5 +396,15 @@ public class StoreServiceImpl implements StoreService {
 		
 				
 	}
+
+	@Override
+	public Store getStoresByName(String storeName, Long clientId) {
+		Store store = storeRepo.findByNameAndClient_IdAndIsActive(storeName, clientId,Boolean.TRUE);
+		if(store!=null) {
+			
+			return store;
+		}else
+		return null;
+	}
 	
 }
