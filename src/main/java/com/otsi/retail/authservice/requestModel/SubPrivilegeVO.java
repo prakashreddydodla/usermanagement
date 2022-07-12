@@ -26,9 +26,9 @@ public class SubPrivilegeVO {
 
 	private Long parentPrivilegeId;
 	
-	private List<ChildPrivilege> childPrivillages;
+	private List<ChildPrivilege> childPrivileges;
 	
-	private PrevilegeType privilegeType;
+	private PrevilegeType previlegeType;
 
 
 }

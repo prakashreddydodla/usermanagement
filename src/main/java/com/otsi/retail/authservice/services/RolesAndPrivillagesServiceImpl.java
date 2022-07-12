@@ -706,7 +706,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 									.collect(Collectors.toList());
 						}
 						if (!CollectionUtils.isEmpty(childPrivileges)) {
-							subPrivilege.setChildPrivillages(childPrivileges);
+							subPrivilege.setChildPrivileges(childPrivileges);
 						}
 					});
 
@@ -738,7 +738,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 									.collect(Collectors.toList());
 						}
 						if (!CollectionUtils.isEmpty(childPrivileges)) {
-							subPrivilege.setChildPrivillages(childPrivileges);
+							subPrivilege.setChildPrivileges(childPrivileges);
 						}
 					});
 					parentPrivillagesVo.setSubPrivileges(subPrivilegeList);

@@ -23,7 +23,7 @@ public class ParentPrivilegesVO {
 	
 	private String parentImage;
 	
-	private PrevilegeType privilegeType;
+	private PrevilegeType previlegeType;
 	
 	private List<SubPrivilegeVO> SubPrivileges;
 
