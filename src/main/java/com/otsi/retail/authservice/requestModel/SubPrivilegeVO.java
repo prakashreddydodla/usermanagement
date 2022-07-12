@@ -28,7 +28,7 @@ public class SubPrivilegeVO {
 	
 	private List<ChildPrivilege> childPrivillages;
 	
-	private PrevilegeType previlegeType;
+	private PrevilegeType privilegeType;
 
 
 }

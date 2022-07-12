@@ -492,21 +492,21 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					String[] sName = storeName.split(":");
 
 					Optional<Store> stores = storeRepo.findById(Long.parseLong(sName[1]));
-					if (!stores.isEmpty()) {
+					if (!stores.isPresent()) {
 						List<Store> userStores = user.getStores();
 
 						if (!CollectionUtils.isEmpty(userStores)) {
-							stores.stream().forEach(store -> {
-								userStores.add(store);
-							});
+							
+								userStores.add(stores.get());
+							
 							user.setStores(userStores);
 						}
 
 						else {
 							List<Store> newStores = new ArrayList<>();
-							stores.stream().forEach(s -> {
-								newStores.add(s);
-							});
+							
+								newStores.add(stores.get());
+							
 
 							user.setStores(newStores);
 						}

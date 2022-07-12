@@ -488,10 +488,10 @@ public class UserServiceImpl implements UserService {
 					List<Store> stores = new ArrayList<>();
 					req.getStores().stream().forEach(storeVo -> {
 						Optional<Store> storeOptional = storeRepo.findById(storeVo.getId());
-						if (!storeOptional.isEmpty()) {
-							storeOptional.stream().forEach(s -> {
-								stores.add(s);
-							});
+						if (!storeOptional.isPresent()) {
+							
+								stores.add(storeOptional.get());
+							
 
 						}
 					});
