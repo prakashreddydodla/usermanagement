@@ -159,10 +159,10 @@ public class UserController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = GetCustomerResponce.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_CUSTOMER)
-	public GateWayResponse<?> getCustomer(@PathVariable String feild, @PathVariable String mobileNo) {
+	public GateWayResponse<?> getCustomer(@PathVariable String feild, @PathVariable String mobileNo,@RequestHeader(required=false) Long clientId) {
 		try {
 			logger.info("In GET_CUSTOMER request mobileNo : " + mobileNo);
-			GetCustomerResponce res = userService.getCustomerbasedOnMobileNumber(feild, mobileNo);
+			GetCustomerResponce res = userService.getCustomerbasedOnMobileNumber(feild, mobileNo,clientId);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

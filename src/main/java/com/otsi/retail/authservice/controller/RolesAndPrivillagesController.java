@@ -137,7 +137,7 @@ public class RolesAndPrivillagesController {
 	@GetMapping(EndpointConstants.PRIVILAGES_BY_NAME)
 	public ResponseEntity<?> getPrivilagesOfRoleByRoleName(@PathVariable String roleName) {
 		logger.info("In PRIVILAGES_BY_NAME request roleName : " + roleName);
-		Optional<Role> roleOptional = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
+		RoleVO roleOptional = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
 		return ResponseEntity.ok(roleOptional);
 	}
 
@@ -192,8 +192,8 @@ public class RolesAndPrivillagesController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = ParentPrivilegeVO.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_PRIVILLAGES)
-	public ResponseEntity<?> getPrivillagesForDomian() {
-		PrivilegeVO privileges = rolesAndPrivillagesService.getAllPrivilagesForDomian();
+	public ResponseEntity<?> getPrivillagesForDomian(@RequestHeader(required = false) Boolean isEsSlipEnabled) {
+		PrivilegeVO privileges = rolesAndPrivillagesService.getAllPrivilagesForDomian(isEsSlipEnabled);
 		return ResponseEntity.ok(privileges);
 	}
 	

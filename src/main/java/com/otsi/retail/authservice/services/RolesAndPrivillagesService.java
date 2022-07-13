@@ -35,7 +35,7 @@ public interface RolesAndPrivillagesService {
 
 	List<RoleVO> getRolesByClient(Long clientId);
 
-	Optional<Role> getPrivilagesByRoleName(String roleName) ;
+	RoleVO getPrivilagesByRoleName(String roleName) ;
 
 	List<RoleVO> getRolesWithFilter(RolesFilterRequest req,Long clientId) throws RuntimeException;
 

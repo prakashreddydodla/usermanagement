@@ -34,6 +34,8 @@ public class UserListResponse {
 	
 	private String dob;
 	
+	private String phoneNumber;
+	
 	private String gender;
 
 }

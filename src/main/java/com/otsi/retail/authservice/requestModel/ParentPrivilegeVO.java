@@ -30,9 +30,11 @@ public class ParentPrivilegeVO {
 	
 	private Long createdBy;
 	
-	private List<SubPrivilege> subPrivileges;
+	private List<SubPrivilege> subPrivilege;
 	
 	private List<ChildPrivilege> childPrivillages;
+	
+	private List<SubPrivilegeVO> subPrivileges;
 	
 	private String parentImage;
 	

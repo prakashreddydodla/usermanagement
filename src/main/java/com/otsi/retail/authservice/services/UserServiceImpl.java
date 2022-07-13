@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.amazonaws.services.cognitoidp.model.AdminDisableProviderForUserRequest;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
@@ -256,11 +257,12 @@ public class UserServiceImpl implements UserService {
 		userVo.setCreatedDate(a.getCreatedDate());
 		userVo.setIsSuperAdmin(a.getIsSuperAdmin());
 		userVo.setIsActive(a.getIsActive());
+		userVo.setPhoneNumber(a.getPhoneNumber());
 		List<StoreVO> stores = new ArrayList<>();
 		if (null != a.getStores()) {
 			a.getStores().stream().forEach(str -> {
 				StoreVO storeVo = new StoreVO();
-				storeVo.setId(str.getStateId());
+				storeVo.setId(str.getId());
 				storeVo.setName(str.getName());
 				stores.add(storeVo);
 
@@ -336,7 +338,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public GetCustomerResponce getCustomerbasedOnMobileNumber(String type, String value) {
+	public GetCustomerResponce getCustomerbasedOnMobileNumber(String type, String value,Long clientId) {
 		logger.info(" ###############  getCustomerbasedOnMobileNumber method starts  ##############3");
 
 		Optional<UserDetails> user = Optional.empty();
@@ -401,6 +403,7 @@ public class UserServiceImpl implements UserService {
 				userDetails.setUserName(req.getUsername());
 				userDetails.setPhoneNumber(req.getPhoneNumber());
 				userDetails.setGender(req.getGender());
+				userDetails.setIsActive(req.getIsActive());
 				// userFromDb.setLastModifyedDate(LocalDate.now());
 				if (null != req.getRole()) {
 					Optional<Role> role = roleRepository.findByRoleName(req.getRole().getRoleName());
@@ -484,11 +487,11 @@ public class UserServiceImpl implements UserService {
 				if (!CollectionUtils.isEmpty(req.getStores())) {
 					List<Store> stores = new ArrayList<>();
 					req.getStores().stream().forEach(storeVo -> {
-						List<Store> storeOptional = storeRepo.findByName(storeVo.getName());
-						if (!storeOptional.isEmpty()) {
-							storeOptional.stream().forEach(s -> {
-								stores.add(s);
-							});
+						Optional<Store> storeOptional = storeRepo.findById(storeVo.getId());
+						if (!storeOptional.isPresent()) {
+							
+								stores.add(storeOptional.get());
+							
 
 						}
 					});
@@ -632,6 +635,8 @@ public class UserServiceImpl implements UserService {
 			UserDetails userDetails = userDetail.get();
 			userDetails.setIsActive(Boolean.FALSE);
 			userRepository.save(userDetails);
+			
+			//AdminDisableProviderForUserRequest adminDisableProviderForUser = cognitoClient.
 			return "user record deleted with the given id"+id;
 
 		}else {

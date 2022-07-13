@@ -23,6 +23,10 @@ public class UpdateUserRequest {
 	
 	private String birthDate;
 	
+	private Boolean isActive;
+	
+	
+	
 	private String gender;
 	
 	private String name;
