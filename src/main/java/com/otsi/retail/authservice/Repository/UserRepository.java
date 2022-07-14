@@ -97,6 +97,8 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	Page<UserDetails> findByPhoneNumber(String phoneNo, Pageable pageable);
 
 	Page<UserDetails> findByRoleRoleNameAndClientId(String roleName, Long clientId, Pageable pageable);
+
+	Optional<UserDetails> findByPhoneNumberAndClient_Id(String value, Long clientId);
 	
 
 }
