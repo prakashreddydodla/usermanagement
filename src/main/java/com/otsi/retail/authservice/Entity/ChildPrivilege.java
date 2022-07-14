@@ -48,4 +48,6 @@ public class ChildPrivilege extends BaseEntity {
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "childPrivilages")
 	private List<Role> roleId;
 	
+	private Boolean isEnabeld;
+	
 }

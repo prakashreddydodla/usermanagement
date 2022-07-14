@@ -3,6 +3,7 @@ package com.otsi.retail.authservice.mapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -145,16 +146,29 @@ public class RoleMapper {
 
 				if(subprivilege.getParentPrivilegeId().equals(privilege.getId())) {
 				List<ChildPrivilege> childPrivileges = role.getChildPrivilages();
+				List<ChildPrivilege> masterchildPrivileges = childPrivilegeRepo.findAll();
+				
 			if(childPrivileges!=null) {
-				childPrivileges.stream().forEach(childPrivillage->{
+					masterchildPrivileges.stream().forEach(masterchildPrivilege->{	
 
-					if(subprivilege.getId().equals(childPrivillage.getSubPrivillageId())){
+					if(subprivilege.getId().equals(masterchildPrivilege.getSubPrivillageId())){
+						childPrivileges.stream().forEach(childPrivillage->{
 
-					ChildPrivilege.add(childPrivillage);
+							if(subprivilege.getId().equals(childPrivillage.getSubPrivillageId())){		
+
+					if(masterchildPrivilege.getId().equals(childPrivillage.getId()))	{
+						childPrivillage.setIsEnabeld(Boolean.TRUE);
+						ChildPrivilege.add(childPrivillage);
+
+					}
+					else
+					ChildPrivilege.add(masterchildPrivilege);
+							}
+						});
 					}
 				});
 			}
-				
+			List<ChildPrivilege> childs = ChildPrivilege.stream().map(c->c).distinct().collect(Collectors.toList());
 				SubPrivilegeVO subPrivilegeVO = new SubPrivilegeVO();
 				subPrivilegeVO.setId(subprivilege.getId());
 				subPrivilegeVO.setName(subprivilege.getName());
@@ -163,7 +177,7 @@ public class RoleMapper {
 				subPrivilegeVO.setChildImage(subprivilege.getChildImage());
 				subPrivilegeVO.setParentPrivilegeId(subprivilege.getParentPrivilegeId());
 				subPrivilegeVO.setPrevilegeType(subprivilege.getPrevilegeType());
-				subPrivilegeVO.setChildPrivileges(ChildPrivilege);
+				subPrivilegeVO.setChildPrivileges(childs);
 				subPrivilegesList.add(subPrivilegeVO);
 				subPrivilege.add(subprivilege);
 				}

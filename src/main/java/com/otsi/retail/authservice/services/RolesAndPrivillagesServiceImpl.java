@@ -695,6 +695,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				List<SubPrivilege> subPrivileges = subPrivillageRepo.findByParentPrivilegeId(p.getId());
 
 				if (!CollectionUtils.isEmpty(subPrivileges)) {
+					
 					List<SubPrivilegeVO> subPrivilegeList = converListEntityToVo(subPrivileges);
 
 					subPrivilegeList.stream().forEach(subPrivilege -> {

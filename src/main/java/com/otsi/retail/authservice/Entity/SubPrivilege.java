@@ -47,6 +47,8 @@ public class SubPrivilege extends BaseEntity {
 	private List<Role> roleId;
 	@Enumerated(EnumType.STRING)
 	private PrevilegeType previlegeType;
+	
+	private String roleName;
 
 	
 }
