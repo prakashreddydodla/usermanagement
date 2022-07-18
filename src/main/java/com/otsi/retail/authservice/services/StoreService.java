@@ -31,5 +31,6 @@ public interface StoreService {
 
 	String deleteStore(Long id);
 
-	Store getStoresByName(String storeName,Long clientId);
+	Store getActiveStores(Long userId, Long clientId);
+
 }

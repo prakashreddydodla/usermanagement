@@ -761,7 +761,11 @@ public class CognitoClient {
 			logger.debug(ierae.getErrorMessage());
 			logger.error(ierae.getErrorMessage());
 			throw new Exception(ierae.getErrorMessage());
-		}
+		} catch (UserNotFoundException userNotFoundException) {
+			logger.debug(userNotFoundException.getErrorMessage());
+			logger.error(userNotFoundException.getErrorMessage());
+			throw new Exception(userNotFoundException.getErrorMessage());
+		} 
 
 	}
 
