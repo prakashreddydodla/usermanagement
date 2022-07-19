@@ -10,13 +10,15 @@ spec:
   minReplicas: 1
   maxReplicas: 10
   metrics:
-  - type: Resource
-    resource:
+  - type: ContainerResource
+    ContainerResource: 
       name: cpu
+      container: usermanagement
       target:
         type: Utilization
         averageUtilization: 50
       name: memory
+      container: usermanagement
       target:
         type: Utilization
         averageUtilization: 50   
