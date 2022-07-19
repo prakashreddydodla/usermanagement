@@ -12,9 +12,11 @@ spec:
   metrics:
   - type: Resources
     resources:
-     requests:
-      cpu: 100m
-      memory: 100Mi
-     limits:
-      cpu: 200m
-      memory: 200Mi      
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 50   
