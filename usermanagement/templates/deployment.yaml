@@ -43,10 +43,10 @@ spec:
               protocol: TCP
           resources:
             limits:
-              cpu: 200m
+              cpu: 500m
               memory: 2048Mi
             requests:
-              cpu: 500m
+              cpu: 100m
               memory: 1024Mi
           #livenessProbe:
           # httpGet:
