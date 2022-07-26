@@ -10,7 +10,7 @@ env:
   postgres_db: UserManagement
 
 replicaCount: 1
-replicaCountPos: 1
+#replicaCountPos: 1
 namespace: 
   name: default
 image:
