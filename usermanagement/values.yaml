@@ -72,10 +72,10 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-#resources:
-#  limits:
-#    cpu: 2000m
-#    memory: 2048Mi
+resources:
+  limits:
+    cpu: 100m
+    memory: 2048Mi
 #  requests:
 #    cpu: 100m
 #    memory: 1024Mi
@@ -95,7 +95,7 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 50
+#  targetMemoryUtilizationPercentage: 50
 
 nodeSelector: {}
 
