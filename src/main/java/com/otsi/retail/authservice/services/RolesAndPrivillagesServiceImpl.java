@@ -425,7 +425,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	@Override
 	public List<RoleVO> getRolesByClient(Long clientId) {
 		List<RoleVO> rolesVO = new ArrayList<>();
-		List<Role> roles = roleRepository.findByClientId(clientId);
+		List<String> roleNames = new ArrayList<>();
+		roleNames.add("Captain");
+		roleNames.add("client_support");
+		//String[] roleNames = {"Captain","client_support"};
+		List<Role> roles = roleRepository.findByClientIdAndRoleNameNotIn(clientId,roleNames);
 		if (CollectionUtils.isEmpty(roles)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No Roles found for this client:" + clientId);
 		}
@@ -692,7 +696,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivilegeVO.setLastModifyedDate(p.getLastModifiedDate());
 				parentPrivilegeVO.setCreatedDate(p.getCreatedDate());
 				parentPrivilegeVO.setPrevilegeType(p.getPrevilegeType());
-				List<SubPrivilege> subPrivileges = subPrivillageRepo.findByParentPrivilegeId(p.getId());
+				String[] roleName = {"Captain"};
+				List<SubPrivilege> subPrivileges = subPrivillageRepo.findByParentPrivilegeIdAndRoleName(p.getId(),null);
 
 				if (!CollectionUtils.isEmpty(subPrivileges)) {
 					
@@ -726,7 +731,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
 				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
-				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
+				String[] roleName = {"Captain"};
+				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdAndRoleName(p.getId(),null);
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
 					List<SubPrivilegeVO> subPrivilegeList = converListEntityToVo(subPrivillages);
 

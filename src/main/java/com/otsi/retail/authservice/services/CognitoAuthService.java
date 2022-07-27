@@ -15,7 +15,7 @@ import com.otsi.retail.authservice.responceModel.Response;
 @Component
 public interface CognitoAuthService {
 
-	Response addRoleToUser(String groupName, String userName) throws InvalidParameterException, Exception;
+	//Response addRoleToUser(String groupName, String userName) throws InvalidParameterException, Exception;
 
 	AdminGetUserResult getUserInfo(String username) throws Exception;
 
@@ -28,4 +28,7 @@ public interface CognitoAuthService {
 	String enableOrDisableUser(String userName, String actionType) throws Exception;
 
 	AdminRespondToAuthChallengeResult authChallenge(NewPasswordChallengeRequest req) throws Exception;
+
+	Response addRoleToUser(String groupName, String userName, Long createdBy)
+			throws InvalidParameterException, Exception;
 }

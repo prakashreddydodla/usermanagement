@@ -63,7 +63,8 @@ public class AuthController {
 		Response res = null;
 		try {
 			logger.info("add_role request : "+req);
-			res = cognitoAuthService.addRoleToUser(req.getGroupName(), req.getUserName());
+			Long createdBy = 0L;
+			res = cognitoAuthService.addRoleToUser(req.getGroupName(), req.getUserName(),createdBy);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (InvalidParameterException ie) {
 			return new GateWayResponse<>(400, res, ie.getMessage(), "false");
@@ -129,7 +130,12 @@ public class AuthController {
 	@PostMapping(path = EndpointConstants.CREATE_USER)
 	public ResponseEntity<?> createUser(@RequestBody AdminCreatUserRequest request,@RequestHeader(required=false) Long clientId) {
 		return cognitoAuthService.createUser(request,clientId);
-	}	
+	}
+	
+	/*@PostMapping(path = EndpointConstants.CREATE_CLIENTSUPPORTS)
+	public ResponseEntity<?> createClientSupports(@RequestBody AdminCreatUserRequest request,@RequestHeader(required=false) Long clientId) {
+		return cognitoAuthService.createUser(request,clientId);
+	}	*/
 	
 
 /**

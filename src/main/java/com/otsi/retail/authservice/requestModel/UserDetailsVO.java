@@ -32,6 +32,9 @@ public class UserDetailsVO {
 	private List<StoreVO> stores;
 	private StoreVO ownerOf;
 	private Long modifiedBy;
+	private String email;
+	private Long empId;
+	
 
 
 }

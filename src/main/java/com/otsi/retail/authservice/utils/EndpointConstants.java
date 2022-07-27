@@ -10,6 +10,7 @@ public class EndpointConstants {
 	public static final String GET_USER_INFO = "/getUserInfo/{username}";
 	public static final String ASSIGN_STORES = "/assignStores";
 	public static final String CREATE_USER = "/create-user";
+	public static final String CREATE_CLIENTSUPPORTS = "/create-clientSupports";
 	public static final String AUTH_RESPONSE = "/auth-challenge";
 	public static final String LOGIN_WITH_TEMP_PASS = "/temporary-login";
 	public static final String GET_USER_STORES = "/getUserStores/{userName}";
@@ -88,5 +89,14 @@ public class EndpointConstants {
 	public static final String COLOR_CODES = "/savetcolorCodes";
 	public static final String GETCOLOR_CODES = "/gettcolorCodes";
 	public static final String DELETE_PRIVILLAGES = "/deletePrivileges";
+	
+	
+	//######################### Plancontroller Endpoints ##################################
+	public static final String PLAN ="plan";
+
+	public static final String SAVE_PLANDETAILS ="saveplandetails";
+	public static final String GET_PLANDETAILS ="getplandetails";
+
+	
 
 }

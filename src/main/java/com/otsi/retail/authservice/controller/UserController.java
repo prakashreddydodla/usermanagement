@@ -62,6 +62,14 @@ public class UserController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+	public GateWayResponse<?> getUsersByRoleName(@RequestParam String roleName){
+		List<UserDetailsVO> res = userService.getUsersByRoleName(roleName);
+		return new GateWayResponse<>(200, res, "", "true");
+
+		
+		
+	}
 
 	@ApiOperation(value = "getUsersForGivenIds", notes = "get user details for given ids", response = UserDetailsVO.class)
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),

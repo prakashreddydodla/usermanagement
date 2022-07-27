@@ -41,5 +41,7 @@ List<UserDetailsVO> getCustomersForGivenIds(List<Long> userIds);
 	UserDetails getMobileNumber(String mobileNumber);
 
 	String deleteUser(Long id);
+
+	List<UserDetailsVO> getUsersByRoleName(String roleName);
 	
 }

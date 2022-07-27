@@ -99,6 +99,8 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	Page<UserDetails> findByRoleRoleNameAndClientId(String roleName, Long clientId, Pageable pageable);
 
 	Optional<UserDetails> findByPhoneNumberAndClient_Id(String value, Long clientId);
+
+	List<UserDetails> findByRole_RoleName(String roleName);
 	
 
 }

@@ -14,10 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.amazonaws.services.cognitoidp.model.AdminDisableProviderForUserRequest;
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.otsi.retail.authservice.Entity.ClientDetails;
-import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
@@ -30,8 +28,8 @@ import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepository;
+import com.otsi.retail.authservice.mapper.userDetailsMapper;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
-import com.otsi.retail.authservice.requestModel.StateVo;
 import com.otsi.retail.authservice.requestModel.StoreVO;
 //import com.otsi.retail.authservice.requestModel.PersonVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
@@ -57,6 +55,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private StoreRepo storeRepo;
+	@Autowired
+	private	userDetailsMapper userMapper;
 
 	@Autowired
 	private CognitoClient cognitoClient;
@@ -638,6 +638,18 @@ public class UserServiceImpl implements UserService {
 		} else {
 
 			throw new RuntimeException("No user found with these Id" + id);
+		}
+	}
+
+	@Override
+	public List<UserDetailsVO> getUsersByRoleName(String roleName) {
+		try {
+		List<UserDetails> userDetails = userRepository.findByRole_RoleName(roleName);
+		 List<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetails);
+		return userDetailsVO;
+		}catch(Exception ex) {
+			throw new RuntimeException(ex.getMessage());
+
 		}
 	}
 

@@ -12,5 +12,13 @@ public interface SubPrivillageRepo  extends JpaRepository<SubPrivilege, Long>{
 
 	List<SubPrivilege> findByParentPrivilegeId(Long id);
 
+	List<SubPrivilege> findByParentPrivilegeIdAndRoleName(Long id, Object object);
+
+
+	/*List<SubPrivilege> findByParentPrivilegeIdAndRoleNameNotIn(Long id, String[] roleName);
+
+
+	List<SubPrivilege> findByParentPrivilegeIdAndRoleName(Long id, String str);*/
+
 
 }
