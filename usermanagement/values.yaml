@@ -11,8 +11,8 @@ env:
 
 replicaCount: 1
 replicaCountPos: 1
-#namespace: 
-#  name: default
+namespace: 
+  name: default
 image:
   repository: 604430719928.dkr.ecr.ap-south-1.amazonaws.com/usermanagement
   pullPolicy: Always
