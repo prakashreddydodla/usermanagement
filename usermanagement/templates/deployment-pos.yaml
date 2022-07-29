@@ -58,6 +58,8 @@ spec:
           volumeMounts:
             - name: usermanagement-data
               mountPath: /var/lib/postgresql/data
+            - name: usermanagement-data
+              mountPath: /docker-entrypoint-initdb.d
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
