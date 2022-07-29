@@ -73,7 +73,7 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-resources:[]
+#resources:
 #  limits:
 #    cpu: 10m
 #    memory: 100Mi
