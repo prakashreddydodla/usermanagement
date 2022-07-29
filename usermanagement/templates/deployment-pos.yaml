@@ -21,6 +21,10 @@ spec:
       labels:
         {{- include "usermanagement.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "usermanagement.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -54,6 +58,8 @@ spec:
           volumeMounts:
             - name: usermanagement-data
               mountPath: /var/lib/postgresql/data
+#            - name: usermanagement-data
+#              mountPath: /docker-entrypoint-initdb.d
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

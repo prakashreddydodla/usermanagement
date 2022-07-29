@@ -10,7 +10,7 @@ env:
   postgres_db: UserManagement
 
 replicaCount: 1
-#replicaCountPos: 1
+replicaCountPos: 1
 namespace: 
   name: default
 image:
@@ -22,7 +22,7 @@ image:
     repository: postgres 
     tag: latest
 
-
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
@@ -56,7 +56,8 @@ service:
     port: 5432
 
 ingress:
-  enabled: false
+  enabled: true
+  ClassName: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -64,6 +65,7 @@ ingress:
     - host: chart-example.local
       paths:
       - path: /
+        pathType: ImplementationSpecific
         backend:
           serviceName: chart-example.local
           servicePort: 80
@@ -71,7 +73,14 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+<<<<<<< HEAD
   resources: {}
+=======
+resources:
+  limits:
+    cpu: 10m
+    memory: 100Mi
+>>>>>>> 5befd62d7173c91fac4bc635f57f65452ce233c5
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -84,11 +93,11 @@ ingress:
   #   memory: 128Mi
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
-#  targetMemoryUtilizationPercentage: 50
+  targetMemoryUtilizationPercentage: 50
 
 nodeSelector: {}
 
