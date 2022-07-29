@@ -62,7 +62,8 @@ public class UserController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
+	@GetMapping(EndpointConstants.GET_USER_BY_ROLENAME)
+
 	public GateWayResponse<?> getUsersByRoleName(@RequestParam String roleName){
 		List<UserDetailsVO> res = userService.getUsersByRoleName(roleName);
 		return new GateWayResponse<>(200, res, "", "true");

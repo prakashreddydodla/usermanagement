@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.otsi.retail.authservice.utils.PlanTenure;
+
 import lombok.Data;
 
 @Data
@@ -22,6 +24,8 @@ private Long planId;
 	private int maxUsers;
 	
 	private Long createdBy;
+	
+	private PlanTenure planTenure;
 
     
     private LocalDateTime createdDate ;

@@ -30,6 +30,8 @@ public class EndpointConstants {
 	public static final String GET_CLIENT = "/getClient/{clientId}";
 	public static final String GET_ALL_CLIENTS = "/getAllClients";
 	public static final String GET_DOMIAN_BY_ID = "domian/{clientDomianId}";
+	public static final String CLIENT_MAPPING = "/clientMapping";
+
 
 //############################################     ROLES CONTROLLER	END_POINTS   #############################################
 	public static final String ROLES = "/roles";
@@ -70,6 +72,8 @@ public class EndpointConstants {
 	public static final String GET_MOBILENUMBER = "/mobilenumber";
 	public static final String GET_CUSTOMERSFOR_GIVENIDS = "/getCustomersForGivenIds";
 	public static final String GET_USER = "/getUser";
+	public static final String GET_USER_BY_ROLENAME = "/getusersByRolename";
+
 	public static final String GET_ALL_USERS = "/users";
 	public static final String GET_ALL_USERS_BY_CLIENT_ID = "/users/{clientId}";
 	public static final String GET_ALL_USERS_BY_CLIENT_DOMIAN = "/usersByClientDomianId/{clientDomianId}";

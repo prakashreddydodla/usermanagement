@@ -19,6 +19,7 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
+import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.ReportVo;
 import com.otsi.retail.authservice.services.ClientAndDomianService;
@@ -48,6 +49,20 @@ public class ClientAndDomianController {
 		try {
 			logger.info("In CREATE_MASTER_DOMIAN request : " + domainVo);
 			res = clientAndDomianService.createMasterDomain(domainVo);
+
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
+	@PostMapping(EndpointConstants.CLIENT_MAPPING)
+	public GateWayResponse<?> clientMapping(@RequestBody ClientMappingVO clientMappingVo ) {
+		String res;
+		try {
+			logger.info("client Mapping request : ");
+			res = clientAndDomianService.clientMapping(clientMappingVo);
 
 			return new GateWayResponse<>(200, res, "", "true");
 

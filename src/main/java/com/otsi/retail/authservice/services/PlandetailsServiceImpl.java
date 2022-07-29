@@ -24,6 +24,7 @@ public class PlandetailsServiceImpl implements PlandetailsService {
 			plandetails.setMaxUsers(plans.getMaxUsers());
 			plandetails.setCreatedBy(plans.getCreatedBy());
 			plandetails.setModifiedBy(plans.getModifiedBy());
+			plandetails.setPlanTenure(plans.getPlanTenure());
 			planDetailsRepo.save(plandetails);
 
 		});

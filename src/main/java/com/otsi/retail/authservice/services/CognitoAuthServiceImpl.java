@@ -91,10 +91,29 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		Optional<UserDetails> userDetails = userRepository.findById(createdBy);
 		
 		UserDetails User = userDetails.get();
+		String roleName = User.getRole().getRoleName();
 		String  UserName = User.getUserName();
 		if(groupName.equals("client_support")){
 		if(UserName.equals("Captain")){
-			Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
+			
+			res = addRoletoUser(groupName, UserName);
+		}else
+			throw new RuntimeException("Role not assing to User. Please try with another Role");
+
+		}else if(groupName.equals("super_admin")){
+			
+			if(roleName.equalsIgnoreCase("client_support")) {
+				res = addRoletoUser(groupName, UserName);
+
+			}else
+				throw new RuntimeException("Role not assing to User. Please try with another Role");
+
+		}else {
+			res = addRoletoUser(groupName, UserName);
+
+		}
+			
+			/*Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
 			Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
 			if (userOptional.isPresent() && roleOptional.isPresent()) {
 				try {
@@ -171,8 +190,51 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		} else
 			throw new Exception("no users found with this users");
 		}
-
+*/
+		return res;
 	}
+	
+	private Response addRoletoUser(String groupName, String userName) throws Exception {
+		Response res = new Response();
+
+		
+		Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
+		Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
+		if (userOptional.isPresent() && roleOptional.isPresent()) {
+			try {
+				UserDetails user = userOptional.get();
+				Role role = roleOptional.get();
+				user.setRole(role);
+				userRepository.save(user);
+				logger.info("Assign role to user in Local DB is Sucess");
+
+			} catch (Exception e) {
+				logger.error(
+						"Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
+				throw new RuntimeException("Role not assing to User. Please try again.");
+			}
+		}
+		
+		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
+		if (result != null) {
+			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+				logger.info("Assign role to user in Cognito sucess");
+				res.setBody("Sucessfully updated role");
+				res.setStatusCode(200);
+				logger.info("assing role to user method ends");
+				return res;
+			} else {
+				res.setBody("Falied to updated role");
+				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+				logger.error("Assign role to user in Cognito Falied");
+				return res;
+			}
+		} else
+			throw new Exception("no users found with this users");
+		}
+
+		
+	
 
 	@Override
 	public AdminGetUserResult getUserInfo(String username) throws Exception {
@@ -670,10 +732,11 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			if (attribute.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
 				if(attribute.getValue()!=null) {
 					Optional<ClientDetails> client = clientDetailsRepo.findById(Long.parseLong(attribute.getValue()));
-					
+					if(client.isPresent()) {
 				List<ClientDetails> clients =  new ArrayList<>();
 				clients.add(client.get());
 				user.setClient(clients);
+					}
 				
 				}
 			}

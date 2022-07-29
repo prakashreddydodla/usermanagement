@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,17 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
+import com.otsi.retail.authservice.Entity.ClientUsers;
 import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.Exceptions.BusinessException;
 import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
+import com.otsi.retail.authservice.Repository.ClientUserRepo;
 import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
+import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 
 @Service
@@ -38,6 +42,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private Domian_MasterRepo domian_MasterRepo;
+		
+	@Autowired
+	private ClientUserRepo clientUserRepo;
 
 	private Logger logger = LogManager.getLogger(CognitoClient.class);
 
@@ -203,6 +210,39 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			throw new RecordNotFoundException("Client domian not found with this Id : " + clientDomianId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
+	}
+
+	@Override
+	public String clientMapping(ClientMappingVO clientMappingVo) {
+
+		if((ObjectUtils.isNotEmpty(clientMappingVo))) {
+			
+			clientMappingVo.getClientIds().stream().forEach(clientId->{
+				clientMappingVo.getUserIds().stream().forEach(userId->{
+					ClientUsers clientUsers = new ClientUsers();
+
+					clientUsers.setCreatedBy(clientMappingVo.getCreatedBy());
+					clientUsers.setModifiedBy(clientMappingVo.getModifiedBy());
+					clientUsers.setUserId(userId);
+				    clientUsers.setClientId(clientId);
+				    clientUserRepo.save(clientUsers);
+				
+			});
+			});
+
+			return "clientMapped successfully";
+
+				/*clientUsers.setClientId(clientMappingVo.getClientIds());
+				clientUsers.setUserId(clientMappingVo.getUserIds());*/
+				
+				
+		
+			
+			
+
+		}else
+		
+			throw new RuntimeException("client not assinged to clientSupport");
 	}
 
 }

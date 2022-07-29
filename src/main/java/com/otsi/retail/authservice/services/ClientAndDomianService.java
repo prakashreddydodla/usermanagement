@@ -8,6 +8,7 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
+import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 
 @Component
@@ -28,4 +29,6 @@ public interface ClientAndDomianService {
 	List<ClientDomains> getDomainsForClient(long clientId);
 
 	ClientDomains getDomianById(long l);
+
+	String clientMapping(ClientMappingVO clientMappingVo);
 }
