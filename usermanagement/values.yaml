@@ -107,6 +107,6 @@ persistence:
   accessMode: ReadWriteOnce
   size: 8Gi
 
-volumeMounts: 
-  mountPath: /target/newrelic/
+#volumeMounts: 
+#  mountPath: /target/newrelic/
   

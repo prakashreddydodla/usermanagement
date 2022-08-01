@@ -51,9 +51,9 @@ spec:
           #  httpGet:
           #    path: /
           #    port: http
-          volumeMounts:
-            - name: usermanagement-data
-              mountPath: /var/lib/postgresql/data
+          #volumeMounts:
+          #  - name: usermanagement-data
+          #    mountPath: /var/lib/postgresql/data
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
