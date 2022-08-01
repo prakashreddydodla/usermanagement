@@ -49,9 +49,9 @@ spec:
           #  httpGet:
           #    path: /
           #    port: http
-          #volumeMounts:
-          #  - name: newrelic-config
-          #    mountPath: {{ .Values.volumeMounts.mountPath }}
+          volumeMounts:
+            - name: newrelic-config
+              mountPath: {{ .Values.volumeMounts.mountPath }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
