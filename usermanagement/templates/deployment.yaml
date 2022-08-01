@@ -30,14 +30,16 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-        #  env:
-        #   - name: SPRING_DATASOURCE_USERNAME
-        #     value: {{ .Values.env.postgres_user }}
-        #   - name: SPRING_DATASOURCE_PASSWORD
-        #     value: {{ .Values.env.postgres_password }}
-        #   - name: SPRING_DATASOURCE_URL
-        #     value: jdbc:postgresql://{{ include "usermanagement.fullname" . }}-pos:5432/{{ .Values.env.postgres_db }}
-          ports:
+       env:
+            - name: POSTGRES_USER
+              value: {{ .Values.env.postgres_user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.env.postgres_password }}
+            - name: PGDATA
+              value: {{ .Values.env.postgres_data }}
+            - name: POSTGRES_DB
+              value: {{ .Values.env.postgres_db }}
+                 ports:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
