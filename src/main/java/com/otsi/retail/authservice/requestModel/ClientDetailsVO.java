@@ -35,6 +35,10 @@ public class ClientDetailsVO {
 	
 	private Boolean isTaxIncluded;
 	
+	private String planName;
+	
+	private String description;
+	
 	
 	
 	

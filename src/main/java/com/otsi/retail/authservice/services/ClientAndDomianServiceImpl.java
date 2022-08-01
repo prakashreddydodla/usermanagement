@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,31 +22,51 @@ import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ClientUsers;
 import com.otsi.retail.authservice.Entity.Domain_Master;
+import com.otsi.retail.authservice.Entity.Store;
+import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.Exceptions.BusinessException;
 import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.ClientUserRepo;
 import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
+import com.otsi.retail.authservice.Repository.StoreRepo;
+import com.otsi.retail.authservice.Repository.UserRepository;
+import com.otsi.retail.authservice.mapper.ClientMapper;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.ClientMappingVO;
+import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
+import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
+import com.otsi.retail.authservice.utils.DateConverters;
 
 @Service
 public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private ChannelRepo clientChannelRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private ClientDetailsRepo clientDetailsRepository;
 
 	@Autowired
 	private Domian_MasterRepo domian_MasterRepo;
+	
+	@Autowired
+	private ClientMapper clientMapper;
+	
+	@Autowired
+	private CognitoClient cognitoClient;
 		
 	@Autowired
 	private ClientUserRepo clientUserRepo;
+	
+	@Autowired
+	private StoreRepo storeRepo;
 
 	private Logger logger = LogManager.getLogger(CognitoClient.class);
 
@@ -218,6 +240,11 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if((ObjectUtils.isNotEmpty(clientMappingVo))) {
 			
 			clientMappingVo.getClientIds().stream().forEach(clientId->{
+				Optional<ClientUsers> client=	clientUserRepo.findByClientId(clientId);
+				if(client.isPresent()) {
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+							"support person already mapped to this client " + client.get().getClientId());
+				}
 				clientMappingVo.getUserIds().stream().forEach(userId->{
 					ClientUsers clientUsers = new ClientUsers();
 
@@ -226,6 +253,15 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					clientUsers.setUserId(userId);
 				    clientUsers.setClientId(clientId);
 				    clientUserRepo.save(clientUsers);
+				    
+				    Optional<UserDetails> user = userRepository.findById(userId.getId());
+				    		if(user.isPresent()) {
+				    UpdateUserRequest request = new UpdateUserRequest();
+				    request.setName(user.get().getUserName());
+				    request.setClientId(Long.toString(clientId.getId()));
+				    cognitoClient.updateUserInCognito(request);
+				    		}
+				    
 				
 			});
 			});
@@ -234,15 +270,73 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 				/*clientUsers.setClientId(clientMappingVo.getClientIds());
 				clientUsers.setUserId(clientMappingVo.getUserIds());*/
-				
-				
-		
-			
-			
-
 		}else
 		
 			throw new RuntimeException("client not assinged to clientSupport");
+	}
+
+	@Override
+	public List<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo) {
+		/*LocalDateTime createdDateTo = null;
+		LocalDateTime createdDatefrom1 = null;
+		if (clientSearchVo.getFromDate() != null) {
+			createdDatefrom1 = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+
+			if (clientSearchVo.getToDate() != null) {	
+				createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
+			} else {
+				createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
+
+			}
+		}*/
+		
+		List<ClientDetails> clientDetails = new ArrayList<>();
+		if(clientSearchVo.getStoreName()!= null && clientSearchVo.getFromDate()!=null && clientSearchVo.getToDate()!=null) {
+			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
+			stores.stream().forEach(store->{
+				LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+				LocalDateTime	createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
+
+				Long clientId = store.getClient().getId();
+				ClientDetails clientdetail= clientDetailsRepository.findByIdAndCreatedDateDateBetween(clientId,createdDatefrom,createdDateTo);
+				
+					clientDetails.add(clientdetail);
+				
+			});
+		}else if(clientSearchVo.getStoreName()!= null && clientSearchVo.getFromDate()!=null) {
+			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
+			stores.stream().forEach(store->{
+				LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
+
+				Long clientId = store.getClient().getId();
+				ClientDetails clientdetail= clientDetailsRepository.findByIdAndCreatedDateDateBetween(clientId,createdDatefrom,createdDateTo);
+				
+					clientDetails.add(clientdetail);
+				
+			});
+			
+		}else if(clientSearchVo.getStoreName()!=null) {
+			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
+			stores.stream().forEach(store->{
+				 
+				Long clientId = store.getClient().getId();
+				Optional<ClientDetails> clientdetail= clientDetailsRepository.findById(clientId);
+				if(clientdetail.isPresent()) {
+					clientDetails.add(clientdetail.get());
+				}
+				
+			});
+			
+		}else {
+			LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+			LocalDateTime	createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
+			ClientDetails clientdetail= clientDetailsRepository.findByCreatedDateDateBetween(createdDatefrom,createdDateTo);
+		
+		clientDetails.add(clientdetail);
+		}
+		List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientDetails);
+		return null;
 	}
 
 }

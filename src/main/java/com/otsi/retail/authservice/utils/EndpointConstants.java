@@ -31,6 +31,8 @@ public class EndpointConstants {
 	public static final String GET_ALL_CLIENTS = "/getAllClients";
 	public static final String GET_DOMIAN_BY_ID = "domian/{clientDomianId}";
 	public static final String CLIENT_MAPPING = "/clientMapping";
+	public static final String CLIENT_SEARCH = "/clientSearch";
+
 
 
 //############################################     ROLES CONTROLLER	END_POINTS   #############################################

@@ -96,20 +96,20 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		if(groupName.equals("client_support")){
 		if(UserName.equals("Captain")){
 			
-			res = addRoletoUser(groupName, UserName);
+			res = addRoletoUser(groupName, userName);
 		}else
 			throw new RuntimeException("Role not assing to User. Please try with another Role");
 
 		}else if(groupName.equals("super_admin")){
 			
 			if(roleName.equalsIgnoreCase("client_support")) {
-				res = addRoletoUser(groupName, UserName);
+				res = addRoletoUser(groupName, userName);
 
 			}else
 				throw new RuntimeException("Role not assing to User. Please try with another Role");
 
 		}else {
-			res = addRoletoUser(groupName, UserName);
+			res = addRoletoUser(groupName, userName);
 
 		}
 			

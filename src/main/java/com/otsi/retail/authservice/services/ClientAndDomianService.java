@@ -9,6 +9,7 @@ import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.ClientMappingVO;
+import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 
 @Component
@@ -31,4 +32,6 @@ public interface ClientAndDomianService {
 	ClientDomains getDomianById(long l);
 
 	String clientMapping(ClientMappingVO clientMappingVo);
+
+	List<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo);
 }

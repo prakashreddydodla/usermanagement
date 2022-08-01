@@ -1,10 +1,12 @@
 package com.otsi.retail.authservice.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.xml.bind.ParseConversionEvent;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,25 +25,27 @@ public class userDetailsMapper {
 	private UserAvRepo userAvRepo;
 
 	public List<UserDetailsVO> convertUsersDetailsToVO(List<UserDetails> usersDetails) {
-		
+		List<UserDetailsVO> usersList = new ArrayList<>();
 		usersDetails.stream().forEach(userDetails -> {
 			
-			convertUserDetailsToVO(userDetails);
-			
+			UserDetailsVO usersVo=	convertUserDetailsToVO(userDetails);
+			usersList.add(usersVo);
 		});
-		return null;
+		return usersList;
 		
 		
 	}
 
-	private void convertUserDetailsToVO(UserDetails userDetails) {
+	private UserDetailsVO convertUserDetailsToVO(UserDetails userDetails) {
 		UserDetailsVO userVO = new UserDetailsVO();
 		
 		userVO.setUserName(userDetails.getUserName());
+		if(ObjectUtils.isNotEmpty(userDetails.getCreatedBy())) {
 		Optional<UserDetails> userDetail = userRepository.findById(userDetails.getCreatedBy());
 		userVO.setCreatedBy(userDetail.get().getUserName());
+		}
 		userVO.setCreatedDate(userDetails.getCreatedDate());
-
+		userVO.setId(userDetails.getId());
 		List<UserAv> users = userAvRepo.findByuserData_Id(userDetails.getId());
 		users.stream().forEach(user->{
 			if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
@@ -53,8 +57,8 @@ public class userDetailsMapper {
 			
 			
 		});
+		return userVO;
 		
 		
 	}
-
 }

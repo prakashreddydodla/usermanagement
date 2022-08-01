@@ -20,6 +20,7 @@ import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.ClientMappingVO;
+import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.ReportVo;
 import com.otsi.retail.authservice.services.ClientAndDomianService;
@@ -172,4 +173,19 @@ public class ClientAndDomianController {
 		return new GateWayResponse<>(200, res, "", "true");
 
 	}
+	@PostMapping(EndpointConstants.CLIENT_SEARCH)
+	public GateWayResponse<?> clientSearch(@RequestBody ClientSearchVO clientSearchVo ) {
+		List<ClientDetailsVO> res;
+		try {
+			logger.info("client Mapping request : ");
+			res = clientAndDomianService.clientSerach(clientSearchVo);
+
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
+
 }
