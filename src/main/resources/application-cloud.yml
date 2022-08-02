@@ -10,7 +10,7 @@ spring:
     platform: postgres
     url: jdbc:postgresql://usermanagement-pos:5432/UserManagement
     username: postgres
-    password: Otsi@123
+    password: 12345
     
   jpa:
    hibernate:
