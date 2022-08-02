@@ -203,6 +203,21 @@ public class ClientAndDomianController {
 
 		}
 	}
+	@GetMapping(EndpointConstants.GET_CLIENT_MAPPING_DETAILS)
+	public GateWayResponse<?> getClientMappingDetails() {
+		List<ClientMappingVO> res;
+		try {
+			logger.info("client Mapping request : ");
+			res = clientAndDomianService.getClientMappingDetails();
+
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
+	
 	
 
 }

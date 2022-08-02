@@ -36,4 +36,6 @@ public interface ClientAndDomianService {
 	List<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo);
 
 	List<ClientDetailsVO> getClientsForUser(Long userId);
+
+	List<ClientMappingVO> getClientMappingDetails();
 }

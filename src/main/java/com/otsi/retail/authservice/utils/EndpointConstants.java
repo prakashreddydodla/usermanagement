@@ -33,6 +33,7 @@ public class EndpointConstants {
 	public static final String CLIENT_MAPPING = "/clientMapping";
 	public static final String CLIENT_SEARCH = "/clientSearch";
 	public static final String GET_CLIENTS_FOR_USER= "/getClientsForUser";
+	public static final String GET_CLIENT_MAPPING_DETAILS= "/getClientMappingDetails";
 
 
 

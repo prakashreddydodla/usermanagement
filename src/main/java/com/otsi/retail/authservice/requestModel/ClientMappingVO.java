@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.requestModel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.otsi.retail.authservice.Entity.ClientDetails;
@@ -17,7 +18,18 @@ public class ClientMappingVO {
 	
 	private List<ClientDetails> clientIds;
 	
-	private List<UserDetails> userIds;		
+	private List<UserDetails> userIds;
+	
+	private String clientName;
+	
+	private String supporterName;
+	
+	private String email;
+	
+	private LocalDate createdOn;
+	
+	 
+	
 
 }
 	

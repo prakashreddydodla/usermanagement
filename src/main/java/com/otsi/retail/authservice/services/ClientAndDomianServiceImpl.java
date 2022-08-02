@@ -3,7 +3,9 @@ package com.otsi.retail.authservice.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -23,6 +25,7 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ClientUsers;
 import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.Entity.Store;
+import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.Exceptions.BusinessException;
 import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
@@ -31,6 +34,7 @@ import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.ClientUserRepo;
 import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
 import com.otsi.retail.authservice.Repository.StoreRepo;
+import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepository;
 import com.otsi.retail.authservice.mapper.ClientMapper;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
@@ -39,6 +43,7 @@ import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
+import com.otsi.retail.authservice.utils.CognitoAtributes;
 import com.otsi.retail.authservice.utils.DateConverters;
 
 @Service
@@ -49,6 +54,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private UserAvRepo userAvRepo;
 
 	@Autowired
 	private ClientDetailsRepo clientDetailsRepository;
@@ -240,9 +248,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if ((ObjectUtils.isNotEmpty(clientMappingVo))) {
 
 			clientMappingVo.getClientIds().stream().forEach(clientId -> {
-				
+
 				List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
-				if (clientsUsers!=null) {
+				if (clientsUsers != null) {
 					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 							"support person already mapped to this client ");
 				}
@@ -361,6 +369,49 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		}
 		return Collections.EMPTY_LIST;
 
+	}
+
+	@Override
+	public List<ClientMappingVO> getClientMappingDetails() {
+		
+		List<ClientMappingVO> clientMappingList = new ArrayList<>();
+		List<ClientUsers> clientUsers = clientUserRepo.findAll();
+		 Map<Long, String> map = new HashMap<>();
+
+		clientUsers.stream().forEach(clientuser->{
+		Long clientId=	clientuser.getClientId().getId();
+		String clientname = clientuser.getClientId().getName();
+			map.put(clientId, clientname);
+			
+		});
+		clientUsers.stream().forEach(clientuser->{
+		Long userId =	clientuser.getUserId().getId();
+		Long clientId = clientuser.getClientId().getId();
+			Optional<UserDetails> users = userRepository.findById(userId);
+			if(users.isPresent()) {
+			ClientMappingVO vo = new ClientMappingVO();
+			vo.setSupporterName(users.get().getUserName());
+			vo.setCreatedBy(clientuser.getCreatedBy());
+			vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
+			/*List<UserAv> usersList = userAvRepo.findByuserData_Id(userId);
+			usersList.stream().forEach(user->{
+				if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+					vo.setEmail(user.getStringValue());
+				}
+
+			});*/
+			if(map.containsKey(clientId)) {
+				vo.setClientName(map.get(clientId));
+			}
+			clientMappingList.add(vo);
+				
+				}			
+			
+
+		});
+
+		
+		return clientMappingList;
 	}
 
 }
