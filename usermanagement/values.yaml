@@ -64,7 +64,6 @@ ingress:
     - host: chart-example.local
       paths:
       - path: /
-        pathType: ImplementationSpecific
         backend:
           serviceName: chart-example.local
           servicePort: 80
@@ -101,11 +100,11 @@ tolerations: []
 affinity: {}
 
 persistence: 
-  enabled: true
+  enabled: false
   storageClass: gp2
   accessMode: ReadWriteOnce
   size: 8Gi
 
-volumeMounts: 
-  mountPath: /target/newrelic/
+#volumeMounts: 
+#  mountPath: /target/newrelic/
   
