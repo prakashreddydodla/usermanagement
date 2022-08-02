@@ -240,11 +240,11 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if((ObjectUtils.isNotEmpty(clientMappingVo))) {
 			
 			clientMappingVo.getClientIds().stream().forEach(clientId->{
-				Optional<ClientUsers> client=	clientUserRepo.findByClientId(clientId);
-				if(client.isPresent()) {
-					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-							"support person already mapped to this client " + client.get().getClientId());
-				}
+				/*
+				 * List<ClientUsers> client= clientUserRepo.findByClientId(clientId);
+				 * if(client!=null) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+				 * "support person already mapped to this client "); }
+				 */
 				clientMappingVo.getUserIds().stream().forEach(userId->{
 					ClientUsers clientUsers = new ClientUsers();
 
@@ -256,12 +256,23 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				    
 				    Optional<UserDetails> user = userRepository.findById(userId.getId());
 				    		if(user.isPresent()) {
-				    UpdateUserRequest request = new UpdateUserRequest();
-				    request.setName(user.get().getUserName());
-				    request.setClientId(Long.toString(clientId.getId()));
-				    cognitoClient.updateUserInCognito(request);
-				    		}
-				    
+						/*
+						 * UpdateUserRequest request = new UpdateUserRequest();
+						 * request.setName(user.get().getUserName());
+						 * request.setUsername(user.get().getUserName());
+						 * request.setClientId(Long.toString(clientId.getId()));
+						 */
+				    			
+				    			List<ClientDetails>	clients = new ArrayList<>()	;
+						    	clients.add(clientId)	;
+						    	String userName= user.get().getUserName();
+						    try {
+								cognitoClient.addClientToUser(clients,userName);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						    		}				    
 				
 			});
 			});
@@ -298,7 +309,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				LocalDateTime	createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
 
 				Long clientId = store.getClient().getId();
-				ClientDetails clientdetail= clientDetailsRepository.findByIdAndCreatedDateDateBetween(clientId,createdDatefrom,createdDateTo);
+				ClientDetails clientdetail= clientDetailsRepository.findByIdAndCreatedDateBetween(clientId,createdDatefrom,createdDateTo);
 				
 					clientDetails.add(clientdetail);
 				
@@ -310,7 +321,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
 
 				Long clientId = store.getClient().getId();
-				ClientDetails clientdetail= clientDetailsRepository.findByIdAndCreatedDateDateBetween(clientId,createdDatefrom,createdDateTo);
+				ClientDetails clientdetail= clientDetailsRepository.findByIdAndCreatedDateBetween(clientId,createdDatefrom,createdDateTo);
 				
 					clientDetails.add(clientdetail);
 				
@@ -331,12 +342,18 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		}else {
 			LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 			LocalDateTime	createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
-			ClientDetails clientdetail= clientDetailsRepository.findByCreatedDateDateBetween(createdDatefrom,createdDateTo);
+	List<ClientDetails>	 clientdetails= clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,createdDateTo);
+	clientdetails.stream().forEach(client->{
+		clientDetails.add(client);
+
 		
-		clientDetails.add(clientdetail);
+		
+	});
+	
+		
 		}
 		List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientDetails);
-		return null;
+		return clientVo;
 	}
 
 }

@@ -3,9 +3,11 @@ package com.otsi.retail.authservice.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
-
+@Component
 public class ClientMapper {
 	
 	public List<ClientDetailsVO> convertListEntityToVo(List<ClientDetails> clientDetails) {

@@ -220,6 +220,36 @@ public class CognitoClient {
 		logger.error("No user found with this username in userpool");
 		throw new Exception("No user found with this username in userpool");
 	}
+	public AdminUpdateUserAttributesResult addClientToUser(List<ClientDetails> clients, String userName) throws Exception {
+		logger.info("##############  addStoreToUser method starts  ##############");
+
+		AdminUpdateUserAttributesRequest updateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
+		List<AttributeType> attributes = new ArrayList<>();
+		AttributeType attributeType = null;
+		AdminGetUserResult userAttributes = getUserFromUserpool(userName);
+		if (userAttributes != null) {
+			attributeType = userAttributes.getUserAttributes().stream()
+					.filter(a -> a.getName().equals(CognitoAtributes.CLIENT_ID)).findFirst().get();
+			StringBuilder assignedclients = new StringBuilder(attributeType.getValue());
+			clients.stream().forEach(a -> assignedclients.append("," +  a.getId()));
+			attributes.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID)
+					.withValue(assignedclients.toString()));
+			updateUserAttributesRequest.setUsername(userName);
+			updateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
+			updateUserAttributesRequest.setUserAttributes(attributes);
+			AdminUpdateUserAttributesResult result = client.adminUpdateUserAttributes(updateUserAttributesRequest);
+			logger.info("##############  addStoreToUser method ends  ##############");
+
+			return result;
+		} else
+			logger.debug("No user found with this username in userpool");
+		logger.error("No user found with this username in userpool");
+		throw new Exception("No user found with this username in userpool");
+	}
+	
+	
+	
+	
 
 	// This API is used to get user details from userpool for given userName
 	public AdminGetUserResult getUserFromUserpool(String userName) throws Exception {

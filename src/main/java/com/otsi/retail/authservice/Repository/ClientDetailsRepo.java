@@ -16,9 +16,9 @@ public interface ClientDetailsRepo extends JpaRepository<ClientDetails, Long> {
 //
 	boolean existsByName(String name);
 	List<ClientDetails> findByIdIn(List<Long> ids);
-	ClientDetails findByIdAndCreatedDateDateBetween(Long clientId, LocalDateTime createdDatefrom,
+	ClientDetails findByIdAndCreatedDateBetween(Long clientId, LocalDateTime createdDatefrom,
 			LocalDateTime createdDateTo);
-	ClientDetails findByCreatedDateDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
+	List<ClientDetails> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
 
 
 }
