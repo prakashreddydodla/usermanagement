@@ -87,7 +87,7 @@ resources:
   #   memory: 128Mi
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
@@ -104,7 +104,4 @@ persistence:
   storageClass: gp2
   accessMode: ReadWriteOnce
   size: 8Gi
-
-#volumeMounts: 
-#  mountPath: /target/newrelic/
   
