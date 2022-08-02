@@ -34,4 +34,6 @@ public interface ClientAndDomianService {
 	String clientMapping(ClientMappingVO clientMappingVo);
 
 	List<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo);
+
+	List<ClientDetailsVO> getClientsForUser(Long userId);
 }

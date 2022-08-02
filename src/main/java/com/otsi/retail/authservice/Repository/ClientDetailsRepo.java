@@ -19,6 +19,7 @@ public interface ClientDetailsRepo extends JpaRepository<ClientDetails, Long> {
 	ClientDetails findByIdAndCreatedDateBetween(Long clientId, LocalDateTime createdDatefrom,
 			LocalDateTime createdDateTo);
 	List<ClientDetails> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
+	Optional<ClientDetails> findById(ClientDetails clientId);
 
 
 }

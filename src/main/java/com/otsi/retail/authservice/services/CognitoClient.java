@@ -232,6 +232,7 @@ public class CognitoClient {
 					.filter(a -> a.getName().equals(CognitoAtributes.CLIENT_ID)).findFirst().get();
 			StringBuilder assignedclients = new StringBuilder(attributeType.getValue());
 			clients.stream().forEach(a -> assignedclients.append("," +  a.getId()));
+
 			attributes.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID)
 					.withValue(assignedclients.toString()));
 			updateUserAttributesRequest.setUsername(userName);

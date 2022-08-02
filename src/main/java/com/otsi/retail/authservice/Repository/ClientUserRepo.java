@@ -13,4 +13,10 @@ public interface ClientUserRepo extends JpaRepository<ClientUsers, Long>{
 
 	List<ClientUsers> findByClientId(ClientDetails clientId);
 
+/*	List<ClientDetails> findByUserId(Long userId);
+*/
+	List<ClientUsers> findByUserId_Id(Long userId);
+
+	List<ClientUsers> findByClientId_Id(Long long1);
+
 }

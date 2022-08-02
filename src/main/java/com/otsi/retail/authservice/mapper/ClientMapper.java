@@ -27,7 +27,9 @@ public class ClientMapper {
 		clientVo.setName(clientDetail.getName());
 		clientVo.setOrganizationName(clientDetail.getOrganizationName());
 		clientVo.setCreatedDate(clientDetail.getCreatedDate().toLocalDate());
+		if(clientDetail.getPlanDetails()!=null) {
 		clientVo.setPlanName(clientDetail.getPlanDetails().getPlanName());
+		}
 		clientVo.setDescription(clientDetail.getDescription());
 		
 		

@@ -46,7 +46,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private ChannelRepo clientChannelRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -55,16 +55,16 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private Domian_MasterRepo domian_MasterRepo;
-	
+
 	@Autowired
 	private ClientMapper clientMapper;
-	
+
 	@Autowired
 	private CognitoClient cognitoClient;
-		
+
 	@Autowired
 	private ClientUserRepo clientUserRepo;
-	
+
 	@Autowired
 	private StoreRepo storeRepo;
 
@@ -237,123 +237,130 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public String clientMapping(ClientMappingVO clientMappingVo) {
 
-		if((ObjectUtils.isNotEmpty(clientMappingVo))) {
-			
-			clientMappingVo.getClientIds().stream().forEach(clientId->{
-				/*
-				 * List<ClientUsers> client= clientUserRepo.findByClientId(clientId);
-				 * if(client!=null) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-				 * "support person already mapped to this client "); }
-				 */
-				clientMappingVo.getUserIds().stream().forEach(userId->{
+		if ((ObjectUtils.isNotEmpty(clientMappingVo))) {
+
+			clientMappingVo.getClientIds().stream().forEach(clientId -> {
+				
+				List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
+				if (clientsUsers!=null) {
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+							"support person already mapped to this client ");
+				}
+
+				clientMappingVo.getUserIds().stream().forEach(userId -> {
+
 					ClientUsers clientUsers = new ClientUsers();
 
 					clientUsers.setCreatedBy(clientMappingVo.getCreatedBy());
 					clientUsers.setModifiedBy(clientMappingVo.getModifiedBy());
 					clientUsers.setUserId(userId);
-				    clientUsers.setClientId(clientId);
-				    clientUserRepo.save(clientUsers);
-				    
-				    Optional<UserDetails> user = userRepository.findById(userId.getId());
-				    		if(user.isPresent()) {
-						/*
-						 * UpdateUserRequest request = new UpdateUserRequest();
-						 * request.setName(user.get().getUserName());
-						 * request.setUsername(user.get().getUserName());
-						 * request.setClientId(Long.toString(clientId.getId()));
-						 */
-				    			
-				    			List<ClientDetails>	clients = new ArrayList<>()	;
-						    	clients.add(clientId)	;
-						    	String userName= user.get().getUserName();
-						    try {
-								cognitoClient.addClientToUser(clients,userName);
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						    		}				    
-				
-			});
+					clientUsers.setClientId(clientId);
+					clientUserRepo.save(clientUsers);
+
+				});
 			});
 
 			return "clientMapped successfully";
 
-				/*clientUsers.setClientId(clientMappingVo.getClientIds());
-				clientUsers.setUserId(clientMappingVo.getUserIds());*/
-		}else
-		
+		} else
+
 			throw new RuntimeException("client not assinged to clientSupport");
 	}
 
 	@Override
 	public List<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo) {
-		/*LocalDateTime createdDateTo = null;
-		LocalDateTime createdDatefrom1 = null;
-		if (clientSearchVo.getFromDate() != null) {
-			createdDatefrom1 = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+		/*
+		 * LocalDateTime createdDateTo = null; LocalDateTime createdDatefrom1 = null; if
+		 * (clientSearchVo.getFromDate() != null) { createdDatefrom1 =
+		 * DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+		 * 
+		 * if (clientSearchVo.getToDate() != null) { createdDateTo =
+		 * DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate()); } else
+		 * { createdDateTo =
+		 * DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
+		 * 
+		 * } }
+		 */
 
-			if (clientSearchVo.getToDate() != null) {	
-				createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
-			} else {
-				createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
-
-			}
-		}*/
-		
 		List<ClientDetails> clientDetails = new ArrayList<>();
-		if(clientSearchVo.getStoreName()!= null && clientSearchVo.getFromDate()!=null && clientSearchVo.getToDate()!=null) {
+		if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null
+				&& clientSearchVo.getToDate() != null) {
 			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
-			stores.stream().forEach(store->{
-				LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
-				LocalDateTime	createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
+			stores.stream().forEach(store -> {
+				LocalDateTime createdDatefrom = DateConverters
+						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
 
 				Long clientId = store.getClient().getId();
-				ClientDetails clientdetail= clientDetailsRepository.findByIdAndCreatedDateBetween(clientId,createdDatefrom,createdDateTo);
-				
-					clientDetails.add(clientdetail);
-				
+				ClientDetails clientdetail = clientDetailsRepository.findByIdAndCreatedDateBetween(clientId,
+						createdDatefrom, createdDateTo);
+
+				clientDetails.add(clientdetail);
+
 			});
-		}else if(clientSearchVo.getStoreName()!= null && clientSearchVo.getFromDate()!=null) {
+		} else if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null) {
 			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
-			stores.stream().forEach(store->{
-				LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+			stores.stream().forEach(store -> {
+				LocalDateTime createdDatefrom = DateConverters
+						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
 
 				Long clientId = store.getClient().getId();
-				ClientDetails clientdetail= clientDetailsRepository.findByIdAndCreatedDateBetween(clientId,createdDatefrom,createdDateTo);
-				
-					clientDetails.add(clientdetail);
-				
+				ClientDetails clientdetail = clientDetailsRepository.findByIdAndCreatedDateBetween(clientId,
+						createdDatefrom, createdDateTo);
+
+				clientDetails.add(clientdetail);
+
 			});
-			
-		}else if(clientSearchVo.getStoreName()!=null) {
+
+		} else if (clientSearchVo.getStoreName() != null) {
 			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
-			stores.stream().forEach(store->{
-				 
+			stores.stream().forEach(store -> {
+
 				Long clientId = store.getClient().getId();
-				Optional<ClientDetails> clientdetail= clientDetailsRepository.findById(clientId);
-				if(clientdetail.isPresent()) {
+				Optional<ClientDetails> clientdetail = clientDetailsRepository.findById(clientId);
+				if (clientdetail.isPresent()) {
 					clientDetails.add(clientdetail.get());
 				}
-				
-			});
-			
-		}else {
-			LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
-			LocalDateTime	createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
-	List<ClientDetails>	 clientdetails= clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,createdDateTo);
-	clientdetails.stream().forEach(client->{
-		clientDetails.add(client);
 
-		
-		
-	});
-	
-		
+			});
+
+		} else {
+			LocalDateTime createdDatefrom = DateConverters
+					.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
+			List<ClientDetails> clientdetails = clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,
+					createdDateTo);
+			clientdetails.stream().forEach(client -> {
+				clientDetails.add(client);
+
+			});
+
 		}
 		List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientDetails);
 		return clientVo;
+	}
+
+	@Override
+	public List<ClientDetailsVO> getClientsForUser(Long userId) {
+		List<ClientDetails> clientDetails = new ArrayList<>();
+		List<ClientUsers> clientUsers = clientUserRepo.findByUserId_Id(userId);
+		clientUsers.stream().forEach(clientId -> {
+			Long clientid = clientId.getClientId().getId();
+			Optional<ClientDetails> clients = clientDetailsRepository.findById(clientid);
+			if (clients.isPresent()) {
+				clientDetails.add(clients.get());
+			}
+
+		});
+
+		if (!CollectionUtils.isEmpty(clientDetails)) {
+			List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientDetails);
+
+			return clientVo;
+		}
+		return Collections.EMPTY_LIST;
+
 	}
 
 }

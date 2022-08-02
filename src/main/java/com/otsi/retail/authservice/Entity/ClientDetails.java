@@ -55,4 +55,7 @@ public class ClientDetails extends BaseEntity implements Serializable {
 
 	private Boolean isTaxIncluded;
 	
+	@OneToMany(mappedBy = "clientId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<ClientUsers> clients;
+	
 }
