@@ -10,7 +10,7 @@ spring:
     platform: postgres
     url: jdbc:postgresql://usermanagement-pos:5432/UserManagement
     username: postgres
-    password: 12345
+    password: Otsi@123
     
   jpa:
    hibernate:
@@ -46,8 +46,5 @@ logging:
                 security:
                        web:
                          FilterChainProxy : debug
-
-
-
 springdoc:
   packagesToScan: com.otsi.retail.authservice 
