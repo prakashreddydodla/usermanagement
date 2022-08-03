@@ -24,7 +24,7 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: http://10.100.143.45:8762/eureka/
-   instance:
+  instance:
      instance-id: ${spring.application.name}:${random.int}
      hostname: localhost
 
