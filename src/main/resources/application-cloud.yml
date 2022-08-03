@@ -8,7 +8,7 @@ spring:
   
   datasource:
     platform: postgres
-    url: jdbc:postgresql://usermanagement-pos:5432/UserManagement
+    url: jdbc:postgresql://usermanagement-pos:5432/UserManagement1
     username: postgres
     password: Otsi@123
     
