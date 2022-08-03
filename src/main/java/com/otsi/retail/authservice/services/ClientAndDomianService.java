@@ -25,7 +25,7 @@ public interface ClientAndDomianService {
 
 	ClientDetails getClient(long clientId) throws Exception;
 
-	List<ClientDetails> getAllClient() throws Exception;
+	List<ClientDetailsVO> getAllClient() throws Exception;
 
 	List<ClientDomains> getDomainsForClient(long clientId);
 

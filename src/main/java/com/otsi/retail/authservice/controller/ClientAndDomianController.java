@@ -155,7 +155,7 @@ public class ClientAndDomianController {
 
 		logger.info("In GET_ALL_CLIENTS request : ");
 
-		List<ClientDetails> res = clientAndDomianService.getAllClient();
+		List<ClientDetailsVO> res = clientAndDomianService.getAllClient();
 
 		return new GateWayResponse<>(200, res, "", "true");
 

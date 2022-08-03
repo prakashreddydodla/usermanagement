@@ -16,6 +16,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ResponseStatusException;
@@ -60,6 +62,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private ClientDetailsRepo clientDetailsRepository;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 
 	@Autowired
 	private Domian_MasterRepo domian_MasterRepo;
@@ -75,6 +80,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private StoreRepo storeRepo;
+	
+	public static final String TICKET_MAIL_SUBJECT = "Client Creation";
+	public static final String TICKET_MAIL_BODY = "Client registered successfully please contact admin team ";
 
 	private Logger logger = LogManager.getLogger(CognitoClient.class);
 
@@ -119,12 +127,25 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
 			clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
 			clientDetails = clientDetailsRepository.save(clientDetails);
+			if (null != clientDetails.getId()) {
+				sendEmail(clientDetailsVO.getEmail(),TICKET_MAIL_BODY,TICKET_MAIL_SUBJECT);
+			}
 			return clientDetails;
 		} else {
 			logger.error("client name already exists: " + clientDetailsVO.getName());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"client name already exists:" + clientDetailsVO.getName());
 		}
+	}
+	
+private void sendEmail(String toEmail,String body,String subject) {
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(toEmail);
+		message.setText(body);
+		message.setSubject(subject);
+		mailSender.send(message);
+		logger.info("mail sent sucessfully");
 	}
 
 	@Override
@@ -209,10 +230,12 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	}
 
 	@Override
-	public List<ClientDetails> getAllClient() throws Exception {
+	public List<ClientDetailsVO> getAllClient() throws Exception {
 		List<ClientDetails> clients = clientDetailsRepository.findAll();
 		if (!CollectionUtils.isEmpty(clients)) {
-			return clients;
+			
+	List<ClientDetailsVO>	clientsVo=	clientMapper.convertListEntityToVo(clients);
+			return clientsVo;
 		}
 		return Collections.EMPTY_LIST;
 	}
@@ -250,7 +273,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientMappingVo.getClientIds().stream().forEach(clientId -> {
 
 				List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
-				if (clientsUsers != null) {
+				if (!CollectionUtils.isEmpty(clientsUsers)) {
 					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 							"support person already mapped to this client ");
 				}
@@ -393,13 +416,13 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			vo.setSupporterName(users.get().getUserName());
 			vo.setCreatedBy(clientuser.getCreatedBy());
 			vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
-			/*List<UserAv> usersList = userAvRepo.findByuserData_Id(userId);
+			List<UserAv> usersList = userAvRepo.findByuserData_Id(userId);
 			usersList.stream().forEach(user->{
 				if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
 					vo.setEmail(user.getStringValue());
 				}
 
-			});*/
+			});
 			if(map.containsKey(clientId)) {
 				vo.setClientName(map.get(clientId));
 			}
