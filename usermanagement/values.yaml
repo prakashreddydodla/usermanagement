@@ -7,7 +7,7 @@ env:
   postgres_user: postgres
   postgres_password: Otsi@123
   postgres_data: /var/lib/postgresql/data/pgdata
-  postgres_db: UserManagement2
+  postgres_db: UserManagement
 
 replicaCount: 1
 replicaCountPos: 1
