@@ -24,6 +24,7 @@ import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
+import com.otsi.retail.authservice.requestModel.UsersSearchVO;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
 import com.otsi.retail.authservice.services.CognitoClient;
@@ -64,8 +65,8 @@ public class UserController {
 	}
 	@GetMapping(EndpointConstants.GET_USER_BY_ROLENAME)
 
-	public GateWayResponse<?> getUsersByRoleName(@RequestParam String roleName){
-		List<UserDetailsVO> res = userService.getUsersByRoleName(roleName);
+	public GateWayResponse<?> getUsersByRoleName(@RequestParam String roleName,@RequestBody UsersSearchVO userSerachVo){
+		List<UserDetailsVO> res = userService.getUsersByRoleName(roleName,userSerachVo);
 		return new GateWayResponse<>(200, res, "", "true");
 
 		
@@ -209,5 +210,20 @@ public class UserController {
 
 		}
 	}
+	
+	/*@PostMapping(EndpointConstants.USER_SEARCH)
+	public GateWayResponse<?> userSearch(@RequestBody UsersSearchVO usersSearchVO ) {
+		List<UserDetailsVO> res;
+		try {
+			logger.info("user Mapping request : ");
+			res = userService.usersSerach(usersSearchVO);
+
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}*/
 
 }

@@ -1,10 +1,15 @@
 package com.otsi.retail.authservice.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 //import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.otsi.retail.authservice.Entity.ClientDetails;
+import com.otsi.retail.authservice.Entity.ClientUsers;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
@@ -23,6 +29,7 @@ import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Exceptions.UserNotFoundException;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
+import com.otsi.retail.authservice.Repository.ClientUserRepo;
 import com.otsi.retail.authservice.Repository.ClientcDomianRepo;
 import com.otsi.retail.authservice.Repository.RoleRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
@@ -34,9 +41,11 @@ import com.otsi.retail.authservice.requestModel.StoreVO;
 //import com.otsi.retail.authservice.requestModel.PersonVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
+import com.otsi.retail.authservice.requestModel.UsersSearchVO;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
+import com.otsi.retail.authservice.utils.DateConverters;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -63,6 +72,10 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ClientDetailsRepo clientRepo;
+	
+	@Autowired
+	private ClientUserRepo clientUserRepo;
+
 
 	private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
@@ -642,15 +655,116 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDetailsVO> getUsersByRoleName(String roleName) {
+	public List<UserDetailsVO> getUsersByRoleName(String roleName,UsersSearchVO userSearchVo) {
+/*		List<UserDetails> userDetails = new ArrayList<>();
+*/
 		try {
-		List<UserDetails> userDetails = userRepository.findByRole_RoleName(roleName);
-		 List<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetails);
-		return userDetailsVO;
+
+			if(!StringUtils.isEmpty(roleName)) {
+				List<UserDetails>	userDetails = userRepository.findByRole_RoleName(roleName);
+				if(!CollectionUtils.isEmpty(userDetails)) {
+				List<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetails);
+				   return userDetailsVO;
+				}
+		
+			}else if(userSearchVo.getStoreName()!= null && userSearchVo.getFromDate()!=null && userSearchVo.getToDate()!=null) {
+
+				List<Store> stores = storeRepo.findByName(userSearchVo.getStoreName());
+				if(!CollectionUtils.isEmpty(stores)) {
+					LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
+					LocalDateTime	createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getToDate());
+					List<Store> storess = stores.stream().filter(store->store.getClient()!=null).collect(Collectors.toList());
+
+					List<Long> clientIds = storess.stream().map(store->store.getClient().getId()).collect(Collectors.toList());
+     if(clientIds!=null) {
+					List<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds);
+					if(!CollectionUtils.isEmpty(clientUsers)) {
+			List<Long>	userIds=	clientUsers.stream().map(clientUser->clientUser.getUserId().getId()).collect(Collectors.toList());
+		     if(userIds!=null) {
+
+			List<UserDetails> userDetail= userRepository.findByIdInAndCreatedDateBetween(userIds,createdDatefrom,createdDateTo);
+					
+			if(!CollectionUtils.isEmpty(userDetail)) {
+
+				List<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetail);
+				   return userDetailsVO;
+                       }
+				}
+				}
+				}
+			}
+			}else if(userSearchVo.getStoreName()!= null && userSearchVo.getFromDate()!=null) {
+
+				List<Store> stores = storeRepo.findByName(userSearchVo.getStoreName());
+				if(!CollectionUtils.isEmpty(stores)) {
+
+					LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
+					LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getFromDate());
+					List<Store> storess = stores.stream().filter(store->store.getClient()!=null).collect(Collectors.toList());
+
+					List<Long> clientIds = storess.stream().map(store->store.getClient().getId()).collect(Collectors.toList());
+				     if(clientIds!=null) {
+
+					List<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds);
+					if(!CollectionUtils.isEmpty(clientUsers)) {
+
+					List<Long>	userIds=	clientUsers.stream().map(clientUser->clientUser.getUserId().getId()).collect(Collectors.toList());
+				     if(userIds!=null) {
+
+					List<UserDetails> userDetail= userRepository.findByIdInAndCreatedDateBetween(userIds,createdDatefrom,createdDateTo);
+					if(!CollectionUtils.isEmpty(userDetail)) {
+
+					List<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetail);
+					   return userDetailsVO;
+				     }
+					}
+					}
+					}
+				}
+				
+					
+			}else if(userSearchVo.getStoreName()!=null) {
+				List<UserDetails> userDetails = new ArrayList<>();
+
+				List<Store> stores = storeRepo.findByName(userSearchVo.getStoreName());
+				if(!CollectionUtils.isEmpty(stores)) {
+
+				List<Store> storess = stores.stream().filter(store->store.getClient()!=null).collect(Collectors.toList());
+				
+				List<Long> clientIds = storess.stream().map(store->store.getClient().getId()).collect(Collectors.toList());
+			     if(clientIds!=null) {
+
+					List<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds);
+					if(!CollectionUtils.isEmpty(clientUsers)) {
+
+					List<Long>	userIds=	clientUsers.stream().map(clientUser->clientUser.getUserId().getId()).collect(Collectors.toList());
+				     if(userIds!=null) {
+
+						List<UserDetails> users = userRepository.findByIdIn(userIds);
+						
+						if(!CollectionUtils.isEmpty(users)) {
+						
+
+			
+					
+				List<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(users);
+				   return userDetailsVO;
+				     }
+					}
+			     }
+				}
+			}
+
+				
+			}
+			
+			return Collections.EMPTY_LIST;
+			
 		}catch(Exception ex) {
 			throw new RuntimeException(ex.getMessage());
 
 		}
+		
 	}
 
 	/*

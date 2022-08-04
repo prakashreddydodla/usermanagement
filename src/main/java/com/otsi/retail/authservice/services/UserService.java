@@ -10,6 +10,7 @@ import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
+import com.otsi.retail.authservice.requestModel.UsersSearchVO;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
 
@@ -42,6 +43,6 @@ List<UserDetailsVO> getCustomersForGivenIds(List<Long> userIds);
 
 	String deleteUser(Long id);
 
-	List<UserDetailsVO> getUsersByRoleName(String roleName);
+	List<UserDetailsVO> getUsersByRoleName(String roleName, UsersSearchVO userSerachVo);
 	
 }

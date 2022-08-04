@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,6 +102,18 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	Optional<UserDetails> findByPhoneNumberAndClient_Id(String value, Long clientId);
 
 	List<UserDetails> findByRole_RoleName(String roleName);
+
+	UserDetails findByIdAndRole_RoleNameAndCreatedDateBetween(Long userId, String roleName,
+			LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
+
+	Optional<UserDetails> findByIdAndRole_RoleName(Long userId, String roleName);
+
+	UserDetails findByIdAndCreatedDateBetween(Long userId, LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
+
+	List<UserDetails> findByIdInAndCreatedDateBetween(List<Long> userIds, LocalDateTime createdDatefrom,
+			LocalDateTime createdDateTo);
+
+	List<UserDetails> findByIdIn(List<Long> userIds);
 	
 
 }

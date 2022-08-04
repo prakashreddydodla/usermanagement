@@ -37,6 +37,8 @@ public class ClientDetailsVO {
 	
 	private String planName;
 	
+	private Long planId;
+	
 	private String description;
 	
 	
