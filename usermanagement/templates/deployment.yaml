@@ -41,13 +41,13 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          resources:
-            limits:
-              cpu: 200m
-              memory: 2048Mi
-            requests:
-              cpu: 500m
-              memory: 1024Mi
+          #resources:
+          #  limits:
+          #    cpu: 200m
+          #    memory: 2048Mi
+          #  requests:
+          #    cpu: 500m
+          #    memory: 1024Mi
           #livenessProbe:
           # httpGet:
           #    path: /
