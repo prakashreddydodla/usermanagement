@@ -38,4 +38,6 @@ public interface ClientAndDomianService {
 	List<ClientDetailsVO> getClientsForUser(Long userId);
 
 	List<ClientMappingVO> getClientMappingDetails();
+
+	List<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo);
 }

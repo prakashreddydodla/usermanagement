@@ -48,6 +48,7 @@ import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
+import com.otsi.retail.authservice.requestModel.UserDetailsVO;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 import com.otsi.retail.authservice.utils.DateConverters;
 
@@ -62,13 +63,13 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private UserAvRepo userAvRepo;
-	
+
 	@Autowired
 	private PlandetailsRepo planDetailsRepo;
 
 	@Autowired
 	private ClientDetailsRepo clientDetailsRepository;
-	
+
 	@Autowired
 	private JavaMailSender mailSender;
 
@@ -86,7 +87,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private StoreRepo storeRepo;
-	
+
 	public static final String TICKET_MAIL_SUBJECT = "Client Creation";
 	public static final String TICKET_MAIL_BODY = "Client registered successfully please contact admin team ";
 
@@ -132,16 +133,16 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientDetails.setMobile(clientDetailsVO.getMobile());
 			clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
 			clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
-			if(ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
+			if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 				Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
-				if(plans.isPresent()) {
-				clientDetails.setPlanDetails(plans.get());
+				if (plans.isPresent()) {
+					clientDetails.setPlanDetails(plans.get());
 				}
 
 			}
 			clientDetails = clientDetailsRepository.save(clientDetails);
 			if (null != clientDetails.getId()) {
-				sendEmail(clientDetailsVO.getEmail(),TICKET_MAIL_BODY,TICKET_MAIL_SUBJECT);
+				sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
 			}
 			return clientDetails;
 		} else {
@@ -150,9 +151,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					"client name already exists:" + clientDetailsVO.getName());
 		}
 	}
-	
-private void sendEmail(String toEmail,String body,String subject) {
-		
+
+	private void sendEmail(String toEmail, String body, String subject) {
+
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(toEmail);
 		message.setText(body);
@@ -246,8 +247,8 @@ private void sendEmail(String toEmail,String body,String subject) {
 	public List<ClientDetailsVO> getAllClient() throws Exception {
 		List<ClientDetails> clients = clientDetailsRepository.findAll();
 		if (!CollectionUtils.isEmpty(clients)) {
-			
-	List<ClientDetailsVO>	clientsVo=	clientMapper.convertListEntityToVo(clients);
+
+			List<ClientDetailsVO> clientsVo = clientMapper.convertListEntityToVo(clients);
 			return clientsVo;
 		}
 		return Collections.EMPTY_LIST;
@@ -314,69 +315,70 @@ private void sendEmail(String toEmail,String body,String subject) {
 	@Override
 	public List<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo) {
 		try {
-	if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null
-				&& clientSearchVo.getToDate() != null) {
-			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
+			if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null
+					&& clientSearchVo.getToDate() != null) {
+				List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
 
-				List<Store> storess = stores.stream().filter(store->store.getClient()!=null).collect(Collectors.toList());
+				List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
+						.collect(Collectors.toList());
 
-				List<Long> clientIds = storess.stream().map(store->store.getClient().getId()).collect(Collectors.toList());				
+				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
+						.collect(Collectors.toList());
 				List<ClientDetails> clientdetails = clientDetailsRepository.findByIdInAndCreatedDateBetween(clientIds,
 						createdDatefrom, createdDateTo);
 
 				List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
-			
-		} else if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null) {
-			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
-			
+
+			} else if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null) {
+				List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
+
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
-				List<Store> storess = stores.stream().filter(store->store.getClient()!=null).collect(Collectors.toList());
+				List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
+						.collect(Collectors.toList());
 
-				List<Long> clientIds = storess.stream().map(store->store.getClient().getId()).collect(Collectors.toList());	
+				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
+						.collect(Collectors.toList());
 				List<ClientDetails> clientdetails = clientDetailsRepository.findByIdInAndCreatedDateBetween(clientIds,
 						createdDatefrom, createdDateTo);
 				List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
-		
+			} else if (clientSearchVo.getStoreName() != null) {
+				List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
 
-		} else if (clientSearchVo.getStoreName() != null) {
-			List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
+				List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
+						.collect(Collectors.toList());
 
-				List<Store> storess = stores.stream().filter(store->store.getClient()!=null).collect(Collectors.toList());
-
-				List<Long> clientIds = storess.stream().map(store->store.getClient().getId()).collect(Collectors.toList());					
+				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
+						.collect(Collectors.toList());
 				List<ClientDetails> clientdetails = clientDetailsRepository.findByIdIn(clientIds);
 				List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
-			
 
-		} else {
-			LocalDateTime createdDatefrom = DateConverters
-					.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
-			LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
-			List<ClientDetails> clientdetails = clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,
-					createdDateTo);
-			if(CollectionUtils.isEmpty(clientdetails)) {
-				return Collections.EMPTY_LIST;
+			} else {
+				LocalDateTime createdDatefrom = DateConverters
+						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
+				List<ClientDetails> clientdetails = clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,
+						createdDateTo);
+				if (CollectionUtils.isEmpty(clientdetails)) {
+					return Collections.EMPTY_LIST;
+				}
+				List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
+				return clientVo;
+
 			}
-			List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
-			return clientVo;
-
-			
+		} catch (Exception ex) {
+			throw new RuntimeException(ex.getMessage());
 
 		}
-	}catch(Exception ex) {
-		throw new RuntimeException(ex.getMessage());
 
-	}
-	
 	}
 
 	@Override
@@ -403,45 +405,146 @@ private void sendEmail(String toEmail,String body,String subject) {
 
 	@Override
 	public List<ClientMappingVO> getClientMappingDetails() {
-		
-		List<ClientMappingVO> clientMappingList = new ArrayList<>();
+
 		List<ClientUsers> clientUsers = clientUserRepo.findAll();
-		 Map<Long, String> map = new HashMap<>();
+		List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
 
-		clientUsers.stream().forEach(clientuser->{
-		Long clientId=	clientuser.getClientId().getId();
-		String clientname = clientuser.getClientId().getName();
-			map.put(clientId, clientname);
-			
-		});
-		clientUsers.stream().forEach(clientuser->{
-		Long userId =	clientuser.getUserId().getId();
-		Long clientId = clientuser.getClientId().getId();
-			Optional<UserDetails> users = userRepository.findById(userId);
-			if(users.isPresent()) {
-			ClientMappingVO vo = new ClientMappingVO();
-			vo.setSupporterName(users.get().getUserName());
-			vo.setCreatedBy(clientuser.getCreatedBy());
-			vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
-			List<UserAv> usersList = userAvRepo.findByuserData_Id(userId);
-			usersList.stream().forEach(user->{
-				if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
-					vo.setEmail(user.getStringValue());
-				}
-
-			});
-			if(map.containsKey(clientId)) {
-				vo.setClientName(map.get(clientId));
-			}
-			clientMappingList.add(vo);
-				
-				}			
-			
-
-		});
-
-		
 		return clientMappingList;
 	}
 
+	private List<ClientMappingVO> clientMappingDetails(List<ClientUsers> clientUsers) {
+		List<ClientMappingVO> clientMappingList = new ArrayList<>();
+		Map<Long, String> map = new HashMap<>();
+
+		clientUsers.stream().forEach(clientuser -> {
+			Long clientId = clientuser.getClientId().getId();
+			String clientname = clientuser.getClientId().getName();
+			map.put(clientId, clientname);
+
+		});
+		clientUsers.stream().forEach(clientuser -> {
+			Long userId = clientuser.getUserId().getId();
+			Long clientId = clientuser.getClientId().getId();
+			Optional<UserDetails> users = userRepository.findById(userId);
+			if (users.isPresent()) {
+				ClientMappingVO vo = new ClientMappingVO();
+				vo.setSupporterName(users.get().getUserName());
+				vo.setCreatedBy(clientuser.getCreatedBy());
+				vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
+				List<UserAv> usersList = userAvRepo.findByuserData_Id(userId);
+				usersList.stream().forEach(user -> {
+					if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+						vo.setEmail(user.getStringValue());
+					}
+
+				});
+				if (map.containsKey(clientId)) {
+					vo.setClientName(map.get(clientId));
+				}
+				clientMappingList.add(vo);
+
+			}
+
+		});
+
+		return clientMappingList;
+	}
+
+	@Override
+	public List<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo) {
+		try {
+			if (clientMappingVo.getStoreName() != null && clientMappingVo.getFromDate() != null
+					&& clientMappingVo.getToDate() != null) {
+
+				List<Store> stores = storeRepo.findByName(clientMappingVo.getStoreName());
+				if (!CollectionUtils.isEmpty(stores)) {
+					LocalDateTime createdDatefrom = DateConverters
+							.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
+					LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
+					List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
+							.collect(Collectors.toList());
+
+					List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
+							.collect(Collectors.toList());
+					if (clientIds != null) {
+						List<ClientUsers> clientUsers = clientUserRepo
+								.findByClientId_IdInAndCreatedDateBetween(clientIds, createdDatefrom, createdDateTo);
+						if (!CollectionUtils.isEmpty(clientUsers)) {
+
+							List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+							return clientMappingList;
+
+						}
+					}
+
+				}
+			} else if (clientMappingVo.getStoreName() != null && clientMappingVo.getFromDate() != null) {
+
+				List<Store> stores = storeRepo.findByName(clientMappingVo.getStoreName());
+				if (!CollectionUtils.isEmpty(stores)) {
+
+					LocalDateTime createdDatefrom = DateConverters
+							.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
+					LocalDateTime createdDateTo = DateConverters
+							.convertToLocalDateTimeMax(clientMappingVo.getFromDate());
+					List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
+							.collect(Collectors.toList());
+
+					List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
+							.collect(Collectors.toList());
+					if (clientIds != null) {
+
+						List<ClientUsers> clientUsers = clientUserRepo
+								.findByClientId_IdInAndCreatedDateBetween(clientIds, createdDatefrom, createdDateTo);
+
+						if (!CollectionUtils.isEmpty(clientUsers)) {
+
+							List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+							return clientMappingList;
+						}
+					}
+
+				}
+
+			} else if (clientMappingVo.getStoreName() != null) {
+
+				List<Store> stores = storeRepo.findByName(clientMappingVo.getStoreName());
+				if (!CollectionUtils.isEmpty(stores)) {
+
+					List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
+							.collect(Collectors.toList());
+
+					List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
+							.collect(Collectors.toList());
+					if (clientIds != null) {
+
+						List<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds);
+
+						if (!CollectionUtils.isEmpty(clientUsers)) {
+
+							List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+							return clientMappingList;
+						}
+					}
+				}
+
+			} else {
+				LocalDateTime createdDatefrom = DateConverters
+						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
+				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
+				List<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetween(createdDatefrom, createdDateTo);
+				if (CollectionUtils.isEmpty(clientUsers)) {
+					return Collections.EMPTY_LIST;
+				}
+				List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+				return clientMappingList;
+
+			}
+
+		} catch (Exception ex) {
+			throw new RuntimeException(ex.getMessage());
+
+		}
+		return Collections.EMPTY_LIST;
+}
 }

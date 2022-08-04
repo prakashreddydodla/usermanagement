@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +21,10 @@ public interface ClientUserRepo extends JpaRepository<ClientUsers, Long>{
 	List<ClientUsers> findByClientId_Id(Long long1);
 
 	List<ClientUsers> findByClientId_IdIn(List<Long> clientIds);
+
+	List<ClientUsers> findByClientId_IdInAndCreatedDateBetween(List<Long> clientIds, LocalDateTime createdDatefrom,
+			LocalDateTime createdDateTo);
+
+	List<ClientUsers> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
 
 }

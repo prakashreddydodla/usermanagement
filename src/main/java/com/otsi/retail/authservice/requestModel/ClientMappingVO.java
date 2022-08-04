@@ -28,6 +28,12 @@ public class ClientMappingVO {
 	
 	private LocalDate createdOn;
 	
+	private String storeName;
+	
+	private LocalDate fromDate;
+	
+	private LocalDate toDate;
+	
 	 
 	
 
