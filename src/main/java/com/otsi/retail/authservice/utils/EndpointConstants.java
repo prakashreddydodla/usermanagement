@@ -57,6 +57,7 @@ public class EndpointConstants {
 	public static final String STORE = "/store";
 	public static final String CREATE_STORE = "/create-store";
 	public static final String GET_CLIENT_DOMIAN_STORES = "/getClientDomianStores";
+	public static final String GET_ALL_STORES = "/getAllStores";
 	public static final String GET_CLIENT_STORES = "/client/stores";
 	public static final String ASSIGN_STORES_TO_DOMIAN = "/assignStoresToDomain";
 	public static final String GET_STORES_WITH_FILTER = "/getStoresWithFilter";

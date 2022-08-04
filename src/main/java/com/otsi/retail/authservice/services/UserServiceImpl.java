@@ -724,7 +724,6 @@ public class UserServiceImpl implements UserService {
 				
 					
 			}else if(userSearchVo.getStoreName()!=null) {
-				List<UserDetails> userDetails = new ArrayList<>();
 
 				List<Store> stores = storeRepo.findByName(userSearchVo.getStoreName());
 				if(!CollectionUtils.isEmpty(stores)) {

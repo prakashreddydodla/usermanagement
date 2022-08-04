@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +30,7 @@ import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.GstRepository;
 import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserRepository;
+import com.otsi.retail.authservice.mapper.StoreMapper;
 import com.otsi.retail.authservice.requestModel.DomianStoresVo;
 import com.otsi.retail.authservice.requestModel.GetStoresRequestVo;
 import com.otsi.retail.authservice.requestModel.StoreVO;
@@ -54,6 +56,9 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private ClientDetailsRepo clientRepo;
+	
+	@Autowired
+	private StoreMapper storeMapper;
 
 	private Logger logger = LogManager.getLogger(StoreServiceImpl.class);
 
@@ -405,6 +410,18 @@ public class StoreServiceImpl implements StoreService {
 			return store;
 		}else
 		return null;
-	} 
+	}
+
+	@Override
+	public List<StoreVO> getStores() {
+		List<Store> stores = storeRepo.findAll();
+		if(!CollectionUtils.isEmpty(stores)) {
+	List<StoreVO> storeVo =storeMapper.convertStoresToVO(stores);
+		return storeVo;
+	} else {
+			return Collections.EMPTY_LIST;
+
+		}
+	}
 
 }

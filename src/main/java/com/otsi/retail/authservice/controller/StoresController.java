@@ -230,5 +230,14 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	
+	@ApiOperation(value = EndpointConstants.GET_ALL_STORES, notes = "get store details using clientDomainId")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", response = Store.class, responseContainer = "List") })
+	@GetMapping(EndpointConstants.GET_ALL_STORES)
+	public ResponseEntity<?> getStores() {
+		List<StoreVO> stores = storeService.getStores();
+		return ResponseEntity.ok(stores);
+	}
 
 }

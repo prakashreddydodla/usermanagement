@@ -33,4 +33,6 @@ public interface StoreService {
 
 	Store getActiveStores(Long userId, Long clientId);
 
+	List<StoreVO> getStores();
+
 }
