@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.Repository;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +11,7 @@ import com.otsi.retail.authservice.Entity.SubPrivilege;
 @Repository
 public interface SubPrivillageRepo  extends JpaRepository<SubPrivilege, Long>{
 
-	List<SubPrivilege> findByParentPrivilegeId(Long id);
+	LinkedList<SubPrivilege> findByParentPrivilegeId(Long id);
 
 
 }

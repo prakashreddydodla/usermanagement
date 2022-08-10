@@ -415,6 +415,7 @@ public class CognitoClient {
 					.withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH).withUserPoolId(USERPOOL_ID).withClientId(CLIENT_ID)
 					.withAuthParameters(authParams);
 			AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
+			
 			return authResult;
 		} catch (InvalidParameterException e) {
 			logger.error(e.getErrorMessage());
@@ -758,6 +759,10 @@ public class CognitoClient {
 			logger.info("##############  adminresetPassword method ends  ##############");
 			return result;
 		} catch (InvalidEmailRoleAccessPolicyException ierae) {
+			logger.debug(ierae.getErrorMessage());
+			logger.error(ierae.getErrorMessage());
+			throw new Exception(ierae.getErrorMessage());
+		}catch (UserNotFoundException ierae) {
 			logger.debug(ierae.getErrorMessage());
 			logger.error(ierae.getErrorMessage());
 			throw new Exception(ierae.getErrorMessage());

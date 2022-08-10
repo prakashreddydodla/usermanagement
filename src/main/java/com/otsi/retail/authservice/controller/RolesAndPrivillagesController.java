@@ -193,6 +193,7 @@ public class RolesAndPrivillagesController {
 			@ApiResponse(code = 200, message = "Successful retrieval", response = ParentPrivilegeVO.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_PRIVILLAGES)
 	public ResponseEntity<?> getPrivillagesForDomian(@RequestHeader(required = false) Boolean isEsSlipEnabled) {
+		logger.info("Received request to getPrivillagesForDomian:"+isEsSlipEnabled);
 		PrivilegeVO privileges = rolesAndPrivillagesService.getAllPrivilagesForDomian(isEsSlipEnabled);
 		return ResponseEntity.ok(privileges);
 	}
