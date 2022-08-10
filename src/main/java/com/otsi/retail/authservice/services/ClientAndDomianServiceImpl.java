@@ -133,6 +133,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientDetails.setMobile(clientDetailsVO.getMobile());
 			clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
 			clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
+			clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
 			if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 				Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
 				if (plans.isPresent()) {
@@ -245,7 +246,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Override
 	public List<ClientDetailsVO> getAllClient() throws Exception {
-		List<ClientDetails> clients = clientDetailsRepository.findAll();
+		List<ClientDetails> clients = clientDetailsRepository.findAllByOrderByCreatedDateDesc();
 		if (!CollectionUtils.isEmpty(clients)) {
 
 			List<ClientDetailsVO> clientsVo = clientMapper.convertListEntityToVo(clients);
@@ -406,7 +407,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public List<ClientMappingVO> getClientMappingDetails() {
 
-		List<ClientUsers> clientUsers = clientUserRepo.findAll();
+		List<ClientUsers> clientUsers = clientUserRepo.findAllByOrderByCreatedDateDesc();
 		List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
 
 		return clientMappingList;

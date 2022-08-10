@@ -84,120 +84,107 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	private Logger logger = LogManager.getLogger(CognitoAuthServiceImpl.class);
 
 	@Override
-	public Response addRoleToUser(String groupName, String userName, Long createdBy) throws InvalidParameterException, Exception {
+	public Response addRoleToUser(String groupName, String userName, Long createdBy)
+			throws InvalidParameterException, Exception {
 		logger.info("#############  assing role to user method starts  ###############");
-
 		Response res = new Response();
-		Optional<UserDetails> userDetails = userRepository.findById(createdBy);
-		
-		UserDetails User = userDetails.get();
-		String roleName = User.getRole().getRoleName();
-		String  UserName = User.getUserName();
-		if(groupName.equals("client_support")){
-		if(UserName.equals("Captain")){
-			
-			res = addRoletoUser(groupName, userName);
-		}else
-			throw new RuntimeException("Role not assing to User. Please try with another Role");
 
-		}else if(groupName.equals("super_admin")){
-			
-			if(roleName.equalsIgnoreCase("client_support")) {
+		if (createdBy!=0L&&createdBy!=null) {
+			Optional<UserDetails> userDetails = userRepository.findById(createdBy);
+
+			UserDetails User = userDetails.get();
+			String roleName= null;
+			if(User.getRole()!=null) {
+			roleName = User.getRole().getRoleName();
+			}
+			String UserName = User.getUserName();
+			if (groupName.equals("client_support")) {
+				if (UserName.equals("Captain")) {
+
+					res = addRoletoUser(groupName, userName);
+				} else
+					throw new RuntimeException("Role not assing to User. Please try with another Role");
+
+			} else if (groupName.equals("super_admin")) {
+
+				if (roleName.equalsIgnoreCase("client_support")) {
+					res = addRoletoUser(groupName, userName);
+
+				} else
+					throw new RuntimeException("Role not assing to User. Please try with another Role");
+
+			}else {
 				res = addRoletoUser(groupName, userName);
 
-			}else
-				throw new RuntimeException("Role not assing to User. Please try with another Role");
+			}
 
-		}else {
+		} else {
 			res = addRoletoUser(groupName, userName);
 
 		}
-			
-			/*Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
-			Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
-			if (userOptional.isPresent() && roleOptional.isPresent()) {
-				try {
-					UserDetails user = userOptional.get();
-					Role role = roleOptional.get();
-					user.setRole(role);
-					userRepository.save(user);
-					logger.info("Assign role to user in Local DB is Sucess");
 
-				} catch (Exception e) {
-					logger.error(
-							"Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
-					throw new RuntimeException("Role not assing to User. Please try again.");
-				}
-			}
-			AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
-			if (result != null) {
-				if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-					logger.info("Assign role to user in Cognito sucess");
-					res.setBody("Sucessfully updated role");
-					res.setStatusCode(200);
-					logger.info("assing role to user method ends");
-					return res;
-				} else {
-					res.setBody("Falied to updated role");
-					res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-					logger.error("Assign role to user in Cognito Falied");
-					return res;
-				}
-				}else
-					throw new Exception("no users found with this users");
-			
-		
-			
-			
-		}else {
-			throw new RuntimeException("Role not assing to User. Please try with another Role");
-
-		}
-			
-		}else {
-	
-		Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
-		Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
-		if (userOptional.isPresent() && roleOptional.isPresent()) {
-			try {
-				UserDetails user = userOptional.get();
-				Role role = roleOptional.get();
-				user.setRole(role);
-				userRepository.save(user);
-				logger.info("Assign role to user in Local DB is Sucess");
-
-			} catch (Exception e) {
-				logger.error(
-						"Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
-				throw new RuntimeException("Role not assing to User. Please try again.");
-			}
-		}
-		
-		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
-		if (result != null) {
-			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				logger.info("Assign role to user in Cognito sucess");
-				res.setBody("Sucessfully updated role");
-				res.setStatusCode(200);
-				logger.info("assing role to user method ends");
-				return res;
-			} else {
-				res.setBody("Falied to updated role");
-				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-				logger.error("Assign role to user in Cognito Falied");
-				return res;
-			}
-		} else
-			throw new Exception("no users found with this users");
-		}
-*/
+		/*
+		 * Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
+		 * Optional<Role> roleOptional = roleRepository.findByRoleName(groupName); if
+		 * (userOptional.isPresent() && roleOptional.isPresent()) { try { UserDetails
+		 * user = userOptional.get(); Role role = roleOptional.get();
+		 * user.setRole(role); userRepository.save(user);
+		 * logger.info("Assign role to user in Local DB is Sucess");
+		 * 
+		 * } catch (Exception e) { logger.error(
+		 * "Error occurs while assigning role to user in Local Database. Error is : " +
+		 * e.getMessage()); throw new
+		 * RuntimeException("Role not assing to User. Please try again."); } }
+		 * AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName,
+		 * userName); if (result != null) { if
+		 * (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+		 * logger.info("Assign role to user in Cognito sucess");
+		 * res.setBody("Sucessfully updated role"); res.setStatusCode(200);
+		 * logger.info("assing role to user method ends"); return res; } else {
+		 * res.setBody("Falied to updated role");
+		 * res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+		 * logger.error("Assign role to user in Cognito Falied"); return res; } }else
+		 * throw new Exception("no users found with this users");
+		 * 
+		 * 
+		 * 
+		 * 
+		 * }else { throw new
+		 * RuntimeException("Role not assing to User. Please try with another Role");
+		 * 
+		 * }
+		 * 
+		 * }else {
+		 * 
+		 * Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
+		 * Optional<Role> roleOptional = roleRepository.findByRoleName(groupName); if
+		 * (userOptional.isPresent() && roleOptional.isPresent()) { try { UserDetails
+		 * user = userOptional.get(); Role role = roleOptional.get();
+		 * user.setRole(role); userRepository.save(user);
+		 * logger.info("Assign role to user in Local DB is Sucess");
+		 * 
+		 * } catch (Exception e) { logger.error(
+		 * "Error occurs while assigning role to user in Local Database. Error is : " +
+		 * e.getMessage()); throw new
+		 * RuntimeException("Role not assing to User. Please try again."); } }
+		 * 
+		 * AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName,
+		 * userName); if (result != null) { if
+		 * (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+		 * logger.info("Assign role to user in Cognito sucess");
+		 * res.setBody("Sucessfully updated role"); res.setStatusCode(200);
+		 * logger.info("assing role to user method ends"); return res; } else {
+		 * res.setBody("Falied to updated role");
+		 * res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+		 * logger.error("Assign role to user in Cognito Falied"); return res; } } else
+		 * throw new Exception("no users found with this users"); }
+		 */
 		return res;
 	}
-	
+
 	private Response addRoletoUser(String groupName, String userName) throws Exception {
 		Response res = new Response();
 
-		
 		Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
 		Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
 		if (userOptional.isPresent() && roleOptional.isPresent()) {
@@ -214,7 +201,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				throw new RuntimeException("Role not assing to User. Please try again.");
 			}
 		}
-		
+
 		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
 		if (result != null) {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
@@ -231,10 +218,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			}
 		} else
 			throw new Exception("no users found with this users");
-		}
-
-		
-	
+	}
 
 	@Override
 	public AdminGetUserResult getUserInfo(String username) throws Exception {
@@ -312,7 +296,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	 *                   Create user (Customer/employee) based on role
 	 */
 	@Override
-	public ResponseEntity<?> createUser(AdminCreatUserRequest adminCreateUserRequest,Long clientId) {
+	public ResponseEntity<?> createUser(AdminCreatUserRequest adminCreateUserRequest, Long clientId) {
 		try {
 			boolean usernameExists = userRepository.existsByUserNameAndIsCustomer(adminCreateUserRequest.getUsername(),
 					Boolean.FALSE);
@@ -335,11 +319,11 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setGender(adminCreateUserRequest.getGender());
 				user.setCreatedBy(adminCreateUserRequest.getCreatedBy());
 				user.setIsCustomer(Boolean.TRUE);
-				if(ObjectUtils.isNotEmpty(clientId)) {
+				if (ObjectUtils.isNotEmpty(clientId)) {
 					List<Long> ids = new ArrayList<>();
-					ids.add(clientId);		
+					ids.add(clientId);
 					List<ClientDetails> clientDetail = clientDetailsRepo.findByIdIn(ids);
-					if(!(CollectionUtils.isEmpty(clientDetail))) {
+					if (!(CollectionUtils.isEmpty(clientDetail))) {
 						user.setClient(clientDetail);
 					}
 				}
@@ -372,7 +356,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					if (null != adminCreateUserRequest.getRole().getRoleName()
 							&& null != adminCreateUserRequest.getUsername()) {
 						addRoleToUser(adminCreateUserRequest.getRole().getRoleName(),
-								adminCreateUserRequest.getUsername(),adminCreateUserRequest.getCreatedBy());
+								adminCreateUserRequest.getUsername(), adminCreateUserRequest.getCreatedBy());
 					}
 					return ResponseEntity.ok(result);
 
@@ -599,11 +583,11 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.ASSIGNED_STORES)) {
 
 				String[] storenames = a.getValue().split(",");
-				
-			List<String> list = Arrays.asList(storenames);
-			
-			List<String> lstores = new ArrayList<>(list);
-			lstores.stream().forEach(storeName -> {
+
+				List<String> list = Arrays.asList(storenames);
+
+				List<String> lstores = new ArrayList<>(list);
+				lstores.stream().forEach(storeName -> {
 					String[] sName = storeName.split(":");
 
 					Optional<Store> stores = storeRepo.findById(Long.parseLong(sName[1]));
@@ -611,17 +595,16 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						List<Store> userStores = user.getStores();
 
 						if (!CollectionUtils.isEmpty(userStores)) {
-							
-								userStores.add(stores.get());
-							
+
+							userStores.add(stores.get());
+
 							user.setStores(userStores);
 						}
 
 						else {
 							List<Store> newStores = new ArrayList<>();
-							
-								newStores.add(stores.get());
-							
+
+							newStores.add(stores.get());
 
 							user.setStores(newStores);
 						}
@@ -730,17 +713,17 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setGender(attribute.getValue());
 			}
 			if (attribute.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
-				if(attribute.getValue()!=null) {
+				if (attribute.getValue() != null) {
 					Optional<ClientDetails> client = clientDetailsRepo.findById(Long.parseLong(attribute.getValue()));
-					if(client.isPresent()) {
-				List<ClientDetails> clients =  new ArrayList<>();
-				clients.add(client.get());
-				user.setClient(clients);
+					if (client.isPresent()) {
+						List<ClientDetails> clients = new ArrayList<>();
+						clients.add(client.get());
+						user.setClient(clients);
 					}
-				
+
 				}
 			}
-			
+
 			if (attribute.getName().equalsIgnoreCase(CognitoAtributes.PHONE_NUMBER)) {
 				user.setPhoneNumber(attribute.getValue());
 			}
@@ -782,20 +765,14 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					user.setRole(specialRole);
 				}
 			}
-			/*if (clientId != null) {
-				Optional<ClientDetails> clientDetailsOptional = clientDetailsRepo.findById(clientId);
-				if (clientDetailsOptional.isPresent()) {
-					user.setClient(Arrays.asList(clientDetailsOptional.get()));
-				}
-			}
-			if(clientId == null) {
-				String[] splitted = userName.split("_");
-				String name = splitted[0];
-				ClientDetails clientDetail = clientDetailsRepo.findByName(name);
-				if (clientDetail!=null) {
-					user.setClient(Arrays.asList(clientDetail));
-				}
-			}*/
+			/*
+			 * if (clientId != null) { Optional<ClientDetails> clientDetailsOptional =
+			 * clientDetailsRepo.findById(clientId); if (clientDetailsOptional.isPresent())
+			 * { user.setClient(Arrays.asList(clientDetailsOptional.get())); } } if(clientId
+			 * == null) { String[] splitted = userName.split("_"); String name =
+			 * splitted[0]; ClientDetails clientDetail = clientDetailsRepo.findByName(name);
+			 * if (clientDetail!=null) { user.setClient(Arrays.asList(clientDetail)); } }
+			 */
 			return userRepository.save(user);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -842,7 +819,5 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 		}
 		return null;
 	}
-
-	
 
 }

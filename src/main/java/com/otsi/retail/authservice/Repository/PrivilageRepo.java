@@ -14,4 +14,6 @@ public interface PrivilageRepo extends JpaRepository<ParentPrivilege, Long> {
 
 	List<ParentPrivilege> findByIsActiveTrue();
 
+	List<ParentPrivilege> findByPlanIdAndIsActiveTrue(Long planId);
+
 }

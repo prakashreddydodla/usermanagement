@@ -46,6 +46,8 @@ public class ClientDetails extends BaseEntity implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "planId")
 	private PlanDetails planDetails;
+	
+	private String planTenure;
 
 	private String mobile;
 

@@ -218,7 +218,7 @@ public class ClientAndDomianController {
 		}
 	}
 		@PostMapping(EndpointConstants.GET_CLIENT_MAPPING_SEARCH)
-		public GateWayResponse<?> getClientMappingSerachDetails(ClientMappingVO clientMappingVo) {
+		public GateWayResponse<?> getClientMappingSerachDetails(@RequestBody ClientMappingVO clientMappingVo) {
 			List<ClientMappingVO> res;
 			try {
 				logger.info("client Mapping request : ");

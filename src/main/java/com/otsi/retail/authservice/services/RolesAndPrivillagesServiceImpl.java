@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -443,9 +444,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	@Override
 	public RoleVO getPrivilagesByRoleName(String roleName) {
 
-		Optional<Role> role = roleRepository.findByRoleName(roleName);
+		Optional<Role> role = roleRepository.findByRoleNameOrderByCreatedDateDesc(roleName);
 		RoleVO roleVO = new RoleVO();
-		if (role.get() != null) {
+		if (role.isPresent()) {
 			roleVO = rolemapper.convertRoleEntityToRoleVo(role.get());
 
 		}
@@ -678,14 +679,24 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		}
 	}
 
-	public PrivilegeVO getAllPrivilagesForDomian(Boolean isEsSlipEnabled) {
+	public PrivilegeVO getAllPrivilagesForDomian(Boolean isEsSlipEnabled, Long clientId) {
 		List<ParentPrivilegeVO> listOfwebPrivileges = new ArrayList<>();
 		List<ParentPrivilegeVO> listOfmobilePrivileges = new ArrayList<>();
 
 		// List<ParentPrivilages> entity = privilageRepository.findByDomian(domian);
 		PrivilegeVO privilegeVO = new PrivilegeVO();
+		List<ParentPrivilege> entity = new ArrayList<>();
+		Optional<ClientDetails> clients = clientDetailsrepo.findById(clientId);
+		ClientDetails client = new ClientDetails();
+		if(clients.isPresent()) {
+		 client = clients.get();
+		}
+		if(ObjectUtils.isNotEmpty(client.getPlanDetails())) {
 
-		List<ParentPrivilege> entity = privilageRepository.findByIsActiveTrue();
+		 entity = privilageRepository.findByPlanIdAndIsActiveTrue(client.getPlanDetails().getId());
+		}else
+			entity = privilageRepository.findByIsActiveTrue();
+
 
 		entity.stream().forEach(p -> {
 			if (p.getPrevilegeType() == PrevilegeType.Web) {
@@ -701,16 +712,23 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 				if (!CollectionUtils.isEmpty(subPrivileges)) {
 					
+					if (isEsSlipEnabled != null && !isEsSlipEnabled) {
+						subPrivileges = subPrivileges.stream().filter(subPrivilege -> !subPrivilege
+								.getChildPath().equalsIgnoreCase("createddeliveryslip"))
+								.collect(Collectors.toList());
+					}
+					
 					List<SubPrivilegeVO> subPrivilegeList = converListEntityToVo(subPrivileges);
 
 					subPrivilegeList.stream().forEach(subPrivilege -> {
 						List<ChildPrivilege> childPrivileges = childPrivilegeRepo
 								.findBySubPrivillageId(subPrivilege.getId());
-						if (isEsSlipEnabled != null && !isEsSlipEnabled) {
-							childPrivileges = childPrivileges.stream().filter(childPrivilege -> !childPrivilege
-									.getSubChildPath().equalsIgnoreCase("createddeliveryslip"))
-									.collect(Collectors.toList());
-						}
+						/*
+						 * if (isEsSlipEnabled != null && !isEsSlipEnabled) { childPrivileges =
+						 * childPrivileges.stream().filter(childPrivilege -> !childPrivilege
+						 * .getSubChildPath().equalsIgnoreCase("createddeliveryslip"))
+						 * .collect(Collectors.toList()); }
+						 */
 						if (!CollectionUtils.isEmpty(childPrivileges)) {
 							subPrivilege.setChildPrivileges(childPrivileges);
 						}

@@ -1,6 +1,8 @@
 package com.otsi.retail.authservice.Entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +26,8 @@ public class PlanDetails extends BaseEntity {
 	private  Long price;
 	
 	private int maxUsers;
-	
-	private PlanTenure planTenure;
+	/*
+	 * @Enumerated(EnumType.STRING) private PlanTenure planTenure;
+	 */
 
 }

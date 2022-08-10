@@ -22,6 +22,7 @@ public interface ClientDetailsRepo extends JpaRepository<ClientDetails, Long> {
 	Optional<ClientDetails> findById(ClientDetails clientId);
 	List<ClientDetails> findByIdInAndCreatedDateBetween(List<Long> clientIds, LocalDateTime createdDatefrom,
 			LocalDateTime createdDateTo);
+	List<ClientDetails> findAllByOrderByCreatedDateDesc();
 
 
 }

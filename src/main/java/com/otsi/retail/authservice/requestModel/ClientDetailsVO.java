@@ -41,6 +41,8 @@ public class ClientDetailsVO {
 	
 	private String description;
 	
+	private String  planTenure;
+	
 	
 	
 	

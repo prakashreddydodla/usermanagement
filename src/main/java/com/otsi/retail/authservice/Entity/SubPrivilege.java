@@ -49,6 +49,7 @@ public class SubPrivilege extends BaseEntity {
 	private PrevilegeType previlegeType;
 	
 	private String roleName;
+	
 
 	
 }

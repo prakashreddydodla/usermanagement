@@ -50,4 +50,6 @@ public class ChildPrivilege extends BaseEntity {
 	
 	private Boolean isEnabeld;
 	
+	
+	
 }

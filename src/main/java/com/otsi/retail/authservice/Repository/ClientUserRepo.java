@@ -27,4 +27,7 @@ public interface ClientUserRepo extends JpaRepository<ClientUsers, Long>{
 
 	List<ClientUsers> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
 
+
+	List<ClientUsers> findAllByOrderByCreatedDateDesc();
+
 }
