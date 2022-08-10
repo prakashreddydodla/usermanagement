@@ -487,12 +487,17 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 				String[] storenames = a.getValue().split(",");
 				
+				List<String> list = Arrays.asList(storenames); 
+			       
+		        List<String> l = new ArrayList<>(list);
+				
 			
- 				Arrays.asList(storenames).stream().forEach(storeName -> {
+ 				l.stream().forEach(storeName -> {
 					String[] sName = storeName.split(":");
+					
 
 					Optional<Store> stores = storeRepo.findById(Long.parseLong(sName[1]));
-					if (!stores.isPresent()) {
+					if (stores.isPresent()) {
 						List<Store> userStores = user.getStores();
 
 						if (!CollectionUtils.isEmpty(userStores)) {
@@ -510,10 +515,12 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 							user.setStores(newStores);
 						}
-						userRepository.save(user);
+					//	userRepository.save(user);
 
 					}
 				});
+				userRepository.save(user);
+
 			}
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
 
@@ -614,6 +621,18 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			if (attribute.getName().equalsIgnoreCase(CognitoAtributes.GENDER)) {
 				user.setGender(attribute.getValue());
 			}
+			if (attribute.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
+				
+			
+			if (attribute.getValue() != null) {
+				Optional<ClientDetails> clientDetailsOptional = clientDetailsRepo.findById(Long.parseLong(attribute.getValue()));
+				if (clientDetailsOptional.isPresent()) {
+					List<ClientDetails> clients = new ArrayList<ClientDetails>();
+					clients.add(clientDetailsOptional.get());
+					user.setClient(clients);
+				}
+			}
+			}
 			if (attribute.getName().equalsIgnoreCase(CognitoAtributes.PHONE_NUMBER)) {
 				user.setPhoneNumber(attribute.getValue());
 			}
@@ -655,20 +674,14 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					user.setRole(specialRole);
 				}
 			}
-			if (clientId != null) {
-				Optional<ClientDetails> clientDetailsOptional = clientDetailsRepo.findById(clientId);
-				if (clientDetailsOptional.isPresent()) {
-					user.setClient(Arrays.asList(clientDetailsOptional.get()));
-				}
-			}
-			if(clientId == null) {
-				String[] splitted = userName.split("_");
-				String name = splitted[0];
-				ClientDetails clientDetail = clientDetailsRepo.findByName(name);
-				if (clientDetail!=null) {
-					user.setClient(Arrays.asList(clientDetail));
-				}
-			}
+			/*
+			 * if (clientId != null) { Optional<ClientDetails> clientDetailsOptional =
+			 * clientDetailsRepo.findById(clientId); if (clientDetailsOptional.isPresent())
+			 * { user.setClient(Arrays.asList(clientDetailsOptional.get())); } } if(clientId
+			 * == null) { String[] splitted = userName.split("_"); String name =
+			 * splitted[0]; ClientDetails clientDetail = clientDetailsRepo.findByName(name);
+			 * if (clientDetail!=null) { user.setClient(Arrays.asList(clientDetail)); } }
+			 */
 			return userRepository.save(user);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -699,6 +712,13 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				if (role.isPresent()) {
 					roleId = role.get().getId();
 				}
+				/*
+				 * userDetails.getUserAttributes().stream().forEach(attribute->{ if
+				 * (attribute.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
+				 * newPasswordChallengeRequest.setClientId(Long.parseLong(attribute.getValue()))
+				 * ; } });
+				 */
+				
 				Long userId = saveUser(userDetails.getUserCreateDate(), userDetails.getUserLastModifiedDate(),
 						userDetails.getUserAttributes(), roleId, newPasswordChallengeRequest.getUserName(),
 						userDetails.getEnabled(), newPasswordChallengeRequest.getClientId());

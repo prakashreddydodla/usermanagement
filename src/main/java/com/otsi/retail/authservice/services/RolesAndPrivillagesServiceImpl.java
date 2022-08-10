@@ -741,6 +741,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							subPrivilege.setChildPrivileges(childPrivileges);
 						}
 					});
+					
 					parentPrivillagesVo.setSubPrivileges(subPrivilegeList);
 				}
 

@@ -124,7 +124,7 @@ public class StoresController {
 		try {
 			logger.info("In GET_STORES_WITH_FILTER request  : " + vo, clientId);
 
-			List<Store> res = storeService.getStoresOnFilter(vo, clientId);
+			List<StoreVO> res = storeService.getStoresOnFilter(vo, clientId);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -198,8 +198,9 @@ public class StoresController {
 	@ApiOperation(value = "storeList", notes = "getStoresByName")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = Store.class, responseContainer = "List") })
-	@PostMapping(EndpointConstants.GET_STORESBYNAME)
-	public GateWayResponse<?> getStoresForGivenIds(@RequestParam String storeName,@RequestHeader("required=false") Long clientId) {
+	@GetMapping(EndpointConstants.GET_STORESBYNAME)
+	public GateWayResponse<?> getStoresForGivenIds(@RequestParam String storeName,
+			/* @RequestHeader("required=false") */@RequestParam Long clientId) {
 		try {
 			logger.info("In GET_STORELIST request storeName : " + storeName);
 
