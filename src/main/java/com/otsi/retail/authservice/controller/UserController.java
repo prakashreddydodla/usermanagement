@@ -57,7 +57,7 @@ public class UserController {
 			@RequestHeader(required=false) Long clientId) {
 		try {
 			logger.info("In GET_USER request : " + userRequest.toString());
-			Page<UserDetails> res = userService.getUserFromDb(userRequest, clientId,pageable);
+			Page<UserListResponse> res = userService.getUserFromDb(userRequest, clientId,pageable);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");

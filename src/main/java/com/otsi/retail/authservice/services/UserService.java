@@ -24,7 +24,7 @@ public interface UserService {
  * @return
  * @throws Exception
  */
-	Page<UserDetails> getUserFromDb(GetUserRequestModel userRequest, Long userId, Pageable pageable) throws Exception;
+	Page<UserListResponse> getUserFromDb(GetUserRequestModel userRequest, Long userId, Pageable pageable) throws Exception;
 
 	Page<UserListResponse> getUserForClient(Long clientId, Pageable pageable) throws Exception;
 
