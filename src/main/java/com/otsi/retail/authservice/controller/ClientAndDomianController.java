@@ -28,6 +28,7 @@ import com.otsi.retail.authservice.services.ClientAndDomianService;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.ErrorCodes;
 import com.otsi.retail.authservice.utils.GateWayResponse;
+import com.razorpay.RazorpayException;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -92,12 +93,13 @@ public class ClientAndDomianController {
 	 * 
 	 * @param clientDetailsVO
 	 * @return
+	 * @throws RazorpayException 
 	 */
 	@ApiOperation(value = EndpointConstants.CREATE_CLIENT, notes = "create clients")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = String.class, responseContainer = "string") })
 	@PostMapping(EndpointConstants.CREATE_CLIENT)
-	public ResponseEntity<?> creatclient(@RequestBody ClientDetailsVO clientDetailsVO) {
+	public ResponseEntity<?> creatclient(@RequestBody ClientDetailsVO clientDetailsVO) throws RazorpayException {
 		ClientDetails response = clientAndDomianService.createClient(clientDetailsVO);
 		return ResponseEntity.ok(response);
 	}

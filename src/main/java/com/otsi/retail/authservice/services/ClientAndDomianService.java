@@ -11,6 +11,7 @@ import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
+import com.razorpay.RazorpayException;
 
 @Component
 public interface ClientAndDomianService {
@@ -19,7 +20,7 @@ public interface ClientAndDomianService {
 
 	List<Domain_Master> getMasterDomains();
 
-	ClientDetails createClient(ClientDetailsVO clientDetailsVO);
+	ClientDetails createClient(ClientDetailsVO clientDetailsVO) throws RazorpayException;
 
 	String assignDomianToClient(ClientDomianVo clientDomianVo);
 

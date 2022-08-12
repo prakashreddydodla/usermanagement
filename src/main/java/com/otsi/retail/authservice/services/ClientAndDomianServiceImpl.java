@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import com.razorpay.Payment;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
+
 
 import javax.transaction.Transactional;
 
@@ -50,6 +54,7 @@ import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
+import com.otsi.retail.authservice.utils.Config;
 import com.otsi.retail.authservice.utils.DateConverters;
 
 @Service
@@ -60,6 +65,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private Config config;
 
 	@Autowired
 	private UserAvRepo userAvRepo;
@@ -122,8 +130,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Override
 	@Transactional(rollbackOn = { Exception.class })
-	public ClientDetails createClient(ClientDetailsVO clientDetailsVO) {
+	public ClientDetails createClient(ClientDetailsVO clientDetailsVO) throws RazorpayException {
 		boolean clientExists = clientDetailsRepository.existsByName(clientDetailsVO.getName());
+		
 		if (!clientExists) {
 			ClientDetails clientDetails = new ClientDetails();
 			clientDetails.setName(clientDetailsVO.getName());
@@ -139,8 +148,24 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				if (plans.isPresent()) {
 					clientDetails.setPlanDetails(plans.get());
 				}
+				RazorpayClient razorpay = new RazorpayClient(config.getKey(), config.getSecert());
+				try {
+				  Payment payment = razorpay.Payments.fetch(clientDetailsVO.getRayzorPayPaymentId());
+				  
+				  if(payment!=null) {
+						clientDetails = clientDetailsRepository.save(clientDetails);
+
+				  }else
+					  
+				  throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"payemt failed pls do payment again");
+				} catch (RazorpayException e) {
+				  // Handle Exception
+				  System.out.println(e.getMessage());
+				}
+				
 
 			}
+			// generatedSignature = Signature.calculateRFC2104HMAC(clientDetailsVO.getRazorpayOrderId() + "|" + razorpayPaymentId, secret);
 			clientDetails = clientDetailsRepository.save(clientDetails);
 			if (null != clientDetails.getId()) {
 				sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);

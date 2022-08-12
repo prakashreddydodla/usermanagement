@@ -43,7 +43,7 @@ public class ClientDetailsVO {
 	
 	private String  planTenure;
 	
-	private String rayzorPayReferenceId;
+	private String rayzorPayPaymentId;
 	
 	
 	
