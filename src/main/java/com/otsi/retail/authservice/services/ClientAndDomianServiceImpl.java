@@ -134,6 +134,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		boolean clientExists = clientDetailsRepository.existsByName(clientDetailsVO.getName());
 		
 		if (!clientExists) {
+			try {
 			ClientDetails clientDetails = new ClientDetails();
 			clientDetails.setName(clientDetailsVO.getName());
 			clientDetails.setAddress(clientDetailsVO.getAddress());
@@ -148,29 +149,30 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				if (plans.isPresent()) {
 					clientDetails.setPlanDetails(plans.get());
 				}
+			}
 				RazorpayClient razorpay = new RazorpayClient(config.getKey(), config.getSecert());
-				try {
+				
 				  Payment payment = razorpay.Payments.fetch(clientDetailsVO.getRayzorPayPaymentId());
 				  
-				  if(payment!=null) {
+				  clientDetails.setAmount(clientDetailsVO.getAmount());
+				  clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
 						clientDetails = clientDetailsRepository.save(clientDetails);
+						if (null != clientDetails.getId()) {
+							sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
+						}
+						return clientDetails;
 
-				  }else
+				 
 					  
-				  throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"payemt failed pls do payment again");
 				} catch (RazorpayException e) {
 				  // Handle Exception
-				  System.out.println(e.getMessage());
+					  throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid Payment Id");
 				}
 				
 
-			}
+			
 			// generatedSignature = Signature.calculateRFC2104HMAC(clientDetailsVO.getRazorpayOrderId() + "|" + razorpayPaymentId, secret);
-			clientDetails = clientDetailsRepository.save(clientDetails);
-			if (null != clientDetails.getId()) {
-				sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
-			}
-			return clientDetails;
+			
 		} else {
 			logger.error("client name already exists: " + clientDetailsVO.getName());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

@@ -45,6 +45,8 @@ public class ClientDetailsVO {
 	
 	private String rayzorPayPaymentId;
 	
+	private Long amount;
+	
 	
 	
 	

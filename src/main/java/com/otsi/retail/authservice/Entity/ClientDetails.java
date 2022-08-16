@@ -54,6 +54,10 @@ public class ClientDetails extends BaseEntity implements Serializable {
 	private String email;
 
 	private Boolean isEsSlipEnabled;
+	
+	private String razorPayPaymentId;
+	
+	private Long amount;
 
 	private Boolean isTaxIncluded;
 	
