@@ -20,6 +20,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -272,14 +274,14 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	}
 
 	@Override
-	public List<ClientDetailsVO> getAllClient() throws Exception {
-		List<ClientDetails> clients = clientDetailsRepository.findAllByOrderByCreatedDateDesc();
-		if (!CollectionUtils.isEmpty(clients)) {
+	public Page<ClientDetailsVO> getAllClient(Pageable pageable) throws Exception {
+		Page<ClientDetails> clients = clientDetailsRepository.findAllByOrderByCreatedDateDesc(pageable);
+		if (clients.hasContent()) {
 
-			List<ClientDetailsVO> clientsVo = clientMapper.convertListEntityToVo(clients);
+			Page<ClientDetailsVO> clientsVo = clientMapper.convertListEntityToVo(clients);
 			return clientsVo;
 		}
-		return Collections.EMPTY_LIST;
+		return Page.empty();
 	}
 
 	@Override
@@ -341,7 +343,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	}
 
 	@Override
-	public List<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo) {
+	public Page<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo,Pageable pageable) {
 		try {
 			if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null
 					&& clientSearchVo.getToDate() != null) {
@@ -355,10 +357,10 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
 						.collect(Collectors.toList());
-				List<ClientDetails> clientdetails = clientDetailsRepository.findByIdInAndCreatedDateBetween(clientIds,
-						createdDatefrom, createdDateTo);
+				Page<ClientDetails> clientdetails = clientDetailsRepository.findByIdInAndCreatedDateBetween(clientIds,
+						createdDatefrom, createdDateTo,pageable);
 
-				List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
+				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
 			} else if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null) {
@@ -372,9 +374,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
 						.collect(Collectors.toList());
-				List<ClientDetails> clientdetails = clientDetailsRepository.findByIdInAndCreatedDateBetween(clientIds,
-						createdDatefrom, createdDateTo);
-				List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
+				Page<ClientDetails> clientdetails = clientDetailsRepository.findByIdInAndCreatedDateBetween(clientIds,
+						createdDatefrom, createdDateTo,pageable);
+				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
 			} else if (clientSearchVo.getStoreName() != null) {
@@ -385,20 +387,20 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
 						.collect(Collectors.toList());
-				List<ClientDetails> clientdetails = clientDetailsRepository.findByIdIn(clientIds);
-				List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
+				Page<ClientDetails> clientdetails = clientDetailsRepository.findByIdIn(clientIds,pageable);
+				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
 			} else {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
-				List<ClientDetails> clientdetails = clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,
-						createdDateTo);
-				if (CollectionUtils.isEmpty(clientdetails)) {
-					return Collections.EMPTY_LIST;
+				Page<ClientDetails> clientdetails = clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,
+						createdDateTo,pageable);
+				if (!clientdetails.hasContent()) {
+					return Page.empty();
 				}
-				List<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
+				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
 			}
@@ -432,30 +434,33 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	}
 
 	@Override
-	public List<ClientMappingVO> getClientMappingDetails() {
+	public Page<ClientMappingVO> getClientMappingDetails(Pageable pageable) {
 
-		List<ClientUsers> clientUsers = clientUserRepo.findAllByOrderByCreatedDateDesc();
-		List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+		Page<ClientUsers> clientUsers = clientUserRepo.findAllByOrderByCreatedDateDesc(pageable);
+		
+		return clientUsers.map(user -> clientMappingDetails(user));
 
-		return clientMappingList;
+		/*Page<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+
+		return clientMappingList;*/
 	}
 
-	private List<ClientMappingVO> clientMappingDetails(List<ClientUsers> clientUsers) {
-		List<ClientMappingVO> clientMappingList = new ArrayList<>();
+	private ClientMappingVO clientMappingDetails(ClientUsers clientuser) {
+		ClientMappingVO clientMappingList = new ClientMappingVO() ;
 		Map<Long, String> map = new HashMap<>();
+		ClientMappingVO vo = new ClientMappingVO();
 
-		clientUsers.stream().forEach(clientuser -> {
+		//clientUsers.stream().forEach(clientuser -> {
 			Long clientId = clientuser.getClientId().getId();
 			String clientname = clientuser.getClientId().getName();
 			map.put(clientId, clientname);
 
-		});
-		clientUsers.stream().forEach(clientuser -> {
+		//});
+		//clientUsers.stream().forEach(clientuser -> {
 			Long userId = clientuser.getUserId().getId();
-			Long clientId = clientuser.getClientId().getId();
+			Long clientId1 = clientuser.getClientId().getId();
 			Optional<UserDetails> users = userRepository.findById(userId);
 			if (users.isPresent()) {
-				ClientMappingVO vo = new ClientMappingVO();
 				vo.setSupporterName(users.get().getUserName());
 				vo.setCreatedBy(clientuser.getCreatedBy());
 				vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
@@ -469,17 +474,27 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				if (map.containsKey(clientId)) {
 					vo.setClientName(map.get(clientId));
 				}
-				clientMappingList.add(vo);
+				//clientMappingList.add(vo);
 
 			}
 
-		});
+		//});
 
-		return clientMappingList;
+		return vo;
+	}
+	private Page<ClientMappingVO> getClientsearchDetails(Page<ClientUsers> clientUsers ) {
+
+//		Page<ClientUsers> clientUsers = clientUserRepo.findAllByOrderByCreatedDateDesc(pageable);
+		
+		return clientUsers.map(user -> clientMappingDetails(user));
+
+		/*Page<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+
+		return clientMappingList;*/
 	}
 
 	@Override
-	public List<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo) {
+	public Page<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo,Pageable pageable) {
 		try {
 			if (clientMappingVo.getStoreName() != null && clientMappingVo.getFromDate() != null
 					&& clientMappingVo.getToDate() != null) {
@@ -495,11 +510,11 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
 							.collect(Collectors.toList());
 					if (clientIds != null) {
-						List<ClientUsers> clientUsers = clientUserRepo
-								.findByClientId_IdInAndCreatedDateBetween(clientIds, createdDatefrom, createdDateTo);
-						if (!CollectionUtils.isEmpty(clientUsers)) {
+						Page<ClientUsers> clientUsers = clientUserRepo
+								.findByClientId_IdInAndCreatedDateBetween(clientIds, createdDatefrom, createdDateTo,pageable);
+						if (clientUsers.hasContent()) {
 
-							List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
 							return clientMappingList;
 
 						}
@@ -522,12 +537,12 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 							.collect(Collectors.toList());
 					if (clientIds != null) {
 
-						List<ClientUsers> clientUsers = clientUserRepo
-								.findByClientId_IdInAndCreatedDateBetween(clientIds, createdDatefrom, createdDateTo);
+						Page<ClientUsers> clientUsers = clientUserRepo
+								.findByClientId_IdInAndCreatedDateBetween(clientIds, createdDatefrom, createdDateTo,pageable);
 
-						if (!CollectionUtils.isEmpty(clientUsers)) {
+						if (clientUsers.hasContent()) {
 
-							List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
 							return clientMappingList;
 						}
 					}
@@ -546,11 +561,11 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 							.collect(Collectors.toList());
 					if (clientIds != null) {
 
-						List<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds);
+						Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds,pageable);
 
-						if (!CollectionUtils.isEmpty(clientUsers)) {
+						if (clientUsers.hasContent()) {
 
-							List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
 							return clientMappingList;
 						}
 					}
@@ -560,11 +575,11 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
-				List<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetween(createdDatefrom, createdDateTo);
-				if (CollectionUtils.isEmpty(clientUsers)) {
-					return Collections.EMPTY_LIST;
+				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetween(createdDatefrom, createdDateTo,pageable);
+				if (!clientUsers.hasContent()) {
+					return Page.empty();
 				}
-				List<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
+				Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
 				return clientMappingList;
 
 			}
@@ -573,6 +588,6 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			throw new RuntimeException(ex.getMessage());
 
 		}
-		return Collections.EMPTY_LIST;
+		return Page.empty();
 }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -153,11 +155,11 @@ public class ClientAndDomianController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = ClientDetails.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ALL_CLIENTS)
-	public GateWayResponse<?> getAllClients() throws Exception {
+	public GateWayResponse<?> getAllClients(Pageable pageable) throws Exception {
 
 		logger.info("In GET_ALL_CLIENTS request : ");
 
-		List<ClientDetailsVO> res = clientAndDomianService.getAllClient();
+		Page<ClientDetailsVO> res = clientAndDomianService.getAllClient(pageable);
 
 		return new GateWayResponse<>(200, res, "", "true");
 
@@ -177,11 +179,11 @@ public class ClientAndDomianController {
 
 	}
 	@PostMapping(EndpointConstants.CLIENT_SEARCH)
-	public GateWayResponse<?> clientSearch(@RequestBody ClientSearchVO clientSearchVo ) {
-		List<ClientDetailsVO> res;
+	public GateWayResponse<?> clientSearch(@RequestBody ClientSearchVO clientSearchVo,Pageable pageable ) {
+		Page<ClientDetailsVO> res;
 		try {
 			logger.info("client Mapping request : ");
-			res = clientAndDomianService.clientSerach(clientSearchVo);
+			res = clientAndDomianService.clientSerach(clientSearchVo,pageable);
 
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -206,11 +208,11 @@ public class ClientAndDomianController {
 		}
 	}
 	@GetMapping(EndpointConstants.GET_CLIENT_MAPPING_DETAILS)
-	public GateWayResponse<?> getClientMappingDetails() {
-		List<ClientMappingVO> res;
+	public GateWayResponse<?> getClientMappingDetails(Pageable pageable) {
+		Page<ClientMappingVO> res;
 		try {
 			logger.info("client Mapping request : ");
-			res = clientAndDomianService.getClientMappingDetails();
+			res = clientAndDomianService.getClientMappingDetails(pageable);
 
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -220,11 +222,11 @@ public class ClientAndDomianController {
 		}
 	}
 		@PostMapping(EndpointConstants.GET_CLIENT_MAPPING_SEARCH)
-		public GateWayResponse<?> getClientMappingSerachDetails(@RequestBody ClientMappingVO clientMappingVo) {
-			List<ClientMappingVO> res;
+		public GateWayResponse<?> getClientMappingSerachDetails(@RequestBody ClientMappingVO clientMappingVo,Pageable pageable) {
+			Page<ClientMappingVO> res;
 			try {
 				logger.info("client Mapping request : ");
-				res = clientAndDomianService.getClientMappingSearchDetails(clientMappingVo);
+				res = clientAndDomianService.getClientMappingSearchDetails(clientMappingVo,pageable);
 
 				return new GateWayResponse<>(200, res, "", "true");
 

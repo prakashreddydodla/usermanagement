@@ -2,6 +2,8 @@ package com.otsi.retail.authservice.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.ClientDomains;
@@ -26,7 +28,7 @@ public interface ClientAndDomianService {
 
 	ClientDetails getClient(long clientId) throws Exception;
 
-	List<ClientDetailsVO> getAllClient() throws Exception;
+	Page<ClientDetailsVO> getAllClient(Pageable pageable) throws Exception;
 
 	List<ClientDomains> getDomainsForClient(long clientId);
 
@@ -34,11 +36,11 @@ public interface ClientAndDomianService {
 
 	String clientMapping(ClientMappingVO clientMappingVo);
 
-	List<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo);
+	Page<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo, Pageable pageable);
 
 	List<ClientDetailsVO> getClientsForUser(Long userId);
 
-	List<ClientMappingVO> getClientMappingDetails();
+	Page<ClientMappingVO> getClientMappingDetails(Pageable pageable);
 
-	List<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo);
+	Page<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo,Pageable pageable);
 }
