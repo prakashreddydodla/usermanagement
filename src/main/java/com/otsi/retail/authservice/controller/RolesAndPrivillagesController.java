@@ -42,7 +42,7 @@ public class RolesAndPrivillagesController {
 	@Autowired
 	private RolesAndPrivillagesServiceImpl rolesAndPrivillagesService;
 
-	private Logger logger = LogManager.getLogger(RolesAndPrivillagesController.class);
+	//private Logger logger = LogManager.getLogger(RolesAndPrivillagesController.class);
 
 	@ApiOperation(value = EndpointConstants.CREATE_ROLE, notes = "CreatingRoles")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -60,7 +60,7 @@ public class RolesAndPrivillagesController {
 	public GateWayResponse<?> updateRole(@RequestBody CreateRoleRequest request) {
 
 		try {
-			logger.info("In UPDATE_ROLE request : " + request);
+			//logger.info("In UPDATE_ROLE request : " + request);
 			String res = rolesAndPrivillagesService.updateRole(request);
 
 			return new GateWayResponse<>(200, res, "", "true");
@@ -82,7 +82,7 @@ public class RolesAndPrivillagesController {
 	@GetMapping(EndpointConstants.GET_ROLES_FOR_DOMIAN)
 	public GateWayResponse<?> getRolesForDomian(@PathVariable String domianId) {
 		try {
-			logger.info("In GET_ROLES_FOR_DOMIAN request domianId : " + domianId);
+			//logger.info("In GET_ROLES_FOR_DOMIAN request domianId : " + domianId);
 			List<RoleVO> res = rolesAndPrivillagesService.getRolesForClientDomian(Long.parseLong(domianId));
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -96,7 +96,7 @@ public class RolesAndPrivillagesController {
 			@ApiResponse(code = 200, message = "Successful retrieval", response = RoleVO.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_ROLES_FOR_CLIENT)
 	public ResponseEntity<?> getRolesForClient(@PathVariable String clientId) {
-		logger.info("In GET_ROLES_FOR_CLIENT request clientId : " + clientId);
+		//logger.info("In GET_ROLES_FOR_CLIENT request clientId : " + clientId);
 		List<RoleVO> roles = rolesAndPrivillagesService.getRolesByClient(Long.parseLong(clientId));
 		return ResponseEntity.ok(roles);
 	}
@@ -107,7 +107,7 @@ public class RolesAndPrivillagesController {
 	@PostMapping(EndpointConstants.ADD_PREVILAGE)
 	public GateWayResponse<?> savePrevilageToMaster(@RequestBody List<CreatePrivilegesRequest> privilages) {
 		try {
-			logger.info("In ADD_PREVILAGE request  : " + privilages);
+			//logger.info("In ADD_PREVILAGE request  : " + privilages);
 			String res = rolesAndPrivillagesService.savePrivilege(privilages);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -123,7 +123,7 @@ public class RolesAndPrivillagesController {
 	@GetMapping(EndpointConstants.GET_PRIVILAGES)
 	public GateWayResponse<?> getPrivilagesOfRole(@PathVariable String roleId) {
 		try {
-			logger.info("In GET_PRIVILAGES request roleId : " + roleId);
+			//logger.info("In GET_PRIVILAGES request roleId : " + roleId);
 			Role res = rolesAndPrivillagesService.getPrivilages(Long.parseLong(roleId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class RolesAndPrivillagesController {
 			@ApiResponse(code = 200, message = "Successful retrieval", response = Role.class, responseContainer = "object") })
 	@GetMapping(EndpointConstants.PRIVILAGES_BY_NAME)
 	public ResponseEntity<?> getPrivilagesOfRoleByRoleName(@PathVariable String roleName) {
-		logger.info("In PRIVILAGES_BY_NAME request roleName : " + roleName);
+		//logger.info("In PRIVILAGES_BY_NAME request roleName : " + roleName);
 		RoleVO roleOptional = rolesAndPrivillagesService.getPrivilagesByRoleName(roleName);
 		return ResponseEntity.ok(roleOptional);
 	}
@@ -147,7 +147,7 @@ public class RolesAndPrivillagesController {
 	@GetMapping(EndpointConstants.SUB_PRIVILAGES)
 	public GateWayResponse<?> getsubPrivilagesForParent(@PathVariable String parentId) {
 		try {
-			logger.info("In SUB_PRIVILAGES request parentId : " + parentId);
+			//logger.info("In SUB_PRIVILAGES request parentId : " + parentId);
 			List<SubPrivilege> res = rolesAndPrivillagesService.getSubPrivillages(Long.parseLong(parentId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -161,7 +161,7 @@ public class RolesAndPrivillagesController {
 	@GetMapping(EndpointConstants.GET_ALL_PRIVILAGES)
 	public GateWayResponse<?> getAllPrivilages() {
 		try {
-			logger.info("In GET_ALL_PRIVILAGES request  ");
+			//logger.info("In GET_ALL_PRIVILAGES request  ");
 			PrivilegeVO res = rolesAndPrivillagesService.getAllPrivilages();
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -177,7 +177,7 @@ public class RolesAndPrivillagesController {
 	public GateWayResponse<?> getRolesWithFilter(@RequestBody RolesFilterRequest req,
 			@RequestHeader("clientId") Long clientId) {
 		try {
-			logger.info("In ROLES_WITH_FILTER request  : " + req);
+			//logger.info("In ROLES_WITH_FILTER request  : " + req);
 			List<RoleVO> res = rolesAndPrivillagesService.getRolesWithFilter(req, clientId);
 			return new GateWayResponse<>(200, res, "", "true");
 
@@ -203,7 +203,7 @@ public class RolesAndPrivillagesController {
 	@GetMapping(EndpointConstants.CHILD_PRIVILAGES)
 	public GateWayResponse<?> getChildPrivilegesForSubPrivilege(@PathVariable String subPrivilegeId) {
 		try {
-			logger.info("In CHILD_PRIVILAGES request subPrivilegeId : " + subPrivilegeId);
+			//logger.info("In CHILD_PRIVILAGES request subPrivilegeId : " + subPrivilegeId);
 			List<ChildPrivilege> res = rolesAndPrivillagesService.getChildPrivileges(Long.parseLong(subPrivilegeId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {

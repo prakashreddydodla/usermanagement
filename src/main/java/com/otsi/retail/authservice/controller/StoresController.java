@@ -43,7 +43,7 @@ public class StoresController {
 	@Autowired
 	private StatesAndDistrctsService statesAndDistrctsService;
 
-	private Logger logger = LogManager.getLogger(StoresController.class);
+	//private Logger logger = LogManager.getLogger(StoresController.class);
 
 	@ApiOperation(value = EndpointConstants.CREATE_STORE, notes = "create store")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -90,7 +90,7 @@ public class StoresController {
 	@PutMapping(EndpointConstants.ASSIGN_STORES_TO_DOMIAN)
 	public GateWayResponse<?> assignStoresToDomain(@RequestBody DomianStoresVo vo) {
 		try {
-			logger.info("In ASSIGN_STORES_TO_DOMIAN request  : " + vo);
+			//logger.info("In ASSIGN_STORES_TO_DOMIAN request  : " + vo);
 
 			String res = storeService.assignStoreToClientDomain(vo);
 
@@ -106,7 +106,7 @@ public class StoresController {
 	@DeleteMapping(EndpointConstants.DELETE_STORE)
 	public GateWayResponse<?> deleteStore(@RequestParam Long id) {
 		try {
-			logger.info("In DELETE_STORE request : " + id);
+			//logger.info("In DELETE_STORE request : " + id);
 
 			String res = storeService.deleteStore(id);
 
@@ -123,7 +123,7 @@ public class StoresController {
 	public GateWayResponse<?> getStoresWithFilter(@RequestBody GetStoresRequestVo vo,
 			@RequestHeader("clientId") Long clientId) {
 		try {
-			logger.info("In GET_STORES_WITH_FILTER request  : " + vo, clientId);
+			//logger.info("In GET_STORES_WITH_FILTER request  : " + vo, clientId);
 
 			List<Store> res = storeService.getStoresOnFilter(vo, clientId);
 
@@ -139,7 +139,7 @@ public class StoresController {
 	@PostMapping(EndpointConstants.SAVE_STATES)
 	public GateWayResponse<?> saveStates(@RequestBody SaveStatesAndDistrictsRequest vo) {
 		try {
-			logger.info("In SAVE_STATES request  : " + vo);
+			//logger.info("In SAVE_STATES request  : " + vo);
 
 			String res = statesAndDistrctsService.saveStatesAndDistricts(vo);
 
@@ -155,7 +155,7 @@ public class StoresController {
 	@GetMapping(EndpointConstants.ALL_STATES)
 	public GateWayResponse<?> getAllStates() {
 		try {
-			logger.info("In ALL_STATES request  : ");
+			//logger.info("In ALL_STATES request  : ");
 
 			List<States> res = statesAndDistrctsService.getAllStates();
 
@@ -171,7 +171,7 @@ public class StoresController {
 	@GetMapping(EndpointConstants.GET_DISTRICT)
 	public GateWayResponse<?> getDistrictsOfState(@RequestParam("stateCode") String stateCode) {
 		try {
-			logger.info("In GET_DISTRICT request stateCode : " + stateCode);
+			//logger.info("In GET_DISTRICT request stateCode : " + stateCode);
 
 			List<Districts> res = statesAndDistrctsService.getAllDistrctsOfState(stateCode);
 
@@ -187,7 +187,7 @@ public class StoresController {
 	@PostMapping(EndpointConstants.GET_STORELIST)
 	public GateWayResponse<?> getStoresForGivenIds(@RequestBody List<Long> storeIds) {
 		try {
-			logger.info("In GET_STORELIST request storeIds : " + storeIds);
+			//logger.info("In GET_STORELIST request storeIds : " + storeIds);
 
 			List<Store> res = storeService.getStoresForGivenIds(storeIds);
 
@@ -204,7 +204,7 @@ public class StoresController {
 	public GateWayResponse<?> getActiveStores(@RequestHeader("required=false") Long userId,
 			@RequestHeader("required=false") Long clientId) {
 		try {
-			logger.info("In GET_STORELIST  : " + userId);
+			//logger.info("In GET_STORELIST  : " + userId);
 
 			Store res = storeService.getActiveStores(userId, clientId);
 
@@ -221,7 +221,7 @@ public class StoresController {
 	public GateWayResponse<?> getGstDetails(@RequestParam("clientId") long clientId,
 			@RequestParam("stateCode") String stateCode) {
 		try {
-			logger.info("In GET_GSTDETAILS request clientId : " + clientId);
+			//logger.info("In GET_GSTDETAILS request clientId : " + clientId);
 
 			GstDetails res = storeService.getGstDetails(clientId, stateCode);
 

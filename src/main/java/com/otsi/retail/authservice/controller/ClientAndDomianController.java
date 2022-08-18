@@ -42,7 +42,7 @@ public class ClientAndDomianController {
 
 	@Autowired
 	private ClientAndDomianService clientAndDomianService;
-	private Logger logger = LogManager.getLogger(ClientAndDomianService.class);
+	//private Logger logger = LogManager.getLogger(ClientAndDomianService.class);
 
 //	
 	@ApiOperation(value = "createMasterDomain", notes = "creating master domains")
@@ -52,7 +52,7 @@ public class ClientAndDomianController {
 	public GateWayResponse<?> creatDomian(@RequestBody MasterDomianVo domainVo) {
 		String res;
 		try {
-			logger.info("In CREATE_MASTER_DOMIAN request : " + domainVo);
+			//logger.info("In CREATE_MASTER_DOMIAN request : " + domainVo);
 			res = clientAndDomianService.createMasterDomain(domainVo);
 
 			return new GateWayResponse<>(200, res, "", "true");
@@ -66,7 +66,7 @@ public class ClientAndDomianController {
 	public GateWayResponse<?> clientMapping(@RequestBody ClientMappingVO clientMappingVo ) {
 		String res;
 		try {
-			logger.info("client Mapping request : ");
+			//logger.info("client Mapping request : ");
 			res = clientAndDomianService.clientMapping(clientMappingVo);
 
 			return new GateWayResponse<>(200, res, "", "true");
@@ -83,7 +83,7 @@ public class ClientAndDomianController {
 	@GetMapping(EndpointConstants.GET_MASTER_DOMAINS)
 	public GateWayResponse<?> getMasterDomians() {
 
-		logger.info("In GET_MASTER_DOMAINS request : ");
+		//logger.info("In GET_MASTER_DOMAINS request : ");
 
 		List<Domain_Master> res = clientAndDomianService.getMasterDomains();
 
@@ -113,7 +113,7 @@ public class ClientAndDomianController {
 	@PostMapping(EndpointConstants.ASSIGN_DOMAIN_TO_CLIENT)
 	public GateWayResponse<?> assignDomianToClient(@RequestBody ClientDomianVo clientDomianVo) {
 		try {
-			logger.info("In ASSIGN_DOMAIN_TO_CLIENT request : " + clientDomianVo);
+			//logger.info("In ASSIGN_DOMAIN_TO_CLIENT request : " + clientDomianVo);
 
 			String res = clientAndDomianService.assignDomianToClient(clientDomianVo);
 
@@ -129,7 +129,7 @@ public class ClientAndDomianController {
 	@GetMapping(EndpointConstants.GET_DOMAINS_FOR_CLIENT)
 	public GateWayResponse<?> getDomiansForClient(@PathVariable String clientId) {
 
-		logger.info("In GET_DOMAINS_FOR_CLIENT request : " + clientId);
+		//logger.info("In GET_DOMAINS_FOR_CLIENT request : " + clientId);
 
 		List<ClientDomains> res = clientAndDomianService.getDomainsForClient(Long.parseLong(clientId));
 
@@ -143,7 +143,7 @@ public class ClientAndDomianController {
 	@GetMapping(EndpointConstants.GET_CLIENT)
 	public GateWayResponse<?> getClient(@PathVariable String clientId) throws NumberFormatException, Exception {
 
-		logger.info("In GET_CLIENT request : " + clientId);
+		//logger.info("In GET_CLIENT request : " + clientId);
 
 		ClientDetails res = clientAndDomianService.getClient(Long.parseLong(clientId));
 
@@ -157,7 +157,7 @@ public class ClientAndDomianController {
 	@GetMapping(EndpointConstants.GET_ALL_CLIENTS)
 	public GateWayResponse<?> getAllClients(Pageable pageable) throws Exception {
 
-		logger.info("In GET_ALL_CLIENTS request : ");
+		//logger.info("In GET_ALL_CLIENTS request : ");
 
 		Page<ClientDetailsVO> res = clientAndDomianService.getAllClient(pageable);
 
@@ -171,7 +171,7 @@ public class ClientAndDomianController {
 	@GetMapping(EndpointConstants.GET_DOMIAN_BY_ID)
 	public GateWayResponse<?> getDomianById(@PathVariable String clientDomianId) {
 
-		logger.info("In GET_DOMIAN_BY_ID request clientDomianId : " + clientDomianId);
+		//logger.info("In GET_DOMIAN_BY_ID request clientDomianId : " + clientDomianId);
 
 		ClientDomains res = clientAndDomianService.getDomianById(Long.parseLong(clientDomianId));
 
@@ -182,7 +182,7 @@ public class ClientAndDomianController {
 	public GateWayResponse<?> clientSearch(@RequestBody ClientSearchVO clientSearchVo,Pageable pageable ) {
 		Page<ClientDetailsVO> res;
 		try {
-			logger.info("client Mapping request : ");
+			//logger.info("client Mapping request : ");
 			res = clientAndDomianService.clientSerach(clientSearchVo,pageable);
 
 			return new GateWayResponse<>(200, res, "", "true");
@@ -197,7 +197,7 @@ public class ClientAndDomianController {
 	public GateWayResponse<?> getClientsForUser(@RequestParam Long userId ) {
 		List<ClientDetailsVO> res;
 		try {
-			logger.info("client Mapping request : ");
+			//logger.info("client Mapping request : ");
 			res = clientAndDomianService.getClientsForUser(userId);
 
 			return new GateWayResponse<>(200, res, "", "true");
@@ -211,7 +211,7 @@ public class ClientAndDomianController {
 	public GateWayResponse<?> getClientMappingDetails(Pageable pageable) {
 		Page<ClientMappingVO> res;
 		try {
-			logger.info("client Mapping request : ");
+			//logger.info("client Mapping request : ");
 			res = clientAndDomianService.getClientMappingDetails(pageable);
 
 			return new GateWayResponse<>(200, res, "", "true");
@@ -225,7 +225,7 @@ public class ClientAndDomianController {
 		public GateWayResponse<?> getClientMappingSerachDetails(@RequestBody ClientMappingVO clientMappingVo,Pageable pageable) {
 			Page<ClientMappingVO> res;
 			try {
-				logger.info("client Mapping request : ");
+				//logger.info("client Mapping request : ");
 				res = clientAndDomianService.getClientMappingSearchDetails(clientMappingVo,pageable);
 
 				return new GateWayResponse<>(200, res, "", "true");

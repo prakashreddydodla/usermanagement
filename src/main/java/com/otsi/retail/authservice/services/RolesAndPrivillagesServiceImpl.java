@@ -69,7 +69,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	@Autowired
 	private ChildPrivilegeRepo childPrivilegeRepo;
 
-	private Logger logger = LogManager.getLogger(RolesAndPrivillagesServiceImpl.class);
+	//private Logger logger = LogManager.getLogger(RolesAndPrivillagesServiceImpl.class);
 
 	@Override
 	public String savePrivilege(List<CreatePrivilegesRequest> privilages) throws Exception {
@@ -181,7 +181,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	 */
 
 	public PrivilegeVO getAllPrivilages() {
-		logger.info("############### getAllPrivilages method Starts ###################");
+		//logger.info("############### getAllPrivilages method Starts ###################");
 
 		List<ParentPrivilegeVO> listOfwebPrivillages = new ArrayList<>();
 		List<ParentPrivilegeVO> listOfmobilePrivillages = new ArrayList<>();
@@ -252,7 +252,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			}
 
 		});
-		logger.info("############### getAllPrivilages method ends ###################");
+		//logger.info("############### getAllPrivilages method ends ###################");
 		return privilegeVo;
 	}
 
@@ -264,11 +264,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 				return subPrivillages;
 			} else {
-				logger.error("No sub privileges found");
+				//logger.error("No sub privileges found");
 				throw new Exception("No sub privileges found");
 			}
 		} else {
-			logger.error("parentId should not be null");
+			//logger.error("parentId should not be null");
 			throw new Exception("parentId should not be null");
 		}
 	}
@@ -310,7 +310,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					if (clientDomians.isPresent()) {
 						role.setClientDomian(clientDomians.get());
 					} else {
-						logger.error("No Client Domian found with this Id : " + createRoleRequest.getClientDomianId());
+						//logger.error("No Client Domian found with this Id : " + createRoleRequest.getClientDomianId());
 						throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 								"No Client Domian found with this Id :" + createRoleRequest.getClientDomianId());
 					}
@@ -321,7 +321,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					if (parentPrivilage.isPresent()) {
 						parentPrivilageEntites.add(parentPrivilage.get());
 					} else {
-						logger.error("Given privilege not found in master");
+						//logger.error("Given privilege not found in master");
 						throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "privilege not found");
 					}
 				});
@@ -332,7 +332,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					if (privilage.isPresent()) {
 						subPrivilageEntites.add(privilage.get());
 					} else {
-						logger.error("Given sub privilege not found in master");
+						//logger.error("Given sub privilege not found in master");
 						throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "sub privilege not found");
 					}
 
@@ -348,8 +348,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 							} else {
 
-								logger.debug("Given child privilege not found in master");
-								logger.error("Given child privilege not found in master");
+								//logger.debug("Given child privilege not found in master");
+								//logger.error("Given child privilege not found in master");
 								throw new RuntimeException("Given  privilege not found in master");
 							}
 
@@ -370,7 +370,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "customer is not a role");
 			}
 		} catch (GroupExistsException ge) {
-			logger.error("role name already Exists in cognito userpool");
+			//logger.error("role name already Exists in cognito userpool");
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "role name already exists in cognito userpool");
 		}
 		return null;
@@ -378,22 +378,22 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 	@Override
 	public Role getPrivilages(long roleId) throws Exception {
-		logger.info("############### getPrivilages method Starts ###################");
+		//logger.info("############### getPrivilages method Starts ###################");
 
 		try {
 			Optional<Role> role = roleRepository.findById(roleId);
 			if (role.isPresent()) {
-				logger.info("############### getPrivilages method ends ###################");
+				//logger.info("############### getPrivilages method ends ###################");
 
 				return role.get();
 			} else {
-				logger.debug("Role not found with this role Id: " + roleId);
-				logger.error("Role not found with this role Id: " + roleId);
+				//logger.debug("Role not found with this role Id: " + roleId);
+				//logger.error("Role not found with this role Id: " + roleId);
 				throw new Exception("Role not found with this role Id: " + roleId);
 			}
 		} catch (Exception e) {
-			logger.debug("Error occurs while get privileges : " + e.getMessage());
-			logger.error("Error occurs while get privileges : " + e.getMessage());
+			//logger.debug("Error occurs while get privileges : " + e.getMessage());
+			//logger.error("Error occurs while get privileges : " + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 
@@ -414,11 +414,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				});
 				return rolevo;
 			} else {
-				logger.error("No Roles found for this clientDomian :" + clientId);
+				//logger.error("No Roles found for this clientDomian :" + clientId);
 				throw new Exception("No Roles found for this clientDomian :" + clientId);
 			}
 		} catch (Exception e) {
-			logger.error("Errors occurs while fecthing roles for Client domian :" + e.getMessage());
+			//logger.error("Errors occurs while fecthing roles for Client domian :" + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -473,7 +473,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				});
 				return rolevo;
 			} else {
-				logger.error("Roles not found with this given details : " + req.getRoleName());
+				//logger.error("Roles not found with this given details : " + req.getRoleName());
 				throw new RolesNotFoundException("Roles not found with this givenDetails : " + req.getRoleName());
 			}
 
@@ -491,10 +491,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					RoleVO vo = rolemapper.convertEntityToRoleVo(r);
 					rolevo.add(vo);
 				});
-				logger.info("############### getRolesWithFilter method ends ###################");
+				//logger.info("############### getRolesWithFilter method ends ###################");
 				return rolevo;
 			} else {
-				logger.error("Roles not found with this given details : " + req.getRoleName());
+				//logger.error("Roles not found with this given details : " + req.getRoleName());
 				throw new RolesNotFoundException("Roles not found with this givenDetails : " + req.getRoleName());
 			}
 		}
@@ -512,7 +512,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				});
 				return rolevo;
 			} else {
-				logger.error("Roles not found with this given details : " + req.getRoleName());
+				//logger.error("Roles not found with this given details : " + req.getRoleName());
 				throw new RolesNotFoundException("Roles not found with this givenDetails : " + req.getRoleName());
 			}
 
@@ -530,7 +530,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				});
 				return rolevo;
 			} else {
-				logger.error("Roles not found with this given details : " + req.getRoleName());
+				//logger.error("Roles not found with this given details : " + req.getRoleName());
 				throw new RolesNotFoundException("Roles not found with this givenDetails : " + req.getRoleName());
 			}
 		}
@@ -546,7 +546,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				});
 				return rolevo;
 			} else {
-				logger.error("Roles not found with this RoleName : " + req.getRoleName());
+				//logger.error("Roles not found with this RoleName : " + req.getRoleName());
 				throw new RolesNotFoundException("Roles not found with this RoleName : " + req.getRoleName());
 			}
 		}
@@ -560,7 +560,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				});
 				return rolevo;
 			} else {
-				logger.error("No roles created by with this User : " + req.getCreatedBy());
+				//logger.error("No roles created by with this User : " + req.getCreatedBy());
 				throw new RolesNotFoundException("No roles created by with this User : " + req.getCreatedBy());
 			}
 		}
@@ -577,11 +577,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				});
 				return rolevo;
 			} else {
-				logger.error("No roles created  in this Date : " + req.getCreatedDate());
+				//logger.error("No roles created  in this Date : " + req.getCreatedDate());
 				throw new RolesNotFoundException("No roles created  in this Date : " + req.getCreatedDate());
 			}
 		}
-		logger.error("Please give any one input field for filter");
+		//logger.error("Please give any one input field for filter");
 		throw new InvalidInputsException("Please give any one input field for filter");
 	}
 
@@ -604,11 +604,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				if (client.isPresent()) {
 					roleEntity.setClient(client.get());
 				} else {
-					logger.error("No Client found with this Id : " + request.getClientDomianId());
+					//logger.error("No Client found with this Id : " + request.getClientDomianId());
 					throw new Exception("No Client  found with this Id : " + request.getClientDomianId());
 				}
 			} else {
-				logger.error("Client  Id required");
+				//logger.error("Client  Id required");
 				throw new Exception("Client Id required");
 			}
 
@@ -618,13 +618,13 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					if (parentPrivilage.isPresent()) {
 						parentPrivilageEntites.add(parentPrivilage.get());
 					} else {
-						logger.error("Given privilage not found in master");
+						//logger.error("Given privilage not found in master");
 						throw new RuntimeException("Given privilage not found in master");
 					}
 				});
 				roleEntity.setParentPrivileges(parentPrivilageEntites);
 			} else {
-				logger.error("Atleast one parent privillage is required");
+				//logger.error("Atleast one parent privillage is required");
 				throw new Exception("Atleast one parent privillage is required");
 			}
 
@@ -635,7 +635,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 					if (privilage.isPresent()) {
 						subPrivilageEntites.add(privilage.get());
 					} else {
-						logger.error("Given sub privilage not found in master");
+						//logger.error("Given sub privilage not found in master");
 						throw new RuntimeException("Given sub privilage not found in master");
 					}
 					if (!CollectionUtils.isEmpty(sub.getChildPrivillages())) {
@@ -648,8 +648,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 							} else {
 
-								logger.debug("Given child privilege not found in master");
-								logger.error("Given child privilege not found in master");
+								//logger.debug("Given child privilege not found in master");
+								//logger.error("Given child privilege not found in master");
 								throw new RuntimeException("Given  privilege not found in master");
 							}
 
@@ -660,21 +660,21 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				roleEntity.setChildPrivilages(ChildPrivilege);
 				roleEntity.setSubPrivileges(subPrivilageEntites);
 			} else {
-				logger.error("Atleast one sub privillage is required");
+				//logger.error("Atleast one sub privillage is required");
 				throw new Exception("Atleast one sub privillage is required");
 			}
 
 			roleRepository.save(roleEntity);
 			cognitoClient.updateRole(request);
-			logger.info("Update role method Ends");
+			//logger.info("Update role method Ends");
 			return "role updated sucessfully";
 
 		} catch (RuntimeException re) {
-			logger.error("Error occurs while updating the role Error : " + re.getMessage());
+			//logger.error("Error occurs while updating the role Error : " + re.getMessage());
 			throw new RuntimeException(re.getMessage());
 
 		} catch (Exception e) {
-			logger.error("Error occurs while updating the role Error : " + e.getMessage());
+			//logger.error("Error occurs while updating the role Error : " + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}

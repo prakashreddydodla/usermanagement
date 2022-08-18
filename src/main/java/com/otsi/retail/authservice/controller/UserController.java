@@ -47,7 +47,7 @@ public class UserController {
 
 	@Autowired
 	private CognitoClient cognitoClient;
-	private Logger logger = LogManager.getLogger(UserController.class);
+	//private Logger logger = LogManager.getLogger(UserController.class);
 
 	@ApiOperation(value = "getUser", notes = "get user details from db", response = UserDetails.class)
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -56,7 +56,7 @@ public class UserController {
 	public GateWayResponse<?> getUserFromDB(Pageable pageable,@RequestBody GetUserRequestModel userRequest,
 			@RequestHeader(required=false) Long clientId) {
 		try {
-			logger.info("In GET_USER request : " + userRequest.toString());
+			//logger.info("In GET_USER request : " + userRequest.toString());
 			Page<UserListResponse> res = userService.getUserFromDb(userRequest, clientId,pageable);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class UserController {
 	@PostMapping(EndpointConstants.GET_USERSFOR_GIVENIDS)
 	public GateWayResponse<?> getUsersForGivenIds(@RequestBody List<Long> userIds) {
 		try {
-			logger.info("In GET_USER request : " + userIds.toString());
+			//logger.info("In GET_USER request : " + userIds.toString());
 			List<UserDetailsVO> res = userService.getUserDetailsByIds(userIds);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -93,7 +93,7 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_MOBILENUMBER)
 	public GateWayResponse<?> getMobileNumber(@RequestParam String mobileNumber) {
 		try {
-			logger.info("In GET_MOBILENUMBER request : "+mobileNumber);
+			//logger.info("In GET_MOBILENUMBER request : "+mobileNumber);
 			UserDetails res = userService.getMobileNumber(mobileNumber);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -107,7 +107,7 @@ public class UserController {
 	@PostMapping(EndpointConstants.GET_CUSTOMERSFOR_GIVENIDS)
 	public GateWayResponse<?> getCustomersForGivenIds(@RequestBody List<Long> userIds) {
 		try {
-			logger.info("In GET_CUSTOMER request : "+userIds.toString());
+			//logger.info("In GET_CUSTOMER request : "+userIds.toString());
 			List<UserDetailsVO> res = userService.getCustomersForGivenIds(userIds);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -140,7 +140,7 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_ALL_USERS_BY_CLIENT_DOMIAN)
 	public GateWayResponse<?> getUsersForClientDomianId(@PathVariable String clientDomianId) {
 		try {
-			logger.info("In GET_ALL_USERS_BY_CLIENT_DOMIAN request clientDomianId : " + clientDomianId);
+			//logger.info("In GET_ALL_USERS_BY_CLIENT_DOMIAN request clientDomianId : " + clientDomianId);
 			List<UserListResponse> res = userService.getUsersForClientDomain(Long.parseLong(clientDomianId));
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -156,7 +156,7 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_USER_PROFILE)
 	public GateWayResponse<?> getCustomer(@PathVariable String mobileNo) {
 		try {
-			logger.info("In GET_USER_PROFILE request mobileNo : " + mobileNo);
+			//logger.info("In GET_USER_PROFILE request mobileNo : " + mobileNo);
 			UserListResponse res = userService.getUserbasedOnMobileNumber(mobileNo);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -171,7 +171,7 @@ public class UserController {
 	@GetMapping(EndpointConstants.GET_CUSTOMER)
 	public GateWayResponse<?> getCustomer(@PathVariable String feild, @PathVariable String mobileNo,@RequestHeader(required=false) Long clientId) {
 		try {
-			logger.info("In GET_CUSTOMER request mobileNo : " + mobileNo);
+			//logger.info("In GET_CUSTOMER request mobileNo : " + mobileNo);
 			GetCustomerResponce res = userService.getCustomerbasedOnMobileNumber(feild, mobileNo,clientId);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -187,7 +187,7 @@ public class UserController {
 	@PutMapping("/updateUser")
 	public GateWayResponse<?> updateUser(@RequestBody UpdateUserRequest req) {
 		try {
-			logger.info("In updateUser request mobileNo : " + req);
+			//logger.info("In updateUser request mobileNo : " + req);
 			String res = userService.updateUser(req);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -202,7 +202,7 @@ public class UserController {
 	@DeleteMapping("/deleteUser")
 	public GateWayResponse<?> deleteUser(@RequestParam Long id) {
 		try {
-			logger.info("In updateUser request mobileNo : "+id);
+			//logger.info("In updateUser request mobileNo : "+id);
 			String res = userService.deleteUser(id);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {

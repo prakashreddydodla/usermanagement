@@ -101,7 +101,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	public static final String TICKET_MAIL_SUBJECT = "Client Creation";
 	public static final String TICKET_MAIL_BODY = "Client registered successfully please contact admin team ";
 
-	private Logger logger = LogManager.getLogger(CognitoClient.class);
+	//private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 	@Override
 	public String createMasterDomain(MasterDomianVo domainVo) throws Exception {
@@ -113,8 +113,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			return "Channel created with Id : " + savedChannel.getId();
 
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -123,7 +123,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	public List<Domain_Master> getMasterDomains() {
 		List<Domain_Master> domains = domian_MasterRepo.findAll();
 		if (CollectionUtils.isEmpty(domains)) {
-			logger.error("No master domians present in DB ");
+			//logger.error("No master domians present in DB ");
 			throw new RecordNotFoundException(BusinessException.RNF_DESCRIPTION,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
@@ -176,7 +176,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			// generatedSignature = Signature.calculateRFC2104HMAC(clientDetailsVO.getRazorpayOrderId() + "|" + razorpayPaymentId, secret);
 			
 		} else {
-			logger.error("client name already exists: " + clientDetailsVO.getName());
+			//logger.error("client name already exists: " + clientDetailsVO.getName());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"client name already exists:" + clientDetailsVO.getName());
 		}
@@ -189,7 +189,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		message.setText(body);
 		message.setSubject(subject);
 		mailSender.send(message);
-		logger.info("mail sent sucessfully");
+		//logger.info("mail sent sucessfully");
 	}
 
 	@Override
@@ -207,7 +207,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					if (client_db.isPresent()) {
 						clientDomians.setClient(client_db.get());
 					} else {
-						logger.error("No client details found with this Client Id : " + domianVo.getClientId());
+						//logger.error("No client details found with this Client Id : " + domianVo.getClientId());
 						throw new RecordNotFoundException(
 								"No client details found with this Client Id : " + domianVo.getClientId(),
 								BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -222,7 +222,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 						asssingedDomians.add(masterDomianOptional.get());
 						clientDomians.setDomain(asssingedDomians);
 					} else {
-						logger.error("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
+						//logger.error("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
 						throw new RecordNotFoundException(
 								"Master Domian not found with this Id : " + domianVo.getMasterDomianId(),
 								BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -235,7 +235,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 						newAssignedDomians.add(masterDomianOptional.get());
 						clientDomians.setDomain(newAssignedDomians);
 					} else {
-						logger.error("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
+						//logger.error("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
 						throw new RecordNotFoundException(
 								"Master Domian not found with this Id : " + domianVo.getMasterDomianId(),
 								BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -250,11 +250,11 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				}
 
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				//logger.error(e.getMessage());
 				throw new RuntimeException(e.getMessage());
 			}
 		} else {
-			logger.error("This Domian already assigned to client");
+			//logger.error("This Domian already assigned to client");
 			throw new RuntimeException("This Domian already assigned to client");
 
 		}
@@ -266,7 +266,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (client.isPresent()) {
 			return client.get();
 		} else {
-			logger.error("No Client found with this Id : " + clientId);
+			//logger.error("No Client found with this Id : " + clientId);
 			throw new RecordNotFoundException("No Client found with this Id : " + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 
@@ -290,7 +290,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (!CollectionUtils.isEmpty(clientDomians)) {
 			return clientDomians;
 		} else {
-			logger.error("No domian found with this Client :" + clientId);
+			//logger.error("No domian found with this Client :" + clientId);
 			throw new RecordNotFoundException("No domian found with this Client :" + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
@@ -303,7 +303,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (domianOptional.isPresent()) {
 			return domianOptional.get();
 		} else {
-			logger.error("Client domian not found with this Id : " + clientDomianId);
+			//logger.error("Client domian not found with this Id : " + clientDomianId);
 			throw new RecordNotFoundException("Client domian not found with this Id : " + clientDomianId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}

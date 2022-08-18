@@ -77,18 +77,18 @@ public class UserServiceImpl implements UserService {
 	private ClientUserRepo clientUserRepo;
 
 
-	private Logger logger = LogManager.getLogger(UserServiceImpl.class);
+	//private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
 	public Page<UserListResponse> getUserFromDb(GetUserRequestModel userRequest, Long clientId, Pageable pageable)
 			throws Exception {
-		logger.info(" ###############  getUserFromDb method starts  ##############3");
+		//logger.info(" ###############  getUserFromDb method starts  ##############3");
 		Page<UserDetails> users = null;
 		if (0l != userRequest.getId()) {
 			users = userRepository.findById(userRequest.getId(), pageable);
 			if (users.hasContent()) {
 				return users.map(user -> getUserDeatils(user));
 			} else {
-				logger.error("User not found with this Id : " + userRequest.getId());
+				//logger.error("User not found with this Id : " + userRequest.getId());
 				throw new RuntimeException("User not found with this Id : " + userRequest.getId());
 			}
 
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 				return users.map(user -> getUserDeatils(user));
 
 			} else {
-				logger.error("User not found with this UserName : " + userRequest.getName());
+				//logger.error("User not found with this UserName : " + userRequest.getName());
 				throw new RuntimeException("User not found with this UserName : " + userRequest.getName());
 			}
 		}
@@ -109,8 +109,8 @@ public class UserServiceImpl implements UserService {
 				return users.map(user -> getUserDeatils(user));
 
 			} else {
-				logger.debug("No user found with this userName: " + userRequest.getPhoneNo());
-				logger.error("No user found with this userName: " + userRequest.getPhoneNo());
+				//logger.debug("No user found with this userName: " + userRequest.getPhoneNo());
+				//logger.error("No user found with this userName: " + userRequest.getPhoneNo());
 				throw new Exception("No user found with this userName: " + userRequest.getPhoneNo());
 			}
 		}
@@ -118,22 +118,22 @@ public class UserServiceImpl implements UserService {
 			users = userRepository.findByStores_NameAndRoleRoleNameAndIsActive(userRequest.getStoreName(),
 					userRequest.getRoleName(), Boolean.TRUE, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this given Details : " + userRequest.getRoleName());
-				logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
+				//logger.debug("No users found with this given Details : " + userRequest.getRoleName());
+				//logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Given Details: " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 		if (null != userRequest.getStoreName() && userRequest.isInActive() && userRequest.getRoleName() != null) {
 			users = userRepository.findByStores_NameAndRoleRoleNameAndIsActive(userRequest.getStoreName(),
 					userRequest.getRoleName(), Boolean.FALSE, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this given Details : " + userRequest.getRoleName());
-				logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
+				//logger.debug("No users found with this given Details : " + userRequest.getRoleName());
+				//logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Given Details: " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 		if (null != userRequest.getStoreName() && !userRequest.isActive() && !userRequest.isInActive()
@@ -141,22 +141,22 @@ public class UserServiceImpl implements UserService {
 			users = userRepository.findByStores_NameAndRoleRoleNameAndClient_Id(userRequest.getStoreName(),
 					userRequest.getRoleName(), clientId, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this given Details : " + userRequest.getRoleName());
-				logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
+				//logger.debug("No users found with this given Details : " + userRequest.getRoleName());
+				//logger.error("No users found with this GivenDeatils : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Given Details: " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 
 		if (null != userRequest.getRoleName() && userRequest.isActive()) {
 			users = userRepository.findByRoleRoleNameAndIsActive(userRequest.getRoleName(), Boolean.TRUE, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.error("No users found with this Role ID : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 		if ((null == userRequest.getRoleName() || "" == userRequest.getRoleName())
@@ -164,11 +164,11 @@ public class UserServiceImpl implements UserService {
 			users = userRepository.findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean.TRUE,
 					CognitoAtributes.CLIENT_ID, userRequest.getClientDomainId(), pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.error("No users found with this Role ID : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 		if ((null == userRequest.getRoleName() || "" == userRequest.getRoleName())
@@ -177,11 +177,11 @@ public class UserServiceImpl implements UserService {
 			users = userRepository.findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean.FALSE,
 					CognitoAtributes.CLIENT_ID, userRequest.getClientDomainId(), pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.error("No users found with this Role ID : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 
@@ -189,21 +189,21 @@ public class UserServiceImpl implements UserService {
 			users = userRepository.findByRoleRoleNameAndIsActiveAndClient_Id(userRequest.getRoleName(), Boolean.FALSE,
 					clientId, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.error("No users found with this Role ID : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 		if (null != userRequest.getRoleName() && !userRequest.isActive() && !userRequest.isInActive()) {
 			users = userRepository.findByRoleRoleNameAndClientId(userRequest.getRoleName(), clientId, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.error("No users found with this Role ID : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 
@@ -211,36 +211,36 @@ public class UserServiceImpl implements UserService {
 			users = userRepository.findByStores_NameAndIsActiveAndClient_Id(userRequest.getStoreName(), Boolean.TRUE,
 					clientId, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
-				logger.error("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.debug("No users found with this Role ID : " + userRequest.getRoleName());
+				//logger.error("No users found with this Role ID : " + userRequest.getRoleName());
 				throw new RuntimeException("No users found with this Role ID : " + userRequest.getRoleName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 		if (null != userRequest.getStoreName() && userRequest.isInActive()) {
 			users = userRepository.findByStores_NameAndIsActiveAndClient_Id(userRequest.getStoreName(), Boolean.FALSE,
 					clientId, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this storeName : " + userRequest.getStoreName());
-				logger.error("No users found with this storeName : " + userRequest.getStoreName());
+				//logger.debug("No users found with this storeName : " + userRequest.getStoreName());
+				//logger.error("No users found with this storeName : " + userRequest.getStoreName());
 				throw new RuntimeException("No users found with this storeName : " + userRequest.getStoreName());
 			}
-			logger.info(" ###############  getUserFromDb method ends  ##############3");
+			//logger.info(" ###############  getUserFromDb method ends  ##############3");
 			return users.map(user -> getUserDeatils(user));
 		}
 		if (null != userRequest.getStoreName() && !userRequest.isActive() && !userRequest.isInActive()) {
 			users = userRepository.findByStores_NameAndClient_Id(userRequest.getStoreName(), clientId, pageable);
 			if (users.isEmpty()) {
-				logger.debug("No users found with this storeName : " + userRequest.getStoreName());
-				logger.error("No users found with this Role ID : " + userRequest.getStoreName());
+				//logger.debug("No users found with this storeName : " + userRequest.getStoreName());
+				//logger.error("No users found with this Role ID : " + userRequest.getStoreName());
 				throw new RuntimeException("No users found with this storeName : " + userRequest.getStoreName());
 			}
 			return users.map(user -> getUserDeatils(user));
 		}
 
-		logger.debug("Please select atleast one input");
-		logger.error("Please select atleast one input");
+		//logger.debug("Please select atleast one input");
+		//logger.error("Please select atleast one input");
 		throw new RuntimeException("Please select atleast one input");
 
 	}
@@ -253,8 +253,8 @@ public class UserServiceImpl implements UserService {
 			return users.map(user -> getUserDeatils(user));
 
 		} else {
-			logger.debug("No users found with this client");
-			logger.error("No users found with this client");
+			//logger.debug("No users found with this client");
+			//logger.error("No users found with this client");
 			throw new Exception("No users found with this client");
 		}
 
@@ -303,7 +303,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<UserListResponse> getUsersForClientDomain(Long clientDomianId) {
-		logger.info(" ###############  getUsersForClientDomain method starts  ##############3");
+		//logger.info(" ###############  getUsersForClientDomain method starts  ##############3");
 
 		List<UserDetails> users = userRepository.findByClientDomiansId(clientDomianId);
 
@@ -338,7 +338,7 @@ public class UserServiceImpl implements UserService {
 				});
 				userList.add(userVo);
 			});
-			logger.info(" ###############  getUsersForClientDomain method ends  ##############3");
+			//logger.info(" ###############  getUsersForClientDomain method ends  ##############3");
 
 			return userList;
 		} else {
@@ -349,22 +349,22 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public GetCustomerResponce getCustomerbasedOnMobileNumber(String type, String value, Long clientId) {
-		logger.info(" ###############  getCustomerbasedOnMobileNumber method starts  ##############3");
+		//logger.info(" ###############  getCustomerbasedOnMobileNumber method starts  ##############3");
 
 		Optional<UserDetails> user = Optional.empty();
 		if (null != type && type.equalsIgnoreCase("mobileNo")) {
 			user = userRepository.findByPhoneNumber(value);
 			if (!user.isPresent()) {
-				logger.debug("No customer found with this MobileNo : " + value);
-				logger.error("No customer found with this MobileNo : " + value);
+				//logger.debug("No customer found with this MobileNo : " + value);
+				//logger.error("No customer found with this MobileNo : " + value);
 				throw new RuntimeException("No customer found with this MobileNo : " + value);
 			}
 		}
 		if (null != type && type.equalsIgnoreCase("id")) {
 			user = userRepository.findById(Long.parseLong(value));
 			if (!user.isPresent()) {
-				logger.debug("No customer found with this Id : " + value);
-				logger.error("No customer found with this Id : " + value);
+				//logger.debug("No customer found with this Id : " + value);
+				//logger.error("No customer found with this Id : " + value);
 				throw new RuntimeException("No customer found with this Id : " + value);
 			}
 		}
@@ -396,7 +396,7 @@ public class UserServiceImpl implements UserService {
 
 			customer.setIsActive(user.get().getIsActive());
 		}
-		logger.info(" ###############  getCustomerbasedOnMobileNumber method ends  ##############3");
+		//logger.info(" ###############  getCustomerbasedOnMobileNumber method ends  ##############3");
 
 		return customer;
 
@@ -420,8 +420,8 @@ public class UserServiceImpl implements UserService {
 					if (role.isPresent()) {
 						userDetails.setRole(role.get());
 					} else {
-						logger.debug("Role not found in DB with this Id : " + req.getRole().getId());
-						logger.error("Role not found in DB with this Id : " + req.getRole().getId());
+						//logger.debug("Role not found in DB with this Id : " + req.getRole().getId());
+						//logger.error("Role not found in DB with this Id : " + req.getRole().getId());
 						throw new RuntimeException("Role not found in DB with this Id : " + req.getRole().getId());
 					}
 				}
@@ -485,8 +485,8 @@ public class UserServiceImpl implements UserService {
 						if (dbClientRecord.isPresent()) {
 							clients.add(dbClientRecord.get());
 						} else {
-							logger.debug("Client not found with this Id : " + clientId);
-							logger.error("Client not found with this Id : " + clientId);
+							//logger.debug("Client not found with this Id : " + clientId);
+							//logger.error("Client not found with this Id : " + clientId);
 							throw new RuntimeException("Client not found with this Id : " + clientId);
 						}
 					});
@@ -506,28 +506,28 @@ public class UserServiceImpl implements UserService {
 					});
 					savedUser.setStores(stores);
 					userRepository.save(savedUser);
-					logger.info(" ###############  updated user in DB ##############3");
+					//logger.info(" ###############  updated user in DB ##############3");
 				}
-				logger.info(" ###############  updating user in cognito userpool ##############3");
+				//logger.info(" ###############  updating user in cognito userpool ##############3");
 				AdminUpdateUserAttributesResult result = cognitoClient.updateUserInCognito(req);
 				if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-					logger.info(" ###############  updated user in cognito userpool ##############3");
-					logger.info(" ###############  updateUser method ends  ##############3");
+					//logger.info(" ###############  updated user in cognito userpool ##############3");
+					//logger.info(" ###############  updateUser method ends  ##############3");
 					return "SucessFully updated";
 				} else {
-					logger.debug("Failed to update");
-					logger.error("Failed to update");
+					//logger.debug("Failed to update");
+					//logger.error("Failed to update");
 					throw new RuntimeException("Failed to update");
 				}
 			} else {
-				logger.debug("User not found with this Id :" + req.getId());
-				logger.error("User not found with this Id :" + req.getId());
+				//logger.debug("User not found with this Id :" + req.getId());
+				//logger.error("User not found with this Id :" + req.getId());
 				throw new RuntimeException("User not found with this Id :" + req.getId());
 			}
 
 		} catch (RuntimeException re) {
-			logger.debug(re.getMessage());
-			logger.error(re.getMessage());
+			//logger.debug(re.getMessage());
+			//logger.error(re.getMessage());
 			throw new RuntimeException(re.getMessage());
 		}
 	}
@@ -535,11 +535,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception {
 
-		logger.info("################  getUserbasedOnMobileNumber method starts  ############");
+		//logger.info("################  getUserbasedOnMobileNumber method starts  ############");
 		Optional<UserDetails> userOptional = userRepository.findByUserNameAndIsCustomer(mobileNo, Boolean.FALSE);
 		if (!userOptional.isPresent()) {
-			logger.debug("User details not found with this mobile number : " + mobileNo);
-			logger.error("User details not found with this mobile number : " + mobileNo);
+			//logger.debug("User details not found with this mobile number : " + mobileNo);
+			//logger.error("User details not found with this mobile number : " + mobileNo);
 			throw new Exception("User details not found with this mobile number : " + mobileNo);
 		}
 		UserDetails user = userOptional.get();
@@ -579,7 +579,7 @@ public class UserServiceImpl implements UserService {
 				userVo.setAddress(b.getStringValue());
 			}
 		});
-		logger.info("################  getUserbasedOnMobileNumber method ends  ############");
+		//logger.info("################  getUserbasedOnMobileNumber method ends  ############");
 		return userVo;
 	}
 
@@ -617,8 +617,8 @@ public class UserServiceImpl implements UserService {
 			return userDetailsVos;
 
 		} else {
-			logger.debug("No customers found with these customerId's");
-			logger.error("No customers found with these customerId's");
+			//logger.debug("No customers found with these customerId's");
+			//logger.error("No customers found with these customerId's");
 			throw new RuntimeException("No customers found with these customerId's");
 		}
 	}
@@ -630,7 +630,7 @@ public class UserServiceImpl implements UserService {
 		Optional<UserDetails> user = userRepository.findByPhoneNumber(phoneNumber);
 
 		if (user == null) {
-			logger.error("No user found with this mobileNumber: " + mobileNumber);
+			//logger.error("No user found with this mobileNumber: " + mobileNumber);
 			throw new RecordNotFoundException("No user found with this userName: " + mobileNumber, 400);
 		}
 		return user.get();
