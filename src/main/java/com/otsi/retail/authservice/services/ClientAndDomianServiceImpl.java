@@ -146,6 +146,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
 			clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
 			clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
+			clientDetails.setDescription(clientDetailsVO.getDescription());
 			if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 				Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
 				if (plans.isPresent()) {

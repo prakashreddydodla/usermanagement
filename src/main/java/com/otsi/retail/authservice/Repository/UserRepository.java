@@ -114,6 +114,8 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 			LocalDateTime createdDateTo);
 
 	List<UserDetails> findByIdIn(List<Long> userIds);
+
+	List<UserDetails> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
 	
 
 }

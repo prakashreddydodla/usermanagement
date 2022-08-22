@@ -660,7 +660,7 @@ public class UserServiceImpl implements UserService {
 */
 		try {
 
-			if(!StringUtils.isEmpty(roleName)) {
+			if(StringUtils.isNotEmpty(roleName)) {
 				List<UserDetails>	userDetails = userRepository.findByRole_RoleName(roleName);
 				if(!CollectionUtils.isEmpty(userDetails)) {
 				List<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetails);
@@ -721,6 +721,24 @@ public class UserServiceImpl implements UserService {
 					}
 					}
 				}
+			}else if(userSearchVo.getToDate()!= null && userSearchVo.getFromDate()!=null) {
+
+				
+
+					LocalDateTime	createdDatefrom = DateConverters.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
+					LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getToDate());
+					
+
+					List<UserDetails> userDetail= userRepository.findByCreatedDateBetween(createdDatefrom,createdDateTo);
+					if(!CollectionUtils.isEmpty(userDetail)) {
+
+					List<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetail);
+					   return userDetailsVO;
+				     }
+					
+					
+					
+							
 				
 					
 			}else if(userSearchVo.getStoreName()!=null) {
