@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "usermangement.fullname" . }}
+  name: {{ include "usermanagement.fullname" . }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include usermangement.fullname" . }}
+    name: {{ include usermanagement.fullname" . }}
   minReplicas: 1
   maxReplicas: 3
   metrics:
