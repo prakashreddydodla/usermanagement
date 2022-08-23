@@ -43,6 +43,6 @@ List<UserDetailsVO> getCustomersForGivenIds(List<Long> userIds);
 
 	String deleteUser(Long id);
 
-	List<UserDetailsVO> getUsersByRoleName(String roleName, UsersSearchVO userSerachVo);
+	Page<UserDetailsVO> getUsersByRoleName(String roleName, UsersSearchVO userSerachVo, Pageable pageable);
 	
 }

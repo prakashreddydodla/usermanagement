@@ -11,5 +11,7 @@ public class ClientSearchVO {
 	private LocalDate fromDate;
 	
 	private LocalDate toDate;
+	
+	private String clientName;
 
 }

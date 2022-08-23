@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.otsi.retail.authservice.Entity.UserDetails;
@@ -93,7 +95,7 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	Page<UserDetails> findById(Long id, Pageable pageable);
 
-	Page<UserDetails> findByUserName(String name, Pageable pageable);
+	//Page<UserDetails> findByUserName(String name, Pageable pageable);
 
 	Page<UserDetails> findByPhoneNumber(String phoneNo, Pageable pageable);
 
@@ -115,7 +117,18 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	List<UserDetails> findByIdIn(List<Long> userIds);
 
-	List<UserDetails> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo);
+	Page<UserDetails> findByCreatedDateBetween(LocalDateTime createdDatefrom, LocalDateTime createdDateTo, Pageable pageable);
+
+	Page<UserDetails> findByRole_RoleName(String roleName, Pageable pageable);
+	
+	@Query(value = "select * from user_details where user_name like %:supporterName%  and created_date >=:createdDatefrom and created_date <=:createdDateTo", nativeQuery = true)
+	Page<UserDetails> findByUserNameAndCreatedDateBetween(@Param(value = "supporterName")String supporterName,@Param(value = "createdDatefrom") LocalDateTime createdDatefrom,
+			@Param(value = "createdDateTo")	LocalDateTime createdDateTo, Pageable pageable);
+	@Query(value = "select * from user_details where user_name like %:supporterName%", nativeQuery = true)
+	Page<UserDetails> findByUserName(@Param(value = "supporterName") String supporterName, Pageable pageable);
+	List<UserDetails> findAllByUserName(String supporterName);
+
+	
 	
 
 }

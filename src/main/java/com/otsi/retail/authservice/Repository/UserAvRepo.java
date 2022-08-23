@@ -11,9 +11,7 @@ import com.otsi.retail.authservice.Entity.UserAv;
 public interface UserAvRepo extends JpaRepository<UserAv, Long>{
 
 
-	List<UserAv> findByUserData_Id(Long userId);
-
-	List<UserAv> findByuserData_Id(Long userId);
+	List<UserAv> findByUserDataId(Long userId);
 
 
 }

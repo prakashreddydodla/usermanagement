@@ -34,4 +34,9 @@ public interface ClientUserRepo extends JpaRepository<ClientUsers, Long>{
 
 	List<ClientUsers> findByClientId_IdIn(List<Long> clientIds);
 
+	Page<ClientUsers> findByUserId_IdInAndCreatedDateBetween(List<Long> userIds, LocalDateTime createdDatefrom,
+			LocalDateTime createdDateTo, Pageable pageable);
+
+	Page<ClientUsers> findByUserId_IdIn(List<Long> userIds, Pageable pageable);
+
 }

@@ -65,8 +65,8 @@ public class UserController {
 	}
 	@PostMapping(EndpointConstants.GET_USER_BY_ROLENAME)
 
-	public GateWayResponse<?> getUsersByRoleName(@RequestParam String roleName,@RequestBody UsersSearchVO userSerachVo){
-		List<UserDetailsVO> res = userService.getUsersByRoleName(roleName,userSerachVo);
+	public GateWayResponse<?> getUsersByRoleName(Pageable pageable,@RequestParam String roleName,@RequestBody UsersSearchVO userSerachVo){
+		Page<UserDetailsVO> res = userService.getUsersByRoleName(roleName,userSerachVo,pageable);
 		return new GateWayResponse<>(200, res, "", "true");
 
 		

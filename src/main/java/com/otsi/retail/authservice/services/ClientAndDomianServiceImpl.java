@@ -12,7 +12,6 @@ import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
-
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -67,7 +66,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private Config config;
 
@@ -101,7 +100,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	public static final String TICKET_MAIL_SUBJECT = "Client Creation";
 	public static final String TICKET_MAIL_BODY = "Client registered successfully please contact admin team ";
 
-	//private Logger logger = LogManager.getLogger(CognitoClient.class);
+	// private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 	@Override
 	public String createMasterDomain(MasterDomianVo domainVo) throws Exception {
@@ -113,8 +112,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			return "Channel created with Id : " + savedChannel.getId();
 
 		} catch (Exception e) {
-			//logger.debug(e.getMessage());
-			//logger.error(e.getMessage());
+			// logger.debug(e.getMessage());
+			// logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -123,7 +122,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	public List<Domain_Master> getMasterDomains() {
 		List<Domain_Master> domains = domian_MasterRepo.findAll();
 		if (CollectionUtils.isEmpty(domains)) {
-			//logger.error("No master domians present in DB ");
+			// logger.error("No master domians present in DB ");
 			throw new RecordNotFoundException(BusinessException.RNF_DESCRIPTION,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
@@ -134,50 +133,44 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Transactional(rollbackOn = { Exception.class })
 	public ClientDetails createClient(ClientDetailsVO clientDetailsVO) throws RazorpayException {
 		boolean clientExists = clientDetailsRepository.existsByName(clientDetailsVO.getName());
-		
+
 		if (!clientExists) {
 			try {
-			ClientDetails clientDetails = new ClientDetails();
-			clientDetails.setName(clientDetailsVO.getName());
-			clientDetails.setAddress(clientDetailsVO.getAddress());
-			clientDetails.setCreatedBy(clientDetailsVO.getCreatedBy());
-			clientDetails.setOrganizationName(clientDetailsVO.getOrganizationName());
-			clientDetails.setMobile(clientDetailsVO.getMobile());
-			clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
-			clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
-			clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
-			clientDetails.setDescription(clientDetailsVO.getDescription());
-			if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
-				Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
-				if (plans.isPresent()) {
-					clientDetails.setPlanDetails(plans.get());
+				ClientDetails clientDetails = new ClientDetails();
+				clientDetails.setName(clientDetailsVO.getName());
+				clientDetails.setAddress(clientDetailsVO.getAddress());
+				clientDetails.setCreatedBy(clientDetailsVO.getCreatedBy());
+				clientDetails.setOrganizationName(clientDetailsVO.getOrganizationName());
+				clientDetails.setMobile(clientDetailsVO.getMobile());
+				clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
+				clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
+				clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
+				clientDetails.setDescription(clientDetailsVO.getDescription());
+				if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
+					Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
+					if (plans.isPresent()) {
+						clientDetails.setPlanDetails(plans.get());
+					}
 				}
-			}
 				RazorpayClient razorpay = new RazorpayClient(config.getKey(), config.getSecert());
-				
-				  Payment payment = razorpay.Payments.fetch(clientDetailsVO.getRayzorPayPaymentId());
-				  
-				  clientDetails.setAmount(clientDetailsVO.getAmount());
-				  clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
-						clientDetails = clientDetailsRepository.save(clientDetails);
-						if (null != clientDetails.getId()) {
-							sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
-						}
-						return clientDetails;
 
-				 
-					  
-				} catch (RazorpayException e) {
-				  // Handle Exception
-					  throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid Payment Id");
+				Payment payment = razorpay.Payments.fetch(clientDetailsVO.getRayzorPayPaymentId());
+
+				clientDetails.setAmount(clientDetailsVO.getAmount());
+				clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
+				clientDetails = clientDetailsRepository.save(clientDetails);
+				if (null != clientDetails.getId()) {
+					sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
 				}
-				
+				return clientDetails;
 
-			
-			// generatedSignature = Signature.calculateRFC2104HMAC(clientDetailsVO.getRazorpayOrderId() + "|" + razorpayPaymentId, secret);
-			
+			} catch (RazorpayException e) {
+				// Handle Exception
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid Payment Id");
+			}
+
 		} else {
-			//logger.error("client name already exists: " + clientDetailsVO.getName());
+			// logger.error("client name already exists: " + clientDetailsVO.getName());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"client name already exists:" + clientDetailsVO.getName());
 		}
@@ -190,7 +183,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		message.setText(body);
 		message.setSubject(subject);
 		mailSender.send(message);
-		//logger.info("mail sent sucessfully");
+		// logger.info("mail sent sucessfully");
 	}
 
 	@Override
@@ -208,7 +201,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					if (client_db.isPresent()) {
 						clientDomians.setClient(client_db.get());
 					} else {
-						//logger.error("No client details found with this Client Id : " + domianVo.getClientId());
+						// logger.error("No client details found with this Client Id : " +
+						// domianVo.getClientId());
 						throw new RecordNotFoundException(
 								"No client details found with this Client Id : " + domianVo.getClientId(),
 								BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -223,7 +217,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 						asssingedDomians.add(masterDomianOptional.get());
 						clientDomians.setDomain(asssingedDomians);
 					} else {
-						//logger.error("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
+						// logger.error("Master Domian not found with this Id : " +
+						// domianVo.getMasterDomianId());
 						throw new RecordNotFoundException(
 								"Master Domian not found with this Id : " + domianVo.getMasterDomianId(),
 								BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -236,7 +231,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 						newAssignedDomians.add(masterDomianOptional.get());
 						clientDomians.setDomain(newAssignedDomians);
 					} else {
-						//logger.error("Master Domian not found with this Id : " + domianVo.getMasterDomianId());
+						// logger.error("Master Domian not found with this Id : " +
+						// domianVo.getMasterDomianId());
 						throw new RecordNotFoundException(
 								"Master Domian not found with this Id : " + domianVo.getMasterDomianId(),
 								BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -251,11 +247,11 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				}
 
 			} catch (Exception e) {
-				//logger.error(e.getMessage());
+				// logger.error(e.getMessage());
 				throw new RuntimeException(e.getMessage());
 			}
 		} else {
-			//logger.error("This Domian already assigned to client");
+			// logger.error("This Domian already assigned to client");
 			throw new RuntimeException("This Domian already assigned to client");
 
 		}
@@ -267,7 +263,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (client.isPresent()) {
 			return client.get();
 		} else {
-			//logger.error("No Client found with this Id : " + clientId);
+			// logger.error("No Client found with this Id : " + clientId);
 			throw new RecordNotFoundException("No Client found with this Id : " + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 
@@ -291,7 +287,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (!CollectionUtils.isEmpty(clientDomians)) {
 			return clientDomians;
 		} else {
-			//logger.error("No domian found with this Client :" + clientId);
+			// logger.error("No domian found with this Client :" + clientId);
 			throw new RecordNotFoundException("No domian found with this Client :" + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
@@ -304,7 +300,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (domianOptional.isPresent()) {
 			return domianOptional.get();
 		} else {
-			//logger.error("Client domian not found with this Id : " + clientDomianId);
+			// logger.error("Client domian not found with this Id : " + clientDomianId);
 			throw new RecordNotFoundException("Client domian not found with this Id : " + clientDomianId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
 		}
@@ -344,51 +340,35 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	}
 
 	@Override
-	public Page<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo,Pageable pageable) {
+	public Page<ClientDetailsVO> clientSerach(ClientSearchVO clientSearchVo, Pageable pageable) {
 		try {
-			if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null
-					&& clientSearchVo.getToDate() != null) {
-				List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
+			if (clientSearchVo.getClientName() != null && clientSearchVo.getClientName().length() >= 3
+					&& clientSearchVo.getFromDate() != null && clientSearchVo.getToDate() != null) {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
 
-				List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
-						.collect(Collectors.toList());
-
-				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
-						.collect(Collectors.toList());
-				Page<ClientDetails> clientdetails = clientDetailsRepository.findByIdInAndCreatedDateBetween(clientIds,
-						createdDatefrom, createdDateTo,pageable);
+				Page<ClientDetails> clientdetails = clientDetailsRepository.findByNameAndCreatedDateBetween(
+						clientSearchVo.getClientName(), createdDatefrom, createdDateTo, pageable);
 
 				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
-			} else if (clientSearchVo.getStoreName() != null && clientSearchVo.getFromDate() != null) {
+			} else if (clientSearchVo.getClientName() != null && clientSearchVo.getClientName().length() >= 3
+					&& clientSearchVo.getFromDate() != null) {
 				List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
 
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
-				List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
-						.collect(Collectors.toList());
-
-				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
-						.collect(Collectors.toList());
-				Page<ClientDetails> clientdetails = clientDetailsRepository.findByIdInAndCreatedDateBetween(clientIds,
-						createdDatefrom, createdDateTo,pageable);
+				Page<ClientDetails> clientdetails = clientDetailsRepository.findByNameAndCreatedDateBetween(
+						clientSearchVo.getClientName(), createdDatefrom, createdDateTo, pageable);
 				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
-			} else if (clientSearchVo.getStoreName() != null) {
-				List<Store> stores = storeRepo.findByName(clientSearchVo.getStoreName());
-
-				List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
-						.collect(Collectors.toList());
-
-				List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
-						.collect(Collectors.toList());
-				Page<ClientDetails> clientdetails = clientDetailsRepository.findByIdIn(clientIds,pageable);
+			} else if (clientSearchVo.getClientName() != null && clientSearchVo.getClientName().length() >= 3) {
+				Page<ClientDetails> clientdetails = clientDetailsRepository.findByName(clientSearchVo.getClientName(),
+						pageable);
 				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
@@ -397,7 +377,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
 				Page<ClientDetails> clientdetails = clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,
-						createdDateTo,pageable);
+						createdDateTo, pageable);
 				if (!clientdetails.hasContent()) {
 					return Page.empty();
 				}
@@ -438,81 +418,69 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	public Page<ClientMappingVO> getClientMappingDetails(Pageable pageable) {
 
 		Page<ClientUsers> clientUsers = clientUserRepo.findAllByOrderByCreatedDateDesc(pageable);
-		
+
 		return clientUsers.map(user -> clientMappingDetails(user));
 
-		/*Page<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
-
-		return clientMappingList;*/
 	}
 
 	private ClientMappingVO clientMappingDetails(ClientUsers clientuser) {
-		ClientMappingVO clientMappingList = new ClientMappingVO() ;
+		ClientMappingVO clientMappingList = new ClientMappingVO();
 		Map<Long, String> map = new HashMap<>();
 		ClientMappingVO vo = new ClientMappingVO();
 
-		//clientUsers.stream().forEach(clientuser -> {
-			Long clientId = clientuser.getClientId().getId();
-			String clientname = clientuser.getClientId().getName();
-			map.put(clientId, clientname);
+		Long clientId = clientuser.getClientId().getId();
+		String clientname = clientuser.getClientId().getName();
+		map.put(clientId, clientname);
 
-		//});
-		//clientUsers.stream().forEach(clientuser -> {
-			Long userId = clientuser.getUserId().getId();
-			Long clientId1 = clientuser.getClientId().getId();
-			Optional<UserDetails> users = userRepository.findById(userId);
-			if (users.isPresent()) {
-				vo.setSupporterName(users.get().getUserName());
-				vo.setCreatedBy(clientuser.getCreatedBy());
-				vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
-				List<UserAv> usersList = userAvRepo.findByuserData_Id(userId);
-				usersList.stream().forEach(user -> {
-					if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
-						vo.setEmail(user.getStringValue());
-					}
-
-				});
-				if (map.containsKey(clientId)) {
-					vo.setClientName(map.get(clientId));
+		Long userId = clientuser.getUserId().getId();
+		Optional<UserDetails> users = userRepository.findById(userId);
+		if (users.isPresent()) {
+			vo.setSupporterName(users.get().getUserName());
+			vo.setCreatedBy(clientuser.getCreatedBy());
+			vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
+			List<UserAv> usersList = userAvRepo.findByUserDataId(userId);
+			usersList.stream().forEach(user -> {
+				if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+					vo.setEmail(user.getStringValue());
 				}
-				//clientMappingList.add(vo);
 
+			});
+			if (map.containsKey(clientId)) {
+				vo.setClientName(map.get(clientId));
 			}
 
-		//});
+		}
+
+		// });
 
 		return vo;
 	}
-	private Page<ClientMappingVO> getClientsearchDetails(Page<ClientUsers> clientUsers ) {
 
-//		Page<ClientUsers> clientUsers = clientUserRepo.findAllByOrderByCreatedDateDesc(pageable);
-		
+	private Page<ClientMappingVO> getClientsearchDetails(Page<ClientUsers> clientUsers) {
+
 		return clientUsers.map(user -> clientMappingDetails(user));
 
-		/*Page<ClientMappingVO> clientMappingList = clientMappingDetails(clientUsers);
-
-		return clientMappingList;*/
 	}
 
 	@Override
-	public Page<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo,Pageable pageable) {
+	public Page<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo, Pageable pageable) {
 		try {
-			if (clientMappingVo.getStoreName() != null && clientMappingVo.getFromDate() != null
+			if (clientMappingVo.getClientName() != null && clientMappingVo.getClientName().length() >= 3
+					&& clientMappingVo.getSupporterName() == null && clientMappingVo.getFromDate() != null
 					&& clientMappingVo.getToDate() != null) {
 
-				List<Store> stores = storeRepo.findByName(clientMappingVo.getStoreName());
-				if (!CollectionUtils.isEmpty(stores)) {
+				Page<ClientDetails> clients = clientDetailsRepository.findByName(clientMappingVo.getClientName(),
+						pageable);
+
+				if (clients.hasContent()) {
 					LocalDateTime createdDatefrom = DateConverters
 							.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
 					LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
-					List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
-							.collect(Collectors.toList());
 
-					List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
-							.collect(Collectors.toList());
+					List<Long> clientIds = clients.stream().map(client -> client.getId()).collect(Collectors.toList());
 					if (clientIds != null) {
-						Page<ClientUsers> clientUsers = clientUserRepo
-								.findByClientId_IdInAndCreatedDateBetween(clientIds, createdDatefrom, createdDateTo,pageable);
+						Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndCreatedDateBetween(
+								clientIds, createdDatefrom, createdDateTo, pageable);
 						if (clientUsers.hasContent()) {
 
 							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
@@ -522,53 +490,125 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					}
 
 				}
-			} else if (clientMappingVo.getStoreName() != null && clientMappingVo.getFromDate() != null) {
+			}
+			if (clientMappingVo.getClientName() == null && clientMappingVo.getSupporterName() != null
+					&& clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() != null) {
 
-				List<Store> stores = storeRepo.findByName(clientMappingVo.getStoreName());
-				if (!CollectionUtils.isEmpty(stores)) {
-
+				List<UserDetails> users = userRepository.findAllByUserName(clientMappingVo.getSupporterName());
+				if (!CollectionUtils.isEmpty(users)) {
 					LocalDateTime createdDatefrom = DateConverters
 							.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
-					LocalDateTime createdDateTo = DateConverters
-							.convertToLocalDateTimeMax(clientMappingVo.getFromDate());
-					List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
-							.collect(Collectors.toList());
+					LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
 
-					List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
-							.collect(Collectors.toList());
-					if (clientIds != null) {
-
-						Page<ClientUsers> clientUsers = clientUserRepo
-								.findByClientId_IdInAndCreatedDateBetween(clientIds, createdDatefrom, createdDateTo,pageable);
-
+					List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
+					if (userIds != null) {
+						Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndCreatedDateBetween(userIds,
+								createdDatefrom, createdDateTo, pageable);
 						if (clientUsers.hasContent()) {
 
 							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
 							return clientMappingList;
+
 						}
 					}
 
 				}
+			} else if ((clientMappingVo.getClientName() != null || clientMappingVo.getSupporterName() != null)
+					&& clientMappingVo.getFromDate() != null) {
 
-			} else if (clientMappingVo.getStoreName() != null) {
+				if (clientMappingVo.getClientName() != null) {
+					Page<ClientDetails> clients = clientDetailsRepository.findByName(clientMappingVo.getClientName(),
+							pageable);
+					if (clients.hasContent()) {
 
-				List<Store> stores = storeRepo.findByName(clientMappingVo.getStoreName());
-				if (!CollectionUtils.isEmpty(stores)) {
+						LocalDateTime createdDatefrom = DateConverters
+								.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
+						LocalDateTime createdDateTo = DateConverters
+								.convertToLocalDateTimeMax(clientMappingVo.getFromDate());
 
-					List<Store> storess = stores.stream().filter(store -> store.getClient() != null)
-							.collect(Collectors.toList());
+						List<Long> clientIds = clients.stream().map(client -> client.getId())
+								.collect(Collectors.toList());
+						if (clientIds != null) {
 
-					List<Long> clientIds = storess.stream().map(store -> store.getClient().getId())
-							.collect(Collectors.toList());
-					if (clientIds != null) {
+							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndCreatedDateBetween(
+									clientIds, createdDatefrom, createdDateTo, pageable);
 
-						Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds,pageable);
+							if (clientUsers.hasContent()) {
 
-						if (clientUsers.hasContent()) {
-
-							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
-							return clientMappingList;
+								Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
+								return clientMappingList;
+							}
 						}
+
+					}
+
+				} else {
+
+					List<UserDetails> users = userRepository.findAllByUserName(clientMappingVo.getSupporterName());
+
+					if (!CollectionUtils.isEmpty(users)) {
+
+						LocalDateTime createdDatefrom = DateConverters
+								.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
+						LocalDateTime createdDateTo = DateConverters
+								.convertToLocalDateTimeMax(clientMappingVo.getFromDate());
+
+						List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
+						if (userIds != null) {
+
+							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndCreatedDateBetween(
+									userIds, createdDatefrom, createdDateTo, pageable);
+
+							if (clientUsers.hasContent()) {
+
+								Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
+								return clientMappingList;
+							}
+						}
+
+					}
+				}
+
+			} else if ((clientMappingVo.getClientName() != null && clientMappingVo.getClientName().length() >= 3)
+					|| (clientMappingVo.getSupporterName() != null
+							&& clientMappingVo.getSupporterName().length() >= 3)) {
+				if (clientMappingVo.getClientName() != null) {
+
+					Page<ClientDetails> clients = clientDetailsRepository.findByName(clientMappingVo.getClientName(),
+							pageable);
+					if (clients.hasContent()) {
+
+						List<Long> clientIds = clients.stream().map(client -> client.getId())
+								.collect(Collectors.toList());
+						if (clientIds != null) {
+
+							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds, pageable);
+
+							if (clientUsers.hasContent()) {
+
+								Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
+								return clientMappingList;
+							}
+						}
+					}
+				} else {
+
+					List<UserDetails> users = userRepository.findAllByUserName(clientMappingVo.getSupporterName());
+
+					if (!CollectionUtils.isEmpty(users)) {
+
+						List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
+						if (userIds != null) {
+
+							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdIn(userIds, pageable);
+
+							if (clientUsers.hasContent()) {
+
+								Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
+								return clientMappingList;
+							}
+						}
+
 					}
 				}
 
@@ -576,7 +616,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
-				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetween(createdDatefrom, createdDateTo,pageable);
+				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetween(createdDatefrom, createdDateTo,
+						pageable);
 				if (!clientUsers.hasContent()) {
 					return Page.empty();
 				}
@@ -590,5 +631,32 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 		}
 		return Page.empty();
-}
+	}
+
+	@Override
+	public String editClientMapping(ClientMappingVO clientMappingVo) {
+		clientMappingVo.getClientIds().stream().forEach(clientId -> {
+
+			List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
+			if (CollectionUtils.isEmpty(clientsUsers)) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "support person not mapped to this client ");
+			}
+
+			clientMappingVo.getUserIds().stream().forEach(userId -> {
+
+				clientsUsers.stream().forEach(clientUsers -> {
+
+					clientUsers.setCreatedBy(clientMappingVo.getCreatedBy());
+					clientUsers.setModifiedBy(clientMappingVo.getModifiedBy());
+					clientUsers.setUserId(userId);
+					clientUsers.setClientId(clientId);
+					clientUserRepo.save(clientUsers);
+
+				});
+			});
+		});
+
+		return "clientEdit successfully";
+
+	}
 }

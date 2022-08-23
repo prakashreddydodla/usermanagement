@@ -236,6 +236,20 @@ public class ClientAndDomianController {
 			}
 		
 	}
+		@PostMapping(EndpointConstants.EDIT_CLIENT_MAPPING)
+		public GateWayResponse<?> editClientMapping(@RequestBody ClientMappingVO clientMappingVo ) {
+			String res;
+			try {
+			//	logger.info("client Mapping request : ");
+				res = clientAndDomianService.editClientMapping(clientMappingVo);
+
+				return new GateWayResponse<>(200, res, "", "true");
+
+			} catch (Exception e) {
+				return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+			}
+		}
 	
 	
 

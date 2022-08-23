@@ -8,6 +8,7 @@ import javax.xml.bind.ParseConversionEvent;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.otsi.retail.authservice.Entity.UserAv;
@@ -24,14 +25,17 @@ public class userDetailsMapper {
 	@Autowired
 	private UserAvRepo userAvRepo;
 
-	public List<UserDetailsVO> convertUsersDetailsToVO(List<UserDetails> usersDetails) {
-		List<UserDetailsVO> usersList = new ArrayList<>();
+	public Page<UserDetailsVO> convertUsersDetailsToVO(Page<UserDetails> usersDetails) {
+		/*Page<UserDetailsVO> usersList = null;
 		usersDetails.stream().forEach(userDetails -> {
 			
 			UserDetailsVO usersVo=	convertUserDetailsToVO(userDetails);
 			usersList.add(usersVo);
 		});
-		return usersList;
+		return usersList;*/
+		
+		return usersDetails.map(user -> convertUserDetailsToVO(user));
+
 		
 		
 	}
@@ -46,7 +50,7 @@ public class userDetailsMapper {
 		}
 		userVO.setCreatedDate(userDetails.getCreatedDate());
 		userVO.setId(userDetails.getId());
-		List<UserAv> users = userAvRepo.findByuserData_Id(userDetails.getId());
+		List<UserAv> users = userAvRepo.findByUserDataId(userDetails.getId());
 		users.stream().forEach(user->{
 			if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
 				userVO.setEmail(user.getStringValue());

@@ -12,6 +12,8 @@ public class UsersSearchVO {
 	
 	private LocalDate toDate;
 	
+	private String supporterName;
+	
 	
 
 }

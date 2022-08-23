@@ -21,6 +21,8 @@ public interface ClientAndDomianService {
 	String createMasterDomain(MasterDomianVo masterDomianVo) throws Exception;
 
 	List<Domain_Master> getMasterDomains();
+	
+	String editClientMapping(ClientMappingVO clientMappingVo);
 
 	ClientDetails createClient(ClientDetailsVO clientDetailsVO) throws RazorpayException;
 
