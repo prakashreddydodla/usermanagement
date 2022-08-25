@@ -126,8 +126,9 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 			@Param(value = "createdDateTo")	LocalDateTime createdDateTo, Pageable pageable);
 	@Query(value = "select * from user_details where user_name like %:supporterName%", nativeQuery = true)
 	Page<UserDetails> findByUserName(@Param(value = "supporterName") String supporterName, Pageable pageable);
-	List<UserDetails> findAllByUserName(String supporterName);
-
+	/*
+	 * List<UserDetails> findAllByUserName(String supporterName);
+	 */
 	
 	
 

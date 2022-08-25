@@ -372,7 +372,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
-			} else {
+			} else if(clientSearchVo.getFromDate() != null && clientSearchVo.getToDate() != null) {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
@@ -389,6 +389,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			throw new RuntimeException(ex.getMessage());
 
 		}
+		return Page.empty();
 
 	}
 
@@ -494,8 +495,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			if (clientMappingVo.getClientName() == null && clientMappingVo.getSupporterName() != null
 					&& clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() != null) {
 
-				List<UserDetails> users = userRepository.findAllByUserName(clientMappingVo.getSupporterName());
-				if (!CollectionUtils.isEmpty(users)) {
+				Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(),pageable);
+				if (users.hasContent()) {
 					LocalDateTime createdDatefrom = DateConverters
 							.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
 					LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
@@ -544,9 +545,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 				} else {
 
-					List<UserDetails> users = userRepository.findAllByUserName(clientMappingVo.getSupporterName());
+					Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(),pageable);
 
-					if (!CollectionUtils.isEmpty(users)) {
+					if (users.hasContent()) {
 
 						LocalDateTime createdDatefrom = DateConverters
 								.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
@@ -593,9 +594,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					}
 				} else {
 
-					List<UserDetails> users = userRepository.findAllByUserName(clientMappingVo.getSupporterName());
+					Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(),pageable);
 
-					if (!CollectionUtils.isEmpty(users)) {
+					if (users.hasContent()) {
 
 						List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
 						if (userIds != null) {
@@ -612,7 +613,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					}
 				}
 
-			} else {
+			} else if(clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() != null) {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
