@@ -1,0 +1,133 @@
+name: CI - CD @ usermanagement
+on:
+  push:
+    branches:
+      - DevOps
+      - master
+  pull_request:
+    branches: 
+      - DevOps
+      - master
+  workflow_call: 
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env: 
+      MODULE_NAME: usermanagement
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'niranjanmaradapu/usermanagement'
+          ref: DevOps
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4
+        with:
+          maven-version: 3.8.2
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml -DskipTests 
+      - name: Persistent workflow data as artificats 
+        uses: actions/upload-artifact@v2
+        with: 
+          name: github-actions-artifact
+          path: ${{ env.MODULE_NAME }}/target
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to ECR
+        id: ecr
+        uses: jwalton/gh-ecr-login@v1
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ap-south-1
+  
+      - name: Build and Push to ECR
+        run: |
+         docker build -t ${{ env.MODULE_NAME }}  .
+         docker tag ${{ env.MODULE_NAME }}  ${{ steps.ecr.outputs.account }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.MODULE_NAME }}:${{ github.sha }}
+         docker push ${{ steps.ecr.outputs.account }}.dkr.ecr.ap-south-1.amazonaws.com/${{ env.MODULE_NAME }}:${{ github.sha }}
+
+#  test:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    if: github.ref == 'refs/heads/master'
+#    steps: 
+#      - uses: actions/checkout@v2
+#      - name: Set up Maven
+#        uses: stCarolas/setup-maven@v4
+#        with:
+#          maven-version: 3.8.2
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Build with Maven
+#        run: mvn -B package --file pom.xml -DskipTests 
+#      - name: testing after deployment 
+#        run: |
+#          - git clone https://github.com/niranjanmaradapu/EasyRetailAutoTesting.git
+#          - java org.testng.TestNG C:\Users\Admin\Desktop\STMSeleniumTutorial\workspace\SoftwareTestingMaterial\testng.xml
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    env: 
+      MODULE_NAME: usermanagement
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'niranjanmaradapu/usermanagement' 
+          ref: DevOps       
+      - name: AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: helm deploy
+        uses: netf/helm-eks-action@v1
+        with:
+          cluster-name: Microservice-K8S-Cluster
+          command: helm upgrade --set image.tag="$GITHUB_SHA" --install ${{ env.MODULE_NAME }} ./${{ env.MODULE_NAME }}
+          
+
+# test:
+#   needs: deploy
+#   runs-on: ubuntu-latest
+#    steps: 
+#      - uses: actions/checkout@v2
+#      - name: Set up Maven
+#        uses: stCarolas/setup-maven@v4
+#        with:
+#          maven-version: 3.8.2
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Build with Maven
+#        run: mvn -B package --file pom.xml -DskipTests 
+#      - name: testing after deployment 
+#        run: |
+#          - git clone https://github.com/niranjanmaradapu/EasyRetailAutoTesting.git
+#      - name: Setup tmate session
+#        uses: mxschmitt/action-tmate@v1
+#          - java org.testng.TestNG C:\Users\Admin\Desktop\STMSeleniumTutorial\workspace\SoftwareTestingMaterial\testng.xml
+ 
