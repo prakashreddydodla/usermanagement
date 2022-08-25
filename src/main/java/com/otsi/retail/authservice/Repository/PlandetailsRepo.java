@@ -12,6 +12,8 @@ import com.otsi.retail.authservice.requestModel.PlanDetailsVo;
 public interface PlandetailsRepo extends JpaRepository<PlanDetails, Long> {
 
 	void save(PlanDetailsVo planDetailsVo);
+
+	PlanDetails findByPlanNameAndTenureDetialsPlanTenure(String planName, String tenure);
 	
 	
 

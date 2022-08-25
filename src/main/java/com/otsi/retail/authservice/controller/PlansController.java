@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.otsi.retail.authservice.Entity.PlanDetails;
@@ -39,6 +40,18 @@ public class PlansController {
 		
 		
 		List<PlanDetails> planDeatils = plandetailsService.getPlanDetails();
+		
+		return  new GateWayResponse<>(200, planDeatils, "", "true");
+		
+		
+		
+		
+	}
+	@GetMapping(path = EndpointConstants.GET_PLANDETAILSBYTENURE)
+    public GateWayResponse<?> getPlanDetailsByTenure(@RequestParam String PlanName,@RequestParam String Tenure){
+		
+		
+		PlanDetailsVo planDeatils = plandetailsService.getPlanDetailsByTenure(PlanName,Tenure);
 		
 		return  new GateWayResponse<>(200, planDeatils, "", "true");
 		

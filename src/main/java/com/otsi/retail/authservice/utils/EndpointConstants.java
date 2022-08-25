@@ -109,6 +109,8 @@ public class EndpointConstants {
 
 	public static final String SAVE_PLANDETAILS ="saveplandetails";
 	public static final String GET_PLANDETAILS ="getplandetails";
+	public static final String GET_PLANDETAILSBYTENURE ="getplandetailsByTenure";
+
 
 	
 

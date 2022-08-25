@@ -1,13 +1,11 @@
 package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import javax.persistence.Column;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import com.otsi.retail.authservice.utils.PlanTenure;
+import com.otsi.retail.authservice.Entity.TenureDetails;
 
 import lombok.Data;
 
@@ -19,13 +17,13 @@ private Long planId;
 	
 	private String description;
 	
-	private  Long price;
 	
 	private int maxUsers;
 	
 	private Long createdBy;
 	
-	private PlanTenure planTenure;
+	
+	private List<TenureDetails> tenureDetails;
 
     
     private LocalDateTime createdDate ;

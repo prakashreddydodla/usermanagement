@@ -14,4 +14,6 @@ public interface PlandetailsService {
 
 	List<PlanDetails> getPlanDetails();
 
+	PlanDetailsVo getPlanDetailsByTenure(String planName, String tenure);
+
 }
