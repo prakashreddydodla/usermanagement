@@ -12,8 +12,14 @@ import lombok.ToString;
 public class NewPasswordChallengeRequest {
 
 	private String userName;
+	
 	private String password;
+	
 	private String newPassword;
+	
 	private String session;
+	
 	private String roleName;
+	
+	private Long clientId;
 }

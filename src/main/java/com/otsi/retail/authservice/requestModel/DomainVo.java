@@ -17,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DomainVo {
-	private long id;
+	private Long id;
 	private String channelName;
 	private String discription;
 	private ClientDetails client;

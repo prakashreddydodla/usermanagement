@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,20 +20,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Domain_Master {
+public class Domain_Master extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	//channel is nothing but a domian
+	private Long id;
+	
 	private String channelName;
+	
 	private String discription;
+	
 	private boolean status;
-	private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private String createdBy;
-	private String modifiedBy;
+	
 	private boolean isActive;
-
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "domain",fetch = FetchType.LAZY,cascade = CascadeType.ALL)

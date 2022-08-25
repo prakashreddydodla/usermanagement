@@ -9,13 +9,17 @@ import lombok.Data;
 
 @Entity
 @Data
-public class States {
+public class States extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	private long stateId;
+	private Long id;
+	
+	private Long stateId;
+	
 	private String stateCode;
+	
 	private String stateName;
+	
 	private String capital;
 }

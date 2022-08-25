@@ -2,12 +2,14 @@ package com.otsi.retail.authservice.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import com.otsi.retail.authservice.Entity.UserDeatils;
+import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
-import com.otsi.retail.authservice.requestModel.UserDetailsVo;
+import com.otsi.retail.authservice.requestModel.UserDetailsVO;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
 
@@ -16,23 +18,28 @@ public interface UserService {
 /**
  * 
  * @param userRequest
+ * @param userId 
+ * @param pageable 
  * @return
  * @throws Exception
  */
-	List<UserDeatils> getUserFromDb(GetUserRequestModel userRequest) throws Exception;
+	Page<UserDetails> getUserFromDb(GetUserRequestModel userRequest, Long userId, Pageable pageable) throws Exception;
 
-	List<UserListResponse> getUserForClient(int clientId) throws Exception;
+	Page<UserListResponse> getUserForClient(Long clientId, Pageable pageable) throws Exception;
 
-	List<UserListResponse> getUsersForClientDomain(long clientDomianId);
+	List<UserListResponse> getUsersForClientDomain(Long clientDomianId);
 
-	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo, String mobileNo2);
+	GetCustomerResponce getCustomerbasedOnMobileNumber(String mobileNo, String mobileNo2, Long clientId);
 
 	UserListResponse getUserbasedOnMobileNumber(String mobileNo) throws Exception;
 	public String updateUser(UpdateUserRequest req);
 
-	List<UserDetailsVo> getUsersForGivenIds(List<Long> userIds);
+	List<UserDetailsVO> getUserDetailsByIds(List<Long> userIds);
 	
+List<UserDetailsVO> getCustomersForGivenIds(List<Long> userIds);
 	
-	
+	UserDetails getMobileNumber(String mobileNumber);
+
+	String deleteUser(Long id);
 	
 }

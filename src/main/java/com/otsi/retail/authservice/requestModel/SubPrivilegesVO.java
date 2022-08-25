@@ -3,7 +3,7 @@ package com.otsi.retail.authservice.requestModel;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.otsi.retail.authservice.Entity.SubPrivillage;
+import com.otsi.retail.authservice.utils.PrevilegeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,16 +14,28 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParentPrivilageVo {
+public class SubPrivilegesVO {
 
-	private long id;
+	private Long id;
+	
 	private String name;
+	
 	private String description;
+	
+	private Long parentId;
+	
 	private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private long createdBy;
-	private List<SubPrivillage> subPrivillages;
-	private String parentImage;
-	private String path;
-	private int domian;
+	
+	private LocalDate modifyDate;
+	
+	private String childPath;
+	
+	private String childImage;
+	
+	private Long domain;
+	
+	private List<ChildPrivilegeVo> childPrivillages;
+	private PrevilegeType previlegeType;
+
+
 }

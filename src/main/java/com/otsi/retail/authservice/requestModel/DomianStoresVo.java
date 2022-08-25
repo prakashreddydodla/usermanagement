@@ -13,6 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class DomianStoresVo {
 	private ClientDomianVo domain;
-	private List<StoreVo> stores;
+	private List<StoreVO> stores;
 }
 

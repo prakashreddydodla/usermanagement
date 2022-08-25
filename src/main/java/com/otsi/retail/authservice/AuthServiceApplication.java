@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.jwk.source.RemoteJWKSet;
 import com.nimbusds.jose.proc.JWSKeySelector;
@@ -20,20 +21,9 @@ import com.nimbusds.jose.util.ResourceRetriever;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-
 @SpringBootApplication
 @EnableEurekaClient
 @EnableScheduling
-@OpenAPIDefinition(info =
-@Info(title = "user-management", version = "1.0", description = "Documentation UserManagement API v1.0"))
-
 public class AuthServiceApplication {
 	@Value("${Cognito.aws.region}")
 	String REGION;
@@ -58,15 +48,15 @@ public class AuthServiceApplication {
 		jwtProcessor.setJWSKeySelector(keySelector);
 		return jwtProcessor;
 	}
-	@Bean
-	public Docket swaggerPersonApi10() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-					.apis(RequestHandlerSelectors.basePackage("com.otsi.retail.authservice"))
-					.paths(PathSelectors.any())
-				.build()
-				.apiInfo(new ApiInfoBuilder().version("1.0").title("user-management").description("Documentation UserManagement API v1.0").build());
-	}
+	/*
+	 * @Bean public Docket swaggerPersonApi10() { return new
+	 * Docket(DocumentationType.SWAGGER_2) .select()
+	 * .apis(RequestHandlerSelectors.basePackage(
+	 * "com.otsi.retail.authservice.controller")) .paths(PathSelectors.any())
+	 * .build() .apiInfo(new
+	 * ApiInfoBuilder().version("1.0").title("user-management").
+	 * description("Documentation UserManagement API v1.0").build()); }
+	 */
 	
 	
 	

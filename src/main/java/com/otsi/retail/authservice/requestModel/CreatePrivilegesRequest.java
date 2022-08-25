@@ -11,8 +11,9 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePrivillagesRequest {
+public class CreatePrivilegesRequest {
 
-	private ParentPrivilageVo parentPrivillage;
-	private List<SubPrivillagesvo> subPrivillages;
+	private ParentPrivilegeVO parentPrivilege;
+	
+	private List<SubPrivilegesVO> subPrivileges;
 }

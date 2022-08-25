@@ -11,10 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 public class GetStoresRequestVo {
 
-	private long id;
+	private Long id;
 	private String stateId;
 	private String cityId;
-	private long districtId;
+	private Long districtId;
 	private String storeName;
 	
 }

@@ -16,8 +16,11 @@ public class ColorEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long colour_Id;
+	
 	private String colorCode;
+	
     private String colorName;
+    
 	private String rgb;
 	
 

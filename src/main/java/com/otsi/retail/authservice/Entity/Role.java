@@ -1,6 +1,6 @@
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -28,40 +28,51 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Role  {
+public class Role  extends BaseEntity implements Serializable  {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long roleId;
+	private Long id;
+	
 	@Column(unique=true)
 	private String roleName;
-	private String discription;
-	private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private String createdBy;
-	private String modifiedBy;
+	
+	private String description;
+	
 	private boolean isActive;
 	
-	
-
 	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	@JoinTable(name = "role_parentPrivilages",
 	joinColumns= { @JoinColumn(name = "roleId")},
 	inverseJoinColumns = { @JoinColumn(name  = "id")})
-	private List<ParentPrivilages> parentPrivilages;
+	private List<ParentPrivilege> parentPrivileges;
 	
 	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	@JoinTable(name = "role_subPrivilages",
 	joinColumns= { @JoinColumn(name = "roleId")},
 	inverseJoinColumns = { @JoinColumn(name  = "id")})
-	private List<SubPrivillage> subPrivilages;
+	private List<SubPrivilege> subPrivileges;
 	
+	@ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+	@JoinTable(name = "role_childPrivilages",
+	joinColumns= { @JoinColumn(name = "roleId")},
+	inverseJoinColumns = { @JoinColumn(name  = "id")})
+	private List<ChildPrivilege> childPrivilages;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "role")
-	private List<UserDeatils> user;
+	private List<UserDetails> user;
 	
 	@ManyToOne
 	@JoinColumn(name = "clientDomian")
 	private ClientDomains clientDomian;
+	
+	@ManyToOne
+	@JoinColumn(name = "client_id")
+	private ClientDetails client;
 }

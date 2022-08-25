@@ -15,26 +15,51 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UpdateUserRequest {
 
-	private long userId;
+	private Long id;
+	
 	private String email;
+	
 	private String phoneNumber;
+	
 	private String birthDate;
+	
+	private Boolean isActive;
+	
+	
+	
 	private String gender;
+	
 	private String name;
+	
 	private String username;
+	
 	private String tempPassword;
+	
 	private String assginedStores;
+	
 	private String parentId;
+	
 	private String domianId;
+	
 	private String channelId;
+	
 	private String address;
+	
 	private Role role;
-	private List<StoreVo> stores;
+	
+	private List<StoreVO> stores;
+	
 	private String clientId;
+	
 	private String isConfigUser;
+	
 	private int[] clientDomain;
-	private boolean isCustomer;
+	
+	private Boolean isCustomer;
+	
 	private String isSuperAdmin;
+	
 	private String createBy;
+	
 	private String roleName;
 }

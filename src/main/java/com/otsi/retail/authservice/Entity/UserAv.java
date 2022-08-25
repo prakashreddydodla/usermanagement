@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.Entity;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -23,11 +22,11 @@ public class UserAv  extends BaseEntity{
 
 	@Id
 	@GeneratedValue
-	private Long userAvId;
+	private Long id;
 
 	private int type;
 	
-	private int integerValue;
+	private Long integerValue;
 	
 	private String name;
 
@@ -36,13 +35,9 @@ public class UserAv  extends BaseEntity{
 	private Date dateValue;
 	
 	private boolean booleanValue;
-
-	private LocalDate createdDate;
-	private LocalDate lastModifyedDate;
-	private long createdBy;
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "userId")
-	private UserDeatils userData;
+	@JoinColumn(name = "user_id")
+	private UserDetails userData;
 }

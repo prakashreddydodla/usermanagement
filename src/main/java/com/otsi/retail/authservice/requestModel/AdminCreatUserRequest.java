@@ -16,24 +16,46 @@ import lombok.ToString;
 public class AdminCreatUserRequest {
 
 	private String email;
+
 	private String phoneNumber;
+
 	private String birthDate;
+
 	private String gender;
+
 	private String name;
+
 	private String username;
+
 	private String tempPassword;
+
 	private String assginedStores;
+
 	private String parentId;
+
 	private String domianId;
+
 	private String channelId;
+
 	private String address;
+
 	private Role role;
-	private List<StoreVo> stores;
+
+	private List<StoreVO> stores;
+
 	private String clientId;
-	private String isConfigUser;
+
+	private Boolean isConfigUser;
+
 	private int[] clientDomain;
-	private String isCustomer;
+
+	private Boolean isCustomer;
+
 	private String isSuperAdmin;
-	private String createdBy;
+
+	private Long createdBy;
+
 	private String roleName;
+
+	private Long id;
 }
