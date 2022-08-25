@@ -2,11 +2,11 @@ name: CI - CD @ usermanagement
 on:
   push:
     branches:
-      - DevOps
+      - devops2
       - master
   pull_request:
     branches: 
-      - DevOps
+      - devops2
       - master
   workflow_call: 
     secrets:
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: 'niranjanmaradapu/usermanagement'
-          ref: DevOps
+          ref: devops2
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4
         with:
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: 'niranjanmaradapu/usermanagement' 
-          ref: DevOps       
+          ref: devops2      
       - name: AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
