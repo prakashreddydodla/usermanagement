@@ -51,4 +51,6 @@ private Long domain;
 
 private PrevilegeType previlegeType;
 
+private Long planId;
+
 }

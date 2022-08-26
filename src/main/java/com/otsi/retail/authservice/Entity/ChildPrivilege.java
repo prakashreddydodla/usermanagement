@@ -49,6 +49,5 @@ public class ChildPrivilege extends BaseEntity {
 	private List<Role> roleId;
 	
 	private Boolean isEnabeld;
-
 	
 }

@@ -69,6 +69,12 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	List<Role> findByCreatedByAndClient_Id(Long createdBy, Long clientId);
 
+	List<Role> findByClientIdAndRoleNameNotIn(Long clientId, List<String> roleNames);
+
+   Optional<Role> findByRoleNameOrderByCreatedDateDesc(String roleName);
+
+	//Optional<Role> findByRoleNameOrderByCreatedDateAsc(String roleName);
+
 	
 
 	

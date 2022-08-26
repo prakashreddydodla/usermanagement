@@ -10,6 +10,7 @@ public class EndpointConstants {
 	public static final String GET_USER_INFO = "/getUserInfo/{username}";
 	public static final String ASSIGN_STORES = "/assignStores";
 	public static final String CREATE_USER = "/create-user";
+	public static final String CREATE_CLIENTSUPPORTS = "/create-clientSupports";
 	public static final String AUTH_RESPONSE = "/auth-challenge";
 	public static final String LOGIN_WITH_TEMP_PASS = "/temporary-login";
 	public static final String GET_USER_STORES = "/getUserStores/{userName}";
@@ -19,8 +20,6 @@ public class EndpointConstants {
 	public static final String RESET_USER_PASSWORD = "/resetUserPassword";
 	public static final String GET_USER_PROFILE = "/get_user_profile/{mobileNo}";
 
-
-	
 //#############################################    CLIENT CONTROLLER  END_POINTS   ###########################################	
 	public static final String CLIENT = "/client";
 	public static final String CREATE_MASTER_DOMIAN = "/createMasterDomain";
@@ -30,10 +29,18 @@ public class EndpointConstants {
 	public static final String GET_DOMAINS_FOR_CLIENT = "/getDomiansForClient/{clientId}";
 	public static final String GET_CLIENT = "/getClient/{clientId}";
 	public static final String GET_ALL_CLIENTS = "/getAllClients";
-	public static final String GET_DOMIAN_BY_ID ="domian/{clientDomianId}";
+	public static final String GET_DOMIAN_BY_ID = "domian/{clientDomianId}";
+	public static final String CLIENT_MAPPING = "/clientMapping";
+	public static final String EDIT_CLIENT_MAPPING = "/editClientMapping";
+	public static final String CLIENT_SEARCH = "/clientSearch";
+	public static final String GET_CLIENTS_FOR_USER= "/getClientsForUser";
+	public static final String GET_CLIENT_MAPPING_DETAILS= "/getClientMappingDetails";
+	public static final String GET_CLIENT_MAPPING_SEARCH= "/getClientMappingsearch";
 
 
-	
+
+
+
 //############################################     ROLES CONTROLLER	END_POINTS   #############################################
 	public static final String ROLES = "/roles";
 	public static final String CREATE_ROLE = "/create-role";
@@ -49,14 +56,11 @@ public class EndpointConstants {
 	public static final String ROLES_WITH_FILTER = "/rolesWithFilter";
 	public static final String GET_PRIVILLAGES = "/privileges";
 
-
-
-
-	
 //########################################       STORE CONTROLLER END_POINTS      ##############################################
 	public static final String STORE = "/store";
 	public static final String CREATE_STORE = "/create-store";
 	public static final String GET_CLIENT_DOMIAN_STORES = "/getClientDomianStores";
+	public static final String GET_ALL_STORES = "/getAllStores";
 	public static final String GET_CLIENT_STORES = "/client/stores";
 	public static final String ASSIGN_STORES_TO_DOMIAN = "/assignStoresToDomain";
 	public static final String GET_STORES_WITH_FILTER = "/getStoresWithFilter";
@@ -67,32 +71,28 @@ public class EndpointConstants {
 	public static final String GET_STORELIST = "/storeList";
 	public static final String GET_GSTDETAILS = "/getgstDetails";
 	public static final String DELETE_STORE = "/deleteStore";
-	public static final String GET_STORESBYNAME = "/getStoresByName";
+	public static final String GET_ACTIVESTORES = "/getActiveStores";
 
-
-	
-	
 // ##########################################     USER CONTROLLER  END_POINTS     #########################################
-	
+
 	public static final String USER = "/user";
 	public static final String GET_USERSFOR_GIVENIDS = "/getUsersForGivenIds";
-	
+
 	public static final String GET_MOBILENUMBER = "/mobilenumber";
 	public static final String GET_CUSTOMERSFOR_GIVENIDS = "/getCustomersForGivenIds";
 	public static final String GET_USER = "/getUser";
-    public static final String GET_ALL_USERS = "/users";
+	public static final String GET_USER_BY_ROLENAME = "/getusersByRolename";
+
+	public static final String GET_ALL_USERS = "/users";
 	public static final String GET_ALL_USERS_BY_CLIENT_ID = "/users/{clientId}";
 	public static final String GET_ALL_USERS_BY_CLIENT_DOMIAN = "/usersByClientDomianId/{clientDomianId}";
 	public static final String GET_CUSTOMER = "/customer/{feild}/{mobileNo}";
 
-
-	
 //######################################    AWS REKOGNIBITION CONTROLLER END_POINTS      ####################################
-	
+
 	public static final String IMAGE = "/image";
 	public static final String IMAGE_SCANNING = "/imageScanning";
-	
-	
+
 //#########################################  ReportsController Endpoints  ########################################
 	public static final String REPORTS = "/reports";
 
@@ -101,7 +101,15 @@ public class EndpointConstants {
 	public static final String STORES_VS_EMPLOYEES = "/storesVsEmployees";
 	public static final String COLOR_CODES = "/savetcolorCodes";
 	public static final String GETCOLOR_CODES = "/gettcolorCodes";
-    public static final String DELETE_PRIVILLAGES = "/deletePrivileges";
+	public static final String DELETE_PRIVILLAGES = "/deletePrivileges";
+	
+	
+	//######################### Plancontroller Endpoints ##################################
+	public static final String PLAN ="plan";
+
+	public static final String SAVE_PLANDETAILS ="saveplandetails";
+	public static final String GET_PLANDETAILS ="getplandetails";
+	public static final String GET_PLANDETAILSBYTENURE ="getplandetailsByTenure";
 
 
 	

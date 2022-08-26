@@ -43,7 +43,7 @@ public class StoresController {
 	@Autowired
 	private StatesAndDistrctsService statesAndDistrctsService;
 
-	private Logger logger = LogManager.getLogger(StoresController.class);
+	//private Logger logger = LogManager.getLogger(StoresController.class);
 
 	@ApiOperation(value = EndpointConstants.CREATE_STORE, notes = "create store")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -56,13 +56,13 @@ public class StoresController {
 	}
 
 //
-	@ApiOperation(value =EndpointConstants.UPDATE_STORE, notes = "update store record")
+	@ApiOperation(value = EndpointConstants.UPDATE_STORE, notes = "update store record")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = String.class, responseContainer = "List") })
 	@PutMapping(EndpointConstants.UPDATE_STORE)
 	public ResponseEntity<?> updateStore(@RequestBody StoreVO vo) {
-			Store store = storeService.updateStore(vo);
-			return ResponseEntity.ok(store);
+		Store store = storeService.updateStore(vo);
+		return ResponseEntity.ok(store);
 	}
 
 	@ApiOperation(value = EndpointConstants.GET_CLIENT_DOMIAN_STORES, notes = "get store details using clientDomainId")
@@ -78,10 +78,11 @@ public class StoresController {
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = Store.class, responseContainer = "List") })
 	@GetMapping(EndpointConstants.GET_CLIENT_STORES)
-	public ResponseEntity<?> getClientStores(@RequestParam("clientId") long clientId,@RequestParam("isActive") Boolean isActive ) {
-			List<StoreVO> stores = storeService.getStoresByClient(clientId,isActive);
-			return ResponseEntity.ok(stores);
-		} 
+	public ResponseEntity<?> getClientStores(@RequestParam("clientId") long clientId,
+			@RequestParam("isActive") Boolean isActive) {
+		List<StoreVO> stores = storeService.getStoresByClient(clientId, isActive);
+		return ResponseEntity.ok(stores);
+	}
 
 	@ApiOperation(value = EndpointConstants.ASSIGN_STORES_TO_DOMIAN, notes = "assign stores to clientDomain")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -89,7 +90,7 @@ public class StoresController {
 	@PutMapping(EndpointConstants.ASSIGN_STORES_TO_DOMIAN)
 	public GateWayResponse<?> assignStoresToDomain(@RequestBody DomianStoresVo vo) {
 		try {
-			logger.info("In ASSIGN_STORES_TO_DOMIAN request  : " + vo);
+			//logger.info("In ASSIGN_STORES_TO_DOMIAN request  : " + vo);
 
 			String res = storeService.assignStoreToClientDomain(vo);
 
@@ -98,14 +99,14 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+
 	@ApiOperation(value = "deleteStore", notes = "delete store record")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
-			@ApiResponse(code = 200, message = "Successful deletion", 
-			response = String.class, responseContainer = "List") })
+			@ApiResponse(code = 200, message = "Successful deletion", response = String.class, responseContainer = "List") })
 	@DeleteMapping(EndpointConstants.DELETE_STORE)
 	public GateWayResponse<?> deleteStore(@RequestParam Long id) {
 		try {
-			logger.info("In DELETE_STORE request : " + id);
+			//logger.info("In DELETE_STORE request : " + id);
 
 			String res = storeService.deleteStore(id);
 
@@ -122,9 +123,9 @@ public class StoresController {
 	public GateWayResponse<?> getStoresWithFilter(@RequestBody GetStoresRequestVo vo,
 			@RequestHeader("clientId") Long clientId) {
 		try {
-			logger.info("In GET_STORES_WITH_FILTER request  : " + vo, clientId);
+			//logger.info("In GET_STORES_WITH_FILTER request  : " + vo, clientId);
 
-			List<StoreVO> res = storeService.getStoresOnFilter(vo, clientId);
+			List<Store> res = storeService.getStoresOnFilter(vo, clientId);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -138,7 +139,7 @@ public class StoresController {
 	@PostMapping(EndpointConstants.SAVE_STATES)
 	public GateWayResponse<?> saveStates(@RequestBody SaveStatesAndDistrictsRequest vo) {
 		try {
-			logger.info("In SAVE_STATES request  : " + vo);
+			//logger.info("In SAVE_STATES request  : " + vo);
 
 			String res = statesAndDistrctsService.saveStatesAndDistricts(vo);
 
@@ -154,7 +155,7 @@ public class StoresController {
 	@GetMapping(EndpointConstants.ALL_STATES)
 	public GateWayResponse<?> getAllStates() {
 		try {
-			logger.info("In ALL_STATES request  : ");
+			//logger.info("In ALL_STATES request  : ");
 
 			List<States> res = statesAndDistrctsService.getAllStates();
 
@@ -170,7 +171,7 @@ public class StoresController {
 	@GetMapping(EndpointConstants.GET_DISTRICT)
 	public GateWayResponse<?> getDistrictsOfState(@RequestParam("stateCode") String stateCode) {
 		try {
-			logger.info("In GET_DISTRICT request stateCode : " + stateCode);
+			//logger.info("In GET_DISTRICT request stateCode : " + stateCode);
 
 			List<Districts> res = statesAndDistrctsService.getAllDistrctsOfState(stateCode);
 
@@ -186,7 +187,7 @@ public class StoresController {
 	@PostMapping(EndpointConstants.GET_STORELIST)
 	public GateWayResponse<?> getStoresForGivenIds(@RequestBody List<Long> storeIds) {
 		try {
-			logger.info("In GET_STORELIST request storeIds : " + storeIds);
+			//logger.info("In GET_STORELIST request storeIds : " + storeIds);
 
 			List<Store> res = storeService.getStoresForGivenIds(storeIds);
 
@@ -195,24 +196,23 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	@ApiOperation(value = "storeList", notes = "getStoresByName")
+
+	@ApiOperation(value = "storeList", notes = "getActivestores")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = Store.class, responseContainer = "List") })
-	@GetMapping(EndpointConstants.GET_STORESBYNAME)
-	public GateWayResponse<?> getStoresForGivenIds(@RequestParam String storeName,
-			/* @RequestHeader("required=false") */@RequestParam Long clientId) {
+	@GetMapping(EndpointConstants.GET_ACTIVESTORES)
+	public GateWayResponse<?> getActiveStores(@RequestHeader("required=false") Long userId,
+			@RequestHeader("required=false") Long clientId) {
 		try {
-			logger.info("In GET_STORELIST request storeName : " + storeName);
+			//logger.info("In GET_STORELIST  : " + userId);
 
-			Store res = storeService.getStoresByName(storeName,clientId);
+			Store res = storeService.getActiveStores(userId, clientId);
 
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
-	
-	
 
 	@ApiOperation(value = "getgstDetails", notes = "getgstDetails")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
@@ -221,7 +221,7 @@ public class StoresController {
 	public GateWayResponse<?> getGstDetails(@RequestParam("clientId") long clientId,
 			@RequestParam("stateCode") String stateCode) {
 		try {
-			logger.info("In GET_GSTDETAILS request clientId : " + clientId);
+			//logger.info("In GET_GSTDETAILS request clientId : " + clientId);
 
 			GstDetails res = storeService.getGstDetails(clientId, stateCode);
 
@@ -229,6 +229,15 @@ public class StoresController {
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
+	}
+	
+	@ApiOperation(value = EndpointConstants.GET_ALL_STORES, notes = "get store details using clientDomainId")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", response = Store.class, responseContainer = "List") })
+	@GetMapping(EndpointConstants.GET_ALL_STORES)
+	public ResponseEntity<?> getStores() {
+		List<StoreVO> stores = storeService.getStores();
+		return ResponseEntity.ok(stores);
 	}
 
 }

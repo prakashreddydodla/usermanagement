@@ -3,12 +3,18 @@ package com.otsi.retail.authservice.Entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -35,13 +41,27 @@ public class ClientDetails extends BaseEntity implements Serializable {
 
 	@OneToMany(mappedBy = "client")
 	private List<ClientDomains> channelId;
+	
+	private String description;
+	@OneToOne
+	@JoinColumn(name = "planId")
+	private PlanDetails planDetails;
+	
+	private String planTenure;
 
 	private String mobile;
 
 	private String email;
 
 	private Boolean isEsSlipEnabled;
+	
+	private String razorPayPaymentId;
+	
+	private Long amount;
 
 	private Boolean isTaxIncluded;
-
+	
+	@OneToMany(mappedBy = "clientId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<ClientUsers> clients;
+	
 }

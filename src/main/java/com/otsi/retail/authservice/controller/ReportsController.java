@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping(EndpointConstants.REPORTS)
 public class ReportsController {
 
-	private Logger logger = LogManager.getLogger(ReportsController.class);
+	//private Logger logger = LogManager.getLogger(ReportsController.class);
 	@Autowired
 	private ReportsService reportsService;
 	@ApiOperation(value = "usersByRole", notes = "get users using Roles")
@@ -38,7 +38,7 @@ public class ReportsController {
 	@GetMapping(path = EndpointConstants.USERS_BY_ROLE)
 	public GateWayResponse<?> UsersByRole(@RequestParam Long clientId) {
 		try {
-			logger.info("usersByRole method starts");
+			//logger.info("usersByRole method starts");
 			List<ReportVo> result = reportsService.getUsersByRole(clientId);
 			return new GateWayResponse<>(200, result, "", "true");
 
@@ -57,7 +57,7 @@ public class ReportsController {
 
 		try {
 
-			logger.info("usersByRole method starts");
+			//logger.info("usersByRole method starts");
 			List<ReportVo> vo = reportsService.getActiveUsers(clientId);
 			return new GateWayResponse<>(200, vo, "", "true");
 
@@ -76,7 +76,7 @@ public class ReportsController {
 
 		try {
 
-			logger.info("usersByRole method starts");
+			//logger.info("usersByRole method starts");
 			List<ReportVo> count = reportsService.StoresVsEmployees(clientId);
 			return new GateWayResponse<>(200, count, "", "true");
 

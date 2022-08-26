@@ -59,6 +59,8 @@ public interface StoreRepo extends JpaRepository<Store, Long> {
 
 	List<Store> findByNameAndClientId(String string, Long clientId1);
 
+	Store findBystoreUsers_IdAndClient_IdAndIsActive(Long userId, Long clientId, Boolean true1);
+
 	
 
 }

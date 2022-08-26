@@ -53,7 +53,7 @@ public class AuthController {
 	@Autowired
 	private CognitoClient cognitoClient;
 	//
-	private Logger logger = LogManager.getLogger(AuthController.class);
+	//private Logger logger = LogManager.getLogger(AuthController.class);
 	@ApiOperation(value = "addRole", notes = "adding Roles")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", 
@@ -62,8 +62,9 @@ public class AuthController {
 	public GateWayResponse<?> addRole(@RequestBody AddRoleRequest req) {
 		Response res = null;
 		try {
-			logger.info("add_role request : "+req);
-			res = cognitoAuthService.addRoleToUser(req.getGroupName(), req.getUserName());
+			//logger.info("add_role request : "+req);
+			Long createdBy = 0L;
+			res = cognitoAuthService.addRoleToUser(req.getGroupName(), req.getUserName(),createdBy);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (InvalidParameterException ie) {
 			return new GateWayResponse<>(400, res, ie.getMessage(), "false");
@@ -80,10 +81,10 @@ public class AuthController {
 
 	@GetMapping(path = EndpointConstants.GET_USER_INFO)
 	public GateWayResponse<?> getUserInfo(@PathVariable String username) {
-		logger.info("In getUserInfo request userName : "+username);
+		//logger.info("In getUserInfo request userName : "+username);
 		try {
 			AdminGetUserResult user = cognitoAuthService.getUserInfo(username);	
-			logger.info("In getUserInfo responce  : "+user);
+			//logger.info("In getUserInfo responce  : "+user);
 			return new GateWayResponse<>(200, user, "", "true");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -107,7 +108,7 @@ public class AuthController {
 			response = Response.class, responseContainer = "Object") })
 	@PostMapping(path = EndpointConstants.ASSIGN_STORES)
 	public GateWayResponse<?> assignStoresToUser(@RequestBody AssignStoresRequest req) throws Exception {
-		logger.info("In ASSIGN_STORES request userName : "+req);
+		//logger.info("In ASSIGN_STORES request userName : "+req);
 		Response res = null;
 		try {
 			res = cognitoAuthService.assignStoreToUser(req.getStores(), req.getUserName());
@@ -129,7 +130,12 @@ public class AuthController {
 	@PostMapping(path = EndpointConstants.CREATE_USER)
 	public ResponseEntity<?> createUser(@RequestBody AdminCreatUserRequest request,@RequestHeader(required=false) Long clientId) {
 		return cognitoAuthService.createUser(request,clientId);
-	}	
+	}
+	
+	/*@PostMapping(path = EndpointConstants.CREATE_CLIENTSUPPORTS)
+	public ResponseEntity<?> createClientSupports(@RequestBody AdminCreatUserRequest request,@RequestHeader(required=false) Long clientId) {
+		return cognitoAuthService.createUser(request,clientId);
+	}	*/
 	
 
 /**
@@ -144,7 +150,7 @@ public class AuthController {
 			response = AdminRespondToAuthChallengeResult.class, responseContainer = "Object") })
 	@PostMapping(path = EndpointConstants.AUTH_RESPONSE)
 	public ResponseEntity<?> newPasswordChallenge(@RequestBody NewPasswordChallengeRequest req) throws Exception {
-		logger.info("In AUTH_RESPONCE request  : "+req);
+		//logger.info("In AUTH_RESPONCE request  : "+req);
 			AdminRespondToAuthChallengeResult res = cognitoAuthService.authChallenge(req);
 			return ResponseEntity.ok(res);
 	}
@@ -175,7 +181,7 @@ public class AuthController {
 	@GetMapping(path = EndpointConstants.GET_USER_STORES)
 	public GateWayResponse<?> getUserStores(@PathVariable String userName) {
 		String[] stores;
-		logger.info("In LOGIN_WITH_TEMP_PASS request userName : "+userName);
+		//logger.info("In LOGIN_WITH_TEMP_PASS request userName : "+userName);
 
 		try {
 			stores = cognitoAuthService.getStoresForUser(userName);
@@ -192,7 +198,7 @@ public class AuthController {
 
 	@PostMapping(path = EndpointConstants.FORGET_PASSWORD)
 	public GateWayResponse<?> forgetPassword(@RequestParam String username) {
-		logger.info("In FORGET_PASSWORD request userName : "+username);
+		//logger.info("In FORGET_PASSWORD request userName : "+username);
 		try {
 			ForgotPasswordResult res = cognitoClient.forgetPassword(username);
 			return new GateWayResponse<>(200, res, "", "true");
@@ -207,7 +213,7 @@ public class AuthController {
 	@PostMapping(path = EndpointConstants.CONFIRM_FORGET_PASSWORD)
 	public GateWayResponse<?> confirmForgetPassword(@RequestParam String username,
 			@RequestParam String confirmarionCode,String newPassword) {
-		logger.info("In CONFIRM_FORGET_PASSWORD request userName : "+username);
+		//logger.info("In CONFIRM_FORGET_PASSWORD request userName : "+username);
 
 		try {
 			ConfirmForgotPasswordResult res = cognitoClient.confirmForgetPassword(username, confirmarionCode,newPassword);
@@ -223,7 +229,7 @@ public class AuthController {
 	@PutMapping(EndpointConstants.ENABLE_OR_DISABLE_USER)
 	public GateWayResponse<?> enabledOrdisabledUser(@PathVariable String user, @PathVariable String action) {
 		try {
-			logger.info("In ENABLE_OR_DISABLE_USER request userName : "+user+" ,action : "+action);
+			//logger.info("In ENABLE_OR_DISABLE_USER request userName : "+user+" ,action : "+action);
 			String res = cognitoAuthService.enableOrDisableUser(user, action);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {
@@ -240,7 +246,7 @@ public class AuthController {
 	@GetMapping(path = EndpointConstants.RESET_USER_PASSWORD)
 	public GateWayResponse<?> adminRestPasssword(@RequestParam String userName) {
 		try {
-			logger.info("In RESET_USER_PASSWORD request userName : "+userName);
+			//logger.info("In RESET_USER_PASSWORD request userName : "+userName);
 			AdminResetUserPasswordResult res = cognitoClient.adminresetPassword(userName);
 			return new GateWayResponse<>(200, res, "", "true");
 		} catch (Exception e) {

@@ -10,6 +10,7 @@ import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
+import com.otsi.retail.authservice.requestModel.UsersSearchVO;
 import com.otsi.retail.authservice.responceModel.GetCustomerResponce;
 import com.otsi.retail.authservice.responceModel.UserListResponse;
 
@@ -23,7 +24,7 @@ public interface UserService {
  * @return
  * @throws Exception
  */
-	Page<UserDetails> getUserFromDb(GetUserRequestModel userRequest, Long userId, Pageable pageable) throws Exception;
+	Page<UserListResponse> getUserFromDb(GetUserRequestModel userRequest, Long userId, Pageable pageable) throws Exception;
 
 	Page<UserListResponse> getUserForClient(Long clientId, Pageable pageable) throws Exception;
 
@@ -41,5 +42,7 @@ List<UserDetailsVO> getCustomersForGivenIds(List<Long> userIds);
 	UserDetails getMobileNumber(String mobileNumber);
 
 	String deleteUser(Long id);
+
+	Page<UserDetailsVO> getUsersByRoleName(String roleName, UsersSearchVO userSerachVo, Pageable pageable);
 	
 }

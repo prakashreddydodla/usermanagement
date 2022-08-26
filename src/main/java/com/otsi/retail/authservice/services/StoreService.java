@@ -21,7 +21,7 @@ public interface StoreService {
 
 	String assignStoreToClientDomain(DomianStoresVo domainStoresVO) throws Exception;
 
-	List<StoreVO> getStoresOnFilter(GetStoresRequestVo getStoresRequestVo, Long clientId);
+	List<Store> getStoresOnFilter(GetStoresRequestVo getStoresRequestVo, Long clientId);
 
 	Store updateStore(StoreVO storeVO);
 
@@ -31,5 +31,8 @@ public interface StoreService {
 
 	String deleteStore(Long id);
 
-	Store getStoresByName(String storeName,Long clientId);
+	Store getActiveStores(Long userId, Long clientId);
+
+	List<StoreVO> getStores();
+
 }

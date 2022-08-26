@@ -15,8 +15,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RoleVO {
 	
+public class RoleVO {
 	
 	private long id;
 

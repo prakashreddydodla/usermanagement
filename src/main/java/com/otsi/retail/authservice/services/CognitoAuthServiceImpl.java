@@ -81,13 +81,110 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 
 	@Autowired
 	private StoreRepo storeRepo;
-	private Logger logger = LogManager.getLogger(CognitoAuthServiceImpl.class);
+	//private Logger logger = LogManager.getLogger(CognitoAuthServiceImpl.class);
 
 	@Override
-	public Response addRoleToUser(String groupName, String userName) throws InvalidParameterException, Exception {
-		logger.info("#############  assing role to user method starts  ###############");
-
+	public Response addRoleToUser(String groupName, String userName, Long createdBy)
+			throws InvalidParameterException, Exception {
+		//logger.info("#############  assing role to user method starts  ###############");
 		Response res = new Response();
+
+		if (createdBy!=0L&&createdBy!=null) {
+			Optional<UserDetails> userDetails = userRepository.findById(createdBy);
+
+			UserDetails User = userDetails.get();
+			String roleName= null;
+			if(User.getRole()!=null) {
+			roleName = User.getRole().getRoleName();
+			}
+			String UserName = User.getUserName();
+			if (groupName.equals("client_support")) {
+				if (UserName.equals("Captain")) {
+
+					res = addRoletoUser(groupName, userName);
+				} else
+					throw new RuntimeException("Role not assing to User. Please try with another Role");
+
+			} else if (groupName.equals("super_admin")) {
+
+				if (roleName.equalsIgnoreCase("client_support")) {
+					res = addRoletoUser(groupName, userName);
+
+				} else
+					throw new RuntimeException("Role not assing to User. Please try with another Role");
+
+			}else {
+				res = addRoletoUser(groupName, userName);
+
+			}
+
+		} else {
+			res = addRoletoUser(groupName, userName);
+
+		}
+
+		/*
+		 * Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
+		 * Optional<Role> roleOptional = roleRepository.findByRoleName(groupName); if
+		 * (userOptional.isPresent() && roleOptional.isPresent()) { try { UserDetails
+		 * user = userOptional.get(); Role role = roleOptional.get();
+		 * user.setRole(role); userRepository.save(user);
+		 * logger.info("Assign role to user in Local DB is Sucess");
+		 * 
+		 * } catch (Exception e) { logger.error(
+		 * "Error occurs while assigning role to user in Local Database. Error is : " +
+		 * e.getMessage()); throw new
+		 * RuntimeException("Role not assing to User. Please try again."); } }
+		 * AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName,
+		 * userName); if (result != null) { if
+		 * (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+		 * logger.info("Assign role to user in Cognito sucess");
+		 * res.setBody("Sucessfully updated role"); res.setStatusCode(200);
+		 * logger.info("assing role to user method ends"); return res; } else {
+		 * res.setBody("Falied to updated role");
+		 * res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+		 * logger.error("Assign role to user in Cognito Falied"); return res; } }else
+		 * throw new Exception("no users found with this users");
+		 * 
+		 * 
+		 * 
+		 * 
+		 * }else { throw new
+		 * RuntimeException("Role not assing to User. Please try with another Role");
+		 * 
+		 * }
+		 * 
+		 * }else {
+		 * 
+		 * Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
+		 * Optional<Role> roleOptional = roleRepository.findByRoleName(groupName); if
+		 * (userOptional.isPresent() && roleOptional.isPresent()) { try { UserDetails
+		 * user = userOptional.get(); Role role = roleOptional.get();
+		 * user.setRole(role); userRepository.save(user);
+		 * logger.info("Assign role to user in Local DB is Sucess");
+		 * 
+		 * } catch (Exception e) { logger.error(
+		 * "Error occurs while assigning role to user in Local Database. Error is : " +
+		 * e.getMessage()); throw new
+		 * RuntimeException("Role not assing to User. Please try again."); } }
+		 * 
+		 * AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName,
+		 * userName); if (result != null) { if
+		 * (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
+		 * logger.info("Assign role to user in Cognito sucess");
+		 * res.setBody("Sucessfully updated role"); res.setStatusCode(200);
+		 * logger.info("assing role to user method ends"); return res; } else {
+		 * res.setBody("Falied to updated role");
+		 * res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
+		 * logger.error("Assign role to user in Cognito Falied"); return res; } } else
+		 * throw new Exception("no users found with this users"); }
+		 */
+		return res;
+	}
+
+	private Response addRoletoUser(String groupName, String userName) throws Exception {
+		Response res = new Response();
+
 		Optional<UserDetails> userOptional = userRepository.findByUserName(userName);
 		Optional<Role> roleOptional = roleRepository.findByRoleName(groupName);
 		if (userOptional.isPresent() && roleOptional.isPresent()) {
@@ -96,31 +193,30 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				Role role = roleOptional.get();
 				user.setRole(role);
 				userRepository.save(user);
-				logger.info("Assign role to user in Local DB is Sucess");
+				//logger.info("Assign role to user in Local DB is Sucess");
 
 			} catch (Exception e) {
-				logger.error(
-						"Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
+				//logger.error("Error occurs while assigning role to user in Local Database. Error is : " + e.getMessage());
 				throw new RuntimeException("Role not assing to User. Please try again.");
 			}
 		}
+
 		AdminAddUserToGroupResult result = cognitoClient.addRolesToUser(groupName, userName);
 		if (result != null) {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				logger.info("Assign role to user in Cognito sucess");
+				//logger.info("Assign role to user in Cognito sucess");
 				res.setBody("Sucessfully updated role");
 				res.setStatusCode(200);
-				logger.info("assing role to user method ends");
+				//logger.info("assing role to user method ends");
 				return res;
 			} else {
 				res.setBody("Falied to updated role");
 				res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
-				logger.error("Assign role to user in Cognito Falied");
+				//logger.error("Assign role to user in Cognito Falied");
 				return res;
 			}
 		} else
 			throw new Exception("no users found with this users");
-
 	}
 
 	@Override
@@ -145,7 +241,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	public Response assignStoreToUser(List<Store> stores, String userName) throws Exception {
 		Response res = new Response();
 		try {
-			logger.info("assignStore to User method starts");
+			//logger.info("assignStore to User method starts");
 			Optional<UserDetails> dbUser = userRepository.findByUserName(userName);
 			if (dbUser.isPresent()) {
 				List<Store> assignedStores = dbUser.get().getStores();
@@ -153,7 +249,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					stores.stream().forEach(a -> {
 						Optional<Store> storeFromDb = storeRepo.findById(a.getId());
 						if (!storeFromDb.isPresent()) {
-							logger.error("Store details not found in Database");
+							//logger.error("Store details not found in Database");
 							throw new RuntimeException("Store details not found in Database");
 						}
 						assignedStores.add(storeFromDb.get());
@@ -161,23 +257,23 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					UserDetails user = dbUser.get();
 					user.setStores(assignedStores);
 					userRepository.save(user);
-					logger.info("Assign store to user in local DB--> Success");
+					//logger.info("Assign store to user in local DB--> Success");
 				}
 			} else {
-				logger.error("UserDeatils not found in local DB");
+				//logger.error("UserDeatils not found in local DB");
 				throw new RuntimeException("UserDeatils not found in local DB");
 
 			}
 			AdminUpdateUserAttributesResult result = cognitoClient.addStoreToUser(stores, userName);
 			if (null != result) {
 				if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-					logger.info("Succesfully assigned store to user in cognito");
+					//logger.info("Succesfully assigned store to user in cognito");
 					res.setBody("Sucessfully Assign stores to user role");
 					res.setStatusCode(200);
-					logger.info("AssignStore to User method Ends");
+					//logger.info("AssignStore to User method Ends");
 					return res;
 				} else {
-					logger.error("failed to assign store to user in Cognito");
+					//logger.error("failed to assign store to user in Cognito");
 					res.setBody("Falied to updated role");
 					res.setStatusCode(result.getSdkHttpMetadata().getHttpStatusCode());
 					return res;
@@ -199,7 +295,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 	 *                   Create user (Customer/employee) based on role
 	 */
 	@Override
-	public ResponseEntity<?> createUser(AdminCreatUserRequest adminCreateUserRequest,Long clientId) {
+	public ResponseEntity<?> createUser(AdminCreatUserRequest adminCreateUserRequest, Long clientId) {
 		try {
 			boolean usernameExists = userRepository.existsByUserNameAndIsCustomer(adminCreateUserRequest.getUsername(),
 					Boolean.FALSE);
@@ -222,11 +318,11 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setGender(adminCreateUserRequest.getGender());
 				user.setCreatedBy(adminCreateUserRequest.getCreatedBy());
 				user.setIsCustomer(Boolean.TRUE);
-				if(ObjectUtils.isNotEmpty(clientId)) {
+				if (ObjectUtils.isNotEmpty(clientId)) {
 					List<Long> ids = new ArrayList<>();
-					ids.add(clientId);		
+					ids.add(clientId);
 					List<ClientDetails> clientDetail = clientDetailsRepo.findByIdIn(ids);
-					if(!(CollectionUtils.isEmpty(clientDetail))) {
+					if (!(CollectionUtils.isEmpty(clientDetail))) {
 						user.setClient(clientDetail);
 					}
 				}
@@ -249,7 +345,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						&& StringUtils.isNotEmpty(adminCreateUserRequest.getClientId())) {
 					deleteClientWhileConfigUserNotCreated(adminCreateUserRequest.getClientId());
 				}
-				logger.error("missing required fields : " + missingFileds);
+				//logger.error("missing required fields : " + missingFileds);
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "missing required fields : " + missingFileds);
 			}
 
@@ -259,7 +355,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					if (null != adminCreateUserRequest.getRole().getRoleName()
 							&& null != adminCreateUserRequest.getUsername()) {
 						addRoleToUser(adminCreateUserRequest.getRole().getRoleName(),
-								adminCreateUserRequest.getUsername());
+								adminCreateUserRequest.getUsername(), adminCreateUserRequest.getCreatedBy());
 					}
 					return ResponseEntity.ok(result);
 
@@ -271,7 +367,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 							deleteClientWhileConfigUserNotCreated(adminCreateUserRequest.getClientId());
 						}
 					}
-					logger.error("admin user creation failed {}", result);
+					//logger.error("admin user creation failed {}", result);
 					throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
 							ErrorCodes.ADMIN_CREATE_USER_FAILED);
 				}
@@ -283,7 +379,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 					deleteClientWhileConfigUserNotCreated(adminCreateUserRequest.getClientId());
 				}
 			}
-			logger.error("client creation failed " + e);
+			//logger.error("client creation failed " + e);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
 					"client creation failed: " + ErrorCodes.ADMIN_CREATE_USER_FAILED);
 		}
@@ -377,8 +473,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			return userDetails.getUserAttributes().stream().filter(a -> a.getName().equals("custom:assignedStores"))
 					.findFirst().get().getValue().split(",");
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 
@@ -415,8 +511,8 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			}
 			return "sucessfully updated";
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 
@@ -486,41 +582,35 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.ASSIGNED_STORES)) {
 
 				String[] storenames = a.getValue().split(",");
-				
-				List<String> list = Arrays.asList(storenames); 
-			       
-		        List<String> l = new ArrayList<>(list);
-				
-			
- 				l.stream().forEach(storeName -> {
+
+				List<String> list = Arrays.asList(storenames);
+
+				List<String> lstores = new ArrayList<>(list);
+				lstores.stream().forEach(storeName -> {
 					String[] sName = storeName.split(":");
-					
 
 					Optional<Store> stores = storeRepo.findById(Long.parseLong(sName[1]));
 					if (stores.isPresent()) {
 						List<Store> userStores = user.getStores();
 
 						if (!CollectionUtils.isEmpty(userStores)) {
-							
-								userStores.add(stores.get());
-							
+
+							userStores.add(stores.get());
+
 							user.setStores(userStores);
 						}
 
 						else {
 							List<Store> newStores = new ArrayList<>();
-							
-								newStores.add(stores.get());
-							
+
+							newStores.add(stores.get());
 
 							user.setStores(newStores);
 						}
-					//	userRepository.save(user);
+						userRepository.save(user);
 
 					}
 				});
-				userRepository.save(user);
-
 			}
 			if (a.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
 
@@ -579,7 +669,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 						}
 						userRepository.save(user);
 					} else {
-						logger.error("No client domians found in DB");
+						//logger.error("No client domians found in DB");
 					}
 				});
 
@@ -622,17 +712,17 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				user.setGender(attribute.getValue());
 			}
 			if (attribute.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
-				
-			
-			if (attribute.getValue() != null) {
-				Optional<ClientDetails> clientDetailsOptional = clientDetailsRepo.findById(Long.parseLong(attribute.getValue()));
-				if (clientDetailsOptional.isPresent()) {
-					List<ClientDetails> clients = new ArrayList<ClientDetails>();
-					clients.add(clientDetailsOptional.get());
-					user.setClient(clients);
+				if (attribute.getValue() != null) {
+					Optional<ClientDetails> client = clientDetailsRepo.findById(Long.parseLong(attribute.getValue()));
+					if (client.isPresent()) {
+						List<ClientDetails> clients = new ArrayList<>();
+						clients.add(client.get());
+						user.setClient(clients);
+					}
+
 				}
 			}
-			}
+
 			if (attribute.getName().equalsIgnoreCase(CognitoAtributes.PHONE_NUMBER)) {
 				user.setPhoneNumber(attribute.getValue());
 			}
@@ -684,7 +774,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 			 */
 			return userRepository.save(user);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -712,13 +802,6 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				if (role.isPresent()) {
 					roleId = role.get().getId();
 				}
-				/*
-				 * userDetails.getUserAttributes().stream().forEach(attribute->{ if
-				 * (attribute.getName().equalsIgnoreCase(CognitoAtributes.CLIENT_ID)) {
-				 * newPasswordChallengeRequest.setClientId(Long.parseLong(attribute.getValue()))
-				 * ; } });
-				 */
-				
 				Long userId = saveUser(userDetails.getUserCreateDate(), userDetails.getUserLastModifiedDate(),
 						userDetails.getUserAttributes(), roleId, newPasswordChallengeRequest.getUserName(),
 						userDetails.getEnabled(), newPasswordChallengeRequest.getClientId());
@@ -730,7 +813,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				return authChallengeResponse;
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 		return null;

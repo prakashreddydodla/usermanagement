@@ -1,14 +1,28 @@
 
+
 server:
   port: 8084
   
 spring:
   application:
     name: user-management-service
-  
+  mail:
+    host: smtp.gmail.com
+    password: raywuntvtunfcthq
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          starttls:
+            enable: true
+          timeout: 5000
+          writetimeout: 5000
+    username: sudheerswamy5@gmail.com
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/UserManagement
+    url: jdbc:postgresql://localhost:5432/UserManagement1
     username: postgres
     password: Otsi@123
     
@@ -47,3 +61,4 @@ logging:
                          FilterChainProxy : debug
 springdoc:
   packagesToScan: com.otsi.retail.authservice
+  

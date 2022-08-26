@@ -35,6 +35,18 @@ public class ClientDetailsVO {
 	
 	private Boolean isTaxIncluded;
 	
+	private String planName;
+	
+	private Long planId;
+	
+	private String description;
+	
+	private String  planTenure;
+	
+	private String rayzorPayPaymentId;
+	
+	private Long amount;
+	
 	
 	
 	
