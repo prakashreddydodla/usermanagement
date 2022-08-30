@@ -39,7 +39,7 @@ public interface UserService {
 	
 List<UserDetailsVO> getCustomersForGivenIds(List<Long> userIds);
 	
-	UserDetails getMobileNumber(String mobileNumber);
+	UserDetailsVO getMobileNumber(String mobileNumber);
 
 	String deleteUser(Long id);
 

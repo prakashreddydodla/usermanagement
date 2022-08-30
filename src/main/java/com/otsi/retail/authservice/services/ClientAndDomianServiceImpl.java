@@ -573,7 +573,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			} else if ((clientMappingVo.getClientName() != null && clientMappingVo.getClientName().length() >= 3)
 					|| (clientMappingVo.getSupporterName() != null
 							&& clientMappingVo.getSupporterName().length() >= 3)) {
-				if (clientMappingVo.getClientName() != null) {
+				if (StringUtils.isNotEmpty(clientMappingVo.getClientName())) {
 
 					Page<ClientDetails> clients = clientDetailsRepository.findByName(clientMappingVo.getClientName(),
 							pageable);
