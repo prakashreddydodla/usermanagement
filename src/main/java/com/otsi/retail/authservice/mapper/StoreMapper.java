@@ -27,10 +27,22 @@ public class StoreMapper {
 
 	private StoreVO converstoreToVO(Store store) {
 		
-		StoreVO vo = new StoreVO();
-		vo.setName(store.getName());
-		vo.setId(store.getId());
-		return vo;
+		StoreVO storeVo = new StoreVO();
+		storeVo.setAddress(store.getAddress());
+		storeVo.setArea(store.getArea());
+		storeVo.setCityId(store.getCityId());
+		storeVo.setCreatedBy(store.getCreatedBy());
+		storeVo.setDistrictId(store.getDistrictId());
+		storeVo.setName(store.getName());
+		storeVo.setIsActive(store.getIsActive());
+		storeVo.setPhoneNumber(store.getPhoneNumber());
+		// storeVo.setDomainId(store.getClientDomianlId().getId());
+		storeVo.setStateCode(store.getStateCode());
+		storeVo.setCreatedDate(store.getCreatedDate());
+		storeVo.setStateId(store.getStateId());
+		storeVo.setId(store.getId());
+		// storeVo.setDomainName(store.getClientDomianlId().getDomaiName());
+		return storeVo;
 	}
 
 }

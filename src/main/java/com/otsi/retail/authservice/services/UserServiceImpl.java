@@ -655,17 +655,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDetails getMobileNumber(String mobileNumber) {
+	public UserDetailsVO getMobileNumber(String mobileNumber) {
 		String phoneNumber = "+" + mobileNumber.trim();
 
 		Optional<UserDetails> user = userRepository.findByPhoneNumber(phoneNumber);
-
 		if (user == null) {
-			// logger.error("No user found with this mobileNumber: " + mobileNumber);
 			throw new RecordNotFoundException("No user found with this userName: " + mobileNumber, 400);
 		}
-		return user.get();
+		UserDetailsVO userDetailsVo = new UserDetailsVO();
+		userDetailsVo.setId(user.get().getId());
+		userDetailsVo.setUserName(user.get().getUserName());
+		userDetailsVo.setPhoneNumber(user.get().getPhoneNumber());
+
+		return userDetailsVo;
 	}
+
 
 	@Override
 	public String deleteUser(Long id) {

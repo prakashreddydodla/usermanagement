@@ -41,6 +41,8 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private StoreRepo storeRepo;
+	
+	
 
 	@Autowired
 	private UserServiceImpl userserviceImpl;
@@ -254,9 +256,24 @@ public class StoreServiceImpl implements StoreService {
 			throw new Exception(e.getMessage());
 		}
 	}
-
+	
+	private List<StoreVO> getUserName(List<StoreVO> storeVo){
+		
+		List<Long> ids = storeVo.stream().map(s -> s.getCreatedBy()).collect(Collectors.toList());
+		List<UserDetailsVO> userDetailsList = userserviceImpl.getUserDetailsByIds(ids);
+		Map<Long, String> userDetailsMap = userDetailsList.stream()
+				.collect(Collectors.toMap(UserDetailsVO::getId, UserDetailsVO::getUserName));
+		storeVo.stream().forEach(storesVo -> {
+			if (userDetailsMap.containsKey(storesVo.getCreatedBy())) {
+				storesVo.setUserName(userDetailsMap.get(storesVo.getCreatedBy()));
+			}
+		});
+		return storeVo;
+		
+	}
+ 
 	@Override
-	public List<Store> getStoresOnFilter(GetStoresRequestVo vo, Long clientId) {
+	public List<StoreVO> getStoresOnFilter(GetStoresRequestVo vo, Long clientId) {
 		//logger.info("################  getStoresOnFilter  method starts ###########");
 
 		if (0L != vo.getDistrictId() && null != vo.getStateId() && "" != vo.getStateId() && null != vo.getStoreName()
@@ -265,8 +282,9 @@ public class StoreServiceImpl implements StoreService {
 					vo.getDistrictId(), vo.getStoreName(), clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				//logger.info("################  getStoresOnFilter  method ends ###########");
-
-				return stores;
+			List<StoreVO> storeVo=	storeMapper.convertStoresToVO(stores);
+		List<StoreVO> storesVo=	getUserName(storeVo);
+				return storesVo;
 			} else {
 				//logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
 				//logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
@@ -282,8 +300,10 @@ public class StoreServiceImpl implements StoreService {
 			if (!CollectionUtils.isEmpty(stores)) {
 				//logger.info("################  getStoresOnFilter  method ends ###########");
 
-				return stores;
-			} else {
+				List<StoreVO> storeVo=	storeMapper.convertStoresToVO(stores);
+				List<StoreVO> storesVo=	getUserName(storeVo);
+				return storesVo;		
+				} else {
 				//logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
 				//logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
 				throw new RuntimeException("Stores not found with this DistrictId  and stateId: " + vo.getDistrictId()
@@ -298,9 +318,10 @@ public class StoreServiceImpl implements StoreService {
 					clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
 				//logger.info("################  getStoresOnFilter  method ends ###########");
-
-				return stores;
-			} else {
+				List<StoreVO> storeVo=	storeMapper.convertStoresToVO(stores);
+				List<StoreVO> storesVo=	getUserName(storeVo);
+				return storesVo;			
+				} else {
 				//logger.debug("Stores not found with this DistrictId : " + vo.getDistrictId());
 				//logger.error("Stores not found with this DistrictId : " + vo.getDistrictId());
 				throw new RuntimeException("Stores not found with this StateId and storeName : " + vo.getStateId());
@@ -312,8 +333,10 @@ public class StoreServiceImpl implements StoreService {
 		if (null != vo.getStateId() && "" != vo.getStateId()) {
 			List<Store> stores = storeRepo.findByStateCodeAndClient_Id(vo.getStateId(), clientId);
 			if (!CollectionUtils.isEmpty(stores)) {
-				return stores;
-			} else {
+				List<StoreVO> storeVo=	storeMapper.convertStoresToVO(stores);
+				List<StoreVO> storesVo=	getUserName(storeVo);
+				return storesVo;			
+				} else {
 				//logger.debug("Stores not found with this StateId : " + vo.getStateId());
 				//logger.error("Stores not found with this StateId : " + vo.getStateId());
 				throw new RuntimeException("Stores not found with this StateId : " + vo.getStateId());
@@ -326,7 +349,9 @@ public class StoreServiceImpl implements StoreService {
 				//logger.info("################  getStoresOnFilter  method ends ###########");
 				List<Store> stores = new ArrayList<>();
 				stores.add(store);
-				return stores;
+				List<StoreVO> storeVo=	storeMapper.convertStoresToVO(stores);
+				List<StoreVO> storesVo=	getUserName(storeVo);
+				return storesVo;
 			} else {
 				//logger.debug("Stores not found with this CityId : " + vo.getCityId());
 				//logger.error("Stores not found with this CityId : " + vo.getCityId());
