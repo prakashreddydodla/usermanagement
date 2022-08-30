@@ -2,6 +2,8 @@ package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDate;
 
+import com.otsi.retail.authservice.Entity.PlanDetails;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,9 @@ public class ClientDetailsVO {
 	
 	private String email;
 	
+	private boolean isActive;
+
+	
 	private Long createdBy;
 	
 	private Boolean isEsSlipEnabled;
@@ -46,6 +51,8 @@ public class ClientDetailsVO {
 	private String rayzorPayPaymentId;
 	
 	private Long amount;
+	
+	private PlanDetails plandetials;
 	
 	
 	

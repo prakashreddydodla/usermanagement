@@ -652,6 +652,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					clientUsers.setUserId(userId);
 					clientUsers.setClientId(clientId);
 					clientUserRepo.save(clientUsers);
+					
 
 				});
 			});
@@ -660,4 +661,28 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		return "clientEdit successfully";
 
 	}
+
+	@Override
+	public String editClient(ClientDetailsVO clientDetailsVO) {
+		
+	Optional<ClientDetails> clients =	clientDetailsRepository.findById(clientDetailsVO.getId());
+	if(clients.isPresent()) {
+		ClientDetails client = clients.get();
+		client.setActive(clientDetailsVO.isActive());
+		client.setAddress(clientDetailsVO.getAddress());
+		client.setAmount(clientDetailsVO.getAmount());
+		client.setCreatedBy(clientDetailsVO.getCreatedBy());
+		client.setDescription(clientDetailsVO.getDescription());
+		client.setEmail(clientDetailsVO.getEmail());
+		client.setMobile(clientDetailsVO.getMobile());
+client.setName(clientDetailsVO.getName());	
+client.setOrganizationName(clientDetailsVO.getOrganizationName());
+client.setPlanDetails(clientDetailsVO.getPlandetials());
+clientDetailsRepository.save(client);
+return "clientUpdatedSuceesfully";
+
+
+	}
+	throw new RuntimeException("client details not found with this id");
+		}
 }
