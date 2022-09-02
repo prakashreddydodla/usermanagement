@@ -437,6 +437,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		Optional<UserDetails> users = userRepository.findById(userId);
 		if (users.isPresent()) {
 			vo.setSupporterName(users.get().getUserName());
+			vo.setUserId(users.get().getId());
 			vo.setCreatedBy(clientuser.getCreatedBy());
 			vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
 			List<UserAv> usersList = userAvRepo.findByUserDataId(userId);
@@ -448,6 +449,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			});
 			if (map.containsKey(clientId)) {
 				vo.setClientName(map.get(clientId));
+				vo.setClientId(clientId);
 			}
 
 		}
