@@ -34,6 +34,7 @@ public interface ClientDetailsRepo extends JpaRepository<ClientDetails, Long> {
 	@Query(value = "select * from client_details where name like %:clientName%", nativeQuery = true)
 	Page<ClientDetails> findByName(String clientName, Pageable pageable);
 	//List<ClientDetails> findAllByName(String clientName);
+	ClientDetails findByPlanDetailsId(Long id);
 
  
 

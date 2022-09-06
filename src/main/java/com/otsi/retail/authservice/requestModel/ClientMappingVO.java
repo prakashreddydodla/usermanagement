@@ -12,6 +12,8 @@ import lombok.Data;
 @Data
 public class ClientMappingVO {
 	
+	
+	
 	private Long createdBy;
 	
 	private Long modifiedBy;
@@ -23,6 +25,10 @@ public class ClientMappingVO {
 	private String clientName;
 	
 	private String supporterName;
+	
+	private Long clientId;
+	
+	private Long userId;
 	
 	private String email;
 	
