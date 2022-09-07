@@ -146,6 +146,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
 				clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
 				clientDetails.setDescription(clientDetailsVO.getDescription());
+				clientDetails.setEmail(clientDetailsVO.getEmail());
 				if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 					Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
 					if (plans.isPresent()) {
@@ -263,6 +264,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (client.isPresent()) {
 			return client.get();
 		} else {
+			
 			// logger.error("No Client found with this Id : " + clientId);
 			throw new RecordNotFoundException("No Client found with this Id : " + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
