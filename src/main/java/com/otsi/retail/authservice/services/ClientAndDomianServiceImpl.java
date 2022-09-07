@@ -440,6 +440,10 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (users.isPresent()) {
 			vo.setSupporterName(users.get().getUserName());
 			vo.setUserId(users.get().getId());
+			Optional<UserDetails> userDetails = userRepository.findById(clientuser.getCreatedBy());
+if(userDetails.isPresent()) {
+	vo.setMappingBy(userDetails.get().getUserName());
+}
 			vo.setCreatedBy(clientuser.getCreatedBy());
 			vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
 			List<UserAv> usersList = userAvRepo.findByUserDataId(userId);

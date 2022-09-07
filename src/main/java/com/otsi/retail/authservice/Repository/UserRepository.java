@@ -134,7 +134,7 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 			LocalDateTime createdDateTo, Pageable pageable);
 
 	
-
+	@Query(value = "select * from user_details where user_name like %:name%", nativeQuery = true)
 	Page<UserDetails> findByUserName(String name, Pageable pageable);
 
 	/*
