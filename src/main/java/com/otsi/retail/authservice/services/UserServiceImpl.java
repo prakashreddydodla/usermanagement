@@ -691,10 +691,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Page<UserDetailsVO> getUsersByRoleName(String roleName, UsersSearchVO userSearchVo, Pageable pageable) {
+		
 
 		try {
+			Long roleId = 0L;
+			Optional<Role> role = roleRepository.findByRoleName(roleName);
+			if(role.isPresent()) {
+			 roleId = role.get().getId();
+			}
 
-			if (StringUtils.isNotEmpty(roleName) && roleName != null) {
+			if (StringUtils.isNotEmpty(roleName) && roleName != null && userSearchVo.getSupporterName() == null
+					&& userSearchVo.getFromDate() == null && userSearchVo.getToDate() == null ) {
 				Page<UserDetails> userDetails = userRepository.findByRole_RoleName(roleName, pageable);
 				if (userDetails.hasContent()) {
 					Page<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetails);
@@ -702,14 +709,15 @@ public class UserServiceImpl implements UserService {
 				}
 
 			} else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3
-					&& userSearchVo.getFromDate() != null && userSearchVo.getToDate() != null) {
+					&& userSearchVo.getFromDate() != null && userSearchVo.getToDate() != null &&  roleName != null) {
 
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getToDate());
+				
 
-				Page<UserDetails> userDetail = userRepository.findByUserNameAndCreatedDateBetween(
-						userSearchVo.getSupporterName(), createdDatefrom, createdDateTo, pageable);
+				Page<UserDetails> userDetail = userRepository.findByUserNameAndRole_IdAndCreatedDateBetween(
+						userSearchVo.getSupporterName(),roleId, createdDatefrom, createdDateTo, pageable);
 
 				if (userDetail.hasContent()) {
 
@@ -717,29 +725,29 @@ public class UserServiceImpl implements UserService {
 					return userDetailsVO;
 				}
 
-			} else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3
+			} else if (userSearchVo.getSupporterName() != null && roleName!=null && userSearchVo.getSupporterName().length() >= 3
 					&& userSearchVo.getFromDate() != null) {
 
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getFromDate());
 
-				Page<UserDetails> userDetail = userRepository.findByUserNameAndCreatedDateBetween(
-						userSearchVo.getSupporterName(), createdDatefrom, createdDateTo, pageable);
+				Page<UserDetails> userDetail = userRepository.findByUserNameAndRole_IdAndCreatedDateBetween(
+						userSearchVo.getSupporterName(), roleId, createdDatefrom, createdDateTo, pageable);
 				if (userDetail.hasContent()) {
 
 					Page<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetail);
 					return userDetailsVO;
 				}
 
-			} else if (userSearchVo.getSupporterName() == null && userSearchVo.getToDate() != null
+			} else if (userSearchVo.getSupporterName() == null && roleName!=null && userSearchVo.getToDate() != null
 					&& userSearchVo.getFromDate() != null) {
 
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getToDate());
 
-				Page<UserDetails> userDetail = userRepository.findByCreatedDateBetween(createdDatefrom, createdDateTo,
+				Page<UserDetails> userDetail = userRepository.findByRole_RoleNameAndCreatedDateBetween(roleName,createdDatefrom, createdDateTo,
 						pageable);
 				if (userDetail.hasContent()) {
 
@@ -747,9 +755,9 @@ public class UserServiceImpl implements UserService {
 					return userDetailsVO;
 				}
 
-			} else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3) {
+			} else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3 && roleName!=null) {
 
-				Page<UserDetails> users = userRepository.findByUserName(userSearchVo.getSupporterName(), pageable);
+				Page<UserDetails> users = userRepository.findByUserNameAndRole_Id(userSearchVo.getSupporterName(),roleId, pageable);
 
 				if (users.hasContent()) {
 					return userMapper.convertUsersDetailsToVO(users);

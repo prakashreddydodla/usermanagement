@@ -313,11 +313,13 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 			clientMappingVo.getClientIds().stream().forEach(clientId -> {
 
-				List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
-				if (!CollectionUtils.isEmpty(clientsUsers)) {
-					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-							"support person already mapped to this client ");
-				}
+				/*
+				 * List<ClientUsers> clientsUsers =
+				 * clientUserRepo.findByClientId_Id(clientId.getId()); if
+				 * (!CollectionUtils.isEmpty(clientsUsers)) { throw new
+				 * ResponseStatusException(HttpStatus.BAD_REQUEST,
+				 * "support person already mapped to this client "); }
+				 */
 
 				clientMappingVo.getUserIds().stream().forEach(userId -> {
 
@@ -679,6 +681,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		client.setMobile(clientDetailsVO.getMobile());
 client.setName(clientDetailsVO.getName());	
 client.setOrganizationName(clientDetailsVO.getOrganizationName());
+client.setPlanTenure(clientDetailsVO.getPlanTenure());
 client.setPlanDetails(clientDetailsVO.getPlandetials());
 clientDetailsRepository.save(client);
 return "clientUpdatedSuceesfully";

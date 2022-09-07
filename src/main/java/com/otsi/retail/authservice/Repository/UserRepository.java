@@ -121,13 +121,26 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	Page<UserDetails> findByRole_RoleName(String roleName, Pageable pageable);
 	
-	@Query(value = "select * from user_details where user_name like %:supporterName%  and created_date >=:createdDatefrom and created_date <=:createdDateTo", nativeQuery = true)
-	Page<UserDetails> findByUserNameAndCreatedDateBetween(@Param(value = "supporterName")String supporterName,@Param(value = "createdDatefrom") LocalDateTime createdDatefrom,
+	@Query(value = "select * from user_details where user_name like %:supporterName%  and role_id = :roleId and created_date >=:createdDatefrom and created_date <=:createdDateTo", nativeQuery = true)
+	Page<UserDetails> findByUserNameAndRole_IdAndCreatedDateBetween(@Param(value = "supporterName")String supporterName,@Param(value = "roleId")Long roleId,@Param(value = "createdDatefrom") LocalDateTime createdDatefrom,
 			@Param(value = "createdDateTo")	LocalDateTime createdDateTo, Pageable pageable);
-	@Query(value = "select * from user_details where user_name like %:supporterName%", nativeQuery = true)
-	Page<UserDetails> findByUserName(@Param(value = "supporterName") String supporterName, Pageable pageable);
+	@Query(value = "select * from user_details where user_name like %:supporterName% and role_id = :roleId", nativeQuery = true)
+	Page<UserDetails> findByUserNameAndRole_Id(@Param(value = "supporterName") String supporterName,@Param(value = "roleId")Long roleId, Pageable pageable);
 	/*
 	 * List<UserDetails> findAllByUserName(String supporterName);
+	 */
+
+	Page<UserDetails> findByRole_RoleNameAndCreatedDateBetween(String roleName, LocalDateTime createdDatefrom,
+			LocalDateTime createdDateTo, Pageable pageable);
+
+	
+
+	Page<UserDetails> findByUserName(String name, Pageable pageable);
+
+	/*
+	 * Page<UserDetails> findByUserNameAndRole_RoleNameAndCreatedDateBetween(String
+	 * supporterName, String roleName, LocalDateTime createdDatefrom, LocalDateTime
+	 * createdDateTo, Pageable pageable);
 	 */
 	
 	
