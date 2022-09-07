@@ -5,7 +5,11 @@ server:
 spring:
   application:
     name: user-management-service
-  
+  rabbitmq:
+      host: ac3d69fe08f184c7782b4618a2370709-1071589526.ap-south-1.elb.amazonaws.com 
+      port: 15672
+      username: user
+      password: Q2tqbHk0dzBiSA== 
   datasource:
     platform: postgres
     url: jdbc:postgresql://usermanagement-pos:5432/UserManagement
