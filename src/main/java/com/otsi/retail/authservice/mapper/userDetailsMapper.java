@@ -50,14 +50,13 @@ public class userDetailsMapper {
 		}
 		userVO.setCreatedDate(userDetails.getCreatedDate());
 		userVO.setId(userDetails.getId());
+		userVO.setGender(userDetails.getGender());
 		List<UserAv> users = userAvRepo.findByUserDataId(userDetails.getId());
 		users.stream().forEach(user->{
 			if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
 				userVO.setEmail(user.getStringValue());
 			}
-			if (user.getName().equalsIgnoreCase(CognitoAtributes.GENDER)) {
-				userVO.setGender(user.getStringValue());
-			}
+			
 			
 			
 		});
