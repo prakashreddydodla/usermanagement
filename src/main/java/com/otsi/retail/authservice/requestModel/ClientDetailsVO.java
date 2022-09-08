@@ -52,7 +52,7 @@ public class ClientDetailsVO {
 	
 	private Long amount;
 	
-	private PlanDetails plandetials;
+	private PlanDetails plandetails;
 	
 	
 	

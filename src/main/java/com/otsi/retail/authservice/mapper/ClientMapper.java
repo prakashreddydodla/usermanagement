@@ -38,7 +38,7 @@ public class ClientMapper {
 		clientVo.setPlanName(clientDetail.getPlanDetails().getPlanName());
 		clientVo.setPlanTenure(clientDetail.getPlanTenure());
 		clientVo.setPlanId(clientDetail.getPlanDetails().getId());
-		clientVo.setPlandetials(clientDetail.getPlanDetails());
+		clientVo.setPlandetails(clientDetail.getPlanDetails());
 		}
 		return clientVo;
 	}

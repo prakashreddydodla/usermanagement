@@ -5,6 +5,20 @@ server:
 spring:
   application:
     name: user-management-service
+  mail:
+    host: smtp.gmail.com
+    password: isexqkysllszcfuj
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          starttls:
+            enable: true
+          timeout: 5000
+          writetimeout: 5000
+    username: sudheerswamy5@gmail.com
   
   datasource:
     platform: postgres

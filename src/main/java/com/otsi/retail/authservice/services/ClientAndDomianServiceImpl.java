@@ -688,7 +688,7 @@ if(userDetails.isPresent()) {
 client.setName(clientDetailsVO.getName());	
 client.setOrganizationName(clientDetailsVO.getOrganizationName());
 client.setPlanTenure(clientDetailsVO.getPlanTenure());
-client.setPlanDetails(clientDetailsVO.getPlandetials());
+client.setPlanDetails(clientDetailsVO.getPlandetails());
 clientDetailsRepository.save(client);
 return "clientUpdatedSuceesfully";
 
