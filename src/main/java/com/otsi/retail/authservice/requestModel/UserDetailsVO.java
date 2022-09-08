@@ -34,6 +34,8 @@ public class UserDetailsVO {
 	private Long modifiedBy;
 	private String email;
 	private Long empId;
+	private String address;
+	private String dob;
 	
 
 

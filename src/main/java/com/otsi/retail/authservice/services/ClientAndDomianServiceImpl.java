@@ -146,6 +146,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
 				clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
 				clientDetails.setDescription(clientDetailsVO.getDescription());
+				clientDetails.setEmail(clientDetailsVO.getEmail());
 				if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 					Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
 					if (plans.isPresent()) {
@@ -263,6 +264,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (client.isPresent()) {
 			return client.get();
 		} else {
+			
 			// logger.error("No Client found with this Id : " + clientId);
 			throw new RecordNotFoundException("No Client found with this Id : " + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -313,11 +315,13 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 			clientMappingVo.getClientIds().stream().forEach(clientId -> {
 
-				List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
-				if (!CollectionUtils.isEmpty(clientsUsers)) {
-					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-							"support person already mapped to this client ");
-				}
+				/*
+				 * List<ClientUsers> clientsUsers =
+				 * clientUserRepo.findByClientId_Id(clientId.getId()); if
+				 * (!CollectionUtils.isEmpty(clientsUsers)) { throw new
+				 * ResponseStatusException(HttpStatus.BAD_REQUEST,
+				 * "support person already mapped to this client "); }
+				 */
 
 				clientMappingVo.getUserIds().stream().forEach(userId -> {
 
@@ -438,6 +442,10 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (users.isPresent()) {
 			vo.setSupporterName(users.get().getUserName());
 			vo.setUserId(users.get().getId());
+			Optional<UserDetails> userDetails = userRepository.findById(clientuser.getCreatedBy());
+if(userDetails.isPresent()) {
+	vo.setMappingBy(userDetails.get().getUserName());
+}
 			vo.setCreatedBy(clientuser.getCreatedBy());
 			vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
 			List<UserAv> usersList = userAvRepo.findByUserDataId(userId);
@@ -679,7 +687,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		client.setMobile(clientDetailsVO.getMobile());
 client.setName(clientDetailsVO.getName());	
 client.setOrganizationName(clientDetailsVO.getOrganizationName());
-client.setPlanDetails(clientDetailsVO.getPlandetials());
+client.setPlanTenure(clientDetailsVO.getPlanTenure());
+client.setPlanDetails(clientDetailsVO.getPlandetails());
 clientDetailsRepository.save(client);
 return "clientUpdatedSuceesfully";
 

@@ -44,20 +44,26 @@ public class userDetailsMapper {
 		UserDetailsVO userVO = new UserDetailsVO();
 		
 		userVO.setUserName(userDetails.getUserName());
+		userVO.setPhoneNumber(userDetails.getPhoneNumber());
 		if(ObjectUtils.isNotEmpty(userDetails.getCreatedBy())) {
 		Optional<UserDetails> userDetail = userRepository.findById(userDetails.getCreatedBy());
 		userVO.setCreatedBy(userDetail.get().getUserName());
 		}
 		userVO.setCreatedDate(userDetails.getCreatedDate());
 		userVO.setId(userDetails.getId());
+		userVO.setGender(userDetails.getGender());
 		List<UserAv> users = userAvRepo.findByUserDataId(userDetails.getId());
 		users.stream().forEach(user->{
 			if (user.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
 				userVO.setEmail(user.getStringValue());
 			}
-			if (user.getName().equalsIgnoreCase(CognitoAtributes.GENDER)) {
-				userVO.setGender(user.getStringValue());
+			if (user.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
+				userVO.setAddress(user.getStringValue());
 			}
+			if (user.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)) {
+				userVO.setDob(user.getStringValue());
+			}
+			
 			
 			
 		});

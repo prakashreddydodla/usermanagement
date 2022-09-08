@@ -30,14 +30,16 @@ public class ClientMapper {
 		clientVo.setOrganizationName(clientDetail.getOrganizationName());
 		clientVo.setCreatedDate(clientDetail.getCreatedDate().toLocalDate());
 		clientVo.setDescription(clientDetail.getDescription());
+		clientVo.setEmail(clientDetail.getEmail());
+		clientVo.setMobile(clientDetail.getMobile());
+		clientVo.setAddress(clientDetail.getAddress());
 
 		if(clientDetail.getPlanDetails()!=null) {
 		clientVo.setPlanName(clientDetail.getPlanDetails().getPlanName());
 		clientVo.setPlanTenure(clientDetail.getPlanTenure());
 		clientVo.setPlanId(clientDetail.getPlanDetails().getId());
-		clientVo.setPlandetials(clientDetail.getPlanDetails());
+		clientVo.setPlandetails(clientDetail.getPlanDetails());
 		}
-		clientVo.setDescription(clientDetail.getDescription());
 		return clientVo;
 	}
 

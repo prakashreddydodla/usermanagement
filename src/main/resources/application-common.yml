@@ -8,7 +8,7 @@ spring:
     name: user-management-service
   mail:
     host: smtp.gmail.com
-    password: raywuntvtunfcthq
+    password: isexqkysllszcfuj
     port: 587
     properties:
       mail:

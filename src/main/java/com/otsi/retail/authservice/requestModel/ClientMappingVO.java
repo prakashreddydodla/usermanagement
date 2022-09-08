@@ -16,6 +16,8 @@ public class ClientMappingVO {
 	
 	private Long createdBy;
 	
+	private String mappingBy;
+	
 	private Long modifiedBy;
 	
 	private List<ClientDetails> clientIds;

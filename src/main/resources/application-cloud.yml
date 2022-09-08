@@ -9,7 +9,22 @@ spring:
       host: af4139fad8f7e4250b5e3f75d6776cf3-2020317091.ap-south-1.elb.amazonaws.com 
       port: 15672
       username: user
-      password: Y1qVIZ3iE4NOCugh 
+      password: Y1qVIZ3iE4NOCugh
+  mail:
+    host: smtp.gmail.com
+    password: isexqkysllszcfuj
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          starttls:
+            enable: true
+          timeout: 5000
+          writetimeout: 5000
+    username: sudheerswamy5@gmail.com
+  
   datasource:
     platform: postgres
     url: jdbc:postgresql://usermanagement-pos:5432/UserManagement
@@ -28,9 +43,9 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: http://10.100.143.45:8762/eureka/
-  instance:
-     instance-id: ${spring.application.name}:${random.int}
-     hostname: localhost
+  # instance:
+    # instance-id: ${spring.application.name}:${random.int}
+    # hostname: localhost
 
 
   
@@ -50,5 +65,8 @@ logging:
                 security:
                        web:
                          FilterChainProxy : debug
+
+
+
 springdoc:
   packagesToScan: com.otsi.retail.authservice 
