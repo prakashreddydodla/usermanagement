@@ -87,7 +87,7 @@ ingress:
   #   memory: 128Mi
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
   maxReplicas: 6
   targetCPUUtilizationPercentage: 10
