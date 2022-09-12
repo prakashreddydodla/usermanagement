@@ -160,9 +160,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setAmount(clientDetailsVO.getAmount());
 				clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
 				clientDetails = clientDetailsRepository.save(clientDetails);
-				//if (null != clientDetails.getId()) {
-			//		sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
-			//	}
+				if (null != clientDetails.getId()) {
+					sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
+				}
 				return clientDetails;
 
 			} catch (RazorpayException e) {
