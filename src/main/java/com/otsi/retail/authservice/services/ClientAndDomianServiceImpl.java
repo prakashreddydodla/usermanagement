@@ -160,9 +160,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setAmount(clientDetailsVO.getAmount());
 				clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
 				clientDetails = clientDetailsRepository.save(clientDetails);
-				if (null != clientDetails.getId()) {
+				/*if (null != clientDetails.getId()) {
 					sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
-				}
+				}*/
 				return clientDetails;
 
 			} catch (RazorpayException e) {
@@ -417,7 +417,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public List<ClientDetailsVO> getClientsForUser(Long userId) {
 		List<ClientDetails> clientDetails = new ArrayList<>();
-		List<ClientUsers> clientUsers = clientUserRepo.findByUserId_Id(userId);
+		List<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdAndStatus(userId,Boolean.TRUE);
 		clientUsers.stream().forEach(clientId -> {
 			Long clientid = clientId.getClientId().getId();
 			Optional<ClientDetails> clients = clientDetailsRepository.findById(clientid);
@@ -729,4 +729,37 @@ return "clientUpdatedSuceesfully";
 	}
 	throw new RuntimeException("client details not found with this id");
 		}
+
+	@Override
+	public String deleteClient(ClientMappingVO clientMappingVo) {
+		
+		if ((ObjectUtils.isNotEmpty(clientMappingVo))) {
+
+			clientMappingVo.getClientIds().stream().forEach(clientId -> {
+
+				
+
+				clientMappingVo.getUserIds().stream().forEach(userId -> {
+					
+					List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_IdAndUserId_Id(clientId.getId(),userId.getId());
+					if(!CollectionUtils.isEmpty(clientsUsers)) {
+						clientsUsers.stream().forEach(clientUser->{
+							
+						
+
+					
+							clientUser.setStatus(Boolean.FALSE);
+					clientUserRepo.save(clientUser);
+						});
+					}
+					
+
+				});
+			});
+
+			return "clientMapped deleted successfully";
+
+		} else
+
+			throw new RuntimeException("client not assinged to clientSupport");	}
 }

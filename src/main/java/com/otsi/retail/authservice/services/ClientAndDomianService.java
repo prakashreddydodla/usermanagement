@@ -47,4 +47,6 @@ public interface ClientAndDomianService {
 	Page<ClientMappingVO> getClientMappingSearchDetails(ClientMappingVO clientMappingVo,Pageable pageable);
 
 	String editClient(ClientDetailsVO clientDetailsVO);
+
+	String deleteClient(ClientMappingVO clientMappingVO);
 }
