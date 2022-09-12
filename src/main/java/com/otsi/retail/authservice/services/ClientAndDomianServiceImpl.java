@@ -324,6 +324,10 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				 */
 
 				clientMappingVo.getUserIds().stream().forEach(userId -> {
+					
+					List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_IdAndUserId_Id(clientId.getId(),userId.getId());
+					if(CollectionUtils.isEmpty(clientsUsers)) {
+	
 
 					ClientUsers clientUsers = new ClientUsers();
 
@@ -332,6 +336,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					clientUsers.setUserId(userId);
 					clientUsers.setClientId(clientId);
 					clientUserRepo.save(clientUsers);
+					}
 
 				});
 			});
@@ -380,6 +385,18 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
+				Page<ClientDetails> clientdetails = clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,
+						createdDateTo, pageable);
+				if (!clientdetails.hasContent()) {
+					return Page.empty();
+				}
+				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
+				return clientVo;
+
+			}else if(clientSearchVo.getFromDate() != null && clientSearchVo.getToDate() == null) {
+				LocalDateTime createdDatefrom = DateConverters
+						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
+				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
 				Page<ClientDetails> clientdetails = clientDetailsRepository.findByCreatedDateBetween(createdDatefrom,
 						createdDateTo, pageable);
 				if (!clientdetails.hasContent()) {
@@ -635,9 +652,22 @@ if(userDetails.isPresent()) {
 				Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
 				return clientMappingList;
 
-			}
+			}else if(clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() == null) {
+				
+				LocalDateTime createdDatefrom = DateConverters
+						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
+				LocalDateTime createdDateTo = DateConverters
+						.convertToLocalDateTimeMax(clientMappingVo.getFromDate());
+				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetween(createdDatefrom, createdDateTo,
+						pageable);
+				if (!clientUsers.hasContent()) {
+					return Page.empty();
+				}
+				Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
+				return clientMappingList;
 
-		} catch (Exception ex) {
+		}
+			}catch (Exception ex) {
 			throw new RuntimeException(ex.getMessage());
 
 		}
@@ -647,13 +677,15 @@ if(userDetails.isPresent()) {
 	@Override
 	public String editClientMapping(ClientMappingVO clientMappingVo) {
 		clientMappingVo.getClientIds().stream().forEach(clientId -> {
+			clientMappingVo.getUserIds().stream().forEach(userId -> {
+
 
 			List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
 			if (CollectionUtils.isEmpty(clientsUsers)) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "support person not mapped to this client ");
 			}
 
-			clientMappingVo.getUserIds().stream().forEach(userId -> {
+			/*clientMappingVo.getUserIds().stream().forEach(userId -> {*/
 
 				clientsUsers.stream().forEach(clientUsers -> {
 
@@ -667,6 +699,7 @@ if(userDetails.isPresent()) {
 				});
 			});
 		});
+	//	});
 
 		return "clientEdit successfully";
 

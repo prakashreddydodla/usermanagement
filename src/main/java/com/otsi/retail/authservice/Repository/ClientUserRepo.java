@@ -39,4 +39,6 @@ public interface ClientUserRepo extends JpaRepository<ClientUsers, Long>{
 
 	Page<ClientUsers> findByUserId_IdIn(List<Long> userIds, Pageable pageable);
 
+	List<ClientUsers> findByClientId_IdAndUserId_Id(Long id, Long id2);
+
 }

@@ -35,5 +35,7 @@ public class ClientUsers extends BaseEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private UserDetails userId;
+	
+	private Boolean status;
 
 }

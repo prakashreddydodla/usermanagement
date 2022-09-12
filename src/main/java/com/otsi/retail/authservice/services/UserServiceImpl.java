@@ -755,7 +755,21 @@ public class UserServiceImpl implements UserService {
 					return userDetailsVO;
 				}
 
-			} else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3 && roleName!=null) {
+			} else if (roleName!=null && userSearchVo.getToDate() == null && userSearchVo.getFromDate() != null) {
+
+				LocalDateTime createdDatefrom = DateConverters
+						.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
+				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getFromDate());
+
+				Page<UserDetails> userDetail = userRepository.findByRole_RoleNameAndCreatedDateBetween(roleName,createdDatefrom, createdDateTo,
+						pageable);
+				if (userDetail.hasContent()) {
+
+					Page<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetail);
+					return userDetailsVO;
+				}
+
+			}else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3 && roleName!=null) {
 
 				Page<UserDetails> users = userRepository.findByUserNameAndRole_Id(userSearchVo.getSupporterName(),roleId, pageable);
 
