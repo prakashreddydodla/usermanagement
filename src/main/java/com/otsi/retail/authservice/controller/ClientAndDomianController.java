@@ -265,6 +265,21 @@ public class ClientAndDomianController {
 
 			}
 		}
+		
+		@PostMapping(EndpointConstants.DELETE_CLIENT)
+		public GateWayResponse<?> deleteClient(@RequestBody ClientMappingVO clientMappingVO ) {
+			String res;
+			try {
+			//	logger.info("client Mapping request : ");
+				res = clientAndDomianService.deleteClient(clientMappingVO);
+
+				return new GateWayResponse<>(200, res, "", "true");
+
+			} catch (Exception e) {
+				return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+			}
+		}
 	
 	
 	
