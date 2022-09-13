@@ -71,13 +71,13 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-#resources:
-#  requests:
-#    memory: "64Mi"
-#    cpu: "250m"
-#  limits:
-#    memory: "128Mi"
-#    cpu: "500m"
+resources:
+  requests:
+    memory: "6Mi"
+    cpu: "25m"
+  limits:
+    memory: "12Mi"
+    cpu: "50m"
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -93,8 +93,8 @@ autoscaling:
   enabled: true
   minReplicas: 1
   maxReplicas: 6
-  targetCPUUtilizationPercentage: 10
-  #targetMemoryUtilizationPercentage: 1
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
