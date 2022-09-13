@@ -19,8 +19,3 @@ RUN  mv target/*.jar   target/usermanagement.jar
 
 #ENTRYPOINT ["java","-javaagent:target/newrelic/newrelic.jar", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
 ENTRYPOINT ["java", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
-
-
-
-
-
