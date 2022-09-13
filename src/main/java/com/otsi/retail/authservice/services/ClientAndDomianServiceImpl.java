@@ -439,7 +439,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public Page<ClientMappingVO> getClientMappingDetails(Pageable pageable) {
 
-		Page<ClientUsers> clientUsers = clientUserRepo.findAllByOrderByCreatedDateDesc(pageable);
+		Page<ClientUsers> clientUsers = clientUserRepo.findByStatusOrderByCreatedDateDesc(Boolean.TRUE,pageable);
 
 		return clientUsers.map(user -> clientMappingDetails(user));
 
@@ -507,8 +507,8 @@ if(userDetails.isPresent()) {
 
 					List<Long> clientIds = clients.stream().map(client -> client.getId()).collect(Collectors.toList());
 					if (clientIds != null) {
-						Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndCreatedDateBetween(
-								clientIds, createdDatefrom, createdDateTo, pageable);
+						Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndStatusAndCreatedDateBetween(
+								clientIds,Boolean.TRUE, createdDatefrom, createdDateTo, pageable);
 						if (clientUsers.hasContent()) {
 
 							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
@@ -530,7 +530,7 @@ if(userDetails.isPresent()) {
 
 					List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
 					if (userIds != null) {
-						Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndCreatedDateBetween(userIds,
+						Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndStatusAndCreatedDateBetween(userIds,Boolean.TRUE,
 								createdDatefrom, createdDateTo, pageable);
 						if (clientUsers.hasContent()) {
 
@@ -558,8 +558,8 @@ if(userDetails.isPresent()) {
 								.collect(Collectors.toList());
 						if (clientIds != null) {
 
-							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndCreatedDateBetween(
-									clientIds, createdDatefrom, createdDateTo, pageable);
+							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndStatusAndCreatedDateBetween(
+									clientIds,Boolean.TRUE, createdDatefrom, createdDateTo, pageable);
 
 							if (clientUsers.hasContent()) {
 
@@ -584,8 +584,8 @@ if(userDetails.isPresent()) {
 						List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
 						if (userIds != null) {
 
-							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndCreatedDateBetween(
-									userIds, createdDatefrom, createdDateTo, pageable);
+							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndStatusAndCreatedDateBetween(
+									userIds,Boolean.TRUE, createdDatefrom, createdDateTo, pageable);
 
 							if (clientUsers.hasContent()) {
 
@@ -610,7 +610,7 @@ if(userDetails.isPresent()) {
 								.collect(Collectors.toList());
 						if (clientIds != null) {
 
-							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdIn(clientIds, pageable);
+							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndStatus(clientIds,Boolean.TRUE, pageable);
 
 							if (clientUsers.hasContent()) {
 
@@ -628,7 +628,7 @@ if(userDetails.isPresent()) {
 						List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
 						if (userIds != null) {
 
-							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdIn(userIds, pageable);
+							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndStatus(userIds,Boolean.TRUE, pageable);
 
 							if (clientUsers.hasContent()) {
 
@@ -644,7 +644,7 @@ if(userDetails.isPresent()) {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
-				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetween(createdDatefrom, createdDateTo,
+				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetweenAndStatus(createdDatefrom, createdDateTo,Boolean.TRUE,
 						pageable);
 				if (!clientUsers.hasContent()) {
 					return Page.empty();
@@ -658,7 +658,7 @@ if(userDetails.isPresent()) {
 						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters
 						.convertToLocalDateTimeMax(clientMappingVo.getFromDate());
-				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetween(createdDatefrom, createdDateTo,
+				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetweenAndStatus(createdDatefrom, createdDateTo,Boolean.TRUE,
 						pageable);
 				if (!clientUsers.hasContent()) {
 					return Page.empty();
