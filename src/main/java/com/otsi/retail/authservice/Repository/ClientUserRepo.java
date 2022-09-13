@@ -43,4 +43,21 @@ public interface ClientUserRepo extends JpaRepository<ClientUsers, Long>{
 
 	List<ClientUsers> findByUserId_IdAndStatus(Long userId, Boolean true1);
 
+	Page<ClientUsers> findByStatusOrderByCreatedDateDesc(Boolean true1, Pageable pageable);
+
+	Page<ClientUsers> findByClientId_IdInAndStatusAndCreatedDateBetween(List<Long> clientIds, Boolean true1,
+			LocalDateTime createdDatefrom, LocalDateTime createdDateTo, Pageable pageable);
+
+	Page<ClientUsers> findByUserId_IdInAndStatusAndCreatedDateBetween(List<Long> userIds, Boolean true1,
+			LocalDateTime createdDatefrom, LocalDateTime createdDateTo, Pageable pageable);
+
+	Page<ClientUsers> findByClientId_IdInAndStatus(List<Long> clientIds, Boolean true1, Pageable pageable);
+
+	Page<ClientUsers> findByUserId_IdInAndStatus(List<Long> userIds, Boolean true1, Pageable pageable);
+
+	Page<ClientUsers> findByCreatedDateBetweenAndStatus(LocalDateTime createdDatefrom, LocalDateTime createdDateTo,
+			Boolean true1, Pageable pageable);
+
+	List<ClientUsers> findByClientId_IdAndUserId_IdAndStatus(Long id, Long id2, Boolean true1);
+
 }
