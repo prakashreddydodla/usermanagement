@@ -325,7 +325,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 				clientMappingVo.getUserIds().stream().forEach(userId -> {
 					
-					List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_IdAndUserId_Id(clientId.getId(),userId.getId());
+					List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_IdAndUserId_IdAndStatus(clientId.getId(),userId.getId(),Boolean.TRUE);
 					if(CollectionUtils.isEmpty(clientsUsers)) {
 	
 
@@ -335,6 +335,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					clientUsers.setModifiedBy(clientMappingVo.getModifiedBy());
 					clientUsers.setUserId(userId);
 					clientUsers.setClientId(clientId);
+					clientUsers.setStatus(Boolean.TRUE);
 					clientUserRepo.save(clientUsers);
 					}
 

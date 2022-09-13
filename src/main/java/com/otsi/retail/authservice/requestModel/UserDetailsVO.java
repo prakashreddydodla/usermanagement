@@ -2,9 +2,10 @@ package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import com.otsi.retail.authservice.Entity.ClientDomains;
+
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.UserAv;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,6 @@ public class UserDetailsVO {
 	private Boolean isSuperAdmin;
 	private Boolean isCustomer;
 	private Role role;
-	//private List<ClientDomains> clientDomians;
 	private List<UserAv> userAv;
 	private List<StoreVO> stores;
 	private StoreVO ownerOf;
