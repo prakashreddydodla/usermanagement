@@ -6,10 +6,10 @@ spring:
   application:
     name: user-management-service
   rabbitmq:
-      host: af4139fad8f7e4250b5e3f75d6776cf3-2020317091.ap-south-1.elb.amazonaws.com 
-      port: 15672
-      username: user
-      password: Y1qVIZ3iE4NOCugh
+       host: af4139fad8f7e4250b5e3f75d6776cf3-2020317091.ap-south-1.elb.amazonaws.com 
+       port: 5672
+       username: user
+       password: Y1qVIZ3iE4NOCugh
   mail:
     host: smtp.gmail.com
     password: isexqkysllszcfuj
