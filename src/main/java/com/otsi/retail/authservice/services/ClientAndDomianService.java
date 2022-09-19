@@ -13,6 +13,7 @@ import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
+import com.otsi.retail.authservice.requestModel.UserDetailsVO;
 import com.razorpay.RazorpayException;
 
 @Component
@@ -49,4 +50,6 @@ public interface ClientAndDomianService {
 	String editClient(ClientDetailsVO clientDetailsVO);
 
 	String deleteClient(ClientMappingVO clientMappingVO);
+
+	List<UserDetailsVO> getUsersForClient(Long clientId);
 }

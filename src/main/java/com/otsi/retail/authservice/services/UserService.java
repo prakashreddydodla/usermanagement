@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.otsi.retail.authservice.Entity.UserDetails;
+import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
@@ -44,5 +45,7 @@ List<UserDetailsVO> getCustomersForGivenIds(List<Long> userIds);
 	String deleteUser(Long id);
 
 	Page<UserDetailsVO> getUsersByRoleName(String roleName, UsersSearchVO userSerachVo, Pageable pageable);
+
+	List<ClientDetailsVO> getClentsByUserId(Long userId);
 	
 }

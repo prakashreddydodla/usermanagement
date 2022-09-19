@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.services.cognitoidp.model.ListUsersResult;
 import com.otsi.retail.authservice.Entity.UserDetails;
+import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
@@ -62,6 +63,20 @@ public class UserController {
 		} catch (Exception e) {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
+	}
+
+	@GetMapping("/getClientsByUserId")
+	public GateWayResponse<?> getClientsByUserId(@RequestParam Long userId) {
+
+		try {
+
+			List<ClientDetailsVO> result = userService.getClentsByUserId(userId);
+
+			return new GateWayResponse<>(200, result, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+
 	}
 
 	@PostMapping(EndpointConstants.GET_USER_BY_ROLENAME)

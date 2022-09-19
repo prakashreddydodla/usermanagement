@@ -34,13 +34,13 @@ public class userDetailsMapper {
 		});
 		return usersList;*/
 		
-		return usersDetails.map(user -> convertUserDetailsToVO(user));
+		return usersDetails.map(user -> convertUserDetailToVO(user));
 
 		
 		
 	}
 
-	private UserDetailsVO convertUserDetailsToVO(UserDetails userDetails) {
+	private UserDetailsVO convertUserDetailToVO(UserDetails userDetails) {
 		UserDetailsVO userVO = new UserDetailsVO();
 		
 		userVO.setUserName(userDetails.getUserName());
@@ -68,6 +68,23 @@ public class userDetailsMapper {
 			
 		});
 		return userVO;
+		
+		
+	}
+	
+	public List<UserDetailsVO> convertListUsersDetailsToVO(List<UserDetails> usersDetails) {
+		
+		  List<UserDetailsVO> usersList = new ArrayList<>();
+		  usersDetails.stream().forEach(userDetails -> {
+		  
+		  UserDetailsVO usersVo= convertUserDetailToVO(userDetails);
+		  usersList.add(usersVo); 
+		  }); 
+		  return usersList;
+		 
+		
+		//return usersDetails.map(user -> convertUserDetailsToVO(user));
+
 		
 		
 	}
