@@ -49,7 +49,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
+  type: NodePort
   port: 8084
   postgres: 
     type: NodePort
@@ -90,7 +90,7 @@ ingress:
   #   memory: 128Mi
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 6
   targetCPUUtilizationPercentage: 80
