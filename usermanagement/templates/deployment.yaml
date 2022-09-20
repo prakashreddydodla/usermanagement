@@ -41,14 +41,14 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          #livenessProbe:
-          # httpGet:
-          #    path: /
-          #    port: {{ .Values.service.nodePort }}
-          #readinessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
+          livenessProbe:
+           httpGet:
+              path: /
+              port: {{ .Values.service.nodePort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
           #volumeMounts:
           #  - name: usermanagement-data
           #    mountPath: /app/database
