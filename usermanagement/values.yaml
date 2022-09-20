@@ -49,7 +49,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
+  type: NodePort
   port: 8084
   postgres: 
     type: NodePort
