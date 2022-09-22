@@ -43,8 +43,8 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /healthz
-              port: 8084
+              path: /usermanagement
+              port: http
             initialDelaySeconds: 15
             periodSeconds: 10
           #readinessProbe:
