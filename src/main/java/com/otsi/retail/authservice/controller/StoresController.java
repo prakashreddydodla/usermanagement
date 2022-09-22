@@ -239,5 +239,15 @@ public class StoresController {
 		List<StoreVO> stores = storeService.getStores();
 		return ResponseEntity.ok(stores);
 	}
+	
+	@ApiOperation(value = EndpointConstants.GET_USER_STORESBYID, notes = "get store details using clientId")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", response = Store.class, responseContainer = "List") })
+	@GetMapping(EndpointConstants.GET_USER_STORESBYID)
+	public ResponseEntity<?> getUserStores(@RequestParam("userId") long userId,
+			@RequestParam("isActive") Boolean isActive) {
+		List<StoreVO> stores = storeService.getStoresByUser(userId, isActive);
+		return ResponseEntity.ok(stores);
+	}
 
 }

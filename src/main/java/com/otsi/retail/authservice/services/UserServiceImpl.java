@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService {
 		if ((null == userRequest.getRoleName() || "" == userRequest.getRoleName())
 				&& (null == userRequest.getStoreName() || "" == userRequest.getStoreName()) && userRequest.isActive()) {
 			users = userRepository.findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean.TRUE,
-					CognitoAtributes.CLIENT_ID, userRequest.getClientDomainId(), pageable);
+					CognitoAtributes.CLIENT_ID, userRequest.getClientId(), pageable);
 			if (users.isEmpty()) {
 				// logger.debug("No users found with this Role ID : " +
 				// userRequest.getRoleName());
@@ -188,7 +188,7 @@ public class UserServiceImpl implements UserService {
 				&& (null == userRequest.getStoreName() || "" == userRequest.getStoreName())
 				&& userRequest.isInActive()) {
 			users = userRepository.findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean.FALSE,
-					CognitoAtributes.CLIENT_ID, userRequest.getClientDomainId(), pageable);
+					CognitoAtributes.CLIENT_ID, userRequest.getClientId(), pageable);
 			if (users.isEmpty()) {
 				// logger.debug("No users found with this Role ID : " +
 				// userRequest.getRoleName());

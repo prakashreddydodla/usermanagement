@@ -19,5 +19,6 @@ public class GetUserRequestModel {
 	private String roleName;
 	private String storeName;
 	private Long clientDomainId;
+	private Long clientId;
 	
 }
