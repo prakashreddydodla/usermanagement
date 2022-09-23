@@ -43,13 +43,13 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /healthz
+              path: /.
               port: http
             initialDelaySeconds: 15
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /helathz
+              path: /.
               port: http
             initialDelaySeconds: 15
             periodSeconds: 10  
