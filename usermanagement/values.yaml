@@ -102,6 +102,9 @@ tolerations: []
 
 affinity: {}
 
+probes:
+  enabled: true
+
 persistence: 
   enabled: true
   storageClass: gp2
