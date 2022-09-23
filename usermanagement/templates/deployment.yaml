@@ -45,14 +45,14 @@ spec:
             httpGet:
               path: /.
               port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: 5
+            periodSeconds: 3
           readinessProbe:
             httpGet:
               path: /.
               port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10  
+            initialDelaySeconds: 5
+            periodSeconds: 3  
           #volumeMounts:
           #  - name: usermanagement-data
           #    mountPath: /app/database
