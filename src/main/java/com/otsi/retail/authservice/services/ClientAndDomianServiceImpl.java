@@ -47,6 +47,7 @@ import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepository;
 import com.otsi.retail.authservice.mapper.ClientMapper;
+import com.otsi.retail.authservice.mapper.userDetailsMapper;
 import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.ClientMappingVO;
@@ -90,6 +91,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private CognitoClient cognitoClient;
+	
+	@Autowired
+	private	userDetailsMapper userMapper;
 
 	@Autowired
 	private ClientUserRepo clientUserRepo;
@@ -763,4 +767,25 @@ return "clientUpdatedSuceesfully";
 		} else
 
 			throw new RuntimeException("client not assinged to clientSupport");	}
+
+	@Override
+	public List<UserDetailsVO> getUsersForClient(Long clientId) {
+		List<UserDetails> userDetails = new ArrayList<>();
+		List<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdAndStatus(clientId,Boolean.TRUE);
+		clientUsers.stream().forEach(userId -> {
+			Long userid = userId.getUserId().getId();
+			Optional<UserDetails> users = userRepository.findById(userid);
+			if (users.isPresent()) {
+				userDetails.add(users.get());
+			}
+
+		});
+
+		if (!CollectionUtils.isEmpty(userDetails)) {
+			List<UserDetailsVO> userVo = userMapper.convertListUsersDetailsToVO(userDetails);
+
+			return userVo;
+		}
+		return Collections.EMPTY_LIST;
+	}
 }

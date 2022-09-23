@@ -525,8 +525,8 @@ public class CognitoClient {
 				throw new Exception("failed");
 			}
 		} catch (GroupExistsException e) {
-			logger.error(e.getErrorMessage());
-			throw new Exception(e.getErrorMessage());
+			//logger.error(e.getErrorMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role Name Already Exist In Cognito UserPool");
 		} catch (InvalidParameterException ie) {
 			logger.error(ie.getErrorMessage());
 			throw new Exception(ie.getErrorMessage());

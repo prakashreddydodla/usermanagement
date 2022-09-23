@@ -448,5 +448,27 @@ public class StoreServiceImpl implements StoreService {
 
 		}
 	}
+	
+	@Override
+	public List<StoreVO> getStoresByUser(long userId, Boolean isActive) {
+		List<Store> stores = new ArrayList<>();
+		if (isActive == Boolean.FALSE) {
+			stores = storeRepo.findByStoreUsers_Id(userId);
+		} else {
+			stores = storeRepo.findByStoreUsers_IdAndIsActive(userId, Boolean.TRUE);
+		}
+		if (CollectionUtils.isEmpty(stores)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No stores found for client:" + userId);
+		}
+		List<StoreVO> storesVO = new ArrayList<>();
+
+		stores.stream().forEach(store -> {
+			//GstDetails gstdetails = getGstDetails(clientId, store.getStateCode());
+			StoreVO storeVo = convertToVo(store);
+			//storeVo.setGstNumber(gstdetails.getGstNumber());
+			storesVO.add(storeVo);
+		});
+		return storesVO;
+	}
 
 }

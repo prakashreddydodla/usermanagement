@@ -38,6 +38,8 @@ public class EndpointConstants {
 
 	public static final String CLIENT_SEARCH = "/clientSearch";
 	public static final String GET_CLIENTS_FOR_USER= "/getClientsForUser";
+	public static final String GET_USERS_FOR_CLIENT= "/getUsersForClient";
+
 	public static final String GET_CLIENT_MAPPING_DETAILS= "/getClientMappingDetails";
 	public static final String GET_CLIENT_MAPPING_SEARCH= "/getClientMappingsearch";
 
@@ -66,6 +68,8 @@ public class EndpointConstants {
 	public static final String GET_CLIENT_DOMIAN_STORES = "/getClientDomianStores";
 	public static final String GET_ALL_STORES = "/getAllStores";
 	public static final String GET_CLIENT_STORES = "/client/stores";
+	public static final String GET_USER_STORESBYID = "/user/stores";
+
 	public static final String ASSIGN_STORES_TO_DOMIAN = "/assignStoresToDomain";
 	public static final String GET_STORES_WITH_FILTER = "/getStoresWithFilter";
 	public static final String SAVE_STATES = "/saveStates";

@@ -26,6 +26,7 @@ import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
 import com.otsi.retail.authservice.requestModel.ReportVo;
+import com.otsi.retail.authservice.requestModel.UserDetailsVO;
 import com.otsi.retail.authservice.services.ClientAndDomianService;
 import com.otsi.retail.authservice.utils.EndpointConstants;
 import com.otsi.retail.authservice.utils.ErrorCodes;
@@ -207,6 +208,22 @@ public class ClientAndDomianController {
 
 		}
 	}
+	
+	@GetMapping(EndpointConstants.GET_USERS_FOR_CLIENT)
+	public GateWayResponse<?> getUsersForClient(@RequestParam Long clientId ) {
+		List<UserDetailsVO> res;
+		try {
+			//logger.info("client Mapping request : ");
+			res = clientAndDomianService.getUsersForClient(clientId);
+
+			return new GateWayResponse<>(200, res, "", "true");
+
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+
+		}
+	}
+	
 	@GetMapping(EndpointConstants.GET_CLIENT_MAPPING_DETAILS)
 	public GateWayResponse<?> getClientMappingDetails(Pageable pageable) {
 		Page<ClientMappingVO> res;

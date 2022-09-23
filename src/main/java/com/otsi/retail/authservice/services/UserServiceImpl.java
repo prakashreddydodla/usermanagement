@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.otsi.retail.authservice.Entity.ClientDetails;
+import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ClientUsers;
 import com.otsi.retail.authservice.Entity.Role;
 import com.otsi.retail.authservice.Entity.Store;
@@ -36,6 +37,7 @@ import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepository;
 import com.otsi.retail.authservice.mapper.userDetailsMapper;
+import com.otsi.retail.authservice.requestModel.ClientDetailsVO;
 import com.otsi.retail.authservice.requestModel.GetUserRequestModel;
 import com.otsi.retail.authservice.requestModel.StoreVO;
 //import com.otsi.retail.authservice.requestModel.PersonVo;
@@ -171,7 +173,7 @@ public class UserServiceImpl implements UserService {
 		if ((null == userRequest.getRoleName() || "" == userRequest.getRoleName())
 				&& (null == userRequest.getStoreName() || "" == userRequest.getStoreName()) && userRequest.isActive()) {
 			users = userRepository.findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean.TRUE,
-					CognitoAtributes.CLIENT_ID, userRequest.getClientDomainId(), pageable);
+					CognitoAtributes.CLIENT_ID, userRequest.getClientId(), pageable);
 			if (users.isEmpty()) {
 				// logger.debug("No users found with this Role ID : " +
 				// userRequest.getRoleName());
@@ -186,7 +188,7 @@ public class UserServiceImpl implements UserService {
 				&& (null == userRequest.getStoreName() || "" == userRequest.getStoreName())
 				&& userRequest.isInActive()) {
 			users = userRepository.findByIsActiveAndUserAv_NameAndUserAv_IntegerValue(Boolean.FALSE,
-					CognitoAtributes.CLIENT_ID, userRequest.getClientDomainId(), pageable);
+					CognitoAtributes.CLIENT_ID, userRequest.getClientId(), pageable);
 			if (users.isEmpty()) {
 				// logger.debug("No users found with this Role ID : " +
 				// userRequest.getRoleName());
@@ -670,7 +672,6 @@ public class UserServiceImpl implements UserService {
 		return userDetailsVo;
 	}
 
-
 	@Override
 	public String deleteUser(Long id) {
 		Optional<UserDetails> userDetail = userRepository.findById(id);
@@ -691,17 +692,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Page<UserDetailsVO> getUsersByRoleName(String roleName, UsersSearchVO userSearchVo, Pageable pageable) {
-		
 
 		try {
 			Long roleId = 0L;
 			Optional<Role> role = roleRepository.findByRoleName(roleName);
-			if(role.isPresent()) {
-			 roleId = role.get().getId();
+			if (role.isPresent()) {
+				roleId = role.get().getId();
 			}
 
 			if (StringUtils.isNotEmpty(roleName) && roleName != null && userSearchVo.getSupporterName() == null
-					&& userSearchVo.getFromDate() == null && userSearchVo.getToDate() == null ) {
+					&& userSearchVo.getFromDate() == null && userSearchVo.getToDate() == null) {
 				Page<UserDetails> userDetails = userRepository.findByRole_RoleName(roleName, pageable);
 				if (userDetails.hasContent()) {
 					Page<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetails);
@@ -709,15 +709,14 @@ public class UserServiceImpl implements UserService {
 				}
 
 			} else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3
-					&& userSearchVo.getFromDate() != null && userSearchVo.getToDate() != null &&  roleName != null) {
+					&& userSearchVo.getFromDate() != null && userSearchVo.getToDate() != null && roleName != null) {
 
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getToDate());
-				
 
 				Page<UserDetails> userDetail = userRepository.findByUserNameAndRole_IdAndCreatedDateBetween(
-						userSearchVo.getSupporterName(),roleId, createdDatefrom, createdDateTo, pageable);
+						userSearchVo.getSupporterName(), roleId, createdDatefrom, createdDateTo, pageable);
 
 				if (userDetail.hasContent()) {
 
@@ -725,8 +724,8 @@ public class UserServiceImpl implements UserService {
 					return userDetailsVO;
 				}
 
-			} else if (userSearchVo.getSupporterName() != null && roleName!=null && userSearchVo.getSupporterName().length() >= 3
-					&& userSearchVo.getFromDate() != null) {
+			} else if (userSearchVo.getSupporterName() != null && roleName != null
+					&& userSearchVo.getSupporterName().length() >= 3 && userSearchVo.getFromDate() != null) {
 
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
@@ -740,38 +739,40 @@ public class UserServiceImpl implements UserService {
 					return userDetailsVO;
 				}
 
-			} else if (userSearchVo.getSupporterName() == null && roleName!=null && userSearchVo.getToDate() != null
+			} else if (userSearchVo.getSupporterName() == null && roleName != null && userSearchVo.getToDate() != null
 					&& userSearchVo.getFromDate() != null) {
 
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getToDate());
 
-				Page<UserDetails> userDetail = userRepository.findByRole_RoleNameAndCreatedDateBetween(roleName,createdDatefrom, createdDateTo,
-						pageable);
+				Page<UserDetails> userDetail = userRepository.findByRole_RoleNameAndCreatedDateBetween(roleName,
+						createdDatefrom, createdDateTo, pageable);
 				if (userDetail.hasContent()) {
 
 					Page<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetail);
 					return userDetailsVO;
 				}
 
-			} else if (roleName!=null && userSearchVo.getToDate() == null && userSearchVo.getFromDate() != null) {
+			} else if (roleName != null && userSearchVo.getToDate() == null && userSearchVo.getFromDate() != null) {
 
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(userSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(userSearchVo.getFromDate());
 
-				Page<UserDetails> userDetail = userRepository.findByRole_RoleNameAndCreatedDateBetween(roleName,createdDatefrom, createdDateTo,
-						pageable);
+				Page<UserDetails> userDetail = userRepository.findByRole_RoleNameAndCreatedDateBetween(roleName,
+						createdDatefrom, createdDateTo, pageable);
 				if (userDetail.hasContent()) {
 
 					Page<UserDetailsVO> userDetailsVO = userMapper.convertUsersDetailsToVO(userDetail);
 					return userDetailsVO;
 				}
 
-			}else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3 && roleName!=null) {
+			} else if (userSearchVo.getSupporterName() != null && userSearchVo.getSupporterName().length() >= 3
+					&& roleName != null) {
 
-				Page<UserDetails> users = userRepository.findByUserNameAndRole_Id(userSearchVo.getSupporterName(),roleId, pageable);
+				Page<UserDetails> users = userRepository.findByUserNameAndRole_Id(userSearchVo.getSupporterName(),
+						roleId, pageable);
 
 				if (users.hasContent()) {
 					return userMapper.convertUsersDetailsToVO(users);
@@ -785,6 +786,44 @@ public class UserServiceImpl implements UserService {
 
 		}
 
+	}
+
+	@Override
+	public List<ClientDetailsVO> getClentsByUserId(Long userId) {
+
+		List<ClientDetailsVO> clientsVoList = new ArrayList<>();
+
+		if (0l != userId) {
+			Optional<UserDetails> userClients = userRepository.findById(userId);
+			UserDetails userDetails = userClients.get();
+			List<ClientDetails> clients = userDetails.getClient();
+			List<ClientUsers> userClientsList = clientUserRepo.findByUserId_Id(userId);
+
+			if (!CollectionUtils.isEmpty(clients)) {
+				
+				for (ClientDetails clientDetails : clients) {
+
+					ClientDetailsVO vo = new ClientDetailsVO();
+					vo.setId(clientDetails.getId());
+					clientsVoList.add(vo);
+
+				}
+
+			} else {
+				
+				userClientsList.stream().forEach(c -> {
+					ClientDetailsVO vo = new ClientDetailsVO();
+					vo.setId(c.getClientId().getId());
+					clientsVoList.add(vo);
+				});
+
+			}
+
+		} else {
+			throw new RuntimeException("User not found with this Id : " + userId);
+		}
+
+		return clientsVoList;
 	}
 
 	/*
