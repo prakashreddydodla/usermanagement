@@ -47,12 +47,12 @@ spec:
               port: http
             initialDelaySeconds: 15
             periodSeconds: 10
-          #readinessProbe:
-          #  httpGet:
-          #    path: /usermanagement
-          #    port: http
-          #  initialDelaySeconds: 15
-          #  periodSeconds: 10  
+          readinessProbe:
+            httpGet:
+              path: /helath
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10  
           #volumeMounts:
           #  - name: usermanagement-data
           #    mountPath: /app/database
