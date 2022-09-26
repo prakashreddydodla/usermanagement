@@ -2,7 +2,7 @@
 FROM openjdk:8
 COPY  target/*  target/
 RUN  mv target/*.jar   target/usermanagement.jar
-
+EXPOSE 8084
 #RUN apt install curl unzip -y 
 #RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip
 #RUN unzip newrelic-java.zip  
