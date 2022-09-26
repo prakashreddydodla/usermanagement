@@ -103,7 +103,7 @@ tolerations: []
 affinity: {}
 
 probes:
-  enabled: true
+  enabled: false
 
 persistence: 
   enabled: true
