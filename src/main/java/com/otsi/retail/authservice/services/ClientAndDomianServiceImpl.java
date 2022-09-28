@@ -8,17 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import com.razorpay.Payment;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
 
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -53,17 +49,22 @@ import com.otsi.retail.authservice.requestModel.ClientDomianVo;
 import com.otsi.retail.authservice.requestModel.ClientMappingVO;
 import com.otsi.retail.authservice.requestModel.ClientSearchVO;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
-import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 import com.otsi.retail.authservice.utils.Config;
 import com.otsi.retail.authservice.utils.DateConverters;
+import com.razorpay.Payment;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 
 @Service
 public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private ChannelRepo clientChannelRepository;
+	
+	@Value("${spring.mail.username}")
+	private String from;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -164,9 +165,11 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setAmount(clientDetailsVO.getAmount());
 				clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
 				clientDetails = clientDetailsRepository.save(clientDetails);
-				/*if (null != clientDetails.getId()) {
-					sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
-				}*/
+				
+				  if (null != clientDetails.getId()) { 
+					  sendEmail(clientDetailsVO.getEmail(),TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT); 
+					  }
+				 
 				return clientDetails;
 
 			} catch (RazorpayException e) {
@@ -187,6 +190,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		message.setTo(toEmail);
 		message.setText(body);
 		message.setSubject(subject);
+		message.setFrom(from);
 		mailSender.send(message);
 		// logger.info("mail sent sucessfully");
 	}
