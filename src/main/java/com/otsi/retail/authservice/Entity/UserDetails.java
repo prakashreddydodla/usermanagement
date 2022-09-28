@@ -9,12 +9,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,6 +25,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "user_details", indexes = { @Index(name = "phonenumber_index", columnList = "phone_number") })
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +37,7 @@ public class UserDetails extends BaseEntity {
 	
 	private String userName;
 	
-	@Column(unique = true)
+	@Column(name = "phone_number",unique = true)
 	private String phoneNumber;
 	
 	private String gender;
