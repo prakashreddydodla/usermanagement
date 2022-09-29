@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -345,9 +346,42 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					clientUsers.setClientId(clientId);
 					clientUsers.setStatus(Boolean.TRUE);
 					clientUserRepo.save(clientUsers);
+					
+					
 					}
+					
 
 				});
+				
+				Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(clientId.getId());
+				ClientDetails client = clientDetails.get();
+				client.setPlanActivationDate(LocalDateTime.now());
+				
+				 switch(client.getPlanTenure()){    
+				   
+				    
+				    case "OneMonth": 
+				    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(1));
+
+				    break;
+				    case "ThreeMonths": 
+				    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(3));
+
+					    break;    
+				    case "sixMonths": 
+				    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(6));
+
+				    break; 
+				    case "OneYear": 
+				    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(12));
+
+				    	
+				    break; 
+				    default:
+				    	
+				    }   
+				 clientDetailsRepository.save(client);
+				
 			});
 
 			return "clientMapped successfully";

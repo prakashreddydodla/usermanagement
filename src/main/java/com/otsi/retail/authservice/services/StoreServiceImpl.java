@@ -470,5 +470,15 @@ public class StoreServiceImpl implements StoreService {
 		});
 		return storesVO;
 	}
+	
+	@Override
+	public Store getStore(Long storeId) {
+		Optional<Store> storeOptional = storeRepo.findById(storeId);
+		if (storeOptional.isPresent()) {
+			return storeOptional.get();
+		} else
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "store was not found with id:" + storeId);
+
+	} 
 
 }

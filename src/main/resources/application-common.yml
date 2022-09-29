@@ -7,19 +7,19 @@ spring:
   application:
     name: user-management-service
   mail:
-    host: webmail.otsi-usa.com
-    password: Otsi&23456
-    port: 25
+    host: smtp.gmail.com
+    password: isexqkysllszcfuj
+    port: 587
     properties:
       mail:
         smtp:
           auth: true
-          connectiontimeout: 20000
+          connectiontimeout: 5000
           starttls:
             enable: true
-          timeout: 20000
-          writetimeout: 20000
-    username: easyretailworld@otsi.com
+          timeout: 5000
+          writetimeout: 5000
+    username: sudheerswamy5@gmail.com
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/UserManagement1
@@ -64,4 +64,6 @@ logging:
 
 springdoc:
   packagesToScan: com.otsi.retail.authservice
+  
+getclaimsfromtoken_url: http://localhost:9097/gateway/jwtclaimsset
   

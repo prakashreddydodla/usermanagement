@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,12 +12,17 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -69,9 +75,15 @@ import com.amazonaws.services.cognitoidp.model.UpdateGroupRequest;
 import com.amazonaws.services.cognitoidp.model.UpdateGroupResult;
 import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.nimbusds.jwt.JWTClaimsSet;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
+import com.otsi.retail.authservice.gatewayresponse.GateWayResponse;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
@@ -79,11 +91,19 @@ import com.otsi.retail.authservice.requestModel.StoreVO;
 import com.otsi.retail.authservice.requestModel.UpdateUserAttribute;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
+import com.otsi.retail.authservice.utils.Config;
+
 
 @Component
 public class CognitoClient {
 
 	private final AWSCognitoIdentityProvider client;
+	
+	@Autowired
+	private Config config;
+	
+	RestTemplate restTemplate = new RestTemplate();
+
 	//private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 	private String ACCESS_KEY;
@@ -446,7 +466,22 @@ public class CognitoClient {
 					.withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH).withUserPoolId(USERPOOL_ID).withClientId(CLIENT_ID)
 					.withAuthParameters(authParams);
 			AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
-			return authResult;
+			/*String idToken = authResult.getAuthenticationResult().getIdToken();
+		JWTClaimsSet claims =	getClaimsfromToken(idToken);
+		
+		
+		Long clientId = (Long) claims.getClaim("custom:clientId1");
+		
+		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(clientId);
+
+		ClientDetails client =	clientDetails.get();
+	int number=	client.getPlanExpiryDate().compareTo(LocalDateTime.now());
+	if(number>0) {
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "plan was expired please go to renewal");
+	}
+*/
+		return authResult;
+		
 		} catch (InvalidParameterException e) {
 			//logger.error(e.getErrorMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getErrorMessage());
@@ -460,6 +495,42 @@ public class CognitoClient {
 		}
 
 	}
+	///////////////
+	private JWTClaimsSet getClaimsfromToken(@RequestParam String token) {
+
+		
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity entity = new HttpEntity(headers);
+		
+		ResponseEntity<JWTClaimsSet> res = restTemplate.exchange(config.getToken()+ "?token=" + token, HttpMethod.GET, entity,
+				JWTClaimsSet.class);
+
+		
+
+	/*	ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
+				.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+		GateWayResponse<?> gatewayResponse = mapper.convertValue(res.getBody(),
+				GateWayResponse.class);
+
+		JWTClaimsSet claims = mapper.convertValue(gatewayResponse.getResult(),
+				new TypeReference<JWTClaimsSet>() {
+				});
+*/
+		return res.getBody();
+
+	}
+	
+///////////
+	
+	
+	
+	
+	
+	
+	
 
 	// When admin create the user. Then user will create with temporary password.
 	// So that user sholud set the new password by using thi api

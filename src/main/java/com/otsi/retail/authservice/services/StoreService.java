@@ -37,4 +37,6 @@ public interface StoreService {
 
 	List<StoreVO> getStoresByUser(long userId, Boolean isActive);
 
+	Store getStore(Long id);
+
 }

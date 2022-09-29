@@ -57,3 +57,6 @@ logging:
                          FilterChainProxy : debug
 springdoc:
   packagesToScan: com.otsi.retail.authservice
+  
+getclaimsfromtoken_url: http://localhost:9097/gateway/jwtclaimsset
+

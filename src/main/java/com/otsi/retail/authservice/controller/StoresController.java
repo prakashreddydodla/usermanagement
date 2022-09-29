@@ -54,6 +54,13 @@ public class StoresController {
 		return ResponseEntity.ok(store);
 
 	}
+	
+	@GetMapping(EndpointConstants.GET_STORE)
+	public GateWayResponse<?> getStore(@RequestParam("id") Long id) {
+		Store store = storeService.getStore(id);
+		return new GateWayResponse<>(200, store, "", "true");
+
+	} 
 
 //
 	@ApiOperation(value = EndpointConstants.UPDATE_STORE, notes = "update store record")

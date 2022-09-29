@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.Entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -60,6 +61,10 @@ public class ClientDetails extends BaseEntity implements Serializable {
 	private Long amount;
 
 	private Boolean isTaxIncluded;
+	
+	private LocalDateTime planActivationDate;
+	
+	private LocalDateTime planExpiryDate;
 	
 	@OneToMany(mappedBy = "clientId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ClientUsers> clients;
