@@ -3,9 +3,9 @@ server:
   port: 8084
   
 spring:
- application:
+  application:
     name: user-management-service
- rabbitmq:
+  rabbitmq:
        host: af4139fad8f7e4250b5e3f75d6776cf3-2020317091.ap-south-1.elb.amazonaws.com 
        port: 5672
        username: user
