@@ -7,9 +7,9 @@ spring:
   application:
     name: user-management-service
   mail:
-    host: smtp.gmail.com
-    password: isexqkysllszcfuj
-    port: 587
+    host: webmail.otsi-usa.com
+    password: Otsi&23456
+    port: 25
     properties:
       mail:
         smtp:
@@ -19,12 +19,12 @@ spring:
             enable: true
           timeout: 5000
           writetimeout: 5000
-    username: sudheerswamy5@gmail.com
+    username: easyretailworld@otsi.com
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/UserManagement1
+    url: jdbc:postgresql://localhost:5432/UserManagement
     username: postgres
-    password: Otsi@123
+    password: Otsi@1234
     
   jpa:
    hibernate:

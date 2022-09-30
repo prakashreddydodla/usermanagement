@@ -3348,6 +3348,64 @@ INSERT INTO public.user_details
 (id, created_by, created_date, last_modified_date, modified_by, gender, is_active, is_customer, is_super_admin, phone_number, user_name, role_id)
 VALUES(58, 0, '2022-07-14 17:14:57.881', '2022-07-14 17:14:57.881', NULL, NULL, true, false, false, '+918328155775', 'Captain', 57);
 
+--------------- role_parentPrivileges-----------
+INSERT INTO public.role_parent_privilages VALUES (249, 600);
+
+INSERT INTO public.role_parent_privilages VALUES (249, 659);
+
+INSERT INTO public.role_parent_privilages VALUES (266, 500);
+
+INSERT INTO public.role_parent_privilages VALUES (57, 600);
+
+
+--------------------role_subPrivilege-------------
+
+INSERT INTO public.role_sub_privilages VALUES (249, 604);
+
+INSERT INTO public.role_sub_privilages VALUES (249, 609);
+
+INSERT INTO public.role_sub_privilages VALUES (249, 614);
+
+INSERT INTO public.role_sub_privilages VALUES (57, 778);
+
+INSERT INTO public.role_sub_privilages VALUES (57, 779);
+
+INSERT INTO public.role_sub_privilages VALUES (57, 780);
+
+INSERT INTO public.role_sub_privilages VALUES (266, 781);
+
+INSERT INTO public.role_sub_privilages VALUES (266, 782);
+
+INSERT INTO public.role_sub_privilages VALUES (266, 783);
+
+------------------role_childPrivileges----------------
+
+INSERT INTO public.role_child_privilages VALUES (249, 605);
+
+INSERT INTO public.role_child_privilages VALUES (249, 606);
+
+INSERT INTO public.role_child_privilages VALUES (249, 607);
+
+INSERT INTO public.role_child_privilages VALUES (249, 608);
+
+INSERT INTO public.role_child_privilages VALUES (249, 610);
+
+INSERT INTO public.role_child_privilages VALUES (249, 611);
+
+INSERT INTO public.role_child_privilages VALUES (249, 612);
+
+INSERT INTO public.role_child_privilages VALUES (249, 613);
+
+INSERT INTO public.role_child_privilages VALUES (249, 615);
+
+INSERT INTO public.role_child_privilages VALUES (249, 616);
+
+INSERT INTO public.role_child_privilages VALUES (249, 617);
+
+INSERT INTO public.role_child_privilages VALUES (249, 618);
+
+
+
 
 
 
