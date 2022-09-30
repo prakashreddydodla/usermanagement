@@ -75,9 +75,10 @@ public class RoleMapper {
 			subPrivilegeVO.setDescription(privilege.getDescription());
 			subPrivilegeVO.setChildPath(privilege.getChildPath());
 			subPrivilegeVO.setChildImage(privilege.getChildImage());
-			// subPrivilegeVO.setParentPrivilegeId(privilege);
 			subPrivilegeVO.setChildPrivileges(childPrivillages);
 			subPrivilegeVO.setPrevilegeType(privilege.getPrevilegeType());
+			// subPrivilegeVO.setParentPrivilegeId(subPrivilegeVO);
+
 
 			subPrivileges.add(subPrivilegeVO);
 		});
@@ -217,7 +218,7 @@ public class RoleMapper {
 				.collect(Collectors.toList());
 
 		List<ParentPrivilege> parentPrivilegesList = role.getParentPrivileges();
-		List<SubPrivilege> subPrivileges = role.getSubPrivileges();
+	//	List<SubPrivilege> subPrivileges = role.getParentPrivileges().
 		/*
 		 * List<Long> parentPrivilegeIds =
 		 * parentPrivilegesList.stream().map(parentPrivilege -> parentPrivilege.getId())
@@ -243,9 +244,7 @@ public class RoleMapper {
 			parentPrivilegeVO.setPath(parentPrivilege.getPath());
 			parentPrivilegeVO.setParentImage(parentPrivilege.getParentImage());
 			parentPrivilegeVO.setPrevilegeType(parentPrivilege.getPrevilegeType());
-			List<SubPrivilege> filteredSubPrivileges = subPrivileges.stream()
-					.filter(subPrivil -> subPrivil.getParentPrivilegeId().equals(parentPrivilege.getId()))
-					.collect(Collectors.toList());
+			List<SubPrivilege> filteredSubPrivileges = parentPrivilege.getSubPrivileges();
 
 			filteredSubPrivileges.stream().forEach(sub -> {
 				List<ChildPrivilege> masterchildPrivilege = childPrivilegeRepo.findBySubPrivillageId(sub.getId());
@@ -285,7 +284,9 @@ public class RoleMapper {
 		subPrivilegeVO.setDescription(subprivilege.getDescription());
 		subPrivilegeVO.setChildPath(subprivilege.getChildPath());
 		subPrivilegeVO.setChildImage(subprivilege.getChildImage());
-		// subPrivilegeVO.setParentPrivilegeId(subprivilege.getParentPrivilegeId());
+		if(subprivilege.getParentPrivilegeId() != null) {
+		 subPrivilegeVO.setParentPrivilegeId(subprivilege.getParentPrivilegeId().getId());
+		}
 		subPrivilegeVO.setPrevilegeType(subprivilege.getPrevilegeType());
 		return subPrivilegeVO;
 	}

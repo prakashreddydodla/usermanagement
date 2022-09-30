@@ -1,5 +1,9 @@
 
 ------------------------- parent parent_privilege----------------------
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+
+VALUES(650, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Captain portal', 'icon-notes fs-30 i_icon', '/urmDashboard', NULL, 'Web', true, true);
 
 INSERT INTO public.parent_privilege
 (id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
@@ -275,16 +279,16 @@ INSERT INTO public.sub_privilege
 VALUES(650, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 644, 'Web', NULL);
 INSERT INTO public.sub_privilege
 (id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(777, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/adminDetails', 'Operation related to users', NULL, 'Admin Details', 600, 'Web', 'captain');
+VALUES(777, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/adminDetails', 'Operation related to users', NULL, 'Admin Details', 650, 'Web', 'captain');
 INSERT INTO public.sub_privilege
 (id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(778, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientDetails', 'Operation related to users', NULL, 'Client Details', 600, 'Web', 'captain');
+VALUES(778, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientDetails', 'Operation related to users', NULL, 'Client Details', 650, 'Web', 'captain');
 INSERT INTO public.sub_privilege
 (id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(779, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientSupportDetails', 'Operation related to users', NULL, 'Client Support Details', 600, 'Web', 'captain');
+VALUES(779, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientSupportDetails', 'Operation related to users', NULL, 'Client Support Details', 650, 'Web', 'captain');
 INSERT INTO public.sub_privilege
 (id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(780, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientMapping', 'Operation related to users', NULL, 'Client Mapping', 600, 'Web', 'captain');
+VALUES(780, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientMapping', 'Operation related to users', NULL, 'Client Mapping', 650, 'Web', 'captain');
 INSERT INTO public.sub_privilege
 (id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
 VALUES(804, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 793, 'Mobile', NULL);
@@ -420,15 +424,7 @@ VALUES(825, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'i
 INSERT INTO public.sub_privilege
 (id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
 VALUES(826, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 798, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(827, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 799, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(828, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 800, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(829, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 801, 'Mobile', NULL);
+
 INSERT INTO public.sub_privilege
 (id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
 VALUES(830, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/goodstransfer', 'Operation related to Barcodes', NULL, 'Goods Transfer', 711, 'Mobile', NULL);

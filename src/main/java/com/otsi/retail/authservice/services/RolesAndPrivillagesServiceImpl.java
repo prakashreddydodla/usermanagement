@@ -211,7 +211,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setDescription(p.getDescription());
 				parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
-				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
+				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdId(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
 					parentPrivillagesVo.setSubPrivilege(subPrivillages);
 				}
@@ -241,7 +241,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 				parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
-				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(p.getId());
+				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdId(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
 					parentPrivillagesVo.setSubPrivilege(subPrivillages);
 				}
@@ -270,7 +270,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	@Override
 	public List<SubPrivilege> getSubPrivillages(long parentId) throws Exception {
 		if (0L != parentId) {
-			List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeId(parentId);
+			List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdId(parentId);
 			if (!CollectionUtils.isEmpty(subPrivillages)) {
 
 				return subPrivillages;
@@ -729,8 +729,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivilegeVO.setCreatedDate(p.getCreatedDate());
 				parentPrivilegeVO.setPrevilegeType(p.getPrevilegeType());
 				String[] roleName = { "Captain" };
-				List<SubPrivilege> subPrivileges = subPrivillageRepo.findByParentPrivilegeIdAndRoleName(p.getId(),
-						null);
+				List<SubPrivilege> subPrivileges = subPrivillageRepo.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
 
 				if (!CollectionUtils.isEmpty(subPrivileges)) {
 
@@ -772,8 +771,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
 				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
 				String[] roleName = { "Captain" };
-				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdAndRoleName(p.getId(),
-						null);
+				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
 					List<SubPrivilegeVO> subPrivilegeList = converListEntityToVo(subPrivillages);
 
@@ -821,7 +819,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 			privilageRepository.deleteById(parentId.get().getId());
 
-			List<SubPrivilege> parentPrivillageIds = subPrivillageRepo.findByParentPrivilegeId(parentId.get().getId());
+			List<SubPrivilege> parentPrivillageIds = subPrivillageRepo.findByParentPrivilegeIdId(parentId.get().getId());
 
 			parentPrivillageIds.stream().forEach(p -> {
 
