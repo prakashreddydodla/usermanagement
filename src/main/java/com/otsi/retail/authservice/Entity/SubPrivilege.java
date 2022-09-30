@@ -10,7 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.otsi.retail.authservice.utils.PrevilegeType;
@@ -40,7 +42,12 @@ public class SubPrivilege extends BaseEntity {
 	
 	private Long domain;
 	
-	private Long parentPrivilegeId;
+	@ManyToOne
+	@JoinColumn(name = "parentPrivilegeId")
+	private ParentPrivilege parentPrivilegeId;
+	
+	
+	//private Long parentPrivilegeId;
 	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "subPrivileges")

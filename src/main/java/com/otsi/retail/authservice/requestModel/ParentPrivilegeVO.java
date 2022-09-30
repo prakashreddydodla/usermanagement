@@ -30,6 +30,8 @@ public class ParentPrivilegeVO {
 	
 	private Long createdBy;
 	
+	private Boolean isEnabeld;
+	
 	private List<SubPrivilege> subPrivilege;
 	
 	private List<ChildPrivilege> childPrivillages;

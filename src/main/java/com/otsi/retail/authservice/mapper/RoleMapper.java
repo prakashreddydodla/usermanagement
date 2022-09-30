@@ -18,6 +18,7 @@ import com.otsi.retail.authservice.Repository.SubPrivillageRepo;
 import com.otsi.retail.authservice.Repository.UserRepository;
 import com.otsi.retail.authservice.requestModel.ClientDomainVo;
 import com.otsi.retail.authservice.requestModel.MasterDomianVo;
+import com.otsi.retail.authservice.requestModel.ParentPrivilegeVO;
 import com.otsi.retail.authservice.requestModel.ParentPrivilegesVO;
 import com.otsi.retail.authservice.requestModel.RoleVO;
 import com.otsi.retail.authservice.requestModel.SubPrivilegeVO;
@@ -26,13 +27,13 @@ import com.otsi.retail.authservice.requestModel.SubPrivilegeVO;
 public class RoleMapper {
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private PrivilageRepo privilageRepository;
-	
+
 	@Autowired
 	private SubPrivillageRepo subPrivillageRepo;
-	
+
 	@Autowired
 	private ChildPrivilegeRepo childPrivilegeRepo;
 
@@ -51,7 +52,6 @@ public class RoleMapper {
 		roleVO.setUsersCount(userRepo.countByRoleId(role.getId()));
 
 		List<ParentPrivilegesVO> parentPrivileges = new ArrayList<>();
-
 
 		role.getParentPrivileges().stream().forEach(privilege -> {
 			ParentPrivilegesVO parentPrivilegeVO = new ParentPrivilegesVO();
@@ -75,7 +75,7 @@ public class RoleMapper {
 			subPrivilegeVO.setDescription(privilege.getDescription());
 			subPrivilegeVO.setChildPath(privilege.getChildPath());
 			subPrivilegeVO.setChildImage(privilege.getChildImage());
-			subPrivilegeVO.setParentPrivilegeId(privilege.getParentPrivilegeId());
+			// subPrivilegeVO.setParentPrivilegeId(privilege);
 			subPrivilegeVO.setChildPrivileges(childPrivillages);
 			subPrivilegeVO.setPrevilegeType(privilege.getPrevilegeType());
 
@@ -97,19 +97,19 @@ public class RoleMapper {
 			cdVo.setActive(role.getClientDomian().isActive());
 		}
 		List<MasterDomianVo> mdVo = new ArrayList<>();
-		if(role.getClientDomian() != null) {
-		role.getClientDomian().getDomain().stream().forEach(m -> {
-			MasterDomianVo mVo = new MasterDomianVo();
-			mVo.setDomainName(m.getChannelName());
-			mVo.setCreatedBy(m.getCreatedBy());
-			mVo.setCreatedDate(m.getCreatedDate());
-			mVo.setDiscription(m.getDiscription());
-			mVo.setId(m.getId());
-			mVo.setLastModifyedDate(m.getLastModifiedDate());
-			mVo.setStatus(m.isStatus());
-			mdVo.add(mVo);
+		if (role.getClientDomian() != null) {
+			role.getClientDomian().getDomain().stream().forEach(m -> {
+				MasterDomianVo mVo = new MasterDomianVo();
+				mVo.setDomainName(m.getChannelName());
+				mVo.setCreatedBy(m.getCreatedBy());
+				mVo.setCreatedDate(m.getCreatedDate());
+				mVo.setDiscription(m.getDiscription());
+				mVo.setId(m.getId());
+				mVo.setLastModifyedDate(m.getLastModifiedDate());
+				mVo.setStatus(m.isStatus());
+				mdVo.add(mVo);
 
-		});
+			});
 		}
 		cdVo.setDomainMasterVo(mdVo);
 		roleVO.setClientDomain(cdVo);
@@ -117,6 +117,7 @@ public class RoleMapper {
 		return roleVO;
 
 	}
+
 	public RoleVO convertRoleEntityToRoleVo(Role role) {
 
 		RoleVO roleVO = new RoleVO();
@@ -129,12 +130,11 @@ public class RoleMapper {
 		roleVO.setLastModifyedDate(role.getLastModifiedDate());
 		roleVO.setCreatedBy(role.getCreatedBy());
 		roleVO.setActive(role.isActive());
-		//roleVO.setUsersCount(userRepo.countByRoleId(role.getId()));
+		// roleVO.setUsersCount(userRepo.countByRoleId(role.getId()));
 
 		List<ParentPrivilegesVO> parentPrivileges = new ArrayList<>();
-		
-		List<SubPrivilege> subPrivilege = new ArrayList<>();
 
+		List<SubPrivilege> subPrivilege = new ArrayList<>();
 
 		/*
 		 * role.getParentPrivileges().stream().forEach(privilege -> { ParentPrivilegesVO
@@ -211,9 +211,10 @@ public class RoleMapper {
 		 * }); } if(role.getClient()!=null) { roleVO.setClient(role.getClient()); }
 		 * cdVo.setDomainMasterVo(mdVo); roleVO.setClientDomain(cdVo);
 		 */
-		  List<ChildPrivilege> masterchildPrivileges = childPrivilegeRepo.findAll();
-		  
-		  List<Long> masterPrivilegeIds = masterchildPrivileges.stream().map(parentPrivilege -> parentPrivilege.getId()).collect(Collectors.toList());
+		List<ChildPrivilege> masterchildPrivileges = childPrivilegeRepo.findAll();
+
+		List<Long> masterPrivilegeIds = masterchildPrivileges.stream().map(parentPrivilege -> parentPrivilege.getId())
+				.collect(Collectors.toList());
 
 		List<ParentPrivilege> parentPrivilegesList = role.getParentPrivileges();
 		List<SubPrivilege> subPrivileges = role.getSubPrivileges();
@@ -226,12 +227,12 @@ public class RoleMapper {
 		 * parentPrivilege.getId()) .collect(Collectors.toList());
 		 */
 
-		//subPrivileges = subPrivileges.stream()
-			//	.filter(subPrivil -> parentPrivilegeIds.contains(subPrivil.getParentPrivilegeId()))
-				//.collect(Collectors.toList());
+		// subPrivileges = subPrivileges.stream()
+		// .filter(subPrivil ->
+		// parentPrivilegeIds.contains(subPrivil.getParentPrivilegeId()))
+		// .collect(Collectors.toList());
 
 		List<ChildPrivilege> chilePrivilegesList = role.getChildPrivilages();
-		
 
 		parentPrivilegesList.forEach(parentPrivilege -> {
 			List<SubPrivilegeVO> subPrivilegesVOList = new ArrayList<SubPrivilegeVO>();
@@ -248,25 +249,20 @@ public class RoleMapper {
 
 			filteredSubPrivileges.stream().forEach(sub -> {
 				List<ChildPrivilege> masterchildPrivilege = childPrivilegeRepo.findBySubPrivillageId(sub.getId());
-				
-				
 
 				List<ChildPrivilege> childPrivilegesData = chilePrivilegesList.stream()
 						.filter(childId -> childId.getSubPrivillageId().equals(sub.getId()))
 						.collect(Collectors.toList());
-				masterchildPrivilege.stream().forEach(masterChild->{
-					childPrivilegesData.stream().forEach(childprivilege->{
-						
-						if(masterChild.getId().equals(childprivilege.getId())) {
+				masterchildPrivilege.stream().forEach(masterChild -> {
+					childPrivilegesData.stream().forEach(childprivilege -> {
+
+						if (masterChild.getId().equals(childprivilege.getId())) {
 							masterChild.setIsEnabeld(Boolean.TRUE);
 						}
-						
+
 					});
-					
-					
+
 				});
-				
-				
 
 				SubPrivilegeVO subPrivilegeVO = entityToSubVo(sub);
 				subPrivilegeVO.setChildPrivileges(masterchildPrivilege);
@@ -280,18 +276,46 @@ public class RoleMapper {
 		return roleVO;
 
 	}
-	
-private SubPrivilegeVO entityToSubVo(SubPrivilege subprivilege) {
-		
+
+	private SubPrivilegeVO entityToSubVo(SubPrivilege subprivilege) {
+
 		SubPrivilegeVO subPrivilegeVO = new SubPrivilegeVO();
 		subPrivilegeVO.setId(subprivilege.getId());
 		subPrivilegeVO.setName(subprivilege.getName());
 		subPrivilegeVO.setDescription(subprivilege.getDescription());
 		subPrivilegeVO.setChildPath(subprivilege.getChildPath());
 		subPrivilegeVO.setChildImage(subprivilege.getChildImage());
-		subPrivilegeVO.setParentPrivilegeId(subprivilege.getParentPrivilegeId());
+		// subPrivilegeVO.setParentPrivilegeId(subprivilege.getParentPrivilegeId());
 		subPrivilegeVO.setPrevilegeType(subprivilege.getPrevilegeType());
 		return subPrivilegeVO;
+	}
+
+	public List<ParentPrivilegeVO> convertParentPrevilegesEntityToVo(List<ParentPrivilege> parentPrivileges) {
+
+		List<ParentPrivilegeVO> parentPrivilegeVOsList = new ArrayList<>();
+		parentPrivileges.stream().forEach(p -> {
+
+			ParentPrivilegeVO parentPrivilegeVO = new ParentPrivilegeVO();
+			parentPrivilegeVO.setName(p.getName());
+			parentPrivilegeVO.setIsEnabeld(p.getIsActive());
+			List<SubPrivilege> subPrivileges = p.getSubPrivileges();
+			List<SubPrivilegeVO> subPrivilegeVoList = new ArrayList<>();
+
+		subPrivileges.stream().forEach(s-> {
+			
+			SubPrivilegeVO subPrivilegeVo = new SubPrivilegeVO();
+			subPrivilegeVo.setName(s.getName());
+			subPrivilegeVo.setChildPath(s.getChildPath());
+			subPrivilegeVoList.add(subPrivilegeVo);
+			parentPrivilegeVO.setSubPrivileges(subPrivilegeVoList);
+			
+		});	
+			parentPrivilegeVOsList.add(parentPrivilegeVO);
+
+		});
+
+		return parentPrivilegeVOsList;
+
 	}
 
 }

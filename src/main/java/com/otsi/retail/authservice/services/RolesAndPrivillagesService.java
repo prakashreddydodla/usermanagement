@@ -11,6 +11,7 @@ import com.otsi.retail.authservice.Entity.SubPrivilege;
 import com.otsi.retail.authservice.requestModel.CreatePrivilegesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilegeVO;
+import com.otsi.retail.authservice.requestModel.PlanPrivilegeVo;
 import com.otsi.retail.authservice.requestModel.PrivilegeVO;
 import com.otsi.retail.authservice.requestModel.RoleVO;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
@@ -44,4 +45,7 @@ public interface RolesAndPrivillagesService {
 	String deletePrevileges(Long id);
 	
 	List<ChildPrivilege> getChildPrivileges(long subPrivillageId) throws Exception;
+	
+	List<PlanPrivilegeVo> getPrivilegeByPlan();
+	
 }
