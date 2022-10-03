@@ -280,7 +280,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			// logger.debug("No users found with this client");
 			// logger.error("No users found with this client");
-			throw new Exception("No users found with this client");
+			return Page.empty();
 		}
 
 	}

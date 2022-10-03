@@ -77,7 +77,7 @@ public class RoleMapper {
 			subPrivilegeVO.setChildImage(privilege.getChildImage());
 			subPrivilegeVO.setChildPrivileges(childPrivillages);
 			subPrivilegeVO.setPrevilegeType(privilege.getPrevilegeType());
-			// subPrivilegeVO.setParentPrivilegeId(subPrivilegeVO);
+			 //subPrivilegeVO.setParentPrivilegeId(subPrivilegeVO);
 
 
 			subPrivileges.add(subPrivilegeVO);

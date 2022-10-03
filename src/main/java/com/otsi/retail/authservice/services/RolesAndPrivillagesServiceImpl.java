@@ -729,7 +729,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivilegeVO.setCreatedDate(p.getCreatedDate());
 				parentPrivilegeVO.setPrevilegeType(p.getPrevilegeType());
 				String[] roleName = { "Captain" };
-				List<SubPrivilege> subPrivileges = subPrivillageRepo.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
+				List<SubPrivilege> subPrivileges = subPrivillageRepo
+						.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
 
 				if (!CollectionUtils.isEmpty(subPrivileges)) {
 
@@ -771,7 +772,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
 				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
 				String[] roleName = { "Captain" };
-				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
+				List<SubPrivilege> subPrivillages = subPrivillageRepo
+						.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
 					List<SubPrivilegeVO> subPrivilegeList = converListEntityToVo(subPrivillages);
 
@@ -803,6 +805,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 			SubPrivilegeVO subPrivilegeVo = new SubPrivilegeVO();
 			BeanUtils.copyProperties(subPrivillage, subPrivilegeVo);
+
+			if (subPrivillage.getParentPrivilegeId().getId() != null) {
+				subPrivilegeVo.setParentPrivilegeId(subPrivillage.getParentPrivilegeId().getId());
+			}
+
 			subPrivilegesVo.add(subPrivilegeVo);
 
 		});
@@ -819,7 +826,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 			privilageRepository.deleteById(parentId.get().getId());
 
-			List<SubPrivilege> parentPrivillageIds = subPrivillageRepo.findByParentPrivilegeIdId(parentId.get().getId());
+			List<SubPrivilege> parentPrivillageIds = subPrivillageRepo
+					.findByParentPrivilegeIdId(parentId.get().getId());
 
 			parentPrivillageIds.stream().forEach(p -> {
 
