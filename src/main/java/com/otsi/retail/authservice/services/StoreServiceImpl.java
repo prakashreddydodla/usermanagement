@@ -472,10 +472,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 	
 	@Override
-	public Store getStore(Long storeId) {
+	public StoreVO getStore(Long storeId) {
 		Optional<Store> storeOptional = storeRepo.findById(storeId);
 		if (storeOptional.isPresent()) {
-			return storeOptional.get();
+			Store store = storeOptional.get();
+			StoreVO storeVO=new StoreVO();
+			storeVO.setId(store.getId());
+			storeVO.setName(store.getName());
+			return storeVO;
 		} else
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "store was not found with id:" + storeId);
 

@@ -57,7 +57,7 @@ public class StoresController {
 	
 	@GetMapping(EndpointConstants.GET_STORE)
 	public GateWayResponse<?> getStore(@RequestParam("id") Long id) {
-		Store store = storeService.getStore(id);
+		StoreVO store = storeService.getStore(id);
 		return new GateWayResponse<>(200, store, "", "true");
 
 	} 
