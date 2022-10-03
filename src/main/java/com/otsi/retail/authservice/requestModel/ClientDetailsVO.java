@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.requestModel;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.otsi.retail.authservice.Entity.PlanDetails;
 
@@ -53,6 +54,10 @@ public class ClientDetailsVO {
 	private Long amount;
 	
 	private PlanDetails plandetails;
+	
+	private LocalDateTime planExpiryDate;
+	
+	private LocalDateTime planActivatedDate;
 	
 	
 	

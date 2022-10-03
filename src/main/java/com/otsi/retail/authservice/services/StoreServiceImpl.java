@@ -181,8 +181,8 @@ public class StoreServiceImpl implements StoreService {
 			stores = storeRepo.findByClientIdAndIsActive(clientId, Boolean.TRUE);
 		}
 		if (CollectionUtils.isEmpty(stores)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No stores found for client:" + clientId);
-		}
+          return Collections.emptyList();	
+}
 		List<StoreVO> storesVO = new ArrayList<>();
 
 		stores.stream().forEach(store -> {

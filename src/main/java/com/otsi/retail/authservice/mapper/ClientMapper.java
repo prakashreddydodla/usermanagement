@@ -33,12 +33,14 @@ public class ClientMapper {
 		clientVo.setEmail(clientDetail.getEmail());
 		clientVo.setMobile(clientDetail.getMobile());
 		clientVo.setAddress(clientDetail.getAddress());
-
+		clientVo.setActive(clientDetail.isActive());
 		if(clientDetail.getPlanDetails()!=null) {
 		clientVo.setPlanName(clientDetail.getPlanDetails().getPlanName());
 		clientVo.setPlanTenure(clientDetail.getPlanTenure());
 		clientVo.setPlanId(clientDetail.getPlanDetails().getId());
 		clientVo.setPlandetails(clientDetail.getPlanDetails());
+		clientVo.setPlanActivatedDate(clientDetail.getPlanActivationDate());
+		clientVo.setPlanExpiryDate(clientDetail.getPlanExpiryDate());
 		}
 		return clientVo;
 	}

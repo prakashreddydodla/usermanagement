@@ -2,6 +2,7 @@ package com.otsi.retail.authservice.services;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -446,8 +447,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		// String[] roleNames = {"Captain","client_support"};
 		List<Role> roles = roleRepository.findByClientIdAndRoleNameNotIn(clientId, roleNames);
 		if (CollectionUtils.isEmpty(roles)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No Roles found for this client:" + clientId);
-		}
+                 return Collections.emptyList();	
+             }
 		roles.stream().forEach(role -> {
 			RoleVO roleVO = rolemapper.convertEntityToRoleVo(role);
 			rolesVO.add(roleVO);
