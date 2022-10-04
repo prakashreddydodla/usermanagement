@@ -63,7 +63,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
-      #restartPolicy: Always
+      restartPolicy: Always
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}

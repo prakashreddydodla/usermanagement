@@ -10,7 +10,7 @@ env:
   postgres_db: UserManagement
 
 replicaCount: 1
-#replicaCountPos: 1
+replicaCountPos: 0
 namespace: 
   name: default
 image:
@@ -22,13 +22,13 @@ image:
     repository: postgres 
     tag: latest
 
-#imagePullSecrets: []
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: false
+  create: true
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
