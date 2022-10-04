@@ -21,6 +21,10 @@ spec:
       labels:
         {{- include "usermanagement.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "usermanagement.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -59,7 +63,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
-      restartPolicy: Always
+      #restartPolicy: Always
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
