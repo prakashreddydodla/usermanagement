@@ -74,13 +74,13 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-resources: {}
-  # limits:
-  #   cpu: 0.3
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 64Mi
+resources:
+  limits:
+     cpu: 10m
+     memory: 18Mi
+  requests:
+     cpu: 10m
+     memory: 6Mi
 
 hpa:
   enabled: true
