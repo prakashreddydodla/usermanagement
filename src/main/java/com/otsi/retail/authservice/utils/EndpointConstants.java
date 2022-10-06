@@ -81,6 +81,7 @@ public class EndpointConstants {
 	public static final String GET_GSTDETAILS = "/getgstDetails";
 	public static final String DELETE_STORE = "/deleteStore";
 	public static final String GET_ACTIVESTORES = "/getActiveStores";
+	public static final String GET_STORE_LIST_FOR_HSN = "/storeListForHsn";
 
 // ##########################################     USER CONTROLLER  END_POINTS     #########################################
 

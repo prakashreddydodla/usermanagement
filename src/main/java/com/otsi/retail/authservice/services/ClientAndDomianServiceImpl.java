@@ -158,6 +158,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
 				clientDetails.setDescription(clientDetailsVO.getDescription());
 				clientDetails.setEmail(clientDetailsVO.getEmail());
+				clientDetails.setActive(Boolean.TRUE);
 				if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 					Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
 					if (plans.isPresent()) {

@@ -203,6 +203,22 @@ public class StoresController {
 			return new GateWayResponse<>(400, null, e.getMessage(), "false");
 		}
 	}
+	@ApiOperation(value = "storeList", notes = "getStoresForGivenIdsForHsn")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
+			@ApiResponse(code = 200, message = "Successful retrieval", response = StoreVO.class, responseContainer = "List") })
+	
+	@PostMapping(EndpointConstants.GET_STORE_LIST_FOR_HSN)
+	public GateWayResponse<?> getStoresForGivenIdsForHsn(@RequestBody List<Long> storeIds) {
+		try {
+			//logger.info("In GET_STORELIST request storeIds : " + storeIds);
+
+			List<StoreVO> res = storeService.getStoresForGivenIdsForHsn(storeIds);
+
+			return new GateWayResponse<>(200, res, "", "true");
+		} catch (Exception e) {
+			return new GateWayResponse<>(400, null, e.getMessage(), "false");
+		}
+	}
 
 	@ApiOperation(value = "storeList", notes = "getActivestores")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),

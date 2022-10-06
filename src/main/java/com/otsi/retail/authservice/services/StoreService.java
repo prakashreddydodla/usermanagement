@@ -26,6 +26,8 @@ public interface StoreService {
 	Store updateStore(StoreVO storeVO);
 
 	List<Store> getStoresForGivenIds(List<Long> stateCodes);
+	
+	List<StoreVO> getStoresForGivenIdsForHsn(List<Long> stateCodes);
 
 	GstDetails getGstDetails(Long clientId, String stateCode);
 
