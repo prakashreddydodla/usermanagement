@@ -369,35 +369,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 				});
 				
-				Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(clientId.getId());
-				ClientDetails client = clientDetails.get();
-				client.setPlanActivationDate(LocalDateTime.now());
-				
-				 switch(client.getPlanTenure()){    
-				   
-				    
-				    case "OneMonth": 
-				    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(1));
-
-				    break;
-				    case "ThreeMonths": 
-				    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(3));
-
-					    break;    
-				    case "sixMonths": 
-				    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(6));
-
-				    break; 
-				    case "OneYear": 
-				    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(12));
-
-				    	
-				    break; 
-				    default:
-				    	
-				    }   
-				 clientDetailsRepository.save(client);
-				
+		ClientDetails client =	saveClientExpiryAndActivationDate(clientId.getId());
+		clientDetailsRepository.save(client);				
 			});
 
 			return "clientMapped successfully";
@@ -405,6 +378,41 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		} else
 
 			throw new RuntimeException("client not assinged to clientSupport");
+	}
+
+	private ClientDetails saveClientExpiryAndActivationDate(Long id) {
+		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(id);
+		ClientDetails client = clientDetails.get();
+		client.setPlanActivationDate(LocalDateTime.now());
+		
+		 switch(client.getPlanTenure()){    
+		   
+		    
+		    case "OneMonth": 
+		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(1));
+
+		    break;
+		    case "ThreeMonths": 
+		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(3));
+
+			    break;    
+		    case "sixMonths": 
+		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(6));
+
+		    break; 
+		    case "OneYear": 
+		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(12));
+
+		    	
+		    break; 
+		    default:
+		    	
+		    }
+		 
+		 return client;
+		// clientDetailsRepository.save(client);
+		
+		
 	}
 
 	@Override
@@ -781,6 +789,9 @@ client.setName(clientDetailsVO.getName());
 client.setOrganizationName(clientDetailsVO.getOrganizationName());
 client.setPlanTenure(clientDetailsVO.getPlanTenure());
 client.setPlanDetails(clientDetailsVO.getPlandetails());
+ClientDetails client1=saveClientExpiryAndActivationDate(clientDetailsVO.getId());
+client.setPlanActivationDate(client1.getPlanActivationDate());
+client.setPlanExpiryDate(client1.getPlanExpiryDate());
 clientDetailsRepository.save(client);
 savePlanTransactionDetails(client);
 return "clientUpdatedSuceesfully";
