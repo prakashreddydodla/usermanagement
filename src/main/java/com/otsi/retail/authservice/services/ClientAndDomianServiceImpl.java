@@ -30,6 +30,7 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ClientUsers;
 import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.Entity.PlanDetails;
+import com.otsi.retail.authservice.Entity.PlanTransactionDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDetails;
@@ -39,6 +40,7 @@ import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.ClientUserRepo;
 import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
+import com.otsi.retail.authservice.Repository.PlanTransactionRepo;
 import com.otsi.retail.authservice.Repository.PlandetailsRepo;
 import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
@@ -93,6 +95,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private CognitoClient cognitoClient;
+	
+	@Autowired
+	private PlanTransactionRepo planTransactionRepo;
 	
 	@Autowired
 	private	userDetailsMapper userMapper;
@@ -166,7 +171,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setAmount(clientDetailsVO.getAmount());
 				clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
 				clientDetails = clientDetailsRepository.save(clientDetails);
-				
+				savePlanTransactionDetails(clientDetails);
 				  if (null != clientDetails.getId()) { 
 					  sendEmail(clientDetailsVO.getEmail(),TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT); 
 					  }
@@ -183,6 +188,17 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"client name already exists:" + clientDetailsVO.getName());
 		}
+	}
+
+	private void savePlanTransactionDetails(ClientDetails clientDetails) {
+		PlanTransactionDetails planDetails = new PlanTransactionDetails();
+		planDetails.setClientId(clientDetails.getId());
+		planDetails.setPlanName(clientDetails.getPlanDetails().getPlanName());
+		planDetails.setPlanTenure(clientDetails.getPlanTenure());
+		planDetails.setAmount(clientDetails.getAmount());
+		planDetails.setPlanActivationDate(clientDetails.getPlanActivationDate());
+		planDetails.setPlanExpiryDate(clientDetails.getPlanExpiryDate());
+		planTransactionRepo.save(planDetails);
 	}
 
 	private void sendEmail(String toEmail, String body, String subject) {
@@ -766,6 +782,7 @@ client.setOrganizationName(clientDetailsVO.getOrganizationName());
 client.setPlanTenure(clientDetailsVO.getPlanTenure());
 client.setPlanDetails(clientDetailsVO.getPlandetails());
 clientDetailsRepository.save(client);
+savePlanTransactionDetails(client);
 return "clientUpdatedSuceesfully";
 
 

@@ -876,9 +876,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				.collect(Collectors.groupingBy(ParentPrivilege::getPlanId));
 		// logger.info(postsPerType);
 
-		PlanPrivilegeVo planPrivilegeVo = new PlanPrivilegeVo();
 
 		privilegesPerType.keySet().forEach(planId -> {
+			PlanPrivilegeVo planPrivilegeVo = new PlanPrivilegeVo();
+
 
 			Optional<PlanDetails> plan = planRepository.findById(planId);
 
