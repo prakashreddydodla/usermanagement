@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "usermanagement.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.hpa.enabled }}
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCountPos }}
   {{- end }}
   selector:
