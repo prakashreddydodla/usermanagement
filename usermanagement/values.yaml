@@ -10,7 +10,7 @@ env:
   postgres_db: UserManagement
 
 replicas: 1
-replicaPos: 1
+replicasPos: 1
 
 namespace: 
   name: default
@@ -88,7 +88,7 @@ resources:
   #   cpu: 100m
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 80
