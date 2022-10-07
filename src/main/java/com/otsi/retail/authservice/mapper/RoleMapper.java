@@ -318,5 +318,20 @@ public class RoleMapper {
 		return parentPrivilegeVOsList;
 
 	}
+	public ParentPrivilegeVO convertParentPrivilegeEntityToVo(ParentPrivilege parentPrivilege) {
+		
+		ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
+		parentPrivillagesVo.setPath(parentPrivilege.getPath());
+		parentPrivillagesVo.setPrevilegeType(parentPrivilege.getPrevilegeType());
+		parentPrivillagesVo.setParentImage(parentPrivilege.getParentImage());
+
+		parentPrivillagesVo.setId(parentPrivilege.getId());
+		parentPrivillagesVo.setName(parentPrivilege.getName());
+		parentPrivillagesVo.setDescription(parentPrivilege.getDescription());
+		parentPrivillagesVo.setLastModifyedDate(parentPrivilege.getLastModifiedDate());
+		parentPrivillagesVo.setCreatedDate(parentPrivilege.getCreatedDate());
+		return parentPrivillagesVo;
+		
+	}
 
 }

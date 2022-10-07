@@ -202,7 +202,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		List<ParentPrivilege> entity = privilageRepository.findAll();
 		entity.stream().forEach(p -> {
 			if (p.getPrevilegeType() == PrevilegeType.Web) {
-				ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
+				/*ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
 				parentPrivillagesVo.setPath(p.getPath());
 				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
 				parentPrivillagesVo.setParentImage(p.getParentImage());
@@ -211,7 +211,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setName(p.getName());
 				parentPrivillagesVo.setDescription(p.getDescription());
 				parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
-				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
+				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());*/
+				ParentPrivilegeVO parentPrivillagesVo = rolemapper.convertParentPrivilegeEntityToVo(p);
 				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdId(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
 					parentPrivillagesVo.setSubPrivilege(subPrivillages);
@@ -232,7 +233,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 			} else {
 
-				ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
+				/*ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
 				parentPrivillagesVo.setId(p.getId());
 				parentPrivillagesVo.setName(p.getName());
 				parentPrivillagesVo.setDescription(p.getDescription());
@@ -241,7 +242,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 				parentPrivillagesVo.setParentImage(p.getParentImage());
 
 				parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
-				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
+				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());*/
+				ParentPrivilegeVO parentPrivillagesVo = rolemapper.convertParentPrivilegeEntityToVo(p);
+
 				List<SubPrivilege> subPrivillages = subPrivillageRepo.findByParentPrivilegeIdId(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
 					parentPrivillagesVo.setSubPrivilege(subPrivillages);
@@ -722,13 +725,15 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 		entity.stream().forEach(p -> {
 			if (p.getPrevilegeType() == PrevilegeType.Web) {
-				ParentPrivilegeVO parentPrivilegeVO = new ParentPrivilegeVO();
+				/*ParentPrivilegeVO parentPrivilegeVO = new ParentPrivilegeVO();
 				parentPrivilegeVO.setId(p.getId());
 				parentPrivilegeVO.setName(p.getName());
 				parentPrivilegeVO.setDescription(p.getDescription());
 				parentPrivilegeVO.setLastModifyedDate(p.getLastModifiedDate());
 				parentPrivilegeVO.setCreatedDate(p.getCreatedDate());
-				parentPrivilegeVO.setPrevilegeType(p.getPrevilegeType());
+				parentPrivilegeVO.setPrevilegeType(p.getPrevilegeType());*/
+				ParentPrivilegeVO parentPrivilegeVO = rolemapper.convertParentPrivilegeEntityToVo(p);
+
 				String[] roleName = { "Captain" };
 				List<SubPrivilege> subPrivileges = subPrivillageRepo
 						.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
@@ -765,13 +770,15 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 			} else {
 
-				ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
+				/*ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
 				parentPrivillagesVo.setId(p.getId());
 				parentPrivillagesVo.setName(p.getName());
 				parentPrivillagesVo.setDescription(p.getDescription());
 				parentPrivillagesVo.setLastModifyedDate(p.getLastModifiedDate());
 				parentPrivillagesVo.setCreatedDate(p.getCreatedDate());
-				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());
+				parentPrivillagesVo.setPrevilegeType(p.getPrevilegeType());*/
+				ParentPrivilegeVO parentPrivilegeVO = rolemapper.convertParentPrivilegeEntityToVo(p);
+
 				String[] roleName = { "Captain" };
 				List<SubPrivilege> subPrivillages = subPrivillageRepo
 						.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
@@ -790,10 +797,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 							subPrivilege.setChildPrivileges(childPrivileges);
 						}
 					});
-					parentPrivillagesVo.setSubPrivileges(subPrivilegeList);
+					parentPrivilegeVO.setSubPrivileges(subPrivilegeList);
 				}
 
-				listOfmobilePrivileges.add(parentPrivillagesVo);
+				listOfmobilePrivileges.add(parentPrivilegeVO);
 				privilegeVO.setMobilePrivileges(listOfmobilePrivileges);
 			}
 		});

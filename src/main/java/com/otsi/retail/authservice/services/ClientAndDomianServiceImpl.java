@@ -147,8 +147,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 		if (!clientExists) {
 			try {
-				ClientDetails clientDetails = new ClientDetails();
-				clientDetails.setName(clientDetailsVO.getName());
+				ClientDetails clientDetails = clientMapper.convertVOToEntity(clientDetailsVO);
+				/*clientDetails.setName(clientDetailsVO.getName());
 				clientDetails.setAddress(clientDetailsVO.getAddress());
 				clientDetails.setCreatedBy(clientDetailsVO.getCreatedBy());
 				clientDetails.setOrganizationName(clientDetailsVO.getOrganizationName());
@@ -158,7 +158,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
 				clientDetails.setDescription(clientDetailsVO.getDescription());
 				clientDetails.setEmail(clientDetailsVO.getEmail());
-				clientDetails.setActive(Boolean.TRUE);
+				clientDetails.setActive(Boolean.TRUE);*/
 				if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 					Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
 					if (plans.isPresent()) {
@@ -779,7 +779,8 @@ if(userDetails.isPresent()) {
 	Optional<ClientDetails> clients =	clientDetailsRepository.findById(clientDetailsVO.getId());
 	if(clients.isPresent()) {
 		ClientDetails client = clients.get();
-		client.setActive(clientDetailsVO.isActive());
+		client = clientMapper.convertVOToEntity(clientDetailsVO);
+		/*client.setActive(clientDetailsVO.isActive());
 		client.setAddress(clientDetailsVO.getAddress());
 		client.setAmount(clientDetailsVO.getAmount());
 		client.setCreatedBy(clientDetailsVO.getCreatedBy());
@@ -787,7 +788,7 @@ if(userDetails.isPresent()) {
 		client.setEmail(clientDetailsVO.getEmail());
 		client.setMobile(clientDetailsVO.getMobile());
 client.setName(clientDetailsVO.getName());	
-client.setOrganizationName(clientDetailsVO.getOrganizationName());
+client.setOrganizationName(clientDetailsVO.getOrganizationName());*/
 client.setPlanTenure(clientDetailsVO.getPlanTenure());
 client.setPlanDetails(clientDetailsVO.getPlandetails());
 ClientDetails client1=saveClientExpiryAndActivationDate(clientDetailsVO.getId());

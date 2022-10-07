@@ -44,5 +44,40 @@ public class StoreMapper {
 		// storeVo.setDomainName(store.getClientDomianlId().getDomaiName());
 		return storeVo;
 	}
+	
+	public Store convertStoreVoToEntity(StoreVO vo) {
+		Store storeEntity = new Store();
+		storeEntity.setName(vo.getName());
+		storeEntity.setAddress(vo.getAddress());
+		storeEntity.setStateId(vo.getStateId());
+		storeEntity.setDistrictId(vo.getDistrictId());
+		storeEntity.setCityId(vo.getCityId());
+		storeEntity.setIsActive(Boolean.TRUE);
+		storeEntity.setArea(vo.getArea());
+		storeEntity.setPhoneNumber(vo.getPhoneNumber());
+		storeEntity.setCreatedBy(vo.getCreatedBy());
+		storeEntity.setStateCode(vo.getStateCode());
+		return storeEntity;		
+	}
+	
+	public StoreVO convertToVo(Store store) {
+		StoreVO storeVo = new StoreVO();
+		storeVo.setAddress(store.getAddress());
+		storeVo.setArea(store.getArea());
+		storeVo.setCityId(store.getCityId());
+		storeVo.setCreatedBy(store.getCreatedBy());
+		storeVo.setDistrictId(store.getDistrictId());
+		storeVo.setName(store.getName());
+		storeVo.setIsActive(store.getIsActive());
+		storeVo.setPhoneNumber(store.getPhoneNumber());
+		// storeVo.setDomainId(store.getClientDomianlId().getId());
+		storeVo.setStateCode(store.getStateCode());
+		storeVo.setCreatedDate(store.getCreatedDate());
+		storeVo.setStateId(store.getStateId());
+		storeVo.setId(store.getId());
+		// storeVo.setDomainName(store.getClientDomianlId().getDomaiName());
+		return storeVo;
+
+	}
 
 }

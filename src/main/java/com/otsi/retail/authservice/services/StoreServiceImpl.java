@@ -65,7 +65,7 @@ public class StoreServiceImpl implements StoreService {
 	public Store createStore(StoreVO vo) {
 		Store store = storeRepo.findByNameAndClient_Id(vo.getName(), vo.getClientId());
 		if (store == null) {
-			Store storeEntity = new Store();
+			/*Store storeEntity = new Store();
 			storeEntity.setName(vo.getName());
 			storeEntity.setAddress(vo.getAddress());
 			storeEntity.setStateId(vo.getStateId());
@@ -75,7 +75,8 @@ public class StoreServiceImpl implements StoreService {
 			storeEntity.setArea(vo.getArea());
 			storeEntity.setPhoneNumber(vo.getPhoneNumber());
 			storeEntity.setCreatedBy(vo.getCreatedBy());
-			storeEntity.setStateCode(vo.getStateCode());
+			storeEntity.setStateCode(vo.getStateCode());*/
+			Store storeEntity=	storeMapper.convertStoreVoToEntity(vo);
 			if (vo.getGstNumber() != null) {
 				Optional<GstDetails> gstDetailsopt = gstRepository.findByGstNumber(vo.getGstNumber());
 				if (!gstDetailsopt.isPresent()) {
@@ -127,7 +128,7 @@ public class StoreServiceImpl implements StoreService {
 	public Store updateStore(StoreVO vo) {
 		Optional<Store> storeOptional = storeRepo.findById(vo.getId());
 		Store storeEntity = storeOptional.get();
-		storeEntity.setName(vo.getName());
+		/*storeEntity.setName(vo.getName());
 		storeEntity.setAddress(vo.getAddress());
 		storeEntity.setStateId(vo.getStateId());
 		storeEntity.setDistrictId(vo.getDistrictId());
@@ -135,7 +136,8 @@ public class StoreServiceImpl implements StoreService {
 		storeEntity.setArea(vo.getArea());
 		storeEntity.setIsActive(vo.getIsActive());
 		storeEntity.setPhoneNumber(vo.getPhoneNumber());
-		storeEntity.setModifiedBy(vo.getCreatedBy());
+		storeEntity.setModifiedBy(vo.getCreatedBy());*/
+		 storeEntity = storeMapper.convertStoreVoToEntity(vo);
 		if (null != vo.getStoreOwner()) {
 			Optional<UserDetails> userfromDb = userRepository.findById(vo.getStoreOwner().getId());
 			if (userfromDb.isPresent()) {
@@ -184,7 +186,7 @@ public class StoreServiceImpl implements StoreService {
 
 		stores.stream().forEach(store -> {
 			GstDetails gstdetails = getGstDetails(clientId, store.getStateCode());
-			StoreVO storeVo = convertToVo(store);
+			StoreVO storeVo =storeMapper. convertToVo(store);
 			storeVo.setGstNumber(gstdetails.getGstNumber());
 			storesVO.add(storeVo);
 		});
@@ -201,25 +203,7 @@ public class StoreServiceImpl implements StoreService {
 		return storesVO;
 	}
 
-	private StoreVO convertToVo(Store store) {
-		StoreVO storeVo = new StoreVO();
-		storeVo.setAddress(store.getAddress());
-		storeVo.setArea(store.getArea());
-		storeVo.setCityId(store.getCityId());
-		storeVo.setCreatedBy(store.getCreatedBy());
-		storeVo.setDistrictId(store.getDistrictId());
-		storeVo.setName(store.getName());
-		storeVo.setIsActive(store.getIsActive());
-		storeVo.setPhoneNumber(store.getPhoneNumber());
-		// storeVo.setDomainId(store.getClientDomianlId().getId());
-		storeVo.setStateCode(store.getStateCode());
-		storeVo.setCreatedDate(store.getCreatedDate());
-		storeVo.setStateId(store.getStateId());
-		storeVo.setId(store.getId());
-		// storeVo.setDomainName(store.getClientDomianlId().getDomaiName());
-		return storeVo;
-
-	}
+	
 
 	@Override
 	public String assignStoreToClientDomain(DomianStoresVo vo) throws Exception {
@@ -511,7 +495,7 @@ public class StoreServiceImpl implements StoreService {
 
 		stores.stream().forEach(store -> {
 			// GstDetails gstdetails = getGstDetails(clientId, store.getStateCode());
-			StoreVO storeVo = convertToVo(store);
+			StoreVO storeVo =storeMapper. convertToVo(store);
 			// storeVo.setGstNumber(gstdetails.getGstNumber());
 			storesVO.add(storeVo);
 		});

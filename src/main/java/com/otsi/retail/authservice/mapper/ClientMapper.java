@@ -54,5 +54,24 @@ public class ClientMapper {
 		});
 		return clientsVo;
 	}
+	
+	public ClientDetails convertVOToEntity(ClientDetailsVO clientDetail) {
+		ClientDetails client = new ClientDetails();
+		client.setId(clientDetail.getId());
+		client.setName(clientDetail.getName());
+		client.setOrganizationName(clientDetail.getOrganizationName());
+		client.setDescription(clientDetail.getDescription());
+		client.setEmail(clientDetail.getEmail());
+		client.setMobile(clientDetail.getMobile());
+		client.setIsTaxIncluded(clientDetail.getIsTaxIncluded());
+		client.setIsEsSlipEnabled(clientDetail.getIsEsSlipEnabled());
+		client.setCreatedBy(clientDetail.getCreatedBy());
+		client.setAddress(clientDetail.getAddress());
+		client.setActive(Boolean.TRUE);
+		client.setPlanTenure(clientDetail.getPlanTenure());
+		
+		
+		return client;
+	}
 
 }
