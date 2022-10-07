@@ -9,7 +9,8 @@ env:
   postgres_data: /var/lib/postgresql/data/pgdata
   postgres_db: UserManagement
 
-replicaCount: 4
+replicas: 1
+replicaPos: 1
 
 namespace: 
   name: default
