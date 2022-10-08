@@ -101,7 +101,7 @@ tolerations: []
 affinity: {}
 
 persistence: 
-  enabled: true
+  enabled: false
   storageClass: gp2
   accessMode: ReadWriteOnce
   size: 8Gi
