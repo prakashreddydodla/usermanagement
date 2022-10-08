@@ -101,10 +101,10 @@ tolerations: []
 affinity: {}
 
 persistence: 
-  enabled: false
+  enabled: true
   storageClass: gp2
   accessMode: ReadWriteOnce
-  size: 8Gi
+  size: 13Gi
 
 volumeMounts: 
   mountPath: /target/newrelic/
