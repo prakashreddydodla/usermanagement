@@ -7,7 +7,7 @@ metadata:
     {{- include "usermanagement.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCountPos }}
+  replicas: {{ .Values.replicasPos }}
   {{- end }}
   selector:
     matchLabels:
