@@ -111,6 +111,7 @@ public class CognitoClient {
 	private String USERPOOL_ID;
 	private String REGION;
 
+
 	public CognitoClient(
 
 			@Value("${Cognito.aws.accesskey}") String ACCESS_KEY,
