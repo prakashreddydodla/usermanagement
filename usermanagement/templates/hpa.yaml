@@ -1,5 +1,5 @@
 {{- if .Values.enabled }}
-{{- if .Values.hpa.enabled }}
+{{- if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -9,20 +9,20 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "usermanagement.fullname" . }}
-  minReplicas: {{ .Values.hpa.minreplica }}
-  maxReplicas: {{ .Values.hpa.maxreplica }}
+  minReplicas: {{ .Values.autoscaling.minreplica }}
+  maxReplicas: {{ .Values.autoscaling.maxreplica }}
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: {{ .Values.hpa.cpu.averageutilization }}
+        averageUtilization: {{ .Values.autoscaling.cpu.averageutilization }}
   - type: Resource
     resource:
       name: memory
       target:
         type: AverageValue
-        averageValue: {{ .Values.hpa.memory.averagevalue }}
+        averageValue: {{ .Values.autoscaling.memory.averagevalue }}
 {{- end }}
 {{- end }}
