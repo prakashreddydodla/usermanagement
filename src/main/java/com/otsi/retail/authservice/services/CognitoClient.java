@@ -86,6 +86,7 @@ public class CognitoClient {
 	private final AWSCognitoIdentityProvider client;
 	//private Logger logger = LogManager.getLogger(CognitoClient.class);
 
+
 	private String ACCESS_KEY;
 	private String SECRET_ACCESS_KEY;
 	private String CLIENT_ID;
