@@ -105,7 +105,6 @@ public class CognitoClient {
 	RestTemplate restTemplate = new RestTemplate();
 
 	private Logger logger = LogManager.getLogger(CognitoClient.class);
-
 	private String ACCESS_KEY;
 	private String SECRET_ACCESS_KEY;
 	private String CLIENT_ID;
