@@ -33,12 +33,14 @@ public class ClientMapper {
 		clientVo.setEmail(clientDetail.getEmail());
 		clientVo.setMobile(clientDetail.getMobile());
 		clientVo.setAddress(clientDetail.getAddress());
-
+		clientVo.setActive(clientDetail.isActive());
 		if(clientDetail.getPlanDetails()!=null) {
 		clientVo.setPlanName(clientDetail.getPlanDetails().getPlanName());
 		clientVo.setPlanTenure(clientDetail.getPlanTenure());
 		clientVo.setPlanId(clientDetail.getPlanDetails().getId());
 		clientVo.setPlandetails(clientDetail.getPlanDetails());
+		clientVo.setPlanActivatedDate(clientDetail.getPlanActivationDate());
+		clientVo.setPlanExpiryDate(clientDetail.getPlanExpiryDate());
 		}
 		return clientVo;
 	}
@@ -51,6 +53,25 @@ public class ClientMapper {
 			clientsVo.add(VO);
 		});
 		return clientsVo;
+	}
+	
+	public ClientDetails convertVOToEntity(ClientDetailsVO clientDetail) {
+		ClientDetails client = new ClientDetails();
+		client.setId(clientDetail.getId());
+		client.setName(clientDetail.getName());
+		client.setOrganizationName(clientDetail.getOrganizationName());
+		client.setDescription(clientDetail.getDescription());
+		client.setEmail(clientDetail.getEmail());
+		client.setMobile(clientDetail.getMobile());
+		client.setIsTaxIncluded(clientDetail.getIsTaxIncluded());
+		client.setIsEsSlipEnabled(clientDetail.getIsEsSlipEnabled());
+		client.setCreatedBy(clientDetail.getCreatedBy());
+		client.setAddress(clientDetail.getAddress());
+		client.setActive(Boolean.TRUE);
+		client.setPlanTenure(clientDetail.getPlanTenure());
+		
+		
+		return client;
 	}
 
 }

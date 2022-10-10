@@ -15,7 +15,9 @@ import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
 import com.otsi.retail.authservice.Repository.UserRepository;
+import com.otsi.retail.authservice.requestModel.StoreVO;
 import com.otsi.retail.authservice.requestModel.UserDetailsVO;
+import com.otsi.retail.authservice.responceModel.UserListResponse;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
 @Component
 public class userDetailsMapper {
@@ -84,8 +86,52 @@ public class userDetailsMapper {
 		 
 		
 		//return usersDetails.map(user -> convertUserDetailsToVO(user));
+		  
 
 		
 		
 	}
+	public UserListResponse getUserDeatils(UserDetails a) {
+		UserListResponse userVo = new UserListResponse();
+		userVo.setId(a.getId());
+		userVo.setUserName(a.getUserName());
+		userVo.setCreatedBy(a.getCreatedBy());
+		userVo.setCreatedDate(a.getCreatedDate());
+		userVo.setIsSuperAdmin(a.getIsSuperAdmin());
+		userVo.setIsActive(a.getIsActive());
+		userVo.setPhoneNumber(a.getPhoneNumber());
+		List<StoreVO> stores = new ArrayList<>();
+		if (null != a.getStores()) {
+			a.getStores().stream().forEach(str -> {
+				StoreVO storeVo = new StoreVO();
+				storeVo.setId(str.getId());
+				storeVo.setName(str.getName());
+				stores.add(storeVo);
+
+			});
+			userVo.setStores(stores);
+		}
+		if (null != a.getRole()) {
+			userVo.setRoleName(a.getRole().getRoleName());
+		}
+		a.getUserAv().stream().forEach(b -> {
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.EMAIL)) {
+				userVo.setEmail(b.getStringValue());
+			}
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.DOMAINID)) {
+				userVo.setDomian(b.getIntegerValue());
+			}
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.BIRTHDATE)) {
+				userVo.setDob(b.getStringValue());
+			}
+			if (b.getName().equalsIgnoreCase(CognitoAtributes.ADDRESS)) {
+				userVo.setAddress(b.getStringValue());
+
+			}
+		});
+		return userVo;
+
+	}
+	
+	
 }

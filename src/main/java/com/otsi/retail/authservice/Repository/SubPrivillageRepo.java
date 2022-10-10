@@ -10,9 +10,9 @@ import com.otsi.retail.authservice.Entity.SubPrivilege;
 @Repository
 public interface SubPrivillageRepo  extends JpaRepository<SubPrivilege, Long>{
 
-	List<SubPrivilege> findByParentPrivilegeId(Long id);
+	List<SubPrivilege> findByParentPrivilegeIdId(Long id);
 
-	List<SubPrivilege> findByParentPrivilegeIdAndRoleName(Long id, Object object);
+	List<SubPrivilege> findByParentPrivilegeIdIdAndRoleNameIsNull(Long id);
 
 
 	/*List<SubPrivilege> findByParentPrivilegeIdAndRoleNameNotIn(Long id, String[] roleName);

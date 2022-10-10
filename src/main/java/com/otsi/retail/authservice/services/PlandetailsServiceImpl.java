@@ -9,17 +9,21 @@ import org.springframework.stereotype.Service;
 import com.otsi.retail.authservice.Entity.PlanDetails;
 import com.otsi.retail.authservice.Entity.TenureDetails;
 import com.otsi.retail.authservice.Repository.PlandetailsRepo;
+import com.otsi.retail.authservice.mapper.PlanDetailsMapper;
 import com.otsi.retail.authservice.requestModel.PlanDetailsVo;
 @Service
 public class PlandetailsServiceImpl implements PlandetailsService {
 	
     @Autowired
 	private PlandetailsRepo planDetailsRepo;
+    
+    @Autowired
+    private PlanDetailsMapper planMapper;
 	
 	@Override
 	public String savePlanDetails(List<PlanDetailsVo> planDetailsVo) {
 		planDetailsVo.stream().forEach(plans->{
-			PlanDetails plandetails = new PlanDetails();
+			/*PlanDetails plandetails = new PlanDetails();
 			List<TenureDetails> tenureList = new ArrayList();
 			plandetails.setPlanName(plans.getPlanName());
 			//plandetails.setPrice(plans.getPrice());
@@ -39,10 +43,13 @@ public class PlandetailsServiceImpl implements PlandetailsService {
 				
 				tenureList.add(tenureDetails);
 			});
-			plandetails.setTenureDetials(tenureList);
+			plandetails.setTenureDetials(tenureList);*/
+			
 			/*
 			 * plandetails.setPlanTenure(plans.getPlanTenure());
-			 */			planDetailsRepo.save(plandetails);
+			 */	
+			PlanDetails plandetails = planMapper.convertVoToEntity(plans);
+			planDetailsRepo.save(plandetails);
 
 		});
 		

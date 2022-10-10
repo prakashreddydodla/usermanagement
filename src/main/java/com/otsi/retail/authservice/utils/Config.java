@@ -17,4 +17,9 @@ public class Config {
 	
 	@Value("${RazorPay.key_Secret}")
 	private String secert;
+	
+	@Value("${getclaimsfromtoken_url}")
+	private String token;
+	
+	
 }

@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +30,7 @@ import com.otsi.retail.authservice.Entity.ClientDomains;
 import com.otsi.retail.authservice.Entity.ClientUsers;
 import com.otsi.retail.authservice.Entity.Domain_Master;
 import com.otsi.retail.authservice.Entity.PlanDetails;
+import com.otsi.retail.authservice.Entity.PlanTransactionDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDetails;
@@ -38,6 +40,7 @@ import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
 import com.otsi.retail.authservice.Repository.ClientUserRepo;
 import com.otsi.retail.authservice.Repository.Domian_MasterRepo;
+import com.otsi.retail.authservice.Repository.PlanTransactionRepo;
 import com.otsi.retail.authservice.Repository.PlandetailsRepo;
 import com.otsi.retail.authservice.Repository.StoreRepo;
 import com.otsi.retail.authservice.Repository.UserAvRepo;
@@ -94,6 +97,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	private CognitoClient cognitoClient;
 	
 	@Autowired
+	private PlanTransactionRepo planTransactionRepo;
+	
+	@Autowired
 	private	userDetailsMapper userMapper;
 
 	@Autowired
@@ -141,8 +147,8 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 		if (!clientExists) {
 			try {
-				ClientDetails clientDetails = new ClientDetails();
-				clientDetails.setName(clientDetailsVO.getName());
+				ClientDetails clientDetails = clientMapper.convertVOToEntity(clientDetailsVO);
+				/*clientDetails.setName(clientDetailsVO.getName());
 				clientDetails.setAddress(clientDetailsVO.getAddress());
 				clientDetails.setCreatedBy(clientDetailsVO.getCreatedBy());
 				clientDetails.setOrganizationName(clientDetailsVO.getOrganizationName());
@@ -152,6 +158,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
 				clientDetails.setDescription(clientDetailsVO.getDescription());
 				clientDetails.setEmail(clientDetailsVO.getEmail());
+				clientDetails.setActive(Boolean.TRUE);*/
 				if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 					Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
 					if (plans.isPresent()) {
@@ -165,7 +172,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setAmount(clientDetailsVO.getAmount());
 				clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
 				clientDetails = clientDetailsRepository.save(clientDetails);
-				
+				savePlanTransactionDetails(clientDetails);
 				  if (null != clientDetails.getId()) { 
 					  sendEmail(clientDetailsVO.getEmail(),TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT); 
 					  }
@@ -182,6 +189,17 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"client name already exists:" + clientDetailsVO.getName());
 		}
+	}
+
+	private void savePlanTransactionDetails(ClientDetails clientDetails) {
+		PlanTransactionDetails planDetails = new PlanTransactionDetails();
+		planDetails.setClientId(clientDetails.getId());
+		planDetails.setPlanName(clientDetails.getPlanDetails().getPlanName());
+		planDetails.setPlanTenure(clientDetails.getPlanTenure());
+		planDetails.setAmount(clientDetails.getAmount());
+		planDetails.setPlanActivationDate(clientDetails.getPlanActivationDate());
+		planDetails.setPlanExpiryDate(clientDetails.getPlanExpiryDate());
+		planTransactionRepo.save(planDetails);
 	}
 
 	private void sendEmail(String toEmail, String body, String subject) {
@@ -345,9 +363,15 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 					clientUsers.setClientId(clientId);
 					clientUsers.setStatus(Boolean.TRUE);
 					clientUserRepo.save(clientUsers);
+					
+					
 					}
+					
 
 				});
+				
+		ClientDetails client =	saveClientExpiryAndActivationDate(clientId.getId());
+		clientDetailsRepository.save(client);				
 			});
 
 			return "clientMapped successfully";
@@ -355,6 +379,41 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		} else
 
 			throw new RuntimeException("client not assinged to clientSupport");
+	}
+
+	private ClientDetails saveClientExpiryAndActivationDate(Long id) {
+		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(id);
+		ClientDetails client = clientDetails.get();
+		client.setPlanActivationDate(LocalDateTime.now());
+		
+		 switch(client.getPlanTenure()){    
+		   
+		    
+		    case "OneMonth": 
+		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(1));
+
+		    break;
+		    case "ThreeMonths": 
+		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(3));
+
+			    break;    
+		    case "sixMonths": 
+		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(6));
+
+		    break; 
+		    case "OneYear": 
+		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(12));
+
+		    	
+		    break; 
+		    default:
+		    	
+		    }
+		 
+		 return client;
+		// clientDetailsRepository.save(client);
+		
+		
 	}
 
 	@Override
@@ -720,7 +779,8 @@ if(userDetails.isPresent()) {
 	Optional<ClientDetails> clients =	clientDetailsRepository.findById(clientDetailsVO.getId());
 	if(clients.isPresent()) {
 		ClientDetails client = clients.get();
-		client.setActive(clientDetailsVO.isActive());
+		client = clientMapper.convertVOToEntity(clientDetailsVO);
+		/*client.setActive(clientDetailsVO.isActive());
 		client.setAddress(clientDetailsVO.getAddress());
 		client.setAmount(clientDetailsVO.getAmount());
 		client.setCreatedBy(clientDetailsVO.getCreatedBy());
@@ -728,10 +788,14 @@ if(userDetails.isPresent()) {
 		client.setEmail(clientDetailsVO.getEmail());
 		client.setMobile(clientDetailsVO.getMobile());
 client.setName(clientDetailsVO.getName());	
-client.setOrganizationName(clientDetailsVO.getOrganizationName());
+client.setOrganizationName(clientDetailsVO.getOrganizationName());*/
 client.setPlanTenure(clientDetailsVO.getPlanTenure());
 client.setPlanDetails(clientDetailsVO.getPlandetails());
+ClientDetails client1=saveClientExpiryAndActivationDate(clientDetailsVO.getId());
+client.setPlanActivationDate(client1.getPlanActivationDate());
+client.setPlanExpiryDate(client1.getPlanExpiryDate());
 clientDetailsRepository.save(client);
+savePlanTransactionDetails(client);
 return "clientUpdatedSuceesfully";
 
 

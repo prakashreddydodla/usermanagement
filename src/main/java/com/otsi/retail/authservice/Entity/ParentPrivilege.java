@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.otsi.retail.authservice.utils.PrevilegeType;
@@ -52,5 +53,9 @@ private Long domain;
 private PrevilegeType previlegeType;
 
 private Long planId;
+
+@OneToMany(mappedBy = "parentPrivilegeId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+private List<SubPrivilege> subPrivileges;
+
 
 }

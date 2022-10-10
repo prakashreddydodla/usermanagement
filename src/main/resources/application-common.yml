@@ -22,9 +22,9 @@ spring:
     username: easyretailworld@otsi.com
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/UserManagement1
+    url: jdbc:postgresql://localhost:5432/UserManagement
     username: postgres
-    password: Otsi@123
+    password: Otsi@1234
     
   jpa:
    hibernate:
@@ -61,4 +61,6 @@ logging:
                          FilterChainProxy : debug
 springdoc:
   packagesToScan: com.otsi.retail.authservice
+  
+getclaimsfromtoken_url: http://localhost:9097/gateway/jwtclaimsset
   
