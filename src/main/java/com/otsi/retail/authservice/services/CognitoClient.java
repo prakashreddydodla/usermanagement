@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.services;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,17 +11,12 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -75,15 +69,9 @@ import com.amazonaws.services.cognitoidp.model.UpdateGroupRequest;
 import com.amazonaws.services.cognitoidp.model.UpdateGroupResult;
 import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.nimbusds.jwt.JWTClaimsSet;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
-import com.otsi.retail.authservice.gatewayresponse.GateWayResponse;
 import com.otsi.retail.authservice.requestModel.AdminCreatUserRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.NewPasswordChallengeRequest;
@@ -91,26 +79,19 @@ import com.otsi.retail.authservice.requestModel.StoreVO;
 import com.otsi.retail.authservice.requestModel.UpdateUserAttribute;
 import com.otsi.retail.authservice.requestModel.UpdateUserRequest;
 import com.otsi.retail.authservice.utils.CognitoAtributes;
-import com.otsi.retail.authservice.utils.Config;
-
 
 @Component
 public class CognitoClient {
 
 	private final AWSCognitoIdentityProvider client;
-	
-	@Autowired
-	private Config config;
-	
-	RestTemplate restTemplate = new RestTemplate();
-
 	//private Logger logger = LogManager.getLogger(CognitoClient.class);
+
+
 	private String ACCESS_KEY;
 	private String SECRET_ACCESS_KEY;
 	private String CLIENT_ID;
 	private String USERPOOL_ID;
 	private String REGION;
-
 
 	public CognitoClient(
 
@@ -189,7 +170,7 @@ public class CognitoClient {
 	// This API is used assign role(group) to user
 	public AdminAddUserToGroupResult addRolesToUser(String groupName, String userName)
 			throws InvalidParameterException, Exception {
-		logger.info("##############  addRolesToUser method starts  ##############");
+		//logger.info("##############  addRolesToUser method starts  ##############");
 		List<String> errors = new ArrayList<>();
 		if (StringUtils.isEmpty(groupName)) {
 			errors.add("GroupName missing");
@@ -204,7 +185,7 @@ public class CognitoClient {
 			adminAddUserToGroupRequest.setUsername(userName);
 			adminAddUserToGroupRequest.setUserPoolId(USERPOOL_ID);
 			AdminAddUserToGroupResult result = client.adminAddUserToGroup(adminAddUserToGroupRequest);
-			logger.info("##############  addRolesToUser method ends  ##############");
+			//logger.info("##############  addRolesToUser method ends  ##############");
 
 			return result;
 		} else {
@@ -215,7 +196,7 @@ public class CognitoClient {
 
 	// this API is used to assgin store to user in userpool
 	public AdminUpdateUserAttributesResult addStoreToUser(List<Store> stores, String userName) throws Exception {
-		logger.info("##############  addStoreToUser method starts  ##############");
+		//logger.info("##############  addStoreToUser method starts  ##############");
 
 		AdminUpdateUserAttributesRequest updateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
 		List<AttributeType> attributes = new ArrayList<>();
@@ -232,14 +213,45 @@ public class CognitoClient {
 			updateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
 			updateUserAttributesRequest.setUserAttributes(attributes);
 			AdminUpdateUserAttributesResult result = client.adminUpdateUserAttributes(updateUserAttributesRequest);
-			logger.info("##############  addStoreToUser method ends  ##############");
+			//logger.info("##############  addStoreToUser method ends  ##############");
 
 			return result;
 		} else
-			logger.debug("No user found with this username in userpool");
-		logger.error("No user found with this username in userpool");
+			//logger.debug("No user found with this username in userpool");
+		//logger.error("No user found with this username in userpool");
 		throw new Exception("No user found with this username in userpool");
 	}
+	public AdminUpdateUserAttributesResult addClientToUser(List<ClientDetails> clients, String userName) throws Exception {
+		//logger.info("##############  addStoreToUser method starts  ##############");
+
+		AdminUpdateUserAttributesRequest updateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
+		List<AttributeType> attributes = new ArrayList<>();
+		AttributeType attributeType = null;
+		AdminGetUserResult userAttributes = getUserFromUserpool(userName);
+		if (userAttributes != null) {
+			attributeType = userAttributes.getUserAttributes().stream()
+					.filter(a -> a.getName().equals(CognitoAtributes.CLIENT_ID)).findFirst().get();
+			StringBuilder assignedclients = new StringBuilder(attributeType.getValue());
+			clients.stream().forEach(a -> assignedclients.append("," +  a.getId()));
+
+			attributes.add(new AttributeType().withName(CognitoAtributes.CLIENT_ID)
+					.withValue(assignedclients.toString()));
+			updateUserAttributesRequest.setUsername(userName);
+			updateUserAttributesRequest.setUserPoolId(USERPOOL_ID);
+			updateUserAttributesRequest.setUserAttributes(attributes);
+			AdminUpdateUserAttributesResult result = client.adminUpdateUserAttributes(updateUserAttributesRequest);
+			//logger.info("##############  addStoreToUser method ends  ##############");
+
+			return result;
+		} else
+			//logger.debug("No user found with this username in userpool");
+		//logger.error("No user found with this username in userpool");
+		throw new Exception("No user found with this username in userpool");
+	}
+	
+	
+	
+	
 
 	// This API is used to get user details from userpool for given userName
 	public AdminGetUserResult getUserFromUserpool(String userName) throws Exception {
@@ -251,21 +263,21 @@ public class CognitoClient {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 				return result;
 			} else {
-				logger.error("No user found" + result);
+				//logger.error("No user found" + result);
 				throw new Exception("No user found" + result);
 			}
 		} catch (UserNotFoundException une) {
-			logger.error(une.getErrorMessage());
+			//logger.error(une.getErrorMessage());
 			throw new Exception(une.getErrorMessage());
 		}
 
 		catch (InvalidParameterException ie) {
-			logger.error(ie.getErrorMessage());
+			//logger.error(ie.getErrorMessage());
 			throw new Exception(ie.getErrorMessage());
 		}
 
 		catch (Exception e) {
-			logger.error(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -286,16 +298,16 @@ public class CognitoClient {
 			return result;
 
 		} catch (UsernameExistsException uee) {
-			logger.error("username already exits");
+			//logger.error("username already exits");
 			throw new Exception(uee.getErrorMessage());
 
 		} catch (AliasExistsException ae) {
-			logger.error("email already exits");
+			//logger.error("email already exits");
 			throw new Exception("email already exits");
 		}
 
 		catch (InvalidParameterException ie) {
-			logger.error(ie.getErrorMessage());
+			//logger.error(ie.getErrorMessage());
 			throw new Exception(ie.getErrorMessage());
 		}
 
@@ -435,76 +447,25 @@ public class CognitoClient {
 					.withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH).withUserPoolId(USERPOOL_ID).withClientId(CLIENT_ID)
 					.withAuthParameters(authParams);
 			AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
-			/*String idToken = authResult.getAuthenticationResult().getIdToken();
-		JWTClaimsSet claims =	getClaimsfromToken(idToken);
-		
-		
-		Long clientId = (Long) claims.getClaim("custom:clientId1");
-		
-		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(clientId);
-
-		ClientDetails client =	clientDetails.get();
-	int number=	client.getPlanExpiryDate().compareTo(LocalDateTime.now());
-	if(number>0) {
-		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "plan was expired please go to renewal");
-	}
-*/
-		return authResult;
-		
+			return authResult;
 		} catch (InvalidParameterException e) {
-			logger.error(e.getErrorMessage());
+			//logger.error(e.getErrorMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getErrorMessage());
 
 		} catch (PasswordResetRequiredException pre) {
-			logger.error(pre.getErrorMessage());
+			//logger.error(pre.getErrorMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, pre.getErrorMessage());
 		} catch (NotAuthorizedException nae) {
-			logger.error(nae.getErrorMessage());
+			//logger.error(nae.getErrorMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, nae.getErrorMessage());
 		}
 
 	}
-	///////////////
-	private JWTClaimsSet getClaimsfromToken(@RequestParam String token) {
-
-		
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity entity = new HttpEntity(headers);
-		
-		ResponseEntity<JWTClaimsSet> res = restTemplate.exchange(config.getToken()+ "?token=" + token, HttpMethod.GET, entity,
-				JWTClaimsSet.class);
-
-		
-
-	/*	ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
-				.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
-		GateWayResponse<?> gatewayResponse = mapper.convertValue(res.getBody(),
-				GateWayResponse.class);
-
-		JWTClaimsSet claims = mapper.convertValue(gatewayResponse.getResult(),
-				new TypeReference<JWTClaimsSet>() {
-				});
-*/
-		return res.getBody();
-
-	}
-	
-///////////
-	
-	
-	
-	
-	
-	
-	
 
 	// When admin create the user. Then user will create with temporary password.
 	// So that user sholud set the new password by using thi api
 	public AdminRespondToAuthChallengeResult respondAuthChalleng(NewPasswordChallengeRequest request) {
-		logger.info("##############  respondAuthChalleng method starts  ##############");
+		//logger.info("##############  respondAuthChalleng method starts  ##############");
 
 		AdminRespondToAuthChallengeRequest challengRequest = new AdminRespondToAuthChallengeRequest();
 		Map<String, String> challengeResponses = new HashMap<>();
@@ -517,12 +478,12 @@ public class CognitoClient {
 		challengRequest.setUserPoolId(USERPOOL_ID);
 		challengRequest.setSession(request.getSession());
 		AdminRespondToAuthChallengeResult result = client.adminRespondToAuthChallenge(challengRequest);
-		logger.info("##############  respondAuthChalleng method ends  ##############");
+		//logger.info("##############  respondAuthChalleng method ends  ##############");
 		return result;
 	}
 
 	public ForgotPasswordResult forgetPassword(String userName) throws Exception {
-		logger.info("##############  forgetPassword method starts  ##############");
+		//logger.info("##############  forgetPassword method starts  ##############");
 
 		ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest();
 		forgotPasswordRequest.setUsername(userName);
@@ -530,24 +491,24 @@ public class CognitoClient {
 		try {
 			ForgotPasswordResult result = client.forgotPassword(forgotPasswordRequest);
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				logger.info("##############  forgetPassword method ends  ##############");
+				//logger.info("##############  forgetPassword method ends  ##############");
 				return result;
 			} else {
-				logger.debug("failed");
-				logger.error("failed");
+				//logger.debug("failed");
+				//logger.error("failed");
 				throw new Exception("failed");
 			}
 
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
 
 	public ConfirmForgotPasswordResult confirmForgetPassword(String userName, String confirmationCode,
 			String newPassword) throws Exception {
-		logger.info("##############  confirmForgetPassword method starts  ##############");
+		//logger.info("##############  confirmForgetPassword method starts  ##############");
 
 		ConfirmForgotPasswordRequest confirmforgotPasswordRequest = new ConfirmForgotPasswordRequest();
 		confirmforgotPasswordRequest.setUsername(userName);
@@ -558,18 +519,18 @@ public class CognitoClient {
 		try {
 			ConfirmForgotPasswordResult result = client.confirmForgotPassword(confirmforgotPasswordRequest);
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				logger.info("##############  confirmForgetPassword method ends  ##############");
+				//logger.info("##############  confirmForgetPassword method ends  ##############");
 
 				return result;
 			} else {
-				logger.debug("failed");
-				logger.error("failed");
+				//logger.debug("failed");
+				//logger.error("failed");
 				throw new Exception("failed");
 			}
 
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 
@@ -579,7 +540,7 @@ public class CognitoClient {
 	public CreateGroupResult createRole(CreateRoleRequest input) throws Exception {
 		CreateGroupRequest request = new CreateGroupRequest();
 		if (input.getRoleName() == null) {
-			logger.error("Role name should not be null");
+			//logger.error("Role name should not be null");
 			throw new Exception("Role name should not be null");
 		}
 		request.setGroupName(input.getRoleName());
@@ -591,27 +552,27 @@ public class CognitoClient {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
 				return result;
 			} else {
-				logger.error("failed");
+				//logger.error("failed");
 				throw new Exception("failed");
 			}
 		} catch (GroupExistsException e) {
 			//logger.error(e.getErrorMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role Name Already Exist In Cognito UserPool");
 		} catch (InvalidParameterException ie) {
-			logger.error(ie.getErrorMessage());
+			//logger.error(ie.getErrorMessage());
 			throw new Exception(ie.getErrorMessage());
 		} catch (LimitExceededException lee) {
-			logger.error(lee.getErrorMessage());
+			//logger.error(lee.getErrorMessage());
 			throw new Exception(lee.getErrorMessage());
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
 
 	// To update Group(role) in the cognito userpool
 	public UpdateGroupResult updateRole(CreateRoleRequest input) throws Exception {
-		logger.info("##############  updateRole method starts  ##############");
+		//logger.info("##############  updateRole method starts  ##############");
 
 		UpdateGroupRequest request = new UpdateGroupRequest();
 		request.setGroupName(input.getRoleName());
@@ -619,16 +580,16 @@ public class CognitoClient {
 		request.setUserPoolId(USERPOOL_ID);
 		try {
 			UpdateGroupResult response = client.updateGroup(request);
-			logger.info("##############  updateRole method ends  ##############");
+			//logger.info("##############  updateRole method ends  ##############");
 
 			return response;
 		} catch (InvalidParameterException ipe) {
-			logger.debug(ipe.getErrorMessage());
-			logger.error(ipe.getErrorMessage());
+			//logger.debug(ipe.getErrorMessage());
+			//logger.error(ipe.getErrorMessage());
 			throw new RuntimeException(ipe.getErrorMessage());
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -643,22 +604,22 @@ public class CognitoClient {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == HttpStatus.OK.value()) {
 				return result;
 			} else
-				logger.error("failed to update");
+				//logger.error("failed to update");
 			throw new Exception("failed to update");
 		} catch (InvalidParameterException ie) {
-			logger.debug(ie.getErrorMessage());
-			logger.error(ie.getErrorMessage());
+			//logger.debug(ie.getErrorMessage());
+			//logger.error(ie.getErrorMessage());
 			throw new Exception(ie.getErrorMessage());
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
 
 	// To Enable the user in userpool for given username
 	public AdminDisableUserResult userDisabled(String userName) throws Exception {
-		logger.info("##############  userDisabled method starts  ##############");
+		//logger.info("##############  userDisabled method starts  ##############");
 
 		AdminDisableUserRequest request = new AdminDisableUserRequest();
 		request.setUsername(userName);
@@ -667,20 +628,20 @@ public class CognitoClient {
 		try {
 			AdminDisableUserResult result = client.adminDisableUser(request);
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == 200) {
-				logger.info("##############  userDisabled method ends  ##############");
+				//logger.info("##############  userDisabled method ends  ##############");
 				return result;
 			} else
-				logger.debug("failed to update");
-			logger.error("failed to update");
+				//logger.debug("failed to update");
+			//logger.error("failed to update");
 			throw new Exception("failed to update");
 		} catch (InvalidParameterException ie) {
 
-			logger.debug(ie.getErrorMessage());
-			logger.error(ie.getErrorMessage());
+			//logger.debug(ie.getErrorMessage());
+			//logger.error(ie.getErrorMessage());
 			throw new Exception(ie.getErrorMessage());
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -694,18 +655,18 @@ public class CognitoClient {
 			if (result.getSdkHttpMetadata().getHttpStatusCode() == HttpStatus.OK.value()) {
 				return result;
 			} else {
-				logger.error("No users found");
+				//logger.error("No users found");
 				throw new Exception("No users found");
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
 	}
 
 	// Update the user in userpool. We need to set the update values to user
 	public AdminUpdateUserAttributesResult updateUserInCognito(UpdateUserRequest request) {
-		logger.info("##############  updateUserInCognito method starts  ##############");
+		//logger.info("##############  updateUserInCognito method starts  ##############");
 		String accountStatus;
 		try {
 			AdminUpdateUserAttributesRequest adminUpdateUserAttributesRequest = new AdminUpdateUserAttributesRequest();
@@ -800,52 +761,50 @@ public class CognitoClient {
 			adminUpdateUserAttributesRequest.setUserAttributes(userAtributes);
 
 			AdminUpdateUserAttributesResult result = client.adminUpdateUserAttributes(adminUpdateUserAttributesRequest);
-			logger.info("##############  updateUserInCognito method ends  ##############");
+			//logger.info("##############  updateUserInCognito method ends  ##############");
 
 			return result;
 		} catch (InvalidParameterException ipe) {
-			logger.debug(ipe.getErrorMessage());
-			logger.error(ipe.getErrorMessage());
+			//logger.debug(ipe.getErrorMessage());
+			//logger.error(ipe.getErrorMessage());
 			throw new RuntimeException(ipe.getErrorMessage());
 		} catch (RuntimeException re) {
-			logger.debug(re.getMessage());
-			logger.error(re.getMessage());
+			//logger.debug(re.getMessage());
+			//logger.error(re.getMessage());
 			throw new RuntimeException(re.getMessage());
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			logger.error(e.getMessage());
+			//logger.debug(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		}
 
 	}
 
 	public AdminResetUserPasswordResult adminresetPassword(String userName) throws Exception {
-		logger.info("##############  adminresetPassword method starts  ##############");
+		//logger.info("##############  adminresetPassword method starts  ##############");
 		try {
 			AdminResetUserPasswordRequest request = new AdminResetUserPasswordRequest();
 			request.setUsername(userName);
 			request.setUserPoolId(USERPOOL_ID);
 			AdminResetUserPasswordResult result = client.adminResetUserPassword(request);
-			logger.info("##############  adminresetPassword method ends  ##############");
+			//logger.info("##############  adminresetPassword method ends  ##############");
 			return result;
 		} catch (InvalidEmailRoleAccessPolicyException ierae) {
-			logger.debug(ierae.getErrorMessage());
-			logger.error(ierae.getErrorMessage());
+			//logger.debug(ierae.getErrorMessage());
+			//logger.error(ierae.getErrorMessage());
 			throw new Exception(ierae.getErrorMessage());
-		}catch (UserNotFoundException ierae) {
-			logger.debug(ierae.getErrorMessage());
-			logger.error(ierae.getErrorMessage());
-			throw new Exception(ierae.getErrorMessage());
-		}
+		} catch (UserNotFoundException userNotFoundException) {
+			//logger.debug(userNotFoundException.getErrorMessage());
+			//logger.error(userNotFoundException.getErrorMessage());
+			throw new Exception(userNotFoundException.getErrorMessage());
+		} 
 
 	}
 
 	public AdminUpdateUserAttributesResult updateSingleUserAttributeInUserpool(UpdateUserAttribute req) {
 
 		try {
-			logger.info(
-					"##############  updateSingleUserAttributeInUserpool method starts with request :   ##############"
-							+ req);
+			//logger.info("##############  updateSingleUserAttributeInUserpool method starts with request :   ##############"+ req);
 			AdminUpdateUserAttributesRequest request = new AdminUpdateUserAttributesRequest();
 			request.setUsername(req.getUserName());
 			request.setUserPoolId(USERPOOL_ID);
@@ -853,15 +812,15 @@ public class CognitoClient {
 			userAtributes.add(new AttributeType().withName(req.getAttributeName()).withValue(req.getAttributeValue()));
 			request.setUserAttributes(userAtributes);
 			AdminUpdateUserAttributesResult res = client.adminUpdateUserAttributes(request);
-			logger.info("##############  updateSingleUserAttributeInUserpool method ends  ##############");
+			//logger.info("##############  updateSingleUserAttributeInUserpool method ends  ##############");
 
 			return res;
 		} catch (UserNotFoundException unfe) {
-			logger.error(unfe.getErrorMessage());
+			//logger.error(unfe.getErrorMessage());
 			throw new RuntimeException(unfe.getErrorMessage());
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			//logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 
 		}
