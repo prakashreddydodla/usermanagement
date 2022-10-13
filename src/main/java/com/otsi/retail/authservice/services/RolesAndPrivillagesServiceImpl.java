@@ -50,6 +50,7 @@ import com.otsi.retail.authservice.requestModel.RoleVO;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.requestModel.SubPrivilegeVO;
 import com.otsi.retail.authservice.requestModel.SubPrivilegesVO;
+import com.otsi.retail.authservice.requestModel.UpdatePlansRequest;
 import com.otsi.retail.authservice.utils.DateConverters;
 import com.otsi.retail.authservice.utils.PrevilegeType;
 
@@ -78,7 +79,8 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 	@Autowired
 	private ChildPrivilegeRepo childPrivilegeRepo;
-
+	
+	
 	private Logger logger = LogManager.getLogger(RolesAndPrivillagesServiceImpl.class);
 
 	@Override
@@ -905,4 +907,38 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 		return planPrivilegeVO;
 	}
-}
+
+	@Override
+	public String updatePlanPrivileges(UpdatePlansRequest updatePlansRequest) {
+		
+		if (updatePlansRequest.getPrevilegeType().equalsIgnoreCase("parent"))
+
+		{
+			ParentPrivilege parentPrivilege = privilageRepository.findByPlanIdAndId(updatePlansRequest.getPlanId(),
+					updatePlansRequest.getPrevilegeId());
+			if (parentPrivilege != null) {
+				parentPrivilege.setIsActive(updatePlansRequest.getIsActive());
+				privilageRepository.save(parentPrivilege);
+			} else {
+				throw new RecordNotFoundException("Record not found", 404);
+			}
+		} else if (updatePlansRequest.getPrevilegeType().equalsIgnoreCase("sub")) {
+			Optional<SubPrivilege> subPrivilege = subPrivillageRepo.findById(updatePlansRequest.getPrevilegeId());
+			if (subPrivilege.isPresent()) {
+				SubPrivilege subPrivilegeEntity = subPrivilege.get();
+				subPrivilegeEntity.setIsActive(updatePlansRequest.getIsActive());
+				subPrivillageRepo.save(subPrivilegeEntity);
+			} else {
+				throw new RecordNotFoundException("Record not found", 404);
+			}
+
+		} else {
+
+			throw new InvalidInputsException("Data Invalid");
+
+		}
+
+		return "Plan Updated Successfully";
+		
+	}
+}		

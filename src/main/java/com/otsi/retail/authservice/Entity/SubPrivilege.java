@@ -57,7 +57,12 @@ public class SubPrivilege extends BaseEntity {
 	
 	private String roleName;
 	
+	private Boolean isActive;
 
 	
-}
+	}
+	
+
+	
+
 
