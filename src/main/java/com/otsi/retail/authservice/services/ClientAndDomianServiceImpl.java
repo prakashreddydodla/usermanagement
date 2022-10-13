@@ -779,8 +779,8 @@ if(userDetails.isPresent()) {
 	Optional<ClientDetails> clients =	clientDetailsRepository.findById(clientDetailsVO.getId());
 	if(clients.isPresent()) {
 		ClientDetails client = clients.get();
-		client = clientMapper.convertVOToEntity(clientDetailsVO);
-		/*client.setActive(clientDetailsVO.isActive());
+		//client = clientMapper.convertVOToEntity(clientDetailsVO);
+		client.setActive(clientDetailsVO.isActive());
 		client.setAddress(clientDetailsVO.getAddress());
 		client.setAmount(clientDetailsVO.getAmount());
 		client.setCreatedBy(clientDetailsVO.getCreatedBy());
@@ -788,9 +788,15 @@ if(userDetails.isPresent()) {
 		client.setEmail(clientDetailsVO.getEmail());
 		client.setMobile(clientDetailsVO.getMobile());
 client.setName(clientDetailsVO.getName());	
-client.setOrganizationName(clientDetailsVO.getOrganizationName());*/
+client.setOrganizationName(clientDetailsVO.getOrganizationName());
 client.setPlanTenure(clientDetailsVO.getPlanTenure());
-client.setPlanDetails(clientDetailsVO.getPlandetails());
+if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
+	Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
+	if (plans.isPresent()) {
+		client.setPlanDetails(plans.get());
+	}
+}
+//client.setPlanDetails(clientDetailsVO.getPlandetails());
 ClientDetails client1=saveClientExpiryAndActivationDate(clientDetailsVO.getId());
 client.setPlanActivationDate(client1.getPlanActivationDate());
 client.setPlanExpiryDate(client1.getPlanExpiryDate());
