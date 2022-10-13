@@ -61,7 +61,7 @@ ingress:
   annotations: 
     nginx.ingress.kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/tls-acme: "true"
-    nginx.ingress.kubernetes.io/auth-keepalive-timeout: 70
+    nginx.ingress.kubernetes.io/auth-keepalive-timeout: "70s"
   hosts:
     - host: chart-example.local
       paths:
