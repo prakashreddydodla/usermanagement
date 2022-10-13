@@ -3,6 +3,7 @@ package com.otsi.retail.authservice.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,7 +44,6 @@ import com.otsi.retail.authservice.mapper.RoleMapper;
 import com.otsi.retail.authservice.requestModel.CreatePrivilegesRequest;
 import com.otsi.retail.authservice.requestModel.CreateRoleRequest;
 import com.otsi.retail.authservice.requestModel.ParentPrivilegeVO;
-import com.otsi.retail.authservice.requestModel.ParentPrivilegesVO;
 import com.otsi.retail.authservice.requestModel.PlanPrivilegeVo;
 import com.otsi.retail.authservice.requestModel.PrivilegeVO;
 import com.otsi.retail.authservice.requestModel.RoleVO;
@@ -879,14 +879,15 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	public List<PlanPrivilegeVo> getPrivilegeByPlan() {
 
 		List<PlanPrivilegeVo> planPrivilegeVO = new ArrayList<>();
-		List<ParentPrivilege> privileges = privilageRepository.findByPrevilegeTypeAndPlanIdIsNotNull(PrevilegeType.Web);
+		List<ParentPrivilege> privileges = privilageRepository.findByPrevilegeTypeAndPlanIdIsNotNullOrderByCreatedDateDesc(PrevilegeType.Web);
 
-		Map<Long, List<ParentPrivilege>> privilegesPerType = privileges.stream()
-				.collect(Collectors.groupingBy(ParentPrivilege::getPlanId));
-		// logger.info(postsPerType);
+		/*
+		 * Map<Long, List<ParentPrivilege>> privilegesPerType = privileges.stream()
+		 * .collect(Collectors.groupingBy(ParentPrivilege::getPlanId));
+		 */	// logger.info(postsPerType);
+		Map<Long, List<ParentPrivilege>> privilegesPerTypes  = privileges.stream().collect(Collectors.groupingBy(p -> p.getPlanId(), LinkedHashMap::new, Collectors.toList()));
 
-
-		privilegesPerType.keySet().forEach(planId -> {
+		privilegesPerTypes.keySet().forEach(planId -> {
 			PlanPrivilegeVo planPrivilegeVo = new PlanPrivilegeVo();
 
 
@@ -894,7 +895,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 			planPrivilegeVo.setPlanType(plan.get().getPlanName());
 
-			List<ParentPrivilege> parentPrivilege = privilegesPerType.get(planId);
+			List<ParentPrivilege> parentPrivilege = privilegesPerTypes.get(planId);
 
 			List<ParentPrivilegeVO> parentPrivilegeVOsList = rolemapper
 					.convertParentPrevilegesEntityToVo(parentPrivilege);
