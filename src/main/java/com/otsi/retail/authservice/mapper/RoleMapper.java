@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.mapper;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -245,8 +246,14 @@ public class RoleMapper {
 			parentPrivilegeVO.setParentImage(parentPrivilege.getParentImage());
 			parentPrivilegeVO.setPrevilegeType(parentPrivilege.getPrevilegeType());
 			List<SubPrivilege> filteredSubPrivileges = parentPrivilege.getSubPrivileges();
+			
+			List<SubPrivilege> sortedSubPrivileges = filteredSubPrivileges.stream()
+					  .sorted(Comparator.comparing(SubPrivilege::getName))
+					  .collect(Collectors.toList());
+			//List<SubPrivilege> filteredSubPrivileges =	filteredSubPrivilege.sort(Comparator.comparing(SubPrivilege::getName));
 
-			filteredSubPrivileges.stream().forEach(sub -> {
+
+			sortedSubPrivileges.stream().forEach(sub -> {
 				List<ChildPrivilege> masterchildPrivilege = childPrivilegeRepo.findBySubPrivillageId(sub.getId());
 
 				List<ChildPrivilege> childPrivilegesData = chilePrivilegesList.stream()
