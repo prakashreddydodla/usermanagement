@@ -71,8 +71,7 @@ ingress:
   hosts:
     - host: apigateway.easyretailworld.com
       paths:
-      - path: /*
-        pathType: Excat
+      - path: /
         backend:
           serviceName: usermanagement
           servicePort: 8084
