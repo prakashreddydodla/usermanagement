@@ -1,5 +1,6 @@
 package com.otsi.retail.authservice.services;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +53,7 @@ import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.AliasExistsException;
 import com.amazonaws.services.cognitoidp.model.AttributeType;
 import com.amazonaws.services.cognitoidp.model.AuthFlowType;
+import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
 import com.amazonaws.services.cognitoidp.model.ChallengeNameType;
 import com.amazonaws.services.cognitoidp.model.ConfirmForgotPasswordRequest;
 import com.amazonaws.services.cognitoidp.model.ConfirmForgotPasswordResult;
@@ -79,7 +81,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
@@ -101,6 +106,13 @@ public class CognitoClient {
 	
 	@Autowired
 	private Config config;
+	
+	@Autowired
+	private ClientAndDomianService clientDomaAndDomianService;
+	
+	@Autowired
+	private ConfigurableJWTProcessor configurableJWTProcessor;
+
 	
 	RestTemplate restTemplate = new RestTemplate();
 
@@ -452,9 +464,10 @@ public class CognitoClient {
 	 * @param email
 	 * @param password
 	 * @return
+	 * @throws NumberFormatException 
 	 * @throws Exception
 	 */
-	public AdminInitiateAuthResult loginWithTempPassword(String email, String password) {
+	public AdminInitiateAuthResult loginWithTempPassword(String email, String password) throws NumberFormatException, Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
 				put("USERNAME", email);
@@ -480,6 +493,17 @@ public class CognitoClient {
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "plan was expired please go to renewal");
 	}
 */
+			
+			AuthenticationResultType authResultType = authResult.getAuthenticationResult();
+			if (authResultType != null) {
+				String token = authResultType.getIdToken();
+				JWTClaimsSet jwtClaimsSet = getCliamsFromToken(token);
+				String clientId = String.valueOf(jwtClaimsSet.getClaim("custom:clientId1"));
+				ClientDetails clientDetails = clientDomaAndDomianService.getClient(Long.valueOf(clientId));
+				if (clientDetails.getPlanExpiryDate() != null && clientDetails.getPlanExpiryDate().isBefore(LocalDateTime.now())) {
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "subscription to plan has expired kindly please renewal your plan");
+				}
+			}
 		return authResult;
 		
 		} catch (InvalidParameterException e) {
@@ -495,6 +519,17 @@ public class CognitoClient {
 		}
 
 	}
+	
+	public JWTClaimsSet getCliamsFromToken(String token) throws ParseException, BadJOSEException, JOSEException {
+		return configurableJWTProcessor.process(getBearerToken(token), null);
+
+	}
+
+	private String getBearerToken(String token) {
+		return token.startsWith("Bearer ") ? token.substring("Bearer ".length()) : token;
+	}
+	
+	
 	///////////////
 	private JWTClaimsSet getClaimsfromToken(@RequestParam String token) {
 
