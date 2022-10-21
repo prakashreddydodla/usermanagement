@@ -60,7 +60,7 @@ public class RoleMapper {
 			parentPrivilegeVO.setName(privilege.getName());
 			parentPrivilegeVO.setDescription(privilege.getDescription());
 			parentPrivilegeVO.setPath(privilege.getPath());
-			parentPrivilegeVO.setParentImage(privilege.getParentImage());
+			parentPrivilegeVO.setParentImage(privilege.getIconName());
 			parentPrivilegeVO.setPrevilegeType(privilege.getPrevilegeType());
 			parentPrivileges.add(parentPrivilegeVO);
 		});
@@ -243,7 +243,7 @@ public class RoleMapper {
 			parentPrivilegeVO.setName(parentPrivilege.getName());
 			parentPrivilegeVO.setDescription(parentPrivilege.getDescription());
 			parentPrivilegeVO.setPath(parentPrivilege.getPath());
-			parentPrivilegeVO.setParentImage(parentPrivilege.getParentImage());
+			parentPrivilegeVO.setParentImage(parentPrivilege.getIconName());
 			parentPrivilegeVO.setPrevilegeType(parentPrivilege.getPrevilegeType());
 			List<SubPrivilege> filteredSubPrivileges = parentPrivilege.getSubPrivileges();
 			
@@ -330,7 +330,7 @@ public class RoleMapper {
 		ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
 		parentPrivillagesVo.setPath(parentPrivilege.getPath());
 		parentPrivillagesVo.setPrevilegeType(parentPrivilege.getPrevilegeType());
-		parentPrivillagesVo.setParentImage(parentPrivilege.getParentImage());
+		parentPrivillagesVo.setParentImage(parentPrivilege.getIconName());
 
 		parentPrivillagesVo.setId(parentPrivilege.getId());
 		parentPrivillagesVo.setName(parentPrivilege.getName());

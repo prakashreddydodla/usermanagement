@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -463,11 +464,12 @@ public class CognitoClient {
 	 * 
 	 * @param email
 	 * @param password
+	 * @param clientId2 
 	 * @return
 	 * @throws NumberFormatException 
 	 * @throws Exception
 	 */
-	public AdminInitiateAuthResult loginWithTempPassword(String email, String password) throws NumberFormatException, Exception {
+	public AdminInitiateAuthResult loginWithTempPassword(String email, String password, Long clientId2) throws NumberFormatException, Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
 				put("USERNAME", email);
@@ -499,11 +501,15 @@ public class CognitoClient {
 				String token = authResultType.getIdToken();
 				JWTClaimsSet jwtClaimsSet = getCliamsFromToken(token);
 				String clientId = String.valueOf(jwtClaimsSet.getClaim("custom:clientId1"));
+				if(StringUtils.isNotEmpty(clientId)&& (Long.valueOf(clientId))!=0) {
+				
 				ClientDetails clientDetails = clientDomaAndDomianService.getClient(Long.valueOf(clientId));
 				if (clientDetails.getPlanExpiryDate() != null && clientDetails.getPlanExpiryDate().isBefore(LocalDateTime.now())) {
 					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "subscription to plan has expired kindly please renewal your plan");
 				}
 			}
+			}
+			
 		return authResult;
 		
 		} catch (InvalidParameterException e) {

@@ -39,7 +39,6 @@ private Boolean write;
 
 private String path;
 
-private String parentImage;
 
 private Boolean isActive;
 
@@ -53,6 +52,10 @@ private Long domain;
 private PrevilegeType previlegeType;
 
 private Long planId;
+
+private String iconName;
+
+
 
 @OneToMany(mappedBy = "parentPrivilegeId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 private List<SubPrivilege> subPrivileges;
