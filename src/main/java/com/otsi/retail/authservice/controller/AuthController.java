@@ -168,7 +168,7 @@ public class AuthController {
 			@ApiResponse(code = 200, message = "Successful retrieval", 
 			response = AdminInitiateAuthResult.class, responseContainer = "Object") })
 	@PostMapping(path = EndpointConstants.LOGIN_WITH_TEMP_PASS)
-	public ResponseEntity<?> loginwithTempPassword(@RequestBody LoginRequest request) throws NumberFormatException, Exception {
+	public ResponseEntity<?> loginwithTempPassword(@RequestBody LoginRequest request,@RequestHeader(required=false)Long clientId) throws NumberFormatException, Exception {
 		AdminInitiateAuthResult result = cognitoClient.loginWithTempPassword(request.getEmail(), request.getPassword());
 		return ResponseEntity.ok(result);
 
