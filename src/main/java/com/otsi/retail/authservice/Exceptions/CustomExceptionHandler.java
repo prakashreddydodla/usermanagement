@@ -58,4 +58,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(error, ex.getStatus());
 	}
 
+	@ExceptionHandler(value = PlanExpirationException.class)
+	public ResponseEntity<Object> handlePlanExpirationException(PlanExpirationException planExpirationException) {
+		ErrorResponse<?> error = new ErrorResponse<>(planExpirationException.getStatusCode(),
+				planExpirationException.getMessage());
+		log.error("error response is:" + error + " status:" + planExpirationException.getStatusCode());
+		return new ResponseEntity<Object>(error, HttpStatus.valueOf(planExpirationException.getStatusCode()));
+	}
+
 }

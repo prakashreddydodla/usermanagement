@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,7 @@ import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.Exceptions.BusinessException;
+import com.otsi.retail.authservice.Exceptions.PlanExpirationException;
 import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
@@ -861,5 +863,25 @@ return "clientUpdatedSuceesfully";
 			return userVo;
 		}
 		return Collections.EMPTY_LIST;
+	}
+	
+	@Override
+	public ClientDetailsVO getPlanExpiry(Long clientId) {
+		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(clientId);
+		ClientDetails clientDetailsEntity = clientDetails.get();
+		ClientDetailsVO clientDetailsVo = new ClientDetailsVO();
+		if (clientDetails.isPresent()) {
+			if (LocalDateTime.now().isAfter(clientDetailsEntity.getPlanExpiryDate())) {
+				throw new PlanExpirationException("Plan Expired", 404);
+			} else {
+
+				BeanUtils.copyProperties(clientDetailsEntity, clientDetailsVo);
+
+				return clientDetailsVo;
+
+			}
+		}
+		return clientDetailsVo;
+
 	}
 }
