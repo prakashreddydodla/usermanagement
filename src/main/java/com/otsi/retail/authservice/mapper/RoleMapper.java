@@ -245,7 +245,7 @@ public class RoleMapper {
 			parentPrivilegeVO.setPath(parentPrivilege.getPath());
 			parentPrivilegeVO.setParentImage(parentPrivilege.getIconName());
 			parentPrivilegeVO.setPrevilegeType(parentPrivilege.getPrevilegeType());
-			List<SubPrivilege> filteredSubPrivileges = parentPrivilege.getSubPrivileges();
+			List<SubPrivilege> filteredSubPrivileges = role.getSubPrivileges();
 			
 			List<SubPrivilege> sortedSubPrivileges = filteredSubPrivileges.stream()
 					  .sorted(Comparator.comparing(SubPrivilege::getName))

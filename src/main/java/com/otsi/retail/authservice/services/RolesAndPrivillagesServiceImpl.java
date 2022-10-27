@@ -83,6 +83,9 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 	private ChildPrivilegeRepo childPrivilegeRepo;
 
 	private Logger logger = LogManager.getLogger(RolesAndPrivillagesServiceImpl.class);
+	
+	ClientDetails client = new ClientDetails();
+
 
 	@Override
 	public String savePrivilege(List<CreatePrivilegesRequest> privilages) throws Exception {
@@ -720,10 +723,10 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 		PrivilegeVO privilegeVO = new PrivilegeVO();
 		List<ParentPrivilege> entity = new ArrayList<>();
 		Optional<ClientDetails> clients = clientDetailsrepo.findById(clientId);
-		ClientDetails client = new ClientDetails();
 		if (clients.isPresent()) {
 			client = clients.get();
 		}
+		
 		if (ObjectUtils.isNotEmpty(client.getPlanDetails())) {
 
 			entity = privilageRepository.findByPlanIdAndIsActiveTrue(client.getPlanDetails().getId());
@@ -731,6 +734,7 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 			entity = privilageRepository.findByIsActiveTrue();
 
 		entity.stream().forEach(p -> {
+			
 			if (p.getPrevilegeType() == PrevilegeType.Web) {
 
 				ParentPrivilegeVO parentPrivilegeVO = rolemapper.convertParentPrivilegeEntityToVo(p);
@@ -741,12 +745,12 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 				if (!CollectionUtils.isEmpty(subPrivileges)) {
 
-					if (isEsSlipEnabled != null && !isEsSlipEnabled) {
+					if (client.getIsEsSlipEnabled()!= null && !client.getIsEsSlipEnabled()) {
 						subPrivileges = subPrivileges.stream().filter(
 								subPrivilege -> !subPrivilege.getChildPath().equalsIgnoreCase("/createddeliveryslip"))
 								.collect(Collectors.toList());
 					}
-					if (isTaxIncluded == null ) {
+					if (client.getIsTaxIncluded() == null) {
 						subPrivileges = subPrivileges.stream()
 								.filter(subPrivilege -> !subPrivilege.getIsTaxApplicable().equals(Tax.taxNotApplicable))
 								.collect(Collectors.toList());
@@ -783,12 +787,12 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 						.findByParentPrivilegeIdIdAndRoleNameIsNull(p.getId());
 				if (!CollectionUtils.isEmpty(subPrivillages)) {
 
-					if (isEsSlipEnabled != null && !isEsSlipEnabled) {
+					if (client.getIsEsSlipEnabled()!= null && !client.getIsEsSlipEnabled()) {
 						subPrivillages = subPrivillages.stream().filter(
 								subPrivilege -> !subPrivilege.getChildPath().equalsIgnoreCase("/createddeliveryslip"))
 								.collect(Collectors.toList());
 					}
-					if (isTaxIncluded == null) {
+					if (client.getIsTaxIncluded() == null) {
 						subPrivillages = subPrivillages.stream()
 								.filter(subPrivilege -> !subPrivilege.getIsTaxApplicable().equals(Tax.taxNotApplicable))
 								.collect(Collectors.toList());
