@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +13,6 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -36,7 +34,6 @@ import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Entity.UserAv;
 import com.otsi.retail.authservice.Entity.UserDetails;
 import com.otsi.retail.authservice.Exceptions.BusinessException;
-import com.otsi.retail.authservice.Exceptions.PlanExpirationException;
 import com.otsi.retail.authservice.Exceptions.RecordNotFoundException;
 import com.otsi.retail.authservice.Repository.ChannelRepo;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
@@ -863,22 +860,22 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	}
 
 	@Override
+	@Transactional(rollbackOn = { Exception.class })
 	public ClientDetailsVO getPlanExpiry(Long clientId) {
 		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(clientId);
 		ClientDetails clientDetailsEntity = clientDetails.get();
 		ClientDetailsVO clientDetailsVo = new ClientDetailsVO();
 		if (clientDetails.isPresent()) {
+			clientDetailsVo = clientMapper.convertClientDetailsEntityToVo(clientDetailsEntity);
 			if (LocalDateTime.now().isAfter(clientDetailsEntity.getPlanExpiryDate())) {
-				// throw new PlanExpirationException("Plan Expired", 404);
-				clientDetailsVo.setPlanExpired(Boolean.TRUE);
+				clientDetailsEntity.setPlanExpired(Boolean.TRUE);
+				clientDetailsVo.setActive(Boolean.FALSE);
 			} else {
-				clientDetailsVo.setPlanExpired(Boolean.FALSE);
-				BeanUtils.copyProperties(clientDetailsEntity, clientDetailsVo);
-
-				return clientDetailsVo;
+				clientDetailsEntity.setPlanExpired(Boolean.FALSE);
+				clientDetailsVo.setActive(Boolean.TRUE);
 
 			}
-			clientDetailsVo.setSystemTime(LocalDateTime.now());
+
 		}
 		return clientDetailsVo;
 
