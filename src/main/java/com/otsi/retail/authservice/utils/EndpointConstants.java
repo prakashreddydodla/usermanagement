@@ -42,7 +42,7 @@ public class EndpointConstants {
 
 	public static final String GET_CLIENT_MAPPING_DETAILS= "/getClientMappingDetails";
 	public static final String GET_CLIENT_MAPPING_SEARCH= "/getClientMappingsearch";
-	public static final String PLAN_EXPIRATION ="planExpirationByTenure";
+	public static final String PLAN_EXPIRATION ="view-plan-expiry";
 
 
 
