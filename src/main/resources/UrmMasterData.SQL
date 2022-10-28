@@ -1,984 +1,3 @@
-
-------------------------- parent parent_privilege----------------------
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
-
-VALUES(650, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Captain portal', 'icon-notes fs-30 i_icon', '/urmDashboard', NULL, 'Web', true, true);
-
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(598, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Dashboard', 'icon-cash_memo fs-30 i_icon', '/dashboard', 'Web', true, true, NULL);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(600, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'URM Portal', 'icon-notes fs-30 i_icon', '/urmDashboard', 'Web', true, true, NULL);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(690, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Dashboard', 'icon-cash_memo fs-30 i_icon', '/dashboard', 'Mobile', true, true, NULL);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(692, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'URM Portal', 'icon-notes fs-30 i_icon', '/urmDashboard', 'Mobile', true, true, NULL);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(500, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Ticketing Portal', 'icon-notes fs-30 i_icon', '/ticketingPortal', 'Web', true, true, NULL);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(795, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 'Mobile', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(782, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 'Web', true, true, 287);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(783, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 'Web', true, true, 287);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(784, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-notes fs-30 i_icon', '/createdeliveryslip', 'Web', true, true, 287);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(785, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 'Web', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(786, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 'Web', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(787, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-notes fs-30 i_icon', '/createdeliveryslip', 'Web', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(788, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 'Web', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(619, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 'Web', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(633, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-cash_memo fs-30 i_icon', '/createdeliveryslip', 'Web', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(644, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', NULL, true, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 'Web', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(659, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 'Web', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(675, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Promotions & Loyalty', 'icon-notes fs-30 i_icon', '/listOfPools', 'Web', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(711, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 'Mobile', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(725, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-cash_memo fs-30 i_icon', '/createdeliveryslip', 'Mobile', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(736, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', NULL, true, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 'Mobile', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(751, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 'Mobile', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(767, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Promotions & Loyalty', 'icon-notes fs-30 i_icon', '/listOfPools', 'Mobile', true, true, 295);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(789, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 'Mobile', true, true, 287);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(790, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 'Mobile', true, true, 287);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(791, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-notes fs-30 i_icon', '/createdeliveryslip', 'Mobile', true, true, 287);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(792, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 'Mobile', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(793, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 'Mobile', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(794, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-notes fs-30 i_icon', '/createdeliveryslip', 'Mobile', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(796, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Ticketing Portal', 'icon-notes fs-30 i_icon', '/ticketingPortal', 'Web', true, true, 287);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(797, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Ticketing Portal', 'icon-notes fs-30 i_icon', '/ticketingPortal', 'Web', true, true, 291);
-INSERT INTO public.parent_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", previlege_type, "read", "write", plan_id)
-VALUES(798, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Ticketing Portal', 'icon-notes fs-30 i_icon', '/ticketingPortal', 'Web', true, true, 295);
-
-
--------------sub previlege-------------
-
-
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(733, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-tag_customer', '/tagcustomer', 'Operation related to Users', NULL, 'Gift Voucher', 725, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(731, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-promo', '/generatereturnslip', 'Operation related to Return Slip', NULL, 'Generate Return Slip', 725, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(706, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/stores', 'Operation related to Users', NULL, 'Stores', 692, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(693, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/urmDashboard', 'Operation related to Users', NULL, 'Dashboard', 692, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(742, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 736, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(737, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-reports-dashboard', '/reportsDashboard', 'Operation related to Reports', NULL, 'Dashboard', 736, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(696, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/users', 'Operation related to Users', NULL, 'Users', 692, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(720, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/productsCombo', 'Operation related to ProductCombo', NULL, 'Product Combo', 711, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(614, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/stores', 'Operation related to Users', NULL, 'Stores', 659, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(665, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/debitNotes', 'Operation related to Users', NULL, 'Debit Notes', 659, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(747, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 736, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(684, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/managePromo', 'Operation related to Promotions', NULL, 'Manage Promotions', 675, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(673, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 659, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(750, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofPromotions', 'Operation related to Users', NULL, 'List of promotions', 736, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(599, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/dashboard', 'Operation related to Users', NULL, 'Dashboard', 598, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(604, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/users', 'Operation related to Users', NULL, 'Users', 600, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(635, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 633, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(772, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listOfPromos', 'Operation related to Promotions', NULL, 'List Of Promotions', 767, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(643, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-close', '/posdayclose', 'Operation related to Users', NULL, 'Day Closure Activity', 633, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(776, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/managePromo', 'Operation related to Promotions', NULL, 'Manage Promotions', 767, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(620, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 619, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(726, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 725, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(640, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_customer', '/createcustomer', 'Operation related to Users', NULL, 'Add Customer', 633, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(660, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/accountingDashboard', 'Operation related to Users', NULL, 'Dashboard', 659, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(680, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listOfPromos', 'Operation related to Promotions', NULL, 'List Of Promotions', 675, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(656, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 644, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(765, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 751, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(757, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/debitNotes', 'Operation related to Users', NULL, 'Debit Notes', 751, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(646, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 644, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(654, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 644, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(732, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_customer', '/createcustomer', 'Operation related to Users', NULL, 'Add Customer', 725, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(738, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 736, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(735, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-close', '/posdayclose', 'Operation related to Users', NULL, 'Day Closure Activity', 725, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(748, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 736, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(727, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 725, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(746, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 736, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(701, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/roles', 'Operation related to Users', NULL, 'Roles', 692, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(634, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 633, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(661, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createNotes', 'Operation related to Users', NULL, 'Credit Notes', 659, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(669, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 659, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(717, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 711, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(752, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/accountingDashboard', 'Operation related to Users', NULL, 'Dashboard', 751, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(691, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/dashboard', 'Operation related to Users', NULL, 'Dashboard', 690, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(712, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 711, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(676, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listOfPools', 'Operation related to Pools', NULL, 'List of Pools', 675, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(609, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/roles', 'Operation related to Users', NULL, 'Roles', 600, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(628, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/productsCombo', 'Operation related to ProductCombo', NULL, 'Product Combo', 619, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(641, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-tag_customer', '/tagcustomer', 'Operation related to Users', NULL, 'Gift Voucher', 633, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(639, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-promo', '/generatereturnslip', 'Operation related to Return Slip', NULL, 'Generate Return Slip', 633, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(625, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 619, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(753, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createNotes', 'Operation related to Users', NULL, 'Credit Notes', 751, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(658, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofPromotions', 'Operation related to Users', NULL, 'List of promotions', 644, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(655, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 644, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(645, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-reports-dashboard', '/reportsDashboard', 'Operation related to Reports', NULL, 'Dashboard', 644, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(768, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listOfPools', 'Operation related to Pools', NULL, 'List of Pools', 767, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(761, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 751, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(650, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 644, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(777, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/adminDetails', 'Operation related to users', NULL, 'Admin Details', 650, 'Web', 'captain');
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(778, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientDetails', 'Operation related to users', NULL, 'Client Details', 650, 'Web', 'captain');
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(779, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientSupportDetails', 'Operation related to users', NULL, 'Client Support Details', 650, 'Web', 'captain');
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(780, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientMapping', 'Operation related to users', NULL, 'Client Mapping', 650, 'Web', 'captain');
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(804, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 793, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(805, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 794, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(783, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/closedTickets', 'Operation related to users', NULL, 'Closed Tickets', 500, 'Web', 'ticketIng_person');
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(781, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/totalTickets', 'Operation related to users', NULL, 'Total Tickets', 500, 'Web', 'ticketing_person');
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(782, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/openTickets', 'Operation related to users', NULL, 'Open Tickets', 500, 'Web', 'ticketIng_person');
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(785, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 789, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(786, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 782, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(806, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 794, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(789, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 783, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(790, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 783, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(791, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 790, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(792, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 790, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(787, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 782, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(793, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 784, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(794, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 784, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(795, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 791, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(796, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 791, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(797, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 792, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(799, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 785, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(801, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 786, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(802, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 786, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(803, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 793, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(807, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-promo', '/generatereturnslip', 'Operation related to Return Slip', NULL, 'Generate Return Slip', 794, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(808, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-close', '/posdayclose', 'Operation related to Users', NULL, 'Day Closure Activity', 794, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(809, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 787, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(810, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 787, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(811, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-promo', '/generatereturnslip', 'Operation related to Return Slip', NULL, 'Generate Return Slip', 787, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(812, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-close', '/posdayclose', 'Operation related to Users', NULL, 'Day Closure Activity', 787, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(813, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 788, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(814, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 788, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(815, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 788, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(816, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 788, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(817, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 788, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(818, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 795, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(819, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 795, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(820, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 795, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(821, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 795, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(822, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 795, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(823, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to Users', NULL, 'Ticket Details', 500, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(788, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'create  TaxMaster', 789, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(798, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 792, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(800, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 785, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(824, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 796, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(825, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 797, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(826, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 798, 'Web', NULL);
-
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(830, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/goodstransfer', 'Operation related to Barcodes', NULL, 'Goods Transfer', 711, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(831, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/ordershipment', 'Operation related to Re-barcode', NULL, 'Order Shipment', 711, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(832, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/receiveorder', 'Operation related to ProductCombo', NULL, 'Receive Order', 711, 'Mobile', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(835, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/taxreport', 'Operation related to Users', NULL, 'Tax Report', 644, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(836, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/taxreport', 'Operation related to Users', NULL, 'Tax Report', 788, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(837, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/loyaltypoints', 'Operation related to Users', NULL, 'Loyalty points', 633, 'Web', NULL);
-INSERT INTO public.sub_privilege
-(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", parent_privilege_id, previlege_type, role_name)
-VALUES(838, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/loyaltypoints', 'Operation related to Users', NULL, 'Loyalty points', 725, 'Mobile', NULL);
-
-
------------- child privileges---------
-
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(782, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Add Tax Master', 'Web', 'icon-create_tax_master', '/createtaxmaster', 786, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(783, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Edit Tax Master', 'Web', 'icon-edit_tax_master', '/edittaxmaster', 786, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(784, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Delete Tax Master', 'Web', 'icon-delete_tax_master', '/deletetaxmaster', 786, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(785, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Add Tax Master', 'Mobile', 'icon-create_tax_master', '/createtaxmaster', 788, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(786, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Edit Tax Master', 'Mobile', 'icon-edit_tax_master', '/edittaxmaster', 788, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(787, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Delete Tax Master', 'Mobile', 'icon-delete_tax_master', '/deletetaxmaster', 788, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(788, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Add Tax Master', 'Web', 'icon-create_tax_master', '/createtaxmaster', 799, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(789, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Edit Tax Master', 'Web', 'icon-edit_tax_master', '/edittaxmaster', 799, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(790, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Delete Tax Master', 'Web', 'icon-delete_tax_master', '/deletetaxmaster', 799, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(791, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Add Tax Master', 'Mobile', 'icon-create_tax_master', '/createtaxmaster', 797, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(792, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Edit Tax Master', 'Mobile', 'icon-edit_tax_master', '/edittaxmaster', 797, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(793, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Delete Tax Master', 'Mobile', 'icon-delete_tax_master', '/deletetaxmaster', 797, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(794, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, 'Add Hsn Code', 'Web', 'icon-create_hsn_code', '/createhsncode', 787, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(795, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, 'Add Hsn Code', 'Mobile', 'icon-create_hsn_code', '/createhsncode', 785, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(796, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, 'Add Hsn Code', 'Web', 'icon-create_hsn_code', '/createhsncode', 800, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(797, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, 'Add Hsn Code', 'Mobile', 'icon-create_hsn_code', '/createhsncode', 798, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(798, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Add Barcode', 'Web', 'icon-create_barcode', '/createbarcode', 789, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(799, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Edit Barcode', 'Web', 'icon-edit_barcode', '/editbarcode', 789, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(800, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Delete Barcode', 'Web', 'icon-delete_barcode', '/deletebarcode', 789, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(801, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'View', 'Web', 'icon-view-barcodes', '/viewbarcodes', 789, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(802, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Add Barcode', 'Mobile', 'icon-create_barcode', '/createbarcode', 791, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(803, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Edit Barcode', 'Mobile', 'icon-edit_barcode', '/editbarcode', 791, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(804, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Delete Barcode', 'Mobile', 'icon-delete_barcode', '/deletebarcode', 791, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(805, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'View', 'Mobile', 'icon-view-barcodes', '/viewbarcodes', 791, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(806, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Add Barcode', 'Web', 'icon-create_barcode', '/createbarcode', 801, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(807, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Edit Barcode', 'Web', 'icon-edit_barcode', '/editbarcode', 801, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(808, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Delete Barcode', 'Web', 'icon-delete_barcode', '/deletebarcode', 801, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(809, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'View', 'Web', 'icon-view-barcodes', '/viewbarcodes', 801, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(810, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Add Barcode', 'Mobile', 'icon-create_barcode', '/createbarcode', 803, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(811, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Edit Barcode', 'Mobile', 'icon-edit_barcode', '/editbarcode', 803, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(812, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Delete Barcode', 'Mobile', 'icon-delete_barcode', '/deletebarcode', 803, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(813, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'View', 'Mobile', 'icon-view-barcodes', '/viewbarcodes', 803, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(814, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'ViewRe-Barcode', 'Web', 'icon-view-rebarcode', '/viewrebarcode', 790, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(815, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'Print', 'Web', 'icon-print', '/print', 790, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(816, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'ViewRe-Barcode', 'Mobile', 'icon-view-rebarcode', '/viewrebarcode', 792, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(817, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'Print', 'Mobile', 'icon-print', '/print', 792, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(818, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'ViewRe-Barcode', 'Web', 'icon-view-rebarcode', '/viewrebarcode', 802, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(819, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'Print', 'Web', 'icon-print', '/print', 802, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(820, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'ViewRe-Barcode', 'Mobile', 'icon-view-rebarcode', '/viewrebarcode', 804, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(821, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'Print', 'Mobile', 'icon-print', '/print', 804, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(823, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Tag Customer', 'Web', 'icon-tag-customer', '/tagcustomer', 794, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(824, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Bill Level Discount', 'Web', 'icon-bill-level-discount', '/billleveldiscount', 794, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(825, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Check Promo Discount', 'Web', 'icon-check-promo-discount', '/checkpromodiscount', 794, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(826, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Tag Customer', 'Mobile', 'icon-tag-customer', '/tagcustomer', 796, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(827, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Bill Level Discount', 'Mobile', 'icon-bill-level-discount', '/billleveldiscount', 796, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(828, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Check Promo Discount', 'Mobile', 'icon-check-promo-discount', '/checkpromodiscount', 796, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(829, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Tag Customer', 'Web', 'icon-tag-customer', '/tagcustomer', 810, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(830, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Bill Level Discount', 'Web', 'icon-bill-level-discount', '/billleveldiscount', 810, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(831, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Check Promo Discount', 'Web', 'icon-check-promo-discount', '/checkpromodiscount', 810, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(832, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Tag Customer', 'Mobile', 'icon-tag-customer', '/tagcustomer', 806, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(833, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Bill Level Discount', 'Mobile', 'icon-bill-level-discount', '/billleveldiscount', 806, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(834, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Check Promo Discount', 'Mobile', 'icon-check-promo-discount', '/checkpromodiscount', 806, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(835, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to ListOfBarcodes', 0, 'View', 'Web', 'icon-view', '/view', 817, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(836, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to ListOfBarcodes', 0, 'View', 'Mobile', 'icon-view', '/view', 822, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(837, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'Print', 'Web', 'icon-print', '/print', 813, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(838, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'View', 'Web', 'icon-view', '/view', 813, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(839, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'Delete', 'Web', 'icon-delete', '/delete', 813, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(840, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'Print', 'Mobile', 'icon-print', '/print', 818, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(841, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'View', 'Mobile', 'icon-view', '/view', 818, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(842, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'Delete', 'Mobile', 'icon-delete', '/delete', 818, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(843, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'Print', 'Web', 'icon-print', '/print', 814, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(844, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'View', 'Web', 'icon-view', '/view', 814, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(845, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'Delete', 'Web', 'icon-delete', '/delete', 814, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(846, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'Print', 'Mobile', 'icon-print', '/print', 819, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(847, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'View', 'Mobile', 'icon-view', '/view', 819, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(848, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'Delete', 'Mobile', 'icon-delete', '/delete', 819, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(652, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'View', 'Web', 'icon-view', '/view', 650, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(744, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'View', 'Mobile', 'icon-view', '/view', 742, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(763, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Edit Tax Master', 'Mobile', 'icon-edit_tax_master', '/edittaxmaster', 761, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(649, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'Delete', 'Web', 'icon-delete', '/delete', 646, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(770, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, 'Edit Pool', 'Mobile', 'icon-edit_pool', '/editpool', 768, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(739, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'Print', 'Mobile', 'icon-print', '/print', 738, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(647, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'Print', 'Web', 'icon-print', '/print', 646, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(760, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, 'Delete debit Notes', 'Mobile', 'icon-delete_debit_notes', '/deletedebitnotes', 757, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(636, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Tag Customer', 'Web', 'icon-tag-customer', '/tagcustomer', 635, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(663, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, 'Edit Credit Notes', 'Web', 'icon-edit_credit_notes', '/editcreditnotes', 661, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(657, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to ListOfBarcodes', 0, 'View', 'Web', 'icon-view', '/view', 656, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(749, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to ListOfBarcodes', 0, 'View', 'Mobile', 'icon-view', '/view', 748, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(780, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Change Promo Priority', 'Mobile', 'icon-change-promo-priority', '/changepromopriority', 776, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(721, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, 'Add Product Combo', 'Mobile', 'icon-create_product_combo', '/createproductcombo', 720, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(638, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Check Promo Discount', 'Web', 'icon-check-promo-discount', '/checkpromodiscount', 635, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(674, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, 'Add Hsn Code', 'Web', 'icon-create_hsn_code', '/createhsncode', 673, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(730, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Check Promo Discount', 'Mobile', 'icon-check-promo-discount', '/checkpromodiscount', 727, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(671, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Edit Tax Master', 'Web', 'icon-edit_tax_master', '/edittaxmaster', 669, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(766, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, 'Add Hsn Code', 'Mobile', 'icon-create_hsn_code', '/createhsncode', 765, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(626, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'ViewRe-Barcode', 'Web', 'icon-view-rebarcode', '/viewrebarcode', 625, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(773, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Add Promotion', 'Mobile', 'icon-create_promotions', '/createpromo', 772, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(741, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'Delete', 'Mobile', 'icon-delete', '/delete', 738, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(666, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, 'Add debit Notes', 'Web', 'icon-create_debit_notes', '/createdebitnotes', 665, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(775, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'View Promotions', 'Mobile', 'icon-view_promotionz', '/viewpromotions', 772, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(631, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, 'Delete Product Combo', 'Web', 'icon-delete_product_combo', '/deleteproductcombo', 628, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(728, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Tag Customer', 'Mobile', 'icon-tag-customer', '/tagcustomer', 727, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(629, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, 'Add Product Combo', 'Web', 'icon-create_product_combo', '/createproductcombo', 628, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(668, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, 'Delete debit Notes', 'Web', 'icon-delete_debit_notes', '/deletedebitnotes', 665, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(603, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Domains and Clients', 0, 'Add Domain To Client', 'Web', 'icon-create_domain', '/createdomain', 602, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(704, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, 'Delete Role', 'Mobile', 'icon-delete_role', '/deleterole', 701, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(700, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, 'View', 'Mobile', 'icon-view-users', '/viewusers', 696, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(605, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, 'Add User', 'Web', 'icon-create_user', '/createuser', 604, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(713, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Add Barcode', 'Mobile', 'icon-create_barcode', '/createbarcode', 712, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(607, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, 'Delete User', 'Web', 'icon-delete_user', '/deleteuser', 604, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(707, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, 'Add Store', 'Mobile', 'icon-create_store', '/createstore', 706, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(698, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, 'Edit User', 'Mobile', 'icon-edit_user', '/edituser', 696, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(612, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, 'Delete Role', 'Web', 'icon-delete_role', '/deleterole', 609, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(688, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Change Promo Priority', 'Web', 'icon-change-promo-priority', '/changepromopriority', 684, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(695, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Domains and Clients', 0, 'Add Domain To Client', 'Mobile', 'icon-create_domain', '/createdomain', 694, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(723, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, 'Delete Product Combo', 'Mobile', 'icon-delete_product_combo', '/deleteproductcombo', 720, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(678, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, 'Edit Pool', 'Web', 'icon-edit_pool', '/editpool', 676, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(610, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, 'Add Role', 'Web', 'icon-create_role', '/createrole', 609, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(623, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Delete Barcode', 'Web', 'icon-delete_barcode', '/deletebarcode', 620, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(715, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Delete Barcode', 'Mobile', 'icon-delete_barcode', '/deletebarcode', 712, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(778, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Modify Validity', 'Mobile', 'icon-modify-validity', '/modifyvalidity', 776, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(681, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Add Promotion', 'Web', 'icon-create_promotions', '/createpromo', 680, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(709, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, 'Delete Store', 'Mobile', 'icon-delete_store', '/deletestore', 706, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(621, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Add Barcode', 'Web', 'icon-create_barcode', '/createbarcode', 620, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(686, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Modify Validity', 'Web', 'icon-modify-validity', '/modifyvalidity', 684, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(718, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'ViewRe-Barcode', 'Mobile', 'icon-view-rebarcode', '/viewrebarcode', 717, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(683, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'View Promotions', 'Web', 'icon-view_promotionz', '/viewpromotions', 680, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(615, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, 'Add Store', 'Web', 'icon-create_store', '/createstore', 614, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(617, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, 'Delete Store', 'Web', 'icon-delete_store', '/deletestore', 614, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(756, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, 'Delete Credit Notes', 'Mobile', 'icon-delete_credit_notes', '/deletecreditnotes', 753, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(754, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, 'Add Credit Notes', 'Mobile', 'icon-create_credit_notes', '/createcreditnotes', 753, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(651, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'Print', 'Web', 'icon-print', '/print', 650, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(762, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Add Tax Master', 'Mobile', 'icon-create_tax_master', '/createtaxmaster', 761, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(662, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, 'Add Credit Notes', 'Web', 'icon-create_credit_notes', '/createcreditnotes', 661, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(653, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'Delete', 'Web', 'icon-delete', '/delete', 650, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(743, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'Print', 'Mobile', 'icon-print', '/print', 742, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(734, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to gift voucher', 0, 'Add Gift Voucher', 'Mobile', 'icon-save-gift-voucher', '/savegiftvoucher', 733, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(667, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, 'Edit debit Notes', 'Web', 'icon-edit_debit_notes', '/editdebitnotes', 665, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(648, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'View', 'Web', 'icon-view', '/view', 646, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(745, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, 'Delete', 'Mobile', 'icon-delete', '/delete', 742, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(759, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, 'Edit debit Notes', 'Mobile', 'icon-edit_debit_notes', '/editdebitnotes', 757, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(637, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Bill Level Discount', 'Web', 'icon-bill-level-discount', '/billleveldiscount', 635, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(664, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, 'Delete Credit Notes', 'Web', 'icon-delete_credit_notes', '/deletecreditnotes', 661, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(642, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to gift voucher', 0, 'Add Gift Voucher', 'Web', 'icon-save-gift-voucher', '/savegiftvoucher', 641, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(679, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, 'View Pools', 'Web', 'icon-view_pools', '/viewpools', 676, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(729, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, 'Bill Level Discount', 'Mobile', 'icon-bill-level-discount', '/billleveldiscount', 727, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(624, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'View', 'Web', 'icon-view-barcodes', '/viewbarcodes', 620, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(764, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Delete Tax Master', 'Mobile', 'icon-delete_tax_master', '/deletetaxmaster', 761, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(740, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, 'View', 'Mobile', 'icon-view', '/view', 738, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(627, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'Print', 'Web', 'icon-print', '/print', 625, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(774, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotion', 0, 'Edit Promotion', 'Mobile', 'icon-edit_promotion', '/editpromotion', 772, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(677, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, 'Add Pool', 'Web', 'icon-create_pool', '/createpool', 676, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(724, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, 'View', 'Mobile', 'icon-view-products', '/viewproducts', 720, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(771, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, 'View Pools', 'Mobile', 'icon-view_pools', '/viewpools', 768, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(670, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Add Tax Master', 'Web', 'icon-create_tax_master', '/createtaxmaster', 669, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(769, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, 'Add Pool', 'Mobile', 'icon-create_pool', '/createpool', 768, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(632, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, 'View', 'Web', 'icon-view-products', '/viewproducts', 628, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(672, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, 'Delete Tax Master', 'Web', 'icon-delete_tax_master', '/deletetaxmaster', 669, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(630, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, 'Edit Product Combo', 'Web', 'icon-edit_product_combo', '/editproductcombo', 628, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(702, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, 'Add Role', 'Mobile', 'icon-create_role', '/createrole', 701, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(703, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, 'Edit Role', 'Mobile', 'icon-edit_role', '/editrole', 701, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(699, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, 'Delete User', 'Mobile', 'icon-delete_user', '/deleteuser', 696, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(705, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to roles', 0, 'View', 'Mobile', 'icon-view-roles', '/viewroles', 701, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(606, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, 'Edit User', 'Web', 'icon-edit_user', '/edituser', 604, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(689, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'View', 'Web', 'icon-view-promos', '/viewpromos', 684, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(777, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Add To Store', 'Mobile', 'icon-create_promotions', '/addstore', 776, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(708, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, 'Edit Store', 'Mobile', 'icon-edit_store', '/editstore', 706, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(611, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, 'Edit Role', 'Web', 'icon-edit_role', '/editrole', 609, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(608, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, 'View', 'Web', 'icon-view-users', '/viewusers', 604, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(710, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to stores', 0, 'View', 'Mobile', 'icon-view-stores', '/viewstores', 706, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(697, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, 'Add User', 'Mobile', 'icon-create_user', '/createuser', 696, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(779, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Clone', 'Mobile', 'icon-colne-promotions', '/clonepromotions', 776, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(682, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotion', 0, 'Edit Promotion', 'Web', 'icon-edit_promotion', '/editpromotion', 680, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(719, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, 'Print', 'Mobile', 'icon-print', '/print', 717, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(622, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Edit Barcode', 'Web', 'icon-edit_barcode', '/editbarcode', 620, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(722, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, 'Edit Product Combo', 'Mobile', 'icon-edit_product_combo', '/editproductcombo', 720, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(618, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to stores', 0, 'View', 'Web', 'icon-view-stores', '/viewstores', 614, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(613, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to roles', 0, 'View', 'Web', 'icon-view-roles', '/viewroles', 609, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(716, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'View', 'Mobile', 'icon-view-barcodes', '/viewbarcodes', 712, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(687, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Clone', 'Web', 'icon-colne-promotions', '/clonepromotions', 684, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(685, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'Add To Store', 'Web', 'icon-create_promotions', '/addstore', 684, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(781, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, 'View', 'Mobile', 'icon-view-promos', '/viewpromos', 776, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(758, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, 'Add debit Notes', 'Mobile', 'icon-create_debit_notes', '/createdebitnotes', 757, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(616, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, 'Edit Store', 'Web', 'icon-edit_store', '/editstore', 614, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(714, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, 'Edit Barcode', 'Mobile', 'icon-edit_barcode', '/editbarcode', 712, false);
-INSERT INTO public.child_privilege
-(id, created_by, created_date, last_modified_date, modified_by, description, domian, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id, is_enabeld)
-VALUES(755, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, 'Edit Credit Notes', 'Mobile', 'icon-edit_credit_notes', '/editcreditnotes', 753, false);
-
 --------- Plan Details--------------
 
 INSERT INTO public.plan_details
@@ -1029,6 +48,1048 @@ VALUES(1237, 123, '2022-08-25 12:37:45.041', '2022-08-25 12:37:45.041', 321, 599
 INSERT INTO public.tenure_details
 (id, created_by, created_date, last_modified_date, modified_by, amount, plan_tenure, plan_id)
 VALUES(1238, 123, '2022-08-25 12:37:45.041', '2022-08-25 12:37:45.041', 321, 11988, 'OneYear', 295);
+
+------------------------- parent parent_privilege----------------------
+
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(600, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'URM Portal', 'icon-notes fs-30 i_icon', '/urmDashboard', NULL, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(690, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Dashboard', 'icon-cash_memo fs-30 i_icon', '/dashboard', NULL, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(692, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'URM Portal', 'icon-notes fs-30 i_icon', '/urmDashboard', NULL, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(500, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Ticketing Portal', 'icon-notes fs-30 i_icon', '/ticketingPortal', NULL, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(795, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 291, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(619, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 295, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(633, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-cash_memo fs-30 i_icon', '/createdeliveryslip', 295, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(644, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', NULL, true, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 295, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(659, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 295, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(675, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Promotions & Loyalty', 'icon-notes fs-30 i_icon', '/listOfPools', 295, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(711, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 295, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(725, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-cash_memo fs-30 i_icon', '/createdeliveryslip', 295, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(736, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', NULL, true, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 295, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(751, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 295, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(767, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Promotions & Loyalty', 'icon-notes fs-30 i_icon', '/listOfPools', 295, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(790, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 287, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(791, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-notes fs-30 i_icon', '/createdeliveryslip', 287, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(792, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 291, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(793, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 291, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(794, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-notes fs-30 i_icon', '/createdeliveryslip', 291, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(798, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Ticketing Portal', 'icon-notes fs-30 i_icon', '/ticketingPortal', 295, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(650, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Captain portal', 'icon-notes fs-30 i_icon', '/urmDashboard', NULL, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(598, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Dashboard', 'icon-cash_memo fs-30 i_icon', '/dashboard', 295, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(782, NULL, '2022-10-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 287, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(783, NULL, '2022-10-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 287, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(784, NULL, '2022-10-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-notes fs-30 i_icon', '/createdeliveryslip', 287, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(785, NULL, '2022-09-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 291, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(786, NULL, '2022-09-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Inventory Portal', 'icon-notes fs-30 i_icon', '/inventoryList', 291, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(787, NULL, '2022-09-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Billing Portal', 'icon-notes fs-30 i_icon', '/createdeliveryslip', 291, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(788, NULL, '2022-09-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 291, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(789, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Accounting Portal', 'icon-notes fs-30 i_icon', '/accountingDashboard', 287, 'Mobile', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(799, NULL, '2022-10-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', NULL, false, 'Reports', 'icon-notes fs-30 i_icon', '/reportsDashboard', 287, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(800, NULL, '2022-10-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, false, 'Promotions & Loyalty', 'icon-notes fs-30 i_icon', '/listOfPools', 287, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(801, NULL, '2022-09-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, false, 'Promotions & Loyalty', 'icon-notes fs-30 i_icon', '/listOfPools', 291, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(796, NULL, '2022-10-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Ticketing Portal', 'icon-notes fs-30 i_icon', '/ticketingPortal', 287, 'Web', true, true);
+INSERT INTO public.parent_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, "domain", is_active, "name", parent_image, "path", plan_id, previlege_type, "read", "write")
+VALUES(797, NULL, '2022-09-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', NULL, true, 'Ticketing Portal', 'icon-notes fs-30 i_icon', '/ticketingPortal', 291, 'Web', true, true);
+
+-------------sub previlege-------------
+
+
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(800, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 'Web', NULL, 785, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(847, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/taxreport', 'Operation related to Users', NULL, 'Tax Report', 'Web', NULL, 799, false, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(840, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-reports-dashboard', '/reportsDashboard', 'Operation related to Reports', NULL, 'Dashboard', 'Web', NULL, 799, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(841, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 'Web', NULL, 799, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(842, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 'Web', NULL, 799, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(843, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 'Web', NULL, 799, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(844, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 'Web', NULL, 799, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(845, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 'Web', NULL, 799, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(846, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofPromotions', 'Operation related to Users', NULL, 'List of promotions', 'Web', NULL, 799, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(848, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listOfPools', 'Operation related to Pools', NULL, 'List of Pools', 'Web', NULL, 800, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(849, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listOfPromos', 'Operation related to Promotions', NULL, 'List Of Promotions', 'Web', NULL, 800, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(850, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/managePromo', 'Operation related to Promotions', NULL, 'Manage Promotions', 'Web', NULL, 800, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(851, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listOfPools', 'Operation related to Pools', NULL, 'List of Pools', 'Web', NULL, 801, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(852, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listOfPromos', 'Operation related to Promotions', NULL, 'List Of Promotions', 'Web', NULL, 801, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(853, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/managePromo', 'Operation related to Promotions', NULL, 'Manage Promotions', 'Web', NULL, 801, false, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(726, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 'Mobile', NULL, 725, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(727, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 'Mobile', NULL, 725, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(731, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-promo', '/generatereturnslip', 'Operation related to Return Slip', NULL, 'Generate Return Slip', 'Mobile', NULL, 725, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(732, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_customer', '/createcustomer', 'Operation related to Users', NULL, 'Add Customer', 'Mobile', NULL, 725, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(733, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-tag_customer', '/tagcustomer', 'Operation related to Users', NULL, 'Gift Voucher', 'Mobile', NULL, 725, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(735, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-close', '/posdayclose', 'Operation related to Users', NULL, 'Day Closure Activity', 'Mobile', NULL, 725, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(737, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-reports-dashboard', '/reportsDashboard', 'Operation related to Reports', NULL, 'Dashboard', 'Mobile', NULL, 736, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(738, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 'Mobile', NULL, 736, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(761, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 'Mobile', NULL, 751, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(854, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/trackorder', 'Operation related to ProductCombo', NULL, 'Track Order', 'Web', NULL, 619, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(645, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-reports-dashboard', '/reportsDashboard', 'Operation related to Reports', NULL, 'Dashboard', 'Web', NULL, 644, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(650, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 'Web', NULL, 644, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(785, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 'Mobile', NULL, 789, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(742, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 'Mobile', NULL, 736, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(746, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 'Mobile', NULL, 736, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(747, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 'Mobile', NULL, 736, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(748, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 'Mobile', NULL, 736, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(750, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofPromotions', 'Operation related to Users', NULL, 'List of promotions', 'Mobile', NULL, 736, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(752, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/accountingDashboard', 'Operation related to Users', NULL, 'Dashboard', 'Mobile', NULL, 751, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(753, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createNotes', 'Operation related to Users', NULL, 'Credit Notes', 'Mobile', NULL, 751, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(757, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/debitNotes', 'Operation related to Users', NULL, 'Debit Notes', 'Mobile', NULL, 751, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(768, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listOfPools', 'Operation related to Pools', NULL, 'List of Pools', 'Mobile', NULL, 767, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(772, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listOfPromos', 'Operation related to Promotions', NULL, 'List Of Promotions', 'Mobile', NULL, 767, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(776, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/managePromo', 'Operation related to Promotions', NULL, 'Manage Promotions', 'Mobile', NULL, 767, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(777, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/adminDetails', 'Operation related to users', NULL, 'Admin Details', 'Web', 'captain', 650, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(778, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientDetails', 'Operation related to users', NULL, 'Client Details', 'Web', 'captain', 650, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(779, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientSupportDetails', 'Operation related to users', NULL, 'Client Support Details', 'Web', 'captain', 650, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(780, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/clientMapping', 'Operation related to users', NULL, 'Client Mapping', 'Web', 'captain', 650, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(781, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/totalTickets', 'Operation related to users', NULL, 'Total Tickets', 'Web', 'ticketing_person', 500, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(782, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/openTickets', 'Operation related to users', NULL, 'Open Tickets', 'Web', 'ticketIng_person', 500, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(783, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/closedTickets', 'Operation related to users', NULL, 'Closed Tickets', 'Web', 'ticketIng_person', 500, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(786, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 'Web', NULL, 782, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(787, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 'Web', NULL, 782, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(788, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'create  TaxMaster', 'Mobile', NULL, 789, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(789, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 'Web', NULL, 783, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(790, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 'Web', NULL, 783, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(791, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 'Mobile', NULL, 790, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(792, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 'Mobile', NULL, 790, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(793, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 'Web', NULL, 784, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(794, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 'Web', NULL, 784, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(795, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 'Mobile', NULL, 791, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(801, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 'Web', NULL, 786, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(802, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 'Web', NULL, 786, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(803, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 'Mobile', NULL, 793, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(765, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 'Mobile', NULL, 751, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(796, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 'Mobile', NULL, 791, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(797, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 'Mobile', NULL, 792, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(798, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 'Mobile', NULL, 792, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(799, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 'Web', NULL, 785, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(855, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/trackorder', 'Operation related to ProductCombo', NULL, 'Track Order', 'Web', NULL, 783, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(856, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/trackorder', 'Operation related to ProductCombo', NULL, 'Track Order', 'Web', NULL, 786, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(614, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/stores', 'Operation related to Users', NULL, 'Stores', 'Web', NULL, 600, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(701, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/roles', 'Operation related to Users', NULL, 'Roles', 'Mobile', NULL, 692, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(706, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/stores', 'Operation related to Users', NULL, 'Stores', 'Mobile', NULL, 692, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(712, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 'Mobile', NULL, 711, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(839, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/dashboard', 'Operation related to Users', NULL, 'Dashboard', 'Web', NULL, 633, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(599, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/dashboard', 'Operation related to Users', NULL, 'Dashboard', 'Web', NULL, 598, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(669, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createTaxMaster', 'Operation related to Users', NULL, 'Create Tax Master', 'Web', NULL, 659, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(673, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/createHSN', 'Operation related to Users', NULL, 'Create HSN Code', 'Web', NULL, 659, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(604, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/users', 'Operation related to Users', NULL, 'Users', 'Web', NULL, 600, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(609, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/roles', 'Operation related to Users', NULL, 'Roles', 'Web', NULL, 600, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(620, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/barcodeList', 'Operation related to Barcodes', NULL, 'Barcode List', 'Web', NULL, 619, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(625, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 'Web', NULL, 619, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(628, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/productsCombo', 'Operation related to ProductCombo', NULL, 'Product Combo', 'Web', NULL, 619, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(634, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 'Web', NULL, 633, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(635, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 'Web', NULL, 633, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(639, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-promo', '/generatereturnslip', 'Operation related to Return Slip', NULL, 'Generate Return Slip', 'Web', NULL, 633, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(640, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_customer', '/createcustomer', 'Operation related to Users', NULL, 'Add Customer', 'Web', NULL, 633, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(641, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-tag_customer', '/tagcustomer', 'Operation related to Users', NULL, 'Gift Voucher', 'Web', NULL, 633, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(643, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-close', '/posdayclose', 'Operation related to Users', NULL, 'Day Closure Activity', 'Web', NULL, 633, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(646, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 'Web', NULL, 644, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(654, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 'Web', NULL, 644, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(655, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 'Web', NULL, 644, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(656, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 'Web', NULL, 644, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(658, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofPromotions', 'Operation related to Users', NULL, 'List of promotions', 'Web', NULL, 644, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(660, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/accountingDashboard', 'Operation related to Users', NULL, 'Dashboard', 'Web', NULL, 659, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(661, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createNotes', 'Operation related to Users', NULL, 'Credit Notes', 'Web', NULL, 659, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(665, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/debitNotes', 'Operation related to Users', NULL, 'Debit Notes', 'Web', NULL, 659, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(676, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listOfPools', 'Operation related to Pools', NULL, 'List of Pools', 'Web', NULL, 675, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(680, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listOfPromos', 'Operation related to Promotions', NULL, 'List Of Promotions', 'Web', NULL, 675, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(684, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/managePromo', 'Operation related to Promotions', NULL, 'Manage Promotions', 'Web', NULL, 675, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(691, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/dashboard', 'Operation related to Users', NULL, 'Dashboard', 'Mobile', NULL, 690, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(693, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/urmDashboard', 'Operation related to Users', NULL, 'Dashboard', 'Mobile', NULL, 692, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(696, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/users', 'Operation related to Users', NULL, 'Users', 'Mobile', NULL, 692, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(717, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 'Mobile', NULL, 711, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(720, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/productsCombo', 'Operation related to ProductCombo', NULL, 'Product Combo', 'Mobile', NULL, 711, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(804, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/rebarcoding', 'Operation related to Re-barcode', NULL, 'Re-Barcode List', 'Mobile', NULL, 793, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(805, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 'Mobile', NULL, 794, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(806, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 'Mobile', NULL, 794, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(807, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-promo', '/generatereturnslip', 'Operation related to Return Slip', NULL, 'Generate Return Slip', 'Mobile', NULL, 794, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(808, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-close', '/posdayclose', 'Operation related to Users', NULL, 'Day Closure Activity', 'Mobile', NULL, 794, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(809, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/createdeliveryslip', 'Operation related to Users', NULL, 'Generate Estimation Slip', 'Web', NULL, 787, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(810, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/newsale', 'Operation related to Users', NULL, 'Generate Invoice', 'Web', NULL, 787, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(811, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-promo', '/generatereturnslip', 'Operation related to Return Slip', NULL, 'Generate Return Slip', 'Web', NULL, 787, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(812, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-close', '/posdayclose', 'Operation related to Users', NULL, 'Day Closure Activity', 'Web', NULL, 787, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(813, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 'Web', NULL, 788, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(814, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 'Web', NULL, 788, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(815, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 'Web', NULL, 788, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(816, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 'Web', NULL, 788, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(817, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 'Web', NULL, 788, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(818, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-list-of-estimation-slip', '/listofestimationslips', 'Operation related to Estimation Slips', NULL, 'List of Estimation Slips', 'Mobile', NULL, 795, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(819, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/salereport', 'Operation related to Users', NULL, 'New Sale Report', 'Mobile', NULL, 795, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(820, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/listofsalebills', 'Operation related to Users', NULL, 'Goods Return', 'Mobile', NULL, 795, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(821, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofdeliveryslips', 'Operation related to Users', NULL, 'Sales Summary', 'Mobile', NULL, 795, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(822, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/listofreturnslips', 'Operation related to Users', NULL, 'List of Barcodes', 'Mobile', NULL, 795, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(823, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to Users', NULL, 'Ticket Details', 'Web', NULL, 500, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(824, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 'Web', NULL, 796, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(825, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 'Web', NULL, 797, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(826, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/ticketDetails', 'Operation related to users', NULL, 'Ticket Details', 'Web', NULL, 798, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(830, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-sale', '/goodstransfer', 'Operation related to Barcodes', NULL, 'Goods Transfer', 'Web', NULL, 619, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(831, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-re-barcode_list', '/ordershipment', 'Operation related to Re-barcode', NULL, 'Order Shipment', 'Web', NULL, 619, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(832, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-productcombo', '/receiveorder', 'Operation related to ProductCombo', NULL, 'Receive Order', 'Web', NULL, 619, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(837, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/loyaltypoints', 'Operation related to Users', NULL, 'Loyalty points', 'Web', NULL, 633, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(838, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/loyaltypoints', 'Operation related to Users', NULL, 'Loyalty points', 'Mobile', NULL, 725, true, 'taxrequired');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(835, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/taxreport', 'Operation related to Users', NULL, 'Tax Report', 'Web', NULL, 644, true, 'taxNotApplicable');
+INSERT INTO public.sub_privilege
+(id, created_by, created_date, last_modified_date, modified_by, child_image, child_path, description, "domain", "name", previlege_type, role_name, parent_privilege_id, is_active, is_tax_applicable)
+VALUES(836, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'icon-create_delivery_slip', '/taxreport', 'Operation related to Users', NULL, 'Tax Report', 'Web', NULL, 788, true, 'taxNotApplicable');
+
+
+
+------------ child privileges---------
+
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(782, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Add Tax Master', 'Web', 'icon-create_tax_master', '/createtaxmaster', 786);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(783, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Edit Tax Master', 'Web', 'icon-edit_tax_master', '/edittaxmaster', 786);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(784, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Delete Tax Master', 'Web', 'icon-delete_tax_master', '/deletetaxmaster', 786);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(785, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Add Tax Master', 'Mobile', 'icon-create_tax_master', '/createtaxmaster', 788);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(786, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Edit Tax Master', 'Mobile', 'icon-edit_tax_master', '/edittaxmaster', 788);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(787, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Delete Tax Master', 'Mobile', 'icon-delete_tax_master', '/deletetaxmaster', 788);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(788, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Add Tax Master', 'Web', 'icon-create_tax_master', '/createtaxmaster', 799);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(789, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Edit Tax Master', 'Web', 'icon-edit_tax_master', '/edittaxmaster', 799);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(790, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Delete Tax Master', 'Web', 'icon-delete_tax_master', '/deletetaxmaster', 799);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(791, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Add Tax Master', 'Mobile', 'icon-create_tax_master', '/createtaxmaster', 797);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(792, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Edit Tax Master', 'Mobile', 'icon-edit_tax_master', '/edittaxmaster', 797);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(793, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Delete Tax Master', 'Mobile', 'icon-delete_tax_master', '/deletetaxmaster', 797);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(794, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, false, 'Add Hsn Code', 'Web', 'icon-create_hsn_code', '/createhsncode', 787);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(795, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, false, 'Add Hsn Code', 'Mobile', 'icon-create_hsn_code', '/createhsncode', 785);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(796, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, false, 'Add Hsn Code', 'Web', 'icon-create_hsn_code', '/createhsncode', 800);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(797, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, false, 'Add Hsn Code', 'Mobile', 'icon-create_hsn_code', '/createhsncode', 798);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(798, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Add Barcode', 'Web', 'icon-create_barcode', '/createbarcode', 789);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(799, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Edit Barcode', 'Web', 'icon-edit_barcode', '/editbarcode', 789);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(800, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Delete Barcode', 'Web', 'icon-delete_barcode', '/deletebarcode', 789);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(801, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'View', 'Web', 'icon-view-barcodes', '/viewbarcodes', 789);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(802, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Add Barcode', 'Mobile', 'icon-create_barcode', '/createbarcode', 791);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(803, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Edit Barcode', 'Mobile', 'icon-edit_barcode', '/editbarcode', 791);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(804, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Delete Barcode', 'Mobile', 'icon-delete_barcode', '/deletebarcode', 791);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(805, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'View', 'Mobile', 'icon-view-barcodes', '/viewbarcodes', 791);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(806, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Add Barcode', 'Web', 'icon-create_barcode', '/createbarcode', 801);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(807, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Edit Barcode', 'Web', 'icon-edit_barcode', '/editbarcode', 801);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(808, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Delete Barcode', 'Web', 'icon-delete_barcode', '/deletebarcode', 801);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(809, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'View', 'Web', 'icon-view-barcodes', '/viewbarcodes', 801);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(810, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Add Barcode', 'Mobile', 'icon-create_barcode', '/createbarcode', 803);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(811, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Edit Barcode', 'Mobile', 'icon-edit_barcode', '/editbarcode', 803);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(812, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Delete Barcode', 'Mobile', 'icon-delete_barcode', '/deletebarcode', 803);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(813, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'View', 'Mobile', 'icon-view-barcodes', '/viewbarcodes', 803);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(814, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'ViewRe-Barcode', 'Web', 'icon-view-rebarcode', '/viewrebarcode', 790);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(815, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'Print', 'Web', 'icon-print', '/print', 790);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(816, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'ViewRe-Barcode', 'Mobile', 'icon-view-rebarcode', '/viewrebarcode', 792);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(817, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'Print', 'Mobile', 'icon-print', '/print', 792);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(818, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'ViewRe-Barcode', 'Web', 'icon-view-rebarcode', '/viewrebarcode', 802);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(819, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'Print', 'Web', 'icon-print', '/print', 802);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(820, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'ViewRe-Barcode', 'Mobile', 'icon-view-rebarcode', '/viewrebarcode', 804);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(821, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'Print', 'Mobile', 'icon-print', '/print', 804);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(823, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Tag Customer', 'Web', 'icon-tag-customer', '/tagcustomer', 794);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(824, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Bill Level Discount', 'Web', 'icon-bill-level-discount', '/billleveldiscount', 794);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(825, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Check Promo Discount', 'Web', 'icon-check-promo-discount', '/checkpromodiscount', 794);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(826, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Tag Customer', 'Mobile', 'icon-tag-customer', '/tagcustomer', 796);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(827, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Bill Level Discount', 'Mobile', 'icon-bill-level-discount', '/billleveldiscount', 796);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(828, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Check Promo Discount', 'Mobile', 'icon-check-promo-discount', '/checkpromodiscount', 796);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(829, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Tag Customer', 'Web', 'icon-tag-customer', '/tagcustomer', 810);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(830, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Bill Level Discount', 'Web', 'icon-bill-level-discount', '/billleveldiscount', 810);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(831, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Check Promo Discount', 'Web', 'icon-check-promo-discount', '/checkpromodiscount', 810);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(832, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Tag Customer', 'Mobile', 'icon-tag-customer', '/tagcustomer', 806);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(833, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Bill Level Discount', 'Mobile', 'icon-bill-level-discount', '/billleveldiscount', 806);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(834, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Check Promo Discount', 'Mobile', 'icon-check-promo-discount', '/checkpromodiscount', 806);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(835, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to ListOfBarcodes', 0, false, 'View', 'Web', 'icon-view', '/view', 817);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(836, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to ListOfBarcodes', 0, false, 'View', 'Mobile', 'icon-view', '/view', 822);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(837, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'Print', 'Web', 'icon-print', '/print', 813);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(838, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'View', 'Web', 'icon-view', '/view', 813);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(839, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'Delete', 'Web', 'icon-delete', '/delete', 813);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(840, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'Print', 'Mobile', 'icon-print', '/print', 818);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(841, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'View', 'Mobile', 'icon-view', '/view', 818);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(842, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'Delete', 'Mobile', 'icon-delete', '/delete', 818);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(843, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'Print', 'Web', 'icon-print', '/print', 814);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(844, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'View', 'Web', 'icon-view', '/view', 814);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(845, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'Delete', 'Web', 'icon-delete', '/delete', 814);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(846, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'Print', 'Mobile', 'icon-print', '/print', 819);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(847, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'View', 'Mobile', 'icon-view', '/view', 819);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(848, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'Delete', 'Mobile', 'icon-delete', '/delete', 819);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(652, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'View', 'Web', 'icon-view', '/view', 650);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(744, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'View', 'Mobile', 'icon-view', '/view', 742);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(763, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Edit Tax Master', 'Mobile', 'icon-edit_tax_master', '/edittaxmaster', 761);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(649, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'Delete', 'Web', 'icon-delete', '/delete', 646);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(770, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, false, 'Edit Pool', 'Mobile', 'icon-edit_pool', '/editpool', 768);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(739, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'Print', 'Mobile', 'icon-print', '/print', 738);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(647, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'Print', 'Web', 'icon-print', '/print', 646);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(760, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, false, 'Delete debit Notes', 'Mobile', 'icon-delete_debit_notes', '/deletedebitnotes', 757);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(636, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Tag Customer', 'Web', 'icon-tag-customer', '/tagcustomer', 635);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(663, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, false, 'Edit Credit Notes', 'Web', 'icon-edit_credit_notes', '/editcreditnotes', 661);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(657, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to ListOfBarcodes', 0, false, 'View', 'Web', 'icon-view', '/view', 656);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(749, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to ListOfBarcodes', 0, false, 'View', 'Mobile', 'icon-view', '/view', 748);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(780, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Change Promo Priority', 'Mobile', 'icon-change-promo-priority', '/changepromopriority', 776);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(721, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, false, 'Add Product Combo', 'Mobile', 'icon-create_product_combo', '/createproductcombo', 720);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(638, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Check Promo Discount', 'Web', 'icon-check-promo-discount', '/checkpromodiscount', 635);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(674, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, false, 'Add Hsn Code', 'Web', 'icon-create_hsn_code', '/createhsncode', 673);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(730, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Check Promo Discount', 'Mobile', 'icon-check-promo-discount', '/checkpromodiscount', 727);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(671, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Edit Tax Master', 'Web', 'icon-edit_tax_master', '/edittaxmaster', 669);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(766, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Hsn Code', 0, false, 'Add Hsn Code', 'Mobile', 'icon-create_hsn_code', '/createhsncode', 765);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(626, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'ViewRe-Barcode', 'Web', 'icon-view-rebarcode', '/viewrebarcode', 625);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(773, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Add Promotion', 'Mobile', 'icon-create_promotions', '/createpromo', 772);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(741, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'Delete', 'Mobile', 'icon-delete', '/delete', 738);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(666, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, false, 'Add debit Notes', 'Web', 'icon-create_debit_notes', '/createdebitnotes', 665);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(775, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'View Promotions', 'Mobile', 'icon-view_promotionz', '/viewpromotions', 772);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(631, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, false, 'Delete Product Combo', 'Web', 'icon-delete_product_combo', '/deleteproductcombo', 628);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(728, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Tag Customer', 'Mobile', 'icon-tag-customer', '/tagcustomer', 727);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(629, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, false, 'Add Product Combo', 'Web', 'icon-create_product_combo', '/createproductcombo', 628);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(668, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, false, 'Delete debit Notes', 'Web', 'icon-delete_debit_notes', '/deletedebitnotes', 665);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(603, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Domains and Clients', 0, false, 'Add Domain To Client', 'Web', 'icon-create_domain', '/createdomain', 602);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(704, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, false, 'Delete Role', 'Mobile', 'icon-delete_role', '/deleterole', 701);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(700, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, false, 'View', 'Mobile', 'icon-view-users', '/viewusers', 696);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(605, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, false, 'Add User', 'Web', 'icon-create_user', '/createuser', 604);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(713, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Add Barcode', 'Mobile', 'icon-create_barcode', '/createbarcode', 712);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(607, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, false, 'Delete User', 'Web', 'icon-delete_user', '/deleteuser', 604);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(707, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, false, 'Add Store', 'Mobile', 'icon-create_store', '/createstore', 706);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(698, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, false, 'Edit User', 'Mobile', 'icon-edit_user', '/edituser', 696);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(612, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, false, 'Delete Role', 'Web', 'icon-delete_role', '/deleterole', 609);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(688, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Change Promo Priority', 'Web', 'icon-change-promo-priority', '/changepromopriority', 684);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(695, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Domains and Clients', 0, false, 'Add Domain To Client', 'Mobile', 'icon-create_domain', '/createdomain', 694);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(723, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, false, 'Delete Product Combo', 'Mobile', 'icon-delete_product_combo', '/deleteproductcombo', 720);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(678, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, false, 'Edit Pool', 'Web', 'icon-edit_pool', '/editpool', 676);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(610, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, false, 'Add Role', 'Web', 'icon-create_role', '/createrole', 609);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(623, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Delete Barcode', 'Web', 'icon-delete_barcode', '/deletebarcode', 620);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(715, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Delete Barcode', 'Mobile', 'icon-delete_barcode', '/deletebarcode', 712);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(778, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Modify Validity', 'Mobile', 'icon-modify-validity', '/modifyvalidity', 776);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(681, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Add Promotion', 'Web', 'icon-create_promotions', '/createpromo', 680);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(709, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, false, 'Delete Store', 'Mobile', 'icon-delete_store', '/deletestore', 706);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(621, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Add Barcode', 'Web', 'icon-create_barcode', '/createbarcode', 620);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(686, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Modify Validity', 'Web', 'icon-modify-validity', '/modifyvalidity', 684);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(718, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'ViewRe-Barcode', 'Mobile', 'icon-view-rebarcode', '/viewrebarcode', 717);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(683, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'View Promotions', 'Web', 'icon-view_promotionz', '/viewpromotions', 680);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(615, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, false, 'Add Store', 'Web', 'icon-create_store', '/createstore', 614);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(617, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, false, 'Delete Store', 'Web', 'icon-delete_store', '/deletestore', 614);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(756, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, false, 'Delete Credit Notes', 'Mobile', 'icon-delete_credit_notes', '/deletecreditnotes', 753);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(754, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, false, 'Add Credit Notes', 'Mobile', 'icon-create_credit_notes', '/createcreditnotes', 753);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(651, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'Print', 'Web', 'icon-print', '/print', 650);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(762, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Add Tax Master', 'Mobile', 'icon-create_tax_master', '/createtaxmaster', 761);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(662, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, false, 'Add Credit Notes', 'Web', 'icon-create_credit_notes', '/createcreditnotes', 661);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(653, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'Delete', 'Web', 'icon-delete', '/delete', 650);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(743, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'Print', 'Mobile', 'icon-print', '/print', 742);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(734, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to gift voucher', 0, false, 'Add Gift Voucher', 'Mobile', 'icon-save-gift-voucher', '/savegiftvoucher', 733);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(667, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, false, 'Edit debit Notes', 'Web', 'icon-edit_debit_notes', '/editdebitnotes', 665);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(648, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'View', 'Web', 'icon-view', '/view', 646);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(745, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Reports', 0, false, 'Delete', 'Mobile', 'icon-delete', '/delete', 742);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(759, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, false, 'Edit debit Notes', 'Mobile', 'icon-edit_debit_notes', '/editdebitnotes', 757);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(637, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Bill Level Discount', 'Web', 'icon-bill-level-discount', '/billleveldiscount', 635);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(664, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, false, 'Delete Credit Notes', 'Web', 'icon-delete_credit_notes', '/deletecreditnotes', 661);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(642, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to gift voucher', 0, false, 'Add Gift Voucher', 'Web', 'icon-save-gift-voucher', '/savegiftvoucher', 641);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(679, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, false, 'View Pools', 'Web', 'icon-view_pools', '/viewpools', 676);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(729, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Invoice', 0, false, 'Bill Level Discount', 'Mobile', 'icon-bill-level-discount', '/billleveldiscount', 727);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(624, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'View', 'Web', 'icon-view-barcodes', '/viewbarcodes', 620);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(764, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Delete Tax Master', 'Mobile', 'icon-delete_tax_master', '/deletetaxmaster', 761);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(740, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Estimation Slips', 0, false, 'View', 'Mobile', 'icon-view', '/view', 738);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(627, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'Print', 'Web', 'icon-print', '/print', 625);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(774, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotion', 0, false, 'Edit Promotion', 'Mobile', 'icon-edit_promotion', '/editpromotion', 772);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(677, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, false, 'Add Pool', 'Web', 'icon-create_pool', '/createpool', 676);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(724, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, false, 'View', 'Mobile', 'icon-view-products', '/viewproducts', 720);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(771, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, false, 'View Pools', 'Mobile', 'icon-view_pools', '/viewpools', 768);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(670, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Add Tax Master', 'Web', 'icon-create_tax_master', '/createtaxmaster', 669);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(769, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Pools', 0, false, 'Add Pool', 'Mobile', 'icon-create_pool', '/createpool', 768);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(632, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, false, 'View', 'Web', 'icon-view-products', '/viewproducts', 628);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(672, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Tax Master', 0, false, 'Delete Tax Master', 'Web', 'icon-delete_tax_master', '/deletetaxmaster', 669);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(630, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, false, 'Edit Product Combo', 'Web', 'icon-edit_product_combo', '/editproductcombo', 628);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(702, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, false, 'Add Role', 'Mobile', 'icon-create_role', '/createrole', 701);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(703, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, false, 'Edit Role', 'Mobile', 'icon-edit_role', '/editrole', 701);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(699, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, false, 'Delete User', 'Mobile', 'icon-delete_user', '/deleteuser', 696);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(705, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to roles', 0, false, 'View', 'Mobile', 'icon-view-roles', '/viewroles', 701);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(606, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, false, 'Edit User', 'Web', 'icon-edit_user', '/edituser', 604);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(689, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'View', 'Web', 'icon-view-promos', '/viewpromos', 684);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(777, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Add To Store', 'Mobile', 'icon-create_promotions', '/addstore', 776);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(708, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, false, 'Edit Store', 'Mobile', 'icon-edit_store', '/editstore', 706);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(611, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Roles', 0, false, 'Edit Role', 'Web', 'icon-edit_role', '/editrole', 609);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(608, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, false, 'View', 'Web', 'icon-view-users', '/viewusers', 604);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(710, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to stores', 0, false, 'View', 'Mobile', 'icon-view-stores', '/viewstores', 706);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(697, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Users', 0, false, 'Add User', 'Mobile', 'icon-create_user', '/createuser', 696);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(779, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Clone', 'Mobile', 'icon-colne-promotions', '/clonepromotions', 776);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(682, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotion', 0, false, 'Edit Promotion', 'Web', 'icon-edit_promotion', '/editpromotion', 680);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(719, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Re-Barcode', 0, false, 'Print', 'Mobile', 'icon-print', '/print', 717);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(622, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Edit Barcode', 'Web', 'icon-edit_barcode', '/editbarcode', 620);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(722, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Product Combo', 0, false, 'Edit Product Combo', 'Mobile', 'icon-edit_product_combo', '/editproductcombo', 720);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(618, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to stores', 0, false, 'View', 'Web', 'icon-view-stores', '/viewstores', 614);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(613, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to roles', 0, false, 'View', 'Web', 'icon-view-roles', '/viewroles', 609);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(716, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'View', 'Mobile', 'icon-view-barcodes', '/viewbarcodes', 712);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(687, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Clone', 'Web', 'icon-colne-promotions', '/clonepromotions', 684);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(685, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'Add To Store', 'Web', 'icon-create_promotions', '/addstore', 684);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(781, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Promotions', 0, false, 'View', 'Mobile', 'icon-view-promos', '/viewpromos', 776);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(758, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to debit Notes', 0, false, 'Add debit Notes', 'Mobile', 'icon-create_debit_notes', '/createdebitnotes', 757);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(616, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Stores', 0, false, 'Edit Store', 'Web', 'icon-edit_store', '/editstore', 614);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(714, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Barcodes', 0, false, 'Edit Barcode', 'Mobile', 'icon-edit_barcode', '/editbarcode', 712);
+INSERT INTO public.child_privilege
+(id, created_by, created_date, last_modified_date, modified_by, description, domian, is_enabeld, "name", previlege_type, sub_child_image, sub_child_path, sub_privillage_id)
+VALUES(755, NULL, '2022-06-02 00:00:00.000', '2022-06-02 00:00:00.000', NULL, 'Operation related to Credit Notes', 0, false, 'Edit Credit Notes', 'Mobile', 'icon-edit_credit_notes', '/editcreditnotes', 753);
+
 
 -------- States------------
 
@@ -3325,6 +3386,11 @@ INSERT INTO public.districts
 (id, district_id, district_name, state_code)
 VALUES(120, 33, 'West Karbi Anglong', 'AS');
 
+----------Master  client ----------
+INSERT INTO public.client_details
+(id, created_by, created_date, last_modified_date, modified_by, address, amount, description, email, is_active, is_es_slip_enabled, is_tax_included, mobile, "name", organization_name, plan_tenure, razor_pay_payment_id, plan_id, plan_activation_date, plan_expiry_date)
+VALUES(51, NULL, '2022-07-14 16:34:53.645', '2022-07-14 16:34:53.645', NULL, 'Hyderabad', NULL, NULL, NULL, true, NULL, NULL, NULL, 'Otsi', 'Kalamadir Textiles', NULL, NULL, NULL, NULL, NULL);
+
 ----------Master Roles------------
 
 INSERT INTO public."role"
@@ -3347,11 +3413,9 @@ VALUES(58, 0, '2022-07-14 17:14:57.881', '2022-07-14 17:14:57.881', NULL, NULL, 
 --------------- role_parentPrivileges-----------
 INSERT INTO public.role_parent_privilages VALUES (249, 600);
 
-INSERT INTO public.role_parent_privilages VALUES (249, 659);
-
 INSERT INTO public.role_parent_privilages VALUES (266, 500);
 
-INSERT INTO public.role_parent_privilages VALUES (57, 600);
+INSERT INTO public.role_parent_privilages VALUES (57, 650);
 
 
 --------------------role_subPrivilege-------------
