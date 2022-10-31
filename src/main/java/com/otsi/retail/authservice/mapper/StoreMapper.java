@@ -45,14 +45,13 @@ public class StoreMapper {
 		return storeVo;
 	}
 	
-	public Store convertStoreVoToEntity(StoreVO vo) {
-		Store storeEntity = new Store();
+	public Store convertStoreVoToEntity(StoreVO vo, Store storeEntity) {
 		storeEntity.setName(vo.getName());
 		storeEntity.setAddress(vo.getAddress());
 		storeEntity.setStateId(vo.getStateId());
 		storeEntity.setDistrictId(vo.getDistrictId());
 		storeEntity.setCityId(vo.getCityId());
-		storeEntity.setIsActive(Boolean.TRUE);
+		storeEntity.setIsActive(vo.getIsActive());
 		storeEntity.setArea(vo.getArea());
 		storeEntity.setPhoneNumber(vo.getPhoneNumber());
 		storeEntity.setCreatedBy(vo.getCreatedBy());

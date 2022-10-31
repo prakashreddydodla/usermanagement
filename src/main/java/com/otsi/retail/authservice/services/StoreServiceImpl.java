@@ -76,7 +76,8 @@ public class StoreServiceImpl implements StoreService {
 			storeEntity.setPhoneNumber(vo.getPhoneNumber());
 			storeEntity.setCreatedBy(vo.getCreatedBy());
 			storeEntity.setStateCode(vo.getStateCode());*/
-			Store storeEntity=	storeMapper.convertStoreVoToEntity(vo);
+			Store storeEntity = new Store();
+			storeEntity=	storeMapper.convertStoreVoToEntity(vo,storeEntity);
 			if (vo.getGstNumber() != null) {
 				Optional<GstDetails> gstDetailsopt = gstRepository.findByGstNumber(vo.getGstNumber());
 				if (!gstDetailsopt.isPresent()) {
@@ -137,7 +138,7 @@ public class StoreServiceImpl implements StoreService {
 		storeEntity.setIsActive(vo.getIsActive());
 		storeEntity.setPhoneNumber(vo.getPhoneNumber());
 		storeEntity.setModifiedBy(vo.getCreatedBy());*/
-		 storeEntity = storeMapper.convertStoreVoToEntity(vo);
+		 storeEntity = storeMapper.convertStoreVoToEntity(vo,storeEntity);
 		if (null != vo.getStoreOwner()) {
 			Optional<UserDetails> userfromDb = userRepository.findById(vo.getStoreOwner().getId());
 			if (userfromDb.isPresent()) {

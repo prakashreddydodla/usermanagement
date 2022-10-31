@@ -747,8 +747,11 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 					if (client.getIsEsSlipEnabled()!= null && !client.getIsEsSlipEnabled()) {
 						subPrivileges = subPrivileges.stream().filter(
-								subPrivilege -> !subPrivilege.getChildPath().equalsIgnoreCase("/createddeliveryslip"))
+								subPrivilege -> !subPrivilege.getChildPath().equalsIgnoreCase("/createdeliveryslip"))
 								.collect(Collectors.toList());
+					subPrivileges = subPrivileges.stream().filter(
+							subPrivilege -> !subPrivilege.getChildPath().equalsIgnoreCase("/listofestimationslips"))
+							.collect(Collectors.toList());
 					}
 					if (client.getIsTaxIncluded() == null) {
 						subPrivileges = subPrivileges.stream()
@@ -789,14 +792,19 @@ public class RolesAndPrivillagesServiceImpl implements RolesAndPrivillagesServic
 
 					if (client.getIsEsSlipEnabled()!= null && !client.getIsEsSlipEnabled()) {
 						subPrivillages = subPrivillages.stream().filter(
-								subPrivilege -> !subPrivilege.getChildPath().equalsIgnoreCase("/createddeliveryslip"))
+								subPrivilege -> !subPrivilege.getChildPath().equalsIgnoreCase("/createdeliveryslip"))
+								.collect(Collectors.toList());
+						subPrivillages = subPrivillages.stream().filter(
+								subPrivilege -> !subPrivilege.getChildPath().equalsIgnoreCase("/listofestimationslips"))
 								.collect(Collectors.toList());
 					}
+					
 					if (client.getIsTaxIncluded() == null) {
 						subPrivillages = subPrivillages.stream()
 								.filter(subPrivilege -> !subPrivilege.getIsTaxApplicable().equals(Tax.taxNotApplicable))
 								.collect(Collectors.toList());
 					}
+					
 					if (!CollectionUtils.isEmpty(subPrivillages)) {
 		
 						List<SubPrivilegeVO> subPrivilegeList = converListEntityToVo(subPrivillages);
