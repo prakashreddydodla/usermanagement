@@ -21,3 +21,4 @@ EXPOSE 8084
 ENTRYPOINT ["java", "-Dspring.profiles.active=cloud", "-jar", "target/usermanagement.jar"]
 
 
+
