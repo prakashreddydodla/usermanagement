@@ -303,7 +303,7 @@ public class CognitoAuthServiceImpl implements CognitoAuthService {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 						"username already exists " + adminCreateUserRequest.getUsername());
 			}
-			boolean userphoneNoExists = userRepository.existsByPhoneNumber(adminCreateUserRequest.getPhoneNumber());
+			boolean userphoneNoExists = userRepository.existsByPhoneNumberAndClient_Id(adminCreateUserRequest.getPhoneNumber(),clientId);
 
 			if (userphoneNoExists) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

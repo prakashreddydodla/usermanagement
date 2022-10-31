@@ -341,7 +341,7 @@ public class UserServiceImpl implements UserService {
 
 		Optional<UserDetails> user = Optional.empty();
 		if (null != type && type.equalsIgnoreCase("mobileNo")) {
-			user = userRepository.findByPhoneNumber(value);
+			user = userRepository.findByPhoneNumberAndClient_Id(value,clientId);
 			if (!user.isPresent()) {
 				// logger.debug("No customer found with this MobileNo : " + value);
 				// logger.error("No customer found with this MobileNo : " + value);

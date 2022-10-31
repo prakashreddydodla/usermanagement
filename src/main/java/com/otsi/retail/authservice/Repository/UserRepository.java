@@ -137,6 +137,8 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	@Query(value = "select * from user_details where user_name like %:name%", nativeQuery = true)
 	Page<UserDetails> findByUserName(String name, Pageable pageable);
 
+	boolean existsByPhoneNumberAndClient_Id(String phoneNumber, Long clientId);
+
 	/*
 	 * Page<UserDetails> findByUserNameAndRole_RoleNameAndCreatedDateBetween(String
 	 * supporterName, String roleName, LocalDateTime createdDatefrom, LocalDateTime
