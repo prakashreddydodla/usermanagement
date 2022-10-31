@@ -1,6 +1,7 @@
 package com.otsi.retail.authservice.mapper;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class RoleMapper {
 			parentPrivilegeVO.setName(privilege.getName());
 			parentPrivilegeVO.setDescription(privilege.getDescription());
 			parentPrivilegeVO.setPath(privilege.getPath());
-			parentPrivilegeVO.setParentImage(privilege.getParentImage());
+			parentPrivilegeVO.setParentImage(privilege.getIconName());
 			parentPrivilegeVO.setPrevilegeType(privilege.getPrevilegeType());
 			parentPrivileges.add(parentPrivilegeVO);
 		});
@@ -242,11 +243,17 @@ public class RoleMapper {
 			parentPrivilegeVO.setName(parentPrivilege.getName());
 			parentPrivilegeVO.setDescription(parentPrivilege.getDescription());
 			parentPrivilegeVO.setPath(parentPrivilege.getPath());
-			parentPrivilegeVO.setParentImage(parentPrivilege.getParentImage());
+			parentPrivilegeVO.setParentImage(parentPrivilege.getIconName());
 			parentPrivilegeVO.setPrevilegeType(parentPrivilege.getPrevilegeType());
-			List<SubPrivilege> filteredSubPrivileges = parentPrivilege.getSubPrivileges();
+			List<SubPrivilege> filteredSubPrivileges = role.getSubPrivileges();
+			
+			List<SubPrivilege> sortedSubPrivileges = filteredSubPrivileges.stream()
+					  .sorted(Comparator.comparing(SubPrivilege::getName))
+					  .collect(Collectors.toList());
+			//List<SubPrivilege> filteredSubPrivileges =	filteredSubPrivilege.sort(Comparator.comparing(SubPrivilege::getName));
 
-			filteredSubPrivileges.stream().forEach(sub -> {
+
+			sortedSubPrivileges.stream().forEach(sub -> {
 				List<ChildPrivilege> masterchildPrivilege = childPrivilegeRepo.findBySubPrivillageId(sub.getId());
 
 				List<ChildPrivilege> childPrivilegesData = chilePrivilegesList.stream()
@@ -323,7 +330,7 @@ public class RoleMapper {
 		ParentPrivilegeVO parentPrivillagesVo = new ParentPrivilegeVO();
 		parentPrivillagesVo.setPath(parentPrivilege.getPath());
 		parentPrivillagesVo.setPrevilegeType(parentPrivilege.getPrevilegeType());
-		parentPrivillagesVo.setParentImage(parentPrivilege.getParentImage());
+		parentPrivillagesVo.setParentImage(parentPrivilege.getIconName());
 
 		parentPrivillagesVo.setId(parentPrivilege.getId());
 		parentPrivillagesVo.setName(parentPrivilege.getName());

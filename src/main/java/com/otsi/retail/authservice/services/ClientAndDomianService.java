@@ -52,4 +52,8 @@ public interface ClientAndDomianService {
 	String deleteClient(ClientMappingVO clientMappingVO);
 
 	List<UserDetailsVO> getUsersForClient(Long clientId);
+
+	ClientDetailsVO getPlanExpiry(Long clientId);
+	
+	
 }

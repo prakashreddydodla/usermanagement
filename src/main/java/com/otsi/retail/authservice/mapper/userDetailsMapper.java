@@ -53,6 +53,7 @@ public class userDetailsMapper {
 		}
 		userVO.setCreatedDate(userDetails.getCreatedDate());
 		userVO.setId(userDetails.getId());
+		userVO.setIsActive(userDetails.getIsActive());
 		userVO.setGender(userDetails.getGender());
 		List<UserAv> users = userAvRepo.findByUserDataId(userDetails.getId());
 		users.stream().forEach(user->{

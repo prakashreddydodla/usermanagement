@@ -298,7 +298,12 @@ public class ClientAndDomianController {
 			}
 		}
 	
-	
+		@PostMapping(EndpointConstants.PLAN_EXPIRATION)
+		public GateWayResponse<?> getPlanExpiry(@RequestParam Long clientId) {
+			ClientDetailsVO planExpiry = clientAndDomianService.getPlanExpiry(clientId);
+			return new GateWayResponse<>(400, planExpiry, "false");
+
+		}
 	
 
 }

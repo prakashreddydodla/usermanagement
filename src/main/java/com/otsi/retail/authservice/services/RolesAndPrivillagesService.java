@@ -16,6 +16,7 @@ import com.otsi.retail.authservice.requestModel.PrivilegeVO;
 import com.otsi.retail.authservice.requestModel.RoleVO;
 import com.otsi.retail.authservice.requestModel.RolesFilterRequest;
 import com.otsi.retail.authservice.requestModel.SubPrivilegesVO;
+import com.otsi.retail.authservice.requestModel.UpdatePlansRequest;
 
 @Component
 public interface RolesAndPrivillagesService {
@@ -47,5 +48,7 @@ public interface RolesAndPrivillagesService {
 	List<ChildPrivilege> getChildPrivileges(long subPrivillageId) throws Exception;
 	
 	List<PlanPrivilegeVo> getPrivilegeByPlan();
+	
+	String updatePlanPrivileges(UpdatePlansRequest updatePlansRequest);
 	
 }

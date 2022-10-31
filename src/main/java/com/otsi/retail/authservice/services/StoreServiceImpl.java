@@ -516,4 +516,35 @@ public class StoreServiceImpl implements StoreService {
 
 	}
 
-}
+	@Override
+	public List<StoreVO> getStoresByClient1(Long clientId) {
+		
+		List<Store> stores = new ArrayList<>();
+		 
+			stores = storeRepo.findByClientIdAndIsActive(clientId, Boolean.TRUE);
+		
+		if (CollectionUtils.isEmpty(stores)) {
+			return Collections.emptyList();
+		}
+		List<StoreVO> storesVO = new ArrayList<>();
+		
+		stores.stream().forEach(s -> {
+			StoreVO svo = new StoreVO();
+			
+			svo.setId(s.getId());
+			svo.setName(s.getName());
+			storesVO.add(svo);
+			
+		});
+		
+
+		
+		
+		return storesVO;
+	}
+
+		
+		
+	}
+
+

@@ -91,6 +91,13 @@ public class StoresController {
 		return ResponseEntity.ok(stores);
 	}
 
+	@GetMapping(EndpointConstants.GET_STORES_BY_CLIENT_ID)
+	public ResponseEntity<?> getClientsById(@RequestParam("clientId") long clientId) {
+		List<StoreVO> stores = storeService.getStoresByClient1(clientId);
+		return ResponseEntity.ok(stores);
+	}
+	
+	
 	@ApiOperation(value = EndpointConstants.ASSIGN_STORES_TO_DOMIAN, notes = "assign stores to clientDomain")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Server error"),
 			@ApiResponse(code = 200, message = "Successful retrieval", response = String.class, responseContainer = "string") })

@@ -23,4 +23,10 @@ public interface PrivilageRepo extends JpaRepository<ParentPrivilege, Long> {
 
 	List<ParentPrivilege> findByPrevilegeTypeAndPlanIdIsNotNull(PrevilegeType web);
 
+	ParentPrivilege findByPlanIdAndId(Long planId, Long previlegeId);
+
+	List<ParentPrivilege> findByPrevilegeTypeAndPlanIdIsNotNullOrderByCreatedDateDesc(PrevilegeType web);
+
+	
+
 }

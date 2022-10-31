@@ -1,6 +1,5 @@
 package com.otsi.retail.authservice.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,7 +64,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private ChannelRepo clientChannelRepository;
-	
+
 	@Value("${spring.mail.username}")
 	private String from;
 
@@ -95,12 +94,12 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 
 	@Autowired
 	private CognitoClient cognitoClient;
-	
+
 	@Autowired
 	private PlanTransactionRepo planTransactionRepo;
-	
+
 	@Autowired
-	private	userDetailsMapper userMapper;
+	private userDetailsMapper userMapper;
 
 	@Autowired
 	private ClientUserRepo clientUserRepo;
@@ -148,17 +147,19 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (!clientExists) {
 			try {
 				ClientDetails clientDetails = clientMapper.convertVOToEntity(clientDetailsVO);
-				/*clientDetails.setName(clientDetailsVO.getName());
-				clientDetails.setAddress(clientDetailsVO.getAddress());
-				clientDetails.setCreatedBy(clientDetailsVO.getCreatedBy());
-				clientDetails.setOrganizationName(clientDetailsVO.getOrganizationName());
-				clientDetails.setMobile(clientDetailsVO.getMobile());
-				clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
-				clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
-				clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
-				clientDetails.setDescription(clientDetailsVO.getDescription());
-				clientDetails.setEmail(clientDetailsVO.getEmail());
-				clientDetails.setActive(Boolean.TRUE);*/
+				/*
+				 * clientDetails.setName(clientDetailsVO.getName());
+				 * clientDetails.setAddress(clientDetailsVO.getAddress());
+				 * clientDetails.setCreatedBy(clientDetailsVO.getCreatedBy());
+				 * clientDetails.setOrganizationName(clientDetailsVO.getOrganizationName());
+				 * clientDetails.setMobile(clientDetailsVO.getMobile());
+				 * clientDetails.setIsTaxIncluded(clientDetailsVO.getIsTaxIncluded());
+				 * clientDetails.setIsEsSlipEnabled(clientDetailsVO.getIsEsSlipEnabled());
+				 * clientDetails.setPlanTenure(clientDetailsVO.getPlanTenure());
+				 * clientDetails.setDescription(clientDetailsVO.getDescription());
+				 * clientDetails.setEmail(clientDetailsVO.getEmail());
+				 * clientDetails.setActive(Boolean.TRUE);
+				 */
 				if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
 					Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
 					if (plans.isPresent()) {
@@ -173,10 +174,10 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				clientDetails.setRazorPayPaymentId(clientDetailsVO.getRayzorPayPaymentId());
 				clientDetails = clientDetailsRepository.save(clientDetails);
 				savePlanTransactionDetails(clientDetails);
-				  if (null != clientDetails.getId()) { 
-					  sendEmail(clientDetailsVO.getEmail(),TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT); 
-					  }
-				 
+				if (null != clientDetails.getId()) {
+					sendEmail(clientDetailsVO.getEmail(), TICKET_MAIL_BODY, TICKET_MAIL_SUBJECT);
+				}
+
 				return clientDetails;
 
 			} catch (RazorpayException e) {
@@ -290,7 +291,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		if (client.isPresent()) {
 			return client.get();
 		} else {
-			
+
 			// logger.error("No Client found with this Id : " + clientId);
 			throw new RecordNotFoundException("No Client found with this Id : " + clientId,
 					BusinessException.RECORD_NOT_FOUND_STATUSCODE);
@@ -350,28 +351,26 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				 */
 
 				clientMappingVo.getUserIds().stream().forEach(userId -> {
-					
-					List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_IdAndUserId_IdAndStatus(clientId.getId(),userId.getId(),Boolean.TRUE);
-					if(CollectionUtils.isEmpty(clientsUsers)) {
-	
 
-					ClientUsers clientUsers = new ClientUsers();
+					List<ClientUsers> clientsUsers = clientUserRepo
+							.findByClientId_IdAndUserId_IdAndStatus(clientId.getId(), userId.getId(), Boolean.TRUE);
+					if (CollectionUtils.isEmpty(clientsUsers)) {
 
-					clientUsers.setCreatedBy(clientMappingVo.getCreatedBy());
-					clientUsers.setModifiedBy(clientMappingVo.getModifiedBy());
-					clientUsers.setUserId(userId);
-					clientUsers.setClientId(clientId);
-					clientUsers.setStatus(Boolean.TRUE);
-					clientUserRepo.save(clientUsers);
-					
-					
+						ClientUsers clientUsers = new ClientUsers();
+
+						clientUsers.setCreatedBy(clientMappingVo.getCreatedBy());
+						clientUsers.setModifiedBy(clientMappingVo.getModifiedBy());
+						clientUsers.setUserId(userId);
+						clientUsers.setClientId(clientId);
+						clientUsers.setStatus(Boolean.TRUE);
+						clientUserRepo.save(clientUsers);
+
 					}
-					
 
 				});
-				
-		ClientDetails client =	saveClientExpiryAndActivationDate(clientId.getId());
-		clientDetailsRepository.save(client);				
+
+				ClientDetails client = saveClientExpiryAndActivationDate(clientId.getId());
+				clientDetailsRepository.save(client);
 			});
 
 			return "clientMapped successfully";
@@ -385,35 +384,32 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(id);
 		ClientDetails client = clientDetails.get();
 		client.setPlanActivationDate(LocalDateTime.now());
-		
-		 switch(client.getPlanTenure()){    
-		   
-		    
-		    case "OneMonth": 
-		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(1));
 
-		    break;
-		    case "ThreeMonths": 
-		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(3));
+		switch (client.getPlanTenure()) {
 
-			    break;    
-		    case "sixMonths": 
-		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(6));
+		case "OneMonth":
+			client.setPlanExpiryDate(LocalDateTime.now().plusMonths(1));
 
-		    break; 
-		    case "OneYear": 
-		    	client.setPlanExpiryDate(LocalDateTime.now().plusMonths(12));
+			break;
+		case "ThreeMonths":
+			client.setPlanExpiryDate(LocalDateTime.now().plusMonths(3));
 
-		    	
-		    break; 
-		    default:
-		    	
-		    }
-		 
-		 return client;
+			break;
+		case "sixMonths":
+			client.setPlanExpiryDate(LocalDateTime.now().plusMonths(6));
+
+			break;
+		case "OneYear":
+			client.setPlanExpiryDate(LocalDateTime.now().plusMonths(12));
+
+			break;
+		default:
+
+		}
+
+		return client;
 		// clientDetailsRepository.save(client);
-		
-		
+
 	}
 
 	@Override
@@ -449,7 +445,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
-			} else if(clientSearchVo.getFromDate() != null && clientSearchVo.getToDate() != null) {
+			} else if (clientSearchVo.getFromDate() != null && clientSearchVo.getToDate() != null) {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getToDate());
@@ -461,7 +457,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 				Page<ClientDetailsVO> clientVo = clientMapper.convertListEntityToVo(clientdetails);
 				return clientVo;
 
-			}else if(clientSearchVo.getFromDate() != null && clientSearchVo.getToDate() == null) {
+			} else if (clientSearchVo.getFromDate() != null && clientSearchVo.getToDate() == null) {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientSearchVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientSearchVo.getFromDate());
@@ -485,7 +481,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public List<ClientDetailsVO> getClientsForUser(Long userId) {
 		List<ClientDetails> clientDetails = new ArrayList<>();
-		List<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdAndStatus(userId,Boolean.TRUE);
+		List<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdAndStatus(userId, Boolean.TRUE);
 		clientUsers.stream().forEach(clientId -> {
 			Long clientid = clientId.getClientId().getId();
 			Optional<ClientDetails> clients = clientDetailsRepository.findById(clientid);
@@ -507,7 +503,7 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 	@Override
 	public Page<ClientMappingVO> getClientMappingDetails(Pageable pageable) {
 
-		Page<ClientUsers> clientUsers = clientUserRepo.findByStatusOrderByCreatedDateDesc(Boolean.TRUE,pageable);
+		Page<ClientUsers> clientUsers = clientUserRepo.findByStatusOrderByCreatedDateDesc(Boolean.TRUE, pageable);
 
 		return clientUsers.map(user -> clientMappingDetails(user));
 
@@ -528,9 +524,9 @@ public class ClientAndDomianServiceImpl implements ClientAndDomianService {
 			vo.setSupporterName(users.get().getUserName());
 			vo.setUserId(users.get().getId());
 			Optional<UserDetails> userDetails = userRepository.findById(clientuser.getCreatedBy());
-if(userDetails.isPresent()) {
-	vo.setMappingBy(userDetails.get().getUserName());
-}
+			if (userDetails.isPresent()) {
+				vo.setMappingBy(userDetails.get().getUserName());
+			}
 			vo.setCreatedBy(clientuser.getCreatedBy());
 			vo.setCreatedOn(clientuser.getCreatedDate().toLocalDate());
 			List<UserAv> usersList = userAvRepo.findByUserDataId(userId);
@@ -575,8 +571,9 @@ if(userDetails.isPresent()) {
 
 					List<Long> clientIds = clients.stream().map(client -> client.getId()).collect(Collectors.toList());
 					if (clientIds != null) {
-						Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndStatusAndCreatedDateBetween(
-								clientIds,Boolean.TRUE, createdDatefrom, createdDateTo, pageable);
+						Page<ClientUsers> clientUsers = clientUserRepo
+								.findByClientId_IdInAndStatusAndCreatedDateBetween(clientIds, Boolean.TRUE,
+										createdDatefrom, createdDateTo, pageable);
 						if (clientUsers.hasContent()) {
 
 							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
@@ -590,7 +587,7 @@ if(userDetails.isPresent()) {
 			if (clientMappingVo.getClientName() == null && clientMappingVo.getSupporterName() != null
 					&& clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() != null) {
 
-				Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(),pageable);
+				Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(), pageable);
 				if (users.hasContent()) {
 					LocalDateTime createdDatefrom = DateConverters
 							.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
@@ -598,8 +595,8 @@ if(userDetails.isPresent()) {
 
 					List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
 					if (userIds != null) {
-						Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndStatusAndCreatedDateBetween(userIds,Boolean.TRUE,
-								createdDatefrom, createdDateTo, pageable);
+						Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndStatusAndCreatedDateBetween(
+								userIds, Boolean.TRUE, createdDatefrom, createdDateTo, pageable);
 						if (clientUsers.hasContent()) {
 
 							Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
@@ -626,8 +623,9 @@ if(userDetails.isPresent()) {
 								.collect(Collectors.toList());
 						if (clientIds != null) {
 
-							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndStatusAndCreatedDateBetween(
-									clientIds,Boolean.TRUE, createdDatefrom, createdDateTo, pageable);
+							Page<ClientUsers> clientUsers = clientUserRepo
+									.findByClientId_IdInAndStatusAndCreatedDateBetween(clientIds, Boolean.TRUE,
+											createdDatefrom, createdDateTo, pageable);
 
 							if (clientUsers.hasContent()) {
 
@@ -640,7 +638,8 @@ if(userDetails.isPresent()) {
 
 				} else {
 
-					Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(),pageable);
+					Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(),
+							pageable);
 
 					if (users.hasContent()) {
 
@@ -652,8 +651,9 @@ if(userDetails.isPresent()) {
 						List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
 						if (userIds != null) {
 
-							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndStatusAndCreatedDateBetween(
-									userIds,Boolean.TRUE, createdDatefrom, createdDateTo, pageable);
+							Page<ClientUsers> clientUsers = clientUserRepo
+									.findByUserId_IdInAndStatusAndCreatedDateBetween(userIds, Boolean.TRUE,
+											createdDatefrom, createdDateTo, pageable);
 
 							if (clientUsers.hasContent()) {
 
@@ -678,7 +678,8 @@ if(userDetails.isPresent()) {
 								.collect(Collectors.toList());
 						if (clientIds != null) {
 
-							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndStatus(clientIds,Boolean.TRUE, pageable);
+							Page<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdInAndStatus(clientIds,
+									Boolean.TRUE, pageable);
 
 							if (clientUsers.hasContent()) {
 
@@ -689,14 +690,16 @@ if(userDetails.isPresent()) {
 					}
 				} else {
 
-					Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(),pageable);
+					Page<UserDetails> users = userRepository.findByUserName(clientMappingVo.getSupporterName(),
+							pageable);
 
 					if (users.hasContent()) {
 
 						List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
 						if (userIds != null) {
 
-							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndStatus(userIds,Boolean.TRUE, pageable);
+							Page<ClientUsers> clientUsers = clientUserRepo.findByUserId_IdInAndStatus(userIds,
+									Boolean.TRUE, pageable);
 
 							if (clientUsers.hasContent()) {
 
@@ -708,34 +711,33 @@ if(userDetails.isPresent()) {
 					}
 				}
 
-			} else if(clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() != null) {
+			} else if (clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() != null) {
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
 				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getToDate());
-				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetweenAndStatus(createdDatefrom, createdDateTo,Boolean.TRUE,
-						pageable);
+				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetweenAndStatus(createdDatefrom,
+						createdDateTo, Boolean.TRUE, pageable);
 				if (!clientUsers.hasContent()) {
 					return Page.empty();
 				}
 				Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
 				return clientMappingList;
 
-			}else if(clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() == null) {
-				
+			} else if (clientMappingVo.getFromDate() != null && clientMappingVo.getToDate() == null) {
+
 				LocalDateTime createdDatefrom = DateConverters
 						.convertLocalDateToLocalDateTime(clientMappingVo.getFromDate());
-				LocalDateTime createdDateTo = DateConverters
-						.convertToLocalDateTimeMax(clientMappingVo.getFromDate());
-				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetweenAndStatus(createdDatefrom, createdDateTo,Boolean.TRUE,
-						pageable);
+				LocalDateTime createdDateTo = DateConverters.convertToLocalDateTimeMax(clientMappingVo.getFromDate());
+				Page<ClientUsers> clientUsers = clientUserRepo.findByCreatedDateBetweenAndStatus(createdDatefrom,
+						createdDateTo, Boolean.TRUE, pageable);
 				if (!clientUsers.hasContent()) {
 					return Page.empty();
 				}
 				Page<ClientMappingVO> clientMappingList = getClientsearchDetails(clientUsers);
 				return clientMappingList;
 
-		}
-			}catch (Exception ex) {
+			}
+		} catch (Exception ex) {
 			throw new RuntimeException(ex.getMessage());
 
 		}
@@ -747,13 +749,13 @@ if(userDetails.isPresent()) {
 		clientMappingVo.getClientIds().stream().forEach(clientId -> {
 			clientMappingVo.getUserIds().stream().forEach(userId -> {
 
+				List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
+				if (CollectionUtils.isEmpty(clientsUsers)) {
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+							"support person not mapped to this client ");
+				}
 
-			List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_Id(clientId.getId());
-			if (CollectionUtils.isEmpty(clientsUsers)) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "support person not mapped to this client ");
-			}
-
-			/*clientMappingVo.getUserIds().stream().forEach(userId -> {*/
+				/* clientMappingVo.getUserIds().stream().forEach(userId -> { */
 
 				clientsUsers.stream().forEach(clientUsers -> {
 
@@ -762,12 +764,11 @@ if(userDetails.isPresent()) {
 					clientUsers.setUserId(userId);
 					clientUsers.setClientId(clientId);
 					clientUserRepo.save(clientUsers);
-					
 
 				});
 			});
 		});
-	//	});
+		// });
 
 		return "clientEdit successfully";
 
@@ -775,57 +776,57 @@ if(userDetails.isPresent()) {
 
 	@Override
 	public String editClient(ClientDetailsVO clientDetailsVO) {
-		
-	Optional<ClientDetails> clients =	clientDetailsRepository.findById(clientDetailsVO.getId());
-	if(clients.isPresent()) {
-		ClientDetails client = clients.get();
-		client = clientMapper.convertVOToEntity(clientDetailsVO);
-		/*client.setActive(clientDetailsVO.isActive());
-		client.setAddress(clientDetailsVO.getAddress());
-		client.setAmount(clientDetailsVO.getAmount());
-		client.setCreatedBy(clientDetailsVO.getCreatedBy());
-		client.setDescription(clientDetailsVO.getDescription());
-		client.setEmail(clientDetailsVO.getEmail());
-		client.setMobile(clientDetailsVO.getMobile());
-client.setName(clientDetailsVO.getName());	
-client.setOrganizationName(clientDetailsVO.getOrganizationName());*/
-client.setPlanTenure(clientDetailsVO.getPlanTenure());
-client.setPlanDetails(clientDetailsVO.getPlandetails());
-ClientDetails client1=saveClientExpiryAndActivationDate(clientDetailsVO.getId());
-client.setPlanActivationDate(client1.getPlanActivationDate());
-client.setPlanExpiryDate(client1.getPlanExpiryDate());
-clientDetailsRepository.save(client);
-savePlanTransactionDetails(client);
-return "clientUpdatedSuceesfully";
 
+		Optional<ClientDetails> clients = clientDetailsRepository.findById(clientDetailsVO.getId());
+		if (clients.isPresent()) {
+			ClientDetails client = clients.get();
+			// client = clientMapper.convertVOToEntity(clientDetailsVO);
+			client.setActive(clientDetailsVO.isActive());
+			client.setAddress(clientDetailsVO.getAddress());
+			client.setAmount(clientDetailsVO.getAmount());
+			client.setCreatedBy(clientDetailsVO.getCreatedBy());
+			client.setDescription(clientDetailsVO.getDescription());
+			client.setEmail(clientDetailsVO.getEmail());
+			client.setMobile(clientDetailsVO.getMobile());
+			client.setName(clientDetailsVO.getName());
+			client.setOrganizationName(clientDetailsVO.getOrganizationName());
+			client.setPlanTenure(clientDetailsVO.getPlanTenure());
+			if (ObjectUtils.isNotEmpty(clientDetailsVO.getPlanId())) {
+				Optional<PlanDetails> plans = planDetailsRepo.findById(clientDetailsVO.getPlanId());
+				if (plans.isPresent()) {
+					client.setPlanDetails(plans.get());
+				}
+			}
+//client.setPlanDetails(clientDetailsVO.getPlandetails());
+			ClientDetails client1 = saveClientExpiryAndActivationDate(clientDetailsVO.getId());
+			client.setPlanActivationDate(client1.getPlanActivationDate());
+			client.setPlanExpiryDate(client1.getPlanExpiryDate());
+			clientDetailsRepository.save(client);
+			savePlanTransactionDetails(client);
+			return "clientUpdatedSuceesfully";
 
-	}
-	throw new RuntimeException("client details not found with this id");
 		}
+		throw new RuntimeException("client details not found with this id");
+	}
 
 	@Override
 	public String deleteClient(ClientMappingVO clientMappingVo) {
-		
+
 		if ((ObjectUtils.isNotEmpty(clientMappingVo))) {
 
 			clientMappingVo.getClientIds().stream().forEach(clientId -> {
 
-				
-
 				clientMappingVo.getUserIds().stream().forEach(userId -> {
-					
-					List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_IdAndUserId_Id(clientId.getId(),userId.getId());
-					if(!CollectionUtils.isEmpty(clientsUsers)) {
-						clientsUsers.stream().forEach(clientUser->{
-							
-						
 
-					
+					List<ClientUsers> clientsUsers = clientUserRepo.findByClientId_IdAndUserId_Id(clientId.getId(),
+							userId.getId());
+					if (!CollectionUtils.isEmpty(clientsUsers)) {
+						clientsUsers.stream().forEach(clientUser -> {
+
 							clientUser.setStatus(Boolean.FALSE);
-					clientUserRepo.save(clientUser);
+							clientUserRepo.save(clientUser);
 						});
 					}
-					
 
 				});
 			});
@@ -834,12 +835,13 @@ return "clientUpdatedSuceesfully";
 
 		} else
 
-			throw new RuntimeException("client not assinged to clientSupport");	}
+			throw new RuntimeException("client not assinged to clientSupport");
+	}
 
 	@Override
 	public List<UserDetailsVO> getUsersForClient(Long clientId) {
 		List<UserDetails> userDetails = new ArrayList<>();
-		List<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdAndStatus(clientId,Boolean.TRUE);
+		List<ClientUsers> clientUsers = clientUserRepo.findByClientId_IdAndStatus(clientId, Boolean.TRUE);
 		clientUsers.stream().forEach(userId -> {
 			Long userid = userId.getUserId().getId();
 			Optional<UserDetails> users = userRepository.findById(userid);
@@ -855,5 +857,27 @@ return "clientUpdatedSuceesfully";
 			return userVo;
 		}
 		return Collections.EMPTY_LIST;
+	}
+
+	@Override
+	@Transactional(rollbackOn = { Exception.class })
+	public ClientDetailsVO getPlanExpiry(Long clientId) {
+		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(clientId);
+		ClientDetails clientDetailsEntity = clientDetails.get();
+		ClientDetailsVO clientDetailsVo = new ClientDetailsVO();
+		if (clientDetails.isPresent()) {
+			clientDetailsVo = clientMapper.convertClientDetailsEntityToVo(clientDetailsEntity);
+			if (LocalDateTime.now().isAfter(clientDetailsEntity.getPlanExpiryDate())) {
+				clientDetailsEntity.setPlanExpired(Boolean.TRUE);
+				clientDetailsVo.setActive(Boolean.FALSE);
+			} else {
+				clientDetailsEntity.setPlanExpired(Boolean.FALSE);
+				clientDetailsVo.setActive(Boolean.TRUE);
+
+			}
+
+		}
+		return clientDetailsVo;
+
 	}
 }

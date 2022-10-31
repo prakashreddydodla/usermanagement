@@ -15,51 +15,51 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientDetailsVO {
-	
+
 	private Long id;
-	
+
 	private String name;
-	
+
 	private String organizationName;
-	
+
 	private String address;
-	
-	private LocalDate createdDate;
-	
-	private LocalDate lastModifiedDate;
-	
+
+	private LocalDateTime createdDate;
+
+	private LocalDateTime lastModifiedDate;
+
 	private String mobile;
-	
+
 	private String email;
-	
+
 	private boolean isActive;
 
-	
 	private Long createdBy;
-	
+
 	private Boolean isEsSlipEnabled;
-	
+
 	private Boolean isTaxIncluded;
-	
+
 	private String planName;
-	
+
 	private Long planId;
-	
+
 	private String description;
-	
-	private String  planTenure;
-	
+
+	private String planTenure;
+
 	private String rayzorPayPaymentId;
-	
+
 	private Long amount;
-	
+
 	private PlanDetails plandetails;
-	
+
 	private LocalDateTime planExpiryDate;
-	
+
 	private LocalDateTime planActivatedDate;
-	
-	
-	
-	
+
+	private Boolean planExpired;
+
+	private LocalDateTime systemTime;
+
 }

@@ -42,7 +42,7 @@ public class EndpointConstants {
 
 	public static final String GET_CLIENT_MAPPING_DETAILS= "/getClientMappingDetails";
 	public static final String GET_CLIENT_MAPPING_SEARCH= "/getClientMappingsearch";
-
+	public static final String PLAN_EXPIRATION ="view-plan-expiry";
 
 
 
@@ -70,6 +70,7 @@ public class EndpointConstants {
 	public static final String GET_CLIENT_STORES = "/client/stores";
 	public static final String GET_USER_STORESBYID = "/user/stores";
 	public static final String GET_STORE = "/getStore"; 
+	public static final String GET_STORES_BY_CLIENT_ID = "/getStoresByClientId";
 
 	public static final String ASSIGN_STORES_TO_DOMIAN = "/assignStoresToDomain";
 	public static final String GET_STORES_WITH_FILTER = "/getStoresWithFilter";

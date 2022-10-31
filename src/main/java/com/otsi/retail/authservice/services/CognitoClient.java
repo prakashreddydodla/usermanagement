@@ -1,5 +1,7 @@
 package com.otsi.retail.authservice.services;
 
+import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +49,7 @@ import com.amazonaws.services.cognitoidp.model.AdminUpdateUserAttributesResult;
 import com.amazonaws.services.cognitoidp.model.AliasExistsException;
 import com.amazonaws.services.cognitoidp.model.AttributeType;
 import com.amazonaws.services.cognitoidp.model.AuthFlowType;
+import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
 import com.amazonaws.services.cognitoidp.model.ChallengeNameType;
 import com.amazonaws.services.cognitoidp.model.ConfirmForgotPasswordRequest;
 import com.amazonaws.services.cognitoidp.model.ConfirmForgotPasswordResult;
@@ -69,6 +73,14 @@ import com.amazonaws.services.cognitoidp.model.UpdateGroupRequest;
 import com.amazonaws.services.cognitoidp.model.UpdateGroupResult;
 import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.proc.BadJOSEException;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.otsi.retail.authservice.Entity.ClientDetails;
 import com.otsi.retail.authservice.Entity.Store;
 import com.otsi.retail.authservice.Repository.ClientDetailsRepo;
@@ -84,6 +96,19 @@ import com.otsi.retail.authservice.utils.CognitoAtributes;
 public class CognitoClient {
 
 	private final AWSCognitoIdentityProvider client;
+	
+	@Autowired
+	private Config config;
+	
+	@Autowired
+	private ClientAndDomianService clientDomaAndDomianService;
+	
+	@Autowired
+	private ConfigurableJWTProcessor configurableJWTProcessor;
+
+	
+	RestTemplate restTemplate = new RestTemplate();
+
 	//private Logger logger = LogManager.getLogger(CognitoClient.class);
 
 
@@ -432,10 +457,12 @@ public class CognitoClient {
 	 * 
 	 * @param email
 	 * @param password
+	 * @param clientId2 
 	 * @return
+	 * @throws NumberFormatException 
 	 * @throws Exception
 	 */
-	public AdminInitiateAuthResult loginWithTempPassword(String email, String password) {
+	public AdminInitiateAuthResult loginWithTempPassword(String email, String password, Long clientId2) throws NumberFormatException, Exception {
 		Map<String, String> authParams = new LinkedHashMap<String, String>() {
 			{
 				put("USERNAME", email);
@@ -447,7 +474,37 @@ public class CognitoClient {
 					.withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH).withUserPoolId(USERPOOL_ID).withClientId(CLIENT_ID)
 					.withAuthParameters(authParams);
 			AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
-			return authResult;
+			/*String idToken = authResult.getAuthenticationResult().getIdToken();
+		JWTClaimsSet claims =	getClaimsfromToken(idToken);
+		
+		
+		Long clientId = (Long) claims.getClaim("custom:clientId1");
+		
+		Optional<ClientDetails> clientDetails = clientDetailsRepository.findById(clientId);
+
+		ClientDetails client =	clientDetails.get();
+	int number=	client.getPlanExpiryDate().compareTo(LocalDateTime.now());
+	if(number>0) {
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "plan was expired please go to renewal");
+	}
+*/
+			
+			AuthenticationResultType authResultType = authResult.getAuthenticationResult();
+			if (authResultType != null) {
+				String token = authResultType.getIdToken();
+				JWTClaimsSet jwtClaimsSet = getCliamsFromToken(token);
+				String clientId = String.valueOf(jwtClaimsSet.getClaim("custom:clientId1"));
+				if(StringUtils.isNotEmpty(clientId)&& (Long.valueOf(clientId))!=0) {
+				
+				ClientDetails clientDetails = clientDomaAndDomianService.getClient(Long.valueOf(clientId));
+				if (clientDetails.getPlanExpiryDate() != null && clientDetails.getPlanExpiryDate().isBefore(LocalDateTime.now())) {
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "subscription to plan has expired kindly please renewal your plan");
+				}
+			}
+			}
+			
+		return authResult;
+		
 		} catch (InvalidParameterException e) {
 			//logger.error(e.getErrorMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getErrorMessage());
@@ -461,6 +518,53 @@ public class CognitoClient {
 		}
 
 	}
+	
+	public JWTClaimsSet getCliamsFromToken(String token) throws ParseException, BadJOSEException, JOSEException {
+		return configurableJWTProcessor.process(getBearerToken(token), null);
+
+	}
+
+	private String getBearerToken(String token) {
+		return token.startsWith("Bearer ") ? token.substring("Bearer ".length()) : token;
+	}
+	
+	
+	///////////////
+	private JWTClaimsSet getClaimsfromToken(@RequestParam String token) {
+
+		
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity entity = new HttpEntity(headers);
+		
+		ResponseEntity<JWTClaimsSet> res = restTemplate.exchange(config.getToken()+ "?token=" + token, HttpMethod.GET, entity,
+				JWTClaimsSet.class);
+
+		
+
+	/*	ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule())
+				.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+		GateWayResponse<?> gatewayResponse = mapper.convertValue(res.getBody(),
+				GateWayResponse.class);
+
+		JWTClaimsSet claims = mapper.convertValue(gatewayResponse.getResult(),
+				new TypeReference<JWTClaimsSet>() {
+				});
+*/
+		return res.getBody();
+
+	}
+	
+///////////
+	
+	
+	
+	
+	
+	
+	
 
 	// When admin create the user. Then user will create with temporary password.
 	// So that user sholud set the new password by using thi api

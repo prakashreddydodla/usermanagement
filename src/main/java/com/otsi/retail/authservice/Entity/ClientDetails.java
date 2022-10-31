@@ -66,6 +66,8 @@ public class ClientDetails extends BaseEntity implements Serializable {
 	
 	private LocalDateTime planExpiryDate;
 	
+	private Boolean planExpired;
+	
 	@OneToMany(mappedBy = "clientId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ClientUsers> clients;
 	

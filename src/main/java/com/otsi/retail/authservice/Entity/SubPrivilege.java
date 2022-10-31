@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.otsi.retail.authservice.utils.PrevilegeType;
+import com.otsi.retail.authservice.utils.Tax;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -57,7 +58,15 @@ public class SubPrivilege extends BaseEntity {
 	
 	private String roleName;
 	
+	private Boolean isActive;
+	
+	@Enumerated(EnumType.STRING)
+	private Tax isTaxApplicable;
 
 	
-}
+	}
+	
+
+	
+
 
